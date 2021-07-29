@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac", "Jacdac\Jacdac.csproj", "{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Explorer", "Jacdac.Explorer\Jacdac.Explorer.csproj", "{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Explorer", "Jacdac.Explorer\Jacdac.Explorer.csproj", "{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF5CADE3-4BFB-4BEC-A09A-6D40110ADADE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

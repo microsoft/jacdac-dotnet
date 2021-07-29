@@ -173,6 +173,12 @@ namespace Jacdac.Explorer
 
         private void packetTracerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (transport == null)
+            {
+                MessageBox.Show("No device connected");
+                return;
+            }
+
             var pt = new PacketTracer(transport);
             pt.Show();
         }

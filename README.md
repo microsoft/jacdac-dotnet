@@ -1,14 +1,28 @@
-# Project
+# Jacdac .NET (Experimental)
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+**Jacdac** is a plug-and-play hardware/software stack 
+for **microcontrollers** and their peripherals (sensors/actuators), 
+with applications to rapid prototyping, making, and physical computing. 
 
-As the maintainer of this project, please make a few updates:
+This repository contains a **.NET 5** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+* **[Jacdac Documentation](https://aka.ms/jacdac/)**
+* Discussions at https://github.com/microsoft/jacdac/discussions
+* Issues are tracked on https://github.com/microsoft/jacdac/issues
+
+The rest of this page is for developers of the jacdac-dotnet library.
+
+## Developer setup
+
+* clone this repository and pull all submodules
+```
+git clone https://github.com/microsoft/jacdac-dotnet
+git submodule update --init --recursive
+git pull
+```
+
+* Restore Nuget packages. (Either in your preferred IDE/Editor or using `dotnet restore`).
+* Execute the desired tool or build the core library using your IDE or `dotnet build`/`dotnet run`
 
 ## Contributing
 

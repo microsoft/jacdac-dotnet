@@ -38,6 +38,7 @@ namespace Jacdac.Explorer
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listView = new System.Windows.Forms.ListView();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
@@ -45,7 +46,6 @@ namespace Jacdac.Explorer
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,20 +95,22 @@ namespace Jacdac.Explorer
             // 
             // autoscrollToolStripMenuItem
             // 
+            this.autoscrollToolStripMenuItem.Checked = true;
+            this.autoscrollToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoscrollToolStripMenuItem.Name = "autoscrollToolStripMenuItem";
-            this.autoscrollToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.autoscrollToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.autoscrollToolStripMenuItem.Text = "Autoscroll";
             this.autoscrollToolStripMenuItem.Click += new System.EventHandler(this.autoscrollToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(125, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -131,6 +133,11 @@ namespace Jacdac.Explorer
             this.listView.TabIndex = 1;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Time";
+            this.columnHeader5.Width = 120;
             // 
             // columnHeader1
             // 
@@ -164,11 +171,6 @@ namespace Jacdac.Explorer
             // 
             this.columnHeader7.Text = "Payload";
             this.columnHeader7.Width = 180;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Time";
-            this.columnHeader5.Width = 120;
             // 
             // PacketTracer
             // 
