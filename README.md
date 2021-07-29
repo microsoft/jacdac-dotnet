@@ -1,10 +1,12 @@
 # Jacdac .NET (Experimental)
+## ⚠️⚠️⚠️ This library is EXPERIMENTAL and subject to (breaking) changes. ⚠️⚠️⚠️
 
 **Jacdac** is a plug-and-play hardware/software stack 
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
 This repository contains a **.NET 5** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
+
 
 * **[Jacdac Documentation](https://aka.ms/jacdac/)**
 * Discussions at https://github.com/microsoft/jacdac/discussions
