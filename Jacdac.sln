@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac", "Jacdac\Jacdac.csproj", "{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Explorer", "Jacdac.Explorer\Jacdac.Explorer.csproj", "{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6DB89ED-1C71-481F-AAE2-1A3D4563743C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D736AFDA-90FA-472E-AD8E-40E81EBD06B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E68C87D-E13A-4864-B418-221FE2CD9DC9}
+	EndGlobalSection
+EndGlobal
