@@ -66,6 +66,20 @@ namespace Jacdac.Tests
         }
 
         [Fact]
+        public void ParseTerminatedString()
+        {
+            var buffer = new byte[] { 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 0, 0xFF };
+            var format = "z u8";
+            var parsed = RegisterParser.ParseBuffer(format, buffer);
+
+            Assert.False(parsed.IsSingleValue);
+            Assert.IsType<string>(parsed.Values[0]);
+            Assert.IsType<byte>(parsed.Values[1]);
+            Assert.Equal("Hello World", parsed.GetValue<string>(0));
+            Assert.Equal<byte>(255, parsed.GetValue<byte>(1));
+        }
+
+        [Fact]
         public void ParseExhaustingArray()
         {
             var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0x78, 0x56 };
@@ -116,6 +130,10 @@ namespace Jacdac.Tests
             new byte[] { 0x7F, 0xFF, 0x15, 0x1, 0x3B, 0x1, 0xEF, 0xEF },
             "u8 u8 r: u16",
             new object[] { 127, 255, 277, 315, 61423 })]
+        [InlineData(
+            new byte[] { 0x7F, 0xFF, 72, 101, 108, 108, 111, 0, 1, 87, 111, 114, 108, 100, 0 },
+            "u8 r: u8 z",
+            new object[] { 127, 255, "Hello", 1, "World"})]
         public void ParseArbitrary(byte[] buffer, string format, dynamic[] expectedValues)
         {
             var parsed = RegisterParser.ParseBuffer(format, buffer);

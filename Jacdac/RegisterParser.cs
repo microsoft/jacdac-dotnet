@@ -335,7 +335,7 @@ namespace Jacdac
                 if (length < 0)
                     length = buffer.Length;
 
-                consumed = length;
+                consumed = length + 1;
 
                 return Encoding.UTF8.GetString(buffer.Slice(0, length));
             }
