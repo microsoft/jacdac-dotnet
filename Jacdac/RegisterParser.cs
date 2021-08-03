@@ -157,6 +157,8 @@ namespace Jacdac
             public int Divisor { get; set; }
 
             public bool ExhaustBuffer { get; set; }
+
+            public bool IsArray { get; set; }
         }
 
         private static TokenResult[] ParseFormat(string fmt)
@@ -179,7 +181,7 @@ namespace Jacdac
 
                 if (tokenRes.Type == TokenType.Number && fpr < str.Length)
                 {
-                    var endIdx = str.Length - 1;
+                    var endIdx = str.Length;
                     var brIdx = str.IndexOf('[');
                     var readUntil = brIdx > 0 ? brIdx : endIdx;
 
@@ -187,20 +189,25 @@ namespace Jacdac
                     if (ptIdx > 0)
                     {
                         var sz1 = byte.Parse(str.Substring(fpr, ptIdx - fpr));
-                        var sz2 = byte.Parse(str.Substring(ptIdx + 1, readUntil - ptIdx));
+                        var sz2 = byte.Parse(str.Substring(ptIdx + 1, readUntil - ptIdx - 1));
                         tokenRes.Divisor = 1 << sz2;
                         tokenRes.NumberFormat = GetNumberFormatOfType(str[0] + (sz1 + sz2).ToString());
                     }
                     else
                     {
-                        tokenRes.NumberFormat = GetNumberFormatOfType(str.Substring(0, readUntil + 1));
+                        tokenRes.NumberFormat = GetNumberFormatOfType(str.Substring(0, readUntil));
                     }
                     fpr = readUntil;
                 }
 
                 if (fpr < str.Length && str[fpr] == '[')
                 {
-                    tokenRes.Count = byte.Parse(str.Substring(fpr + 1, str.Length - 2));
+                    tokenRes.IsArray = true;
+
+                    if (str[fpr + 1] == ']')
+                        tokenRes.ExhaustBuffer = true;
+                    else
+                        tokenRes.Count = byte.Parse(str.Substring(fpr + 1, str.Length - fpr - 2));
 
                 }
                 else if (tokenRes.Type == TokenType.Buffer || tokenRes.Type == TokenType.String)
@@ -266,6 +273,8 @@ namespace Jacdac
                     repeatIndex = i;
                     continue;
                 }
+                else if (token.IsArray && token.ExhaustBuffer)
+                    repeatIndex = i - 1;
 
                 var element = ParseElement(token, bufSlice, out var consumed);
                 results.Add(element);
@@ -274,7 +283,7 @@ namespace Jacdac
                 if (bufSlice.Length == 0)
                     break;
 
-                if (repeatIndex > 0 && i == tokens.Length - 1)
+                if (repeatIndex >= 0 && i == tokens.Length - 1)
                     i = repeatIndex;
             }
 

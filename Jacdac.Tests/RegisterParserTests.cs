@@ -62,7 +62,48 @@ namespace Jacdac.Tests
 
             Assert.True(parsed.IsSingleValue);
             Assert.IsType<string>(parsed.Value);
-            Assert.Equal<string>("Hello World", parsed.Value);
+            Assert.Equal("Hello World", parsed.Value);
+        }
+
+        [Fact]
+        public void ParseExhaustingArray()
+        {
+            var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0x78, 0x56 };
+            var format = "u8 u16[]";
+            var parsed = RegisterParser.ParseBuffer(format, buffer);
+
+            // 43981 4660 22136
+
+            Assert.False(parsed.IsSingleValue);
+            Assert.IsType<byte>(parsed.Values[0]);
+            Assert.Equal<byte>(127, parsed.GetValue<byte>(0));
+
+            Assert.IsType<ushort>(parsed.Values[1]);
+            Assert.Equal<ushort>(43981, parsed.GetValue<ushort>(1));
+            Assert.Equal<ushort>(4660, parsed.GetValue<ushort>(2));
+            Assert.Equal<ushort>(22136, parsed.GetValue<ushort>(3));
+        }
+
+        [Fact]
+        public void ParseSizeArray()
+        {
+            var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0xFF };
+            var format = "u8 u16[2] u8";
+            var parsed = RegisterParser.ParseBuffer(format, buffer);
+
+            // 43981 4660 22136
+
+            Assert.False(parsed.IsSingleValue);
+            Assert.IsType<byte>(parsed.Values[0]);
+            Assert.Equal<byte>(127, parsed.GetValue<byte>(0));
+
+            Assert.IsType<object[]>(parsed.Values[1]);
+            Assert.IsType<ushort>(parsed.Values[1][0]);
+            Assert.Equal<ushort>(43981, (ushort) parsed.GetValue<object[]>(1)[0]);
+            Assert.Equal<ushort>(4660, (ushort) parsed.GetValue<object[]>(1)[1]);
+
+            Assert.IsType<byte>(parsed.Values[2]);
+            Assert.Equal<byte>(255, parsed.GetValue<byte>(2));
         }
 
         [Theory]
