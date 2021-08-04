@@ -31,6 +31,28 @@ namespace Jacdac
         None
     }
 
+    public struct ParseResult
+    {
+        public bool IsSingleValue => Values.Length == 1;
+
+        public dynamic[] Values { get; private set; }
+
+        public dynamic Value => Values[0];
+
+        public T GetValue<T>(int idx = 0)
+        {
+            if (idx > Values.Length)
+                throw new ArgumentOutOfRangeException();
+
+            return (T)Values[idx];
+        }
+
+        public ParseResult(dynamic[] values)
+        {
+            Values = values;
+        }
+    }
+
     internal static class RegisterParser
     {
         private static byte GetNumberSize(NumberFormat format)
@@ -217,28 +239,6 @@ namespace Jacdac
             }
 
             return tokens;
-        }
-
-        public struct ParseResult
-        {
-            public bool IsSingleValue => Values.Length == 1;
-
-            public dynamic[] Values { get; private set; }
-
-            public dynamic Value => Values[0];
-
-            public T GetValue<T>(int idx = 0)
-            {
-                if (idx > Values.Length)
-                    throw new ArgumentOutOfRangeException();
-
-                return (T)Values[idx];
-            }
-
-            public ParseResult(dynamic[] values)
-            {
-                Values = values;
-            }
         }
 
         public static ParseResult ParseBuffer(string fmt, byte[] buffer)
