@@ -201,6 +201,7 @@ namespace Jacdac
 
                 fpr++;
 
+                // If we have a number token, figure out whether it is a float
                 if (tokenRes.Type == TokenType.Number && fpr < str.Length)
                 {
                     var endIdx = str.Length;
@@ -222,6 +223,7 @@ namespace Jacdac
                     fpr = readUntil;
                 }
 
+                // Figure out whether we have an (unbounded) array
                 if (fpr < str.Length && str[fpr] == '[')
                 {
                     tokenRes.IsArray = true;

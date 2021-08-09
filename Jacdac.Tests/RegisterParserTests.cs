@@ -86,8 +86,6 @@ namespace Jacdac.Tests
             var format = "u8 u16[]";
             var parsed = RegisterParser.ParseBuffer(format, buffer);
 
-            // 43981 4660 22136
-
             Assert.False(parsed.IsSingleValue);
             Assert.IsType<byte>(parsed.Values[0]);
             Assert.Equal<byte>(127, parsed.GetValue<byte>(0));
@@ -104,8 +102,6 @@ namespace Jacdac.Tests
             var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0xFF };
             var format = "u8 u16[2] u8";
             var parsed = RegisterParser.ParseBuffer(format, buffer);
-
-            // 43981 4660 22136
 
             Assert.False(parsed.IsSingleValue);
             Assert.IsType<byte>(parsed.Values[0]);
