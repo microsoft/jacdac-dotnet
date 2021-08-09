@@ -9,6 +9,8 @@ namespace Jacdac
 {
     public class JDRegister<T> : JDRegister
     {
+        private const int REFRESH_TIMEOUT_MS = 500;
+
         private T cachedValue;
 
         public T Value => GetValue().GetAwaiter().GetResult();
@@ -23,7 +25,7 @@ namespace Jacdac
         {
             var requiresRefresh = forceRefresh;
 
-            if ((DateTime.Now - LastFetched).TotalMilliseconds > 500)
+            if ((DateTime.Now - LastFetched).TotalMilliseconds > REFRESH_TIMEOUT_MS)
                 requiresRefresh = true;
 
             if (requiresRefresh)
