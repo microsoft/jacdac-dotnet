@@ -12,7 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Tests", "Jacdac.Tests\Jacdac.Tests.csproj", "{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Tests", "Jacdac.Tests\Jacdac.Tests.csproj", "{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Playground", "Jacdac.Playground\Jacdac.Playground.csproj", "{922F75F6-632A-414E-B447-0FF41C82935C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922F75F6-632A-414E-B447-0FF41C82935C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922F75F6-632A-414E-B447-0FF41C82935C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

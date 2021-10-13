@@ -74,7 +74,7 @@ namespace Jacdac
 
         private void Transport_OnJacdacPacket(JDFrame frame, JDPacket packet)
         {
-            Console.WriteLine(packet.ToString());
+            // Console.WriteLine(packet.ToString());
 
             if (packet.IsAnnouncement)
             {
