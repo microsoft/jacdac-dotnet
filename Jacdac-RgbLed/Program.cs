@@ -51,55 +51,6 @@ namespace Jacdac_RgbLed
             }
 
         }
-
-        static void DoTestJacdacAdafruit()
-        {
-            // Adafruit configuration
-            var dashboardId = "change to yours";
-            var username = "change to yours";
-            var key = "change to yours";
-            var feed = username + "/feeds/" + "change to yours";
-
-            // WiFi configuration
-            var wifi_ssid = "change to yours";
-            var wifi_pass = "change to yours";
-
-            // WiFi enable
-            Display.WriteLine("Enabling WiFi....");
-            WiFi.Enable(wifi_ssid, wifi_pass);
-
-            // Connect to Adafruit
-            Display.WriteLine("Connecting Adafruit....");
-            Adafruit.Connect(username, key, dashboardId, feed);
-
-            // jacdac
-            Display.WriteLine("Configuration Jacdac....");
-            var jacdacController = new JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true });
-
-            // subscribe events
-            jacdacController.PacketReceived += JacdacController_PacketReceived;
-            jacdacController.ErrorReceived += JacdacController_ErrorReceived;
-
-            // Jacdac enable
-            jacdacController.Enable();
-
-            // raw data packet
-            var ledOnPacket = Packet.FromBinary(new byte[] { 0xa3, 0x2f, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0xff, 0xff, 0xff, 0x64 });
-            var ledOffPacket = Packet.FromBinary(new byte[] { 0x9c, 0xa8, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 0x64 });
-
-            // subscribe Adafruit events
-            Adafruit.ToggleEvent += (value) => {
-                var packet = value ? ledOnPacket : ledOffPacket;
-
-                jacdacController.SendPacket(packet);
-
-            };
-
-            Display.WriteLine("Good to go ! ");
-
-            Thread.Sleep(Timeout.Infinite);
-        }
-
         private static void JacdacController_ErrorReceived(JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args)
         {
             switch (args.Error)
