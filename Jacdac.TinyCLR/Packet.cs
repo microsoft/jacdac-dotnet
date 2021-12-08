@@ -5,29 +5,6 @@ using System.Threading;
 
 namespace GHIElectronics.TinyCLR.Devices.Jacdac {
     public class Packet {
-        // Registers 0x001-0x07f - r/w common to all services
-        // Registers 0x080-0x0ff - r/w defined per-service
-        // Registers 0x100-0x17f - r/o common to all services
-        // Registers 0x180-0x1ff - r/o defined per-service
-        // Registers 0x200-0xeff - custom, defined per-service
-        // Registers 0xf00-0xfff - reserved for implementation, should not be on the wire
-
-        // this is either binary (0 or non-zero), or can be gradual (eg. brightness of neopixel)
-        const int REG_INTENSITY = 0x01;
-        // the primary value of actuator (eg. servo angle)
-        const int REG_VALUE = 0x02;
-        // enable/disable streaming
-        const int REG_IS_STREAMING = 0x03;
-        // streaming interval in miliseconds
-        const int REG_STREAMING_INTERVAL = 0x04;
-        // for analog sensors
-        const int REG_LOW_THRESHOLD = 0x05;
-        const int REG_HIGH_THRESHOLD = 0x06;
-        // limit power drawn; in mA
-        const int REG_MAX_POWER = 0x07;
-
-        // eg. one number for light sensor, all 3 coordinates for accelerometer
-        const int REG_READING = 0x101;
 
         const int CMD_GET_REG = 0x1000;
         const int CMD_SET_REG = 0x2000;

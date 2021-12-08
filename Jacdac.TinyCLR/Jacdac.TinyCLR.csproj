@@ -35,7 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Device.cs" />
+      <Compile Include="..\Jacdac\Constants\*.*">
+	    <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
+	  </Compile>
+	  <Compile Include="Device.cs" />
     <Compile Include="JacdacController.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
