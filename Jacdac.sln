@@ -16,9 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Tests", "Jacdac.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Playground", "Jacdac.Playground\Jacdac.Playground.csproj", "{922F75F6-632A-414E-B447-0FF41C82935C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHIElectronics.TinyCLR.Devices.Jacdac", "GHIElectronics.TinyCLR.Devices.Jacdac\GHIElectronics.TinyCLR.Devices.Jacdac.csproj", "{FEAE5AA6-08FC-449E-8CE1-6F3697211323}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac-RgbLed", "Jacdac-RgbLed\Jacdac-RgbLed.csproj", "{0233B41E-369B-483A-975C-9DAA6C00DEC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR", "Jacdac.TinyCLR\Jacdac.TinyCLR.csproj", "{FEAE5AA6-08FC-449E-8CE1-6F3697211323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,16 +42,16 @@ Global
 		{922F75F6-632A-414E-B447-0FF41C82935C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
