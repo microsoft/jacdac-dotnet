@@ -17,11 +17,11 @@ namespace Jacdac
 
         public ConcurrentDictionary<ulong, JDDevice> Devices { get; private set; } = new ConcurrentDictionary<ulong, JDDevice>();
 
-        private Timer deviceCheckTimer;
+        private System.Timers.Timer deviceCheckTimer;
 
         public JDBus(JDTransport transport)
         {
-            deviceCheckTimer = new Timer(1000);
+            deviceCheckTimer = new System.Timers.Timer(1000);
             deviceCheckTimer.AutoReset = true;
             deviceCheckTimer.Elapsed += DeviceCheckTimer_Elapsed;
             deviceCheckTimer.Start();

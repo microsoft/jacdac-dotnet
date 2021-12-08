@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jacdac\Jacdac.csproj" />
+    <ProjectReference Include="..\Jacdac.Core\Jacdac.Core.csproj" />
   </ItemGroup>
 
 </Project>

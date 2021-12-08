@@ -7,16 +7,4 @@
 		<StartupObject />
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="LibUsbDotNet" Version="2.2.29" />
-		<PackageReference Include="NullFX.CRC" Version="1.1.2" />
-		<PackageReference Include="System.Collections" Version="4.3.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>Jacdac.Tests</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-
 </Project>
