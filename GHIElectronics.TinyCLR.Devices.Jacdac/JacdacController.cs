@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
-using Jacdac;
+using System.Text;
+using System.Threading;
 using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Native;
 
@@ -18,12 +20,27 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         public int ReadBufferSize { get; set; } = 20;
     }
 
-    public class JacdacController : ITransport {
-        static JacdacController()
-        {
-            Platform.Crc16 = NativeCrc;
-        }
+    public enum JacdacError {
+        Frame = 0,
+        Overrun = 1,
+        BufferFull = 2,
+    }
 
+    public class ErrorReceivedEventArgs {
+        public JacdacError Error { get; }
+        public DateTime Timestamp { get; }
+
+        public byte[] Data { get; }
+
+        internal ErrorReceivedEventArgs(JacdacError error, DateTime timestamp, byte[] data) {
+            this.Error = error;
+            this.Timestamp = timestamp;
+            this.Data = data;
+        }
+    }
+
+
+    public class JacdacController : IDisposable {
 
         private int uartController;
         private bool swapTxRx;
@@ -34,8 +51,11 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         private readonly NativeEventDispatcher nativeReceivedEventDispatcher;
         private readonly NativeEventDispatcher nativeErrorEventDispatcher;
 
+        public delegate void PacketReceivedEvent(JacdacController sender, Packet packet);
+        public delegate void ErrorReceivedEvent(JacdacController sender, ErrorReceivedEventArgs args);
+
         private PacketReceivedEvent packetReceived;
-        private TransportErrorReceivedEvent errorReceived;
+        private ErrorReceivedEvent errorReceived;
 
         public JacdacController(string uartPortName) : this(uartPortName, null) {
 
@@ -98,7 +118,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
                 if (apiName.CompareTo("JacdacController") == 0 && d0 == this.uartController) {
                     byte[] data = null;
 
-                    var error = (TransportError)d2;
+                    var error = (JacdacError)d2;
 
 
                     if (d1 > 0) {
@@ -107,7 +127,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
                         this.NativeReadErrorRawPacket(this.uartController, data, data.Length);
                     }
 
-                    var args = new TransportErrorReceivedEventArgs(error, ts, data);
+                    var args = new ErrorReceivedEventArgs(error, ts, data);
 
                     this.errorReceived?.Invoke(this, args);
 
@@ -184,7 +204,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
             }
         }
 
-        public event TransportErrorReceivedEvent ErrorReceived {
+        public event ErrorReceivedEvent ErrorReceived {
             add {
                 if (this.errorReceived == null) {
                     this.NativeEnableErrorReceivedEvent(this.uartController, true);
@@ -204,9 +224,6 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         }
 
         public void ClearReadBuffer() => this.NativeClearReadBuffer(this.uartController);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private static extern ushort NativeCrc(byte[] data, int offset, int cout);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeAcquire(int uartController);
