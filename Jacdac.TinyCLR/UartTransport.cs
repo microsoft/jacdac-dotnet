@@ -4,6 +4,11 @@ namespace Jacdac
 {
     public sealed class UartTransport : Transport
     {
+        static UartTransport()
+        {
+            Platform.Crc16 = GHIElectronics.TinyCLR.Devices.Jacdac.Util.CRC;
+        }
+
         public readonly GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller;
 
         public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller)
