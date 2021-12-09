@@ -4,7 +4,7 @@ using Jacdac;
 using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Native;
 
-namespace GHIElectronics.TinyCLR.Devices.Jacdac {
+namespace Jacdac.TinyCLR {
 
     public class JacdacSetting {
         public TimeSpan StartPulseDuration { get; set; } = TimeSpan.FromTicks(140);
@@ -39,6 +39,10 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
 
 
     public class JacdacController : IDisposable {
+        static JacdacController()
+        {
+            Platform.Crc16 = NativeCrc;
+        }
 
         private int uartController;
         private bool swapTxRx;
@@ -222,6 +226,9 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         }
 
         public void ClearReadBuffer() => this.NativeClearReadBuffer(this.uartController);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private static extern ushort NativeCrc(byte[] data, int offset, int cout);
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeAcquire(int uartController);
