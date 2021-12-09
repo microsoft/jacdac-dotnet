@@ -2,7 +2,7 @@
 
 namespace Jacdac
 {
-    public delegate void PacketReceivedEvent(ITransport sender, Packet packet);
+    public delegate void PacketReceivedEvent(ITransport sender, byte[] packet);
 
     public enum TransportError
     {
@@ -34,7 +34,7 @@ namespace Jacdac
         /// Sends a packet over the transport
         /// </summary>
         /// <param name="packet"></param>
-        void SendPacket(Packet packet);
+        void SendPacket(byte[] packet);
 
         /// <summary>
         /// Raised when a packet is received
