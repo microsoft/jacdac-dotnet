@@ -22,6 +22,15 @@ namespace Jacdac {
         Level = 0x101,
 
         /**
+         * Read-only ratio u0.16 (uint16_t). The error rage on the current reading
+         *
+         * ```
+         * const [levelError] = jdunpack<[number]>(buf, "u0.16")
+         * ```
+         */
+        LevelError = 0x106,
+
+        /**
          * Constant Variant (uint8_t). The type of physical sensor.
          *
          * ```

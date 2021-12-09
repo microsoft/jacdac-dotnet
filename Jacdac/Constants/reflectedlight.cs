@@ -30,16 +30,4 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
-    public enum ReflectedLightEvent {
-        /**
-         * The sensor detected a transition from light to dark
-         */
-        Dark = 0x2,
-
-        /**
-         * The sensor detected a transition from dark to light
-         */
-        Light = 0x1,
-    }
-
 }

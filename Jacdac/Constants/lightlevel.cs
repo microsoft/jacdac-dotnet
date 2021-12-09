@@ -22,6 +22,15 @@ namespace Jacdac {
         LightLevel = 0x101,
 
         /**
+         * Read-only ratio u0.16 (uint16_t). Absolute estimated error of the reading value
+         *
+         * ```
+         * const [lightLevelError] = jdunpack<[number]>(buf, "u0.16")
+         * ```
+         */
+        LightLevelError = 0x106,
+
+        /**
          * Constant Variant (uint8_t). The type of physical sensor.
          *
          * ```

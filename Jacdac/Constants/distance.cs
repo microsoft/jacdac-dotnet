@@ -23,6 +23,15 @@ namespace Jacdac {
         Distance = 0x101,
 
         /**
+         * Read-only m u16.16 (uint32_t). Absolute error on the reading value.
+         *
+         * ```
+         * const [distanceError] = jdunpack<[number]>(buf, "u16.16")
+         * ```
+         */
+        DistanceError = 0x106,
+
+        /**
          * Constant m u16.16 (uint32_t). Minimum measurable distance
          *
          * ```

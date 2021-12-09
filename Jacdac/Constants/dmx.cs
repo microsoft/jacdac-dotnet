@@ -6,7 +6,7 @@ namespace Jacdac {
     }
     public enum DmxReg {
         /**
-         * Read-write bool (uint8_t). Determines if the DMX bridge is active
+         * Read-write bool (uint8_t). Determines if the DMX bridge is active.
          *
          * ```
          * const [enabled] = jdunpack<[number]>(buf, "u8")
