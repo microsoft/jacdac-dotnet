@@ -14,9 +14,6 @@ namespace Jacdac {
     public enum RealTimeClockReg {
         /**
          * Current time in 24h representation.
-         * * ``day_of_month`` is day of the month, starting at ``1``
-         * * ``day_of_week`` is day of the week, starting at ``1`` as monday
-         * Default streaming period is 1 second.
          *
          * ```
          * const [year, month, dayOfMonth, dayOfWeek, hour, min, sec] = jdunpack<[number, number, number, number, number, number, number]>(buf, "u16 u8 u8 u8 u8 u8 u8")
@@ -25,7 +22,7 @@ namespace Jacdac {
         LocalTime = 0x101,
 
         /**
-         * Read-only s u16.16 (uint32_t). Time drift since the last call to the ``set_time`` command.
+         * Read-only s u16.16 (uint32_t). Time drift since the last call to the `set_time` command.
          *
          * ```
          * const [drift] = jdunpack<[number]>(buf, "u16.16")

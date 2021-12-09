@@ -48,12 +48,12 @@ namespace Jacdac {
 
     public enum SwitchEvent {
         /**
-         * Emitted when switch goes from ``off`` to ``on``.
+         * Emitted when switch goes from `off` to `on`.
          */
         On = 0x1,
 
         /**
-         * Emitted when switch goes from ``on`` to ``off``.
+         * Emitted when switch goes from `on` to `off`.
          */
         Off = 0x2,
     }
