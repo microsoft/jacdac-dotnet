@@ -3,7 +3,7 @@ using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Pins;
 using System.Diagnostics;
 using System.Threading;
-using GHIElectronics.TinyCLR.Devices.Jacdac;
+using Jacdac;
 
 namespace Jacdac_RgbLed
 {
@@ -24,14 +24,14 @@ namespace Jacdac_RgbLed
         {
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
-            var jacdacController = new JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true });
+            var jacdacController = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             // subscribe events
             jacdacController.PacketReceived += JacdacController_PacketReceived;
             jacdacController.ErrorReceived += JacdacController_ErrorReceived;
 
             // Jacdac enable
-            jacdacController.Enable();
+            jacdacController.Connect();
 
             // raw data packet
             var ledOnPacket = Packet.FromBinary(new byte[] { 0xa3, 0x2f, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0x7f, 0x7f, 0x7f, 0x0 });
@@ -50,11 +50,11 @@ namespace Jacdac_RgbLed
             }
 
         }
-        private static void JacdacController_ErrorReceived(JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args)
+        private static void JacdacController_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
             switch (args.Error)
             {
-                case JacdacError.Frame:
+                case TransportError.Frame:
                     if (args.Data != null)
                     {
                         var str = "Frame error: ";
@@ -68,12 +68,12 @@ namespace Jacdac_RgbLed
                     }
                     break;
 
-                case JacdacError.BufferFull:
-                    (sender as JacdacController).ClearReadBuffer();
+                case TransportError.BufferFull:
+                    (sender as UartTransport).controller.ClearReadBuffer();
                     Debug.WriteLine("Buffer full");
                     break;
 
-                case JacdacError.Overrun:
+                case TransportError.Overrun:
                     Debug.WriteLine("Overrun");
                     break;
 
@@ -81,7 +81,7 @@ namespace Jacdac_RgbLed
             }            
         }
 
-        private static void JacdacController_PacketReceived(JacdacController sender, Packet packet)
+        private static void JacdacController_PacketReceived(Transport sender, Packet packet)
         {
             Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
             Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
