@@ -8,7 +8,7 @@ namespace Jacdac {
         byte[] header;
         byte[] data;
         public TimeSpan Timestamp { get; set; }
-        Device dev;
+        internal JDDevice dev;
 
         public Packet() {
 
@@ -59,11 +59,11 @@ namespace Jacdac {
         public byte FrameFlags => this.header[3];
 
 
-        public uint? MulticommandClass {
+        public uint MulticommandClass {
             get {
                 if ((this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS) != 0)
                     return Util.Read32(this.header, 4);
-                return null;
+                return Constants.UNDEFINED;
             }
         }
 
@@ -86,11 +86,11 @@ namespace Jacdac {
         }
 
 
-        public uint? ServiceClass {
+        public uint ServiceClass {
             get {
                 if (this.dev != null)
                     return this.dev.ServiceAt(this.ServiceNumber);
-                return null;
+                return Constants.UNDEFINED;
             }
         }
         public ushort Crc => Util.Read16(this.header, 0);
@@ -103,21 +103,19 @@ namespace Jacdac {
 
         public bool IsEvent => this.IsReport && this.ServiceNumber <= 0x30 && ((this.ServiceCommand & Jacdac.Constants.CMD_EVENT_MASK) != 0);
 
-        public uint? EventCode {
+        public uint EventCode {
             get {
-                if (this.IsEvent == true)
+                if (this.IsEvent)
                     return this.ServiceCommand & Jacdac.Constants.CMD_EVENT_CODE_MASK;
-                else
-                    return null;
+                return Constants.UNDEFINED;
             }
         }
 
-        public uint? EventCounter {
+        public uint EventCounter {
             get {
-                if (this.IsEvent == true)
+                if (this.IsEvent)
                     return ((uint)this.ServiceCommand >> Jacdac.Constants.CMD_EVENT_COUNTER_POS) & Jacdac.Constants.CMD_EVENT_COUNTER_MASK;
-                else
-                    return null;
+                return 0;
             }
         }
 
@@ -129,8 +127,7 @@ namespace Jacdac {
             get => this.header;
             set {
                 if (value.Length > Jacdac.Constants.JD_SERIAL_HEADER_SIZE)
-                    throw new Exception("Too big");
-
+                    throw new ArgumentOutOfRangeException("Data payload too large");
                 this.header = value;
             }
         }
@@ -138,48 +135,16 @@ namespace Jacdac {
             get => this.data;
             set {
                 if (value.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
-                    throw new Exception("Too big");
+                    throw new ArgumentOutOfRangeException("Data payload too large");
                 this.header[12] = (byte)value.Length;
                 this.data = value;
             }
         }
 
-        public uint? UintData {
-            get {
-                var buf = this.data;
-
-                if (buf == null || buf.Length == 0)
-                    return null;
-
-                if (buf.Length < 4)
-                    buf = Util.BufferConcat(buf, new byte[4]);
-
-                return Util.Read32(buf, 0);
-            }
+        public bool hasData()
+        {
+            return this.data != null;
         }
-
-        public int? IntData {
-            get {
-                Util.NumberFormat fmt;
-                switch (this.data.Length) {
-                    case 0:
-                        return null;
-                    case 1:
-                        fmt = Util.NumberFormat.Int8LE;
-                        break;
-                    case 2:
-                    case 3:
-                        fmt = Util.NumberFormat.Int16LE;
-                        break;
-                    default:
-                        fmt = Util.NumberFormat.Int32LE;
-                        break;
-                }
-                return (int)this.GetNumber(fmt, 0);
-            }
-        }
-
-        public uint GetNumber(Util.NumberFormat fmt, int offset) => Util.GetNumber(this.data, fmt, offset);
 
         public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0 ? true : false;
         public bool IsReport => !this.IsCommand;

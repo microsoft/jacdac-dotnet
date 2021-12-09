@@ -3,7 +3,7 @@ using GHIElectronics.TinyCLR.Devices.Jacdac;
 using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Pins;
 using System.Diagnostics;
-
+using Jacdac;
 using System.Threading;
 
 namespace Jacdac_RgbLed

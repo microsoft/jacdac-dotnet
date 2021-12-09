@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
+using Jacdac;
 using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Native;
 

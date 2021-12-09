@@ -56,6 +56,6 @@
         public const uint CMD_EVENT_COUNTER_MASK = 0x7f;
         public const byte CMD_EVENT_COUNTER_POS = 8;
 
-
+        public const uint UNDEFINED = 0xFFFFFFFF;
     }
 }
