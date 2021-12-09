@@ -18,27 +18,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         public int ReadBufferSize { get; set; } = 20;
     }
 
-    public enum JacdacError {
-        Frame = 0,
-        Overrun = 1,
-        BufferFull = 2,
-    }
-
-    public class ErrorReceivedEventArgs {
-        public JacdacError Error { get; }
-        public DateTime Timestamp { get; }
-
-        public byte[] Data { get; }
-
-        internal ErrorReceivedEventArgs(JacdacError error, DateTime timestamp, byte[] data) {
-            this.Error = error;
-            this.Timestamp = timestamp;
-            this.Data = data;
-        }
-    }
-
-
-    public class JacdacController : IDisposable {
+    public class JacdacController : ITransport {
         static JacdacController()
         {
             Platform.Crc16 = NativeCrc;
@@ -54,11 +34,8 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
         private readonly NativeEventDispatcher nativeReceivedEventDispatcher;
         private readonly NativeEventDispatcher nativeErrorEventDispatcher;
 
-        public delegate void PacketReceivedEvent(JacdacController sender, Packet packet);
-        public delegate void ErrorReceivedEvent(JacdacController sender, ErrorReceivedEventArgs args);
-
         private PacketReceivedEvent packetReceived;
-        private ErrorReceivedEvent errorReceived;
+        private TransportErrorReceivedEvent errorReceived;
 
         public JacdacController(string uartPortName) : this(uartPortName, null) {
 
@@ -121,7 +98,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
                 if (apiName.CompareTo("JacdacController") == 0 && d0 == this.uartController) {
                     byte[] data = null;
 
-                    var error = (JacdacError)d2;
+                    var error = (TransportError)d2;
 
 
                     if (d1 > 0) {
@@ -130,7 +107,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
                         this.NativeReadErrorRawPacket(this.uartController, data, data.Length);
                     }
 
-                    var args = new ErrorReceivedEventArgs(error, ts, data);
+                    var args = new TransportErrorReceivedEventArgs(error, ts, data);
 
                     this.errorReceived?.Invoke(this, args);
 
@@ -207,7 +184,7 @@ namespace GHIElectronics.TinyCLR.Devices.Jacdac {
             }
         }
 
-        public event ErrorReceivedEvent ErrorReceived {
+        public event TransportErrorReceivedEvent ErrorReceived {
             add {
                 if (this.errorReceived == null) {
                     this.NativeEnableErrorReceivedEvent(this.uartController, true);

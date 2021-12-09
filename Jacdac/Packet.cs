@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 
 namespace Jacdac {
-    public class Packet {
+    public sealed class Packet {
         byte[] header;
         byte[] data;
         public TimeSpan Timestamp { get; set; }

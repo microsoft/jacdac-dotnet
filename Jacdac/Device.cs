@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 
 namespace Jacdac {
-    public class JDDevice {
+    public sealed class JDDevice {
         byte[] services;
 
         public JDDevice() {

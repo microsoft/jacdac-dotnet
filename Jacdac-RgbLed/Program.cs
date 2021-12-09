@@ -51,11 +51,11 @@ namespace Jacdac_RgbLed
             }
 
         }
-        private static void JacdacController_ErrorReceived(JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args)
+        private static void JacdacController_ErrorReceived(ITransport sender, Jacdac.TransportErrorReceivedEventArgs args)
         {
             switch (args.Error)
             {
-                case JacdacError.Frame:
+                case TransportError.Frame:
                     if (args.Data != null)
                     {
                         var str = "Frame error: ";
@@ -69,12 +69,12 @@ namespace Jacdac_RgbLed
                     }
                     break;
 
-                case JacdacError.BufferFull:
-                    sender.ClearReadBuffer();
+                case TransportError.BufferFull:
+                    (sender as JacdacController).ClearReadBuffer();
                     Debug.WriteLine("Buffer full");
                     break;
 
-                case JacdacError.Overrun:
+                case TransportError.Overrun:
                     Debug.WriteLine("Overrun");
                     break;
 
@@ -82,7 +82,7 @@ namespace Jacdac_RgbLed
             }            
         }
 
-        private static void JacdacController_PacketReceived(JacdacController sender, Packet packet)
+        private static void JacdacController_PacketReceived(ITransport sender, Packet packet)
         {
             Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
             Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
