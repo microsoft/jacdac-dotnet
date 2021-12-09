@@ -42,6 +42,15 @@ namespace Jacdac {
          * ```
          */
         LoadSpeed = 0x181,
+
+        /**
+         * Constant bool (uint8_t). Indicates if the motor can run backwards.
+         *
+         * ```
+         * const [reversible] = jdunpack<[number]>(buf, "u8")
+         * ```
+         */
+        Reversible = 0x182,
     }
 
 }

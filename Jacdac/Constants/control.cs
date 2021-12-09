@@ -82,7 +82,7 @@ namespace Jacdac {
          * (each frame is currently 100ms, so speed of `51` is about 1 second and `26` 0.5 second).
          * As a special case, if speed is `0` the transition is immediate.
          * If MCU is not capable of executing transitions, it can consider `speed` to be always `0`.
-         * If a monochrome LEDs is fitted, the average value of ``red``, ``green``, ``blue`` is used.
+         * If a monochrome LEDs is fitted, the average value of `red`, `green`, `blue` is used.
          * If intensity of a monochrome LED cannot be controlled, any value larger than `0` should be considered
          * on, and `0` (for all three channels) should be considered off.
          *
