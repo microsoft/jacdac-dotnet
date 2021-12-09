@@ -3,8 +3,8 @@ using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Pins;
 using System.Diagnostics;
 using Jacdac;
-using Jacdac.TinyCLR;
 using System.Threading;
+using GHIElectronics.TinyCLR.Devices.Jacdac;
 
 namespace Jacdac_RgbLed
 {
@@ -51,7 +51,7 @@ namespace Jacdac_RgbLed
             }
 
         }
-        private static void JacdacController_ErrorReceived(JacdacController sender, Jacdac.TinyCLR.ErrorReceivedEventArgs args)
+        private static void JacdacController_ErrorReceived(JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args)
         {
             switch (args.Error)
             {

@@ -4,7 +4,7 @@ using Jacdac;
 using GHIElectronics.TinyCLR.Devices.Uart;
 using GHIElectronics.TinyCLR.Native;
 
-namespace Jacdac.TinyCLR {
+namespace GHIElectronics.TinyCLR.Devices.Jacdac {
 
     public class JacdacSetting {
         public TimeSpan StartPulseDuration { get; set; } = TimeSpan.FromTicks(140);
@@ -43,6 +43,7 @@ namespace Jacdac.TinyCLR {
         {
             Platform.Crc16 = NativeCrc;
         }
+
 
         private int uartController;
         private bool swapTxRx;
