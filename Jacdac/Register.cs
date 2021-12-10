@@ -28,14 +28,14 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return this.Service.ToString() + "[" + this.Code.ToString("x2") + "]";
+            return $"{this.Service.ToString()}[{this.Code.ToString("x2")}]";
         }
 
         internal void ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet)
             {
-                // Yay
+                this.ProcessReport(pkt);
             }
             else if (pkt.IsRegisterSet)
             {

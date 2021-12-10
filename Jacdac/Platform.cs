@@ -8,7 +8,7 @@ namespace Jacdac
 
     public static class Platform
     {
-        public static DeviceIdCalculator DeviceId = () => "01234567";
+        public static DeviceIdCalculator DeviceId = () => "0123456701234567";
         public static TimestampCalculator Now = () => new TimeSpan(0, 0, 0, 0);
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {

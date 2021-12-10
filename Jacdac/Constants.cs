@@ -25,11 +25,11 @@
 
         // Commands specific to control service
         // do nothing
-        public const uint CMD_CTRL_NOOP = 0x80;
+        public const ushort CMD_CTRL_NOOP = 0x80;
         // blink led or otherwise draw user's attention
-        public const uint CMD_CTRL_IDENTIFY = 0x81;
+        public const ushort CMD_CTRL_IDENTIFY = 0x81;
         // reset device
-        public const uint CMD_CTRL_RESET = 0x82;
+        public const ushort CMD_CTRL_RESET = 0x82;
 
         public const uint STREAM_PORT_SHIFT = 7;
         public const uint STREAM_COUNTER_MASK = 0x001f;
@@ -42,7 +42,7 @@
         public const uint JD_SERVICE_INDEX_INV_MASK = 0xc0;
         public const byte JD_SERVICE_INDEX_CRC_ACK = 0x3f;
         public const uint JD_SERVICE_INDEX_STREAM = 0x3e;
-        public const uint JD_SERVICE_INDEX_CTRL = 0x00;
+        public const byte JD_SERVICE_INDEX_CTRL = 0x00;
 
         // the COMMAND flag signifies that the device_identifier is the recipent
         // (i.e., it's a command for the peripheral); the bit clear means device_identifier is the source

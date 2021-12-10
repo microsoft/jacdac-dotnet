@@ -73,18 +73,6 @@ namespace Jacdac
             }
         }
 
-        public static void Set(byte[] dest, byte[] source, int start)
-        {
-            var i1 = 0;
-
-            for (var i2 = start; i1 < source.Length;)
-            {
-
-                dest[i2] = source[i1];
-                i1++;
-            }
-        }
-
         public static byte[] BufferConcat(byte[] a, byte[] b)
         {
             var r = new byte[a.Length + b.Length];

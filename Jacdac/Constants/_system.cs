@@ -67,7 +67,7 @@ namespace Jacdac {
         CommandNotImplemented = 0x3,
     }
 
-    public enum SystemReg {
+    public enum SystemReg : ushort {
         /**
          * Read-write uint32_t. This is either binary on/off (0 or non-zero), or can be gradual (eg. brightness of an RGB LED strip).
          *

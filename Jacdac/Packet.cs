@@ -52,13 +52,9 @@ namespace Jacdac
             set
             {
                 var idb = Util.FromHex(value);
-
                 if (idb.Length != 8)
-                {
                     throw new Exception("Invalid id");
-                }
-
-                Util.Set(this.header, idb, 4);
+                Array.Copy(idb, 0, this.header, 4, idb.Length);
             }
         }
 

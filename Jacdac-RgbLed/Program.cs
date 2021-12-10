@@ -58,7 +58,14 @@ namespace Jacdac_RgbLed
                 {
                     if (service.ServiceIndex == 0) continue;
                     Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");
+
+                    var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading, true);
+                    reading.Changed += (reg, er) =>
+                    {
+                        Display.WriteLine($"{reading}: {reading.Data}");
+                    };
                 }
+                Display.WriteLine($"Self device: {bus.SelfDevice}");
             };
         }
 

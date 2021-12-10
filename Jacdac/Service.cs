@@ -125,7 +125,11 @@ namespace Jacdac
         public JDEvent[] Events()
         {
             lock (this)
-                return this._events.ToArray() as JDEvent[];
+            {
+                var res = new JDEvent[this._events.Count];
+                this._events.CopyTo(res, 0);
+                return res;
+            }
         }
 
         public JDEvent GetEvent(ushort code, bool createIfMissing = false)

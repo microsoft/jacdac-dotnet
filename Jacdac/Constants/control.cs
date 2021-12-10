@@ -1,3 +1,5 @@
+using System;
+
 namespace Jacdac {
     // Service: Control
     public static class ControlConstants
@@ -5,6 +7,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x0;
     }
 
+    [Flags]
     public enum ControlAnnounceFlags: ushort { // uint16_t
         RestartCounterSteady = 0xf,
         RestartCounter1 = 0x1,

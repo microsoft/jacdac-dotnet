@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
 
 namespace Jacdac
 {
@@ -9,8 +10,10 @@ namespace Jacdac
         private readonly ArrayList devices;
         private readonly Transport transport;
         private readonly string selfDeviceId;
+        public byte RestartCounter = 0;
 
         public TimeSpan LastResetInTime;
+        private Timer announceTimer;
 
         public JDBus(Transport transport)
         {
@@ -22,6 +25,24 @@ namespace Jacdac
             this.transport.ErrorReceived += Transport_ErrorReceived;
 
             this.transport.Connect();
+            this.Start();
+        }
+
+        public void Start()
+        {
+            if (this.announceTimer == null)
+            {
+                this.announceTimer = new System.Threading.Timer(this.SendAnnounce, null, 100, 499);
+            }
+        }
+
+        public void Stop()
+        {
+            if (this.announceTimer != null)
+            {
+                this.announceTimer.Dispose();
+                this.announceTimer = null;
+            }
         }
 
         private void Transport_PacketReceived(Transport sender, Packet packet)
@@ -161,8 +182,26 @@ namespace Jacdac
             this.transport.SendPacket(pkt);
         }
 
+        private void SendAnnounce(Object stateInfo)
+        {
+            // we do not support any services (at least yet)
+            if (this.RestartCounter < 0xf) this.RestartCounter++;
+            var data = new byte[2];
+            Util.Write16(data, 0, (ushort)(this.RestartCounter |
+                    (ushort)ControlAnnounceFlags.IsClient |
+                    (ushort)ControlAnnounceFlags.SupportsBroadcast |
+                    (ushort)ControlAnnounceFlags.SupportsFrames |
+                    (ushort)ControlAnnounceFlags.SupportsACK));
+            var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
+            pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
+            this.SelfDevice.SendPacket(pkt);
+            this.SelfAnnounce?.Invoke(this, EventArgs.Empty);
+        }
+
         public event DeviceEventHandler DeviceConnected;
 
         public event DeviceEventHandler DeviceDisconnected;
+
+        public event NodeEventHandler SelfAnnounce;
     }
 }

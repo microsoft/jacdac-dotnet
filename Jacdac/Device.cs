@@ -10,7 +10,7 @@ namespace Jacdac
         public readonly string ShortId;
         public TimeSpan LastSeen;
 
-        byte[] _servicesData = null;
+        byte[] _servicesData;
         JDService[] _services = null;
 
         public JDDevice(JDBus bus, string deviceId)
@@ -19,7 +19,7 @@ namespace Jacdac
             this.DeviceId = deviceId;
             this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
-            this._servicesData = null;
+            this._servicesData = new byte[0];
         }
 
         public override string ToString()
@@ -44,10 +44,10 @@ namespace Jacdac
         {
             var data = pkt.Data;
             var changed = false;
-            uint w0 = this._servicesData != null
-                ? Util.GetNumber(this._servicesData, NumberFormat.UInt32LE, 0)
-                : 0;
-            uint w1 = Util.GetNumber(pkt.Data, NumberFormat.UInt32LE, 0);
+            uint w0 = this._servicesData.Length == 0
+                ? 0
+                : Util.GetNumber(this._servicesData, NumberFormat.UInt32LE, 0);
+            uint w1 = data.Length == 0 ? 0 : Util.GetNumber(data, NumberFormat.UInt32LE, 0);
 
             // compare service data
             var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
