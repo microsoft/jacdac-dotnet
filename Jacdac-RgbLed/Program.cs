@@ -32,19 +32,36 @@ namespace Jacdac_RgbLed
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
 
+            Display.WriteLine($"Self device: {bus.SelfDevice}");
             Display.WriteLine("Waiting for Jacdac...");
             Blink(transport);
         }
 
-        private static void Bus_DeviceDisconnected(JDNode sensor, DeviceEventArgs e)
+        private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)
         {
             Display.WriteLine($"{e.Device} disconnected");
         }
 
-        private static void Bus_DeviceConnected(JDNode sensor, DeviceEventArgs e)
+        private static void Bus_DeviceConnected(JDNode node, DeviceEventArgs e)
         {
             Display.WriteLine($"{e.Device} connected");
+            var bus = (JDBus)node;
+            var device = e.Device;
+            device.Announced += (JDNode sender, System.EventArgs ev) =>
+            {
+                Display.WriteLine($"{e.Device} announced");
+                if (e.Device == bus.SelfDevice) Display.WriteLine("  self");
+                if (e.Device.IsDashboard) Display.WriteLine($" dashboard");
+                if (e.Device.IsUniqueBrain) Display.WriteLine($" unique brain");
+                if (e.Device.IsBridge) Display.WriteLine($" bridge");
+                foreach (var service in device.Services())
+                {
+                    if (service.ServiceIndex == 0) continue;
+                    Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");
+                }
+            };
         }
+
 
         private static void Blink(UartTransport transport)
         {
@@ -97,9 +114,9 @@ namespace Jacdac_RgbLed
 
         private static void JacdacController_PacketReceived(Transport sender, Packet packet)
         {
-            Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
-            Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
-            Debug.WriteLine("device_identifier      = " + packet.DeviceId);
+            //Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
+            //Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
+            ///Debug.WriteLine("device_identifier      = " + packet.DeviceId);
             //Debug.WriteLine("size                   = " + packet.Size);
             //Debug.WriteLine("frame_flags            = " + packet.FrameFlags);
             //Debug.WriteLine("is_command             = " + packet.IsCommand);

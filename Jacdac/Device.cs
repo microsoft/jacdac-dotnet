@@ -83,6 +83,35 @@ namespace Jacdac
                 this.RaiseChanged();
         }
 
+        private uint[] ServiceClasses
+        {
+            get
+            {
+                var data = this._servicesData;
+                var n = data == null ? 0 : data.Length >> 2;
+                var res = new uint[n];
+                for(var i = 1; i < res.Length;++i)
+                {
+                    res[i] = Util.Read32(data, i * 4);
+                }
+                return res;
+            }
+        }
+
+        public bool HasService(uint serviceClass)
+        {
+            if (serviceClass == 0) return true;
+
+            var data = this._servicesData;
+            var n = data == null ? 0 : data.Length >> 2;
+            for (var i = 1; i < n; ++i)
+            {
+                var sc = Util.Read32(data, i * 4);
+                if (sc == serviceClass) return true;
+            }
+            return false;
+        }
+
         private void InitServices(bool force)
         {
             if (force)
@@ -97,12 +126,11 @@ namespace Jacdac
 
             if (null == this._services && null != this._servicesData)
             {
-                byte n = (byte)(this._servicesData.Length >> 2);
-                var s = new JDService[n];
-                for (byte i = 0; i < n; ++i)
+                var serviceClasses = this.ServiceClasses;
+                var s = new JDService[serviceClasses.Length];
+                for (byte i = 0; i < s.Length; ++i)
                 {
-                    var sc = i == 0 ? 0 : Util.Read32(this._servicesData, i * 4);
-                    s[i] = new JDService(this, i, sc);
+                    s[i] = new JDService(this, i, serviceClasses[i]);
                 }
                 this._services = s;
                 //this.lastServiceUpdate = this.bus.timestamp
@@ -120,6 +148,25 @@ namespace Jacdac
         {
             pkt.DeviceId = this.DeviceId;
             this.Bus.SendPacket(pkt);
+        }
+
+        public bool IsUniqueBrain
+        {
+            get { return this.HasService(Jacdac.UniqueBrainConstants.ServiceClass); }
+        }
+        public bool IsBridge
+        {
+            get { return this.HasService(Jacdac.BridgeConstants.ServiceClass); }
+        }
+
+        public bool IsProxy
+        {
+            get { return this.HasService(Jacdac.ProxyConstants.ServiceClass); }
+        }
+
+        public bool IsDashboard
+        {
+            get { return this.HasService(Jacdac.DashboardConstants.ServiceClass); }
         }
 
         public event NodeEventHandler Restarted;
@@ -145,5 +192,5 @@ namespace Jacdac
             this.Device = device;
         }
     }
-    public delegate void DeviceEventHandler(JDNode sensor, DeviceEventArgs e);
+    public delegate void DeviceEventHandler(JDNode node, DeviceEventArgs e);
 }

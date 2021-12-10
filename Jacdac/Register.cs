@@ -53,10 +53,11 @@ namespace Jacdac
             this.LastGetAttempts = 0; // reset counter
             this.LastGetTimestamp = pkt.Timestamp;
             this.NeedsRefresh = false;
+
             //this.emit(REPORT_RECEIVE, this)
             if (updated)
             {
-                //this.emitPropagated(REPORT_UPDATE, this)
+                //this.emitPropagated(REPORT_UPDATE, this)                
                 this.RaiseChanged();
             }
         }

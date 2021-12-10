@@ -91,7 +91,11 @@ namespace Jacdac
         public JDRegister[] Registers()
         {
             lock (this)
-                return this._registers.ToArray() as JDRegister[];
+            {
+                var res = new JDRegister[this._registers.Count];
+                this._registers.CopyTo(res, 0);
+                return res;
+            }
         }
 
         public JDRegister GetRegister(ushort code, bool createIfMissing = false)

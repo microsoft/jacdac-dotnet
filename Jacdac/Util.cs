@@ -257,8 +257,8 @@ namespace Jacdac
             return new String(new char[] {
                 (char)(0x41 + (h % 26)) ,
                 (char)(0x41 + ((h / 26) % 26)) ,
-                (char)(0x30 + ((h / 26 * 26) % 10)) ,
-                (char)(0x30 + ((h / 26 * 26 * 10) % 10))
+                (char)(0x30 + ((h / (26 * 26)) % 10)) ,
+                (char)(0x30 + ((h / (26 * 26 * 10)) % 10))
                 });
         }
     }
