@@ -131,7 +131,7 @@ namespace Jacdac
             data[pos + 1] = (byte)((v >> 8) & 0xff);
         }
 
-        public static uint GetNumber(byte[] buf, NumberFormat fmt, int offset)
+        public static object GetNumber(byte[] buf, NumberFormat fmt, int offset)
         {
             switch (fmt)
             {

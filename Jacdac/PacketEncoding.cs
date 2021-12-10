@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace Jacdac
 {
@@ -30,6 +30,7 @@ namespace Jacdac
         const int ch_u = 117;
         const int ch_x = 120;
         const int ch_z = 122;
+        const int ch_space = 32;
         //const  ch_0 = 48
         //const  ch_9 = 57
         const int ch_colon = 58;
@@ -61,7 +62,7 @@ namespace Jacdac
                 while (this.fp < fmt.Length)
                 {
                     var endp = this.fp;
-                    while (endp < fmt.Length & fmt[endp] != 32) endp++;
+                    while (endp < fmt.Length && fmt[endp] != ch_space) endp++;
                     var word = fmt.Slice(this.fp, endp);
                     this.fp = endp + 1;
                     if (word.Length == 0) continue;
@@ -77,10 +78,10 @@ namespace Jacdac
                         this.div = 1 << sz1;
                     }
 
-                    var c1 = word[1];
+                    var c1 = word.Length > 1 ? word[1] : ch_0;
                     if (c1 == ch_sq_open)
                     {
-                        this.size = int.Parse(word.Slice(2, word.Length));
+                        this.size = int.Parse(word.Slice(2, word.Length - 1));
                     }
                     else
                     {
@@ -88,6 +89,7 @@ namespace Jacdac
                     }
 
                     if (
+                        word.Length > 2 &&
                         word[word.Length - 1] == ch_sq_close &&
                         word[word.Length - 2] == ch_sq_open
                     )
@@ -117,7 +119,7 @@ namespace Jacdac
                         {
                             c0 = ch_0;
                         }
-                        if (c0 == 0) throw new ArgumentException("invalid format");
+                        if (c0 == ch_0) throw new ArgumentException("invalid format");
                         this.c0 = c0;
                     }
                     else
@@ -134,8 +136,8 @@ namespace Jacdac
 
         private static object[] jdunpackCore(byte[] buf, string fmt, int repeat)
         {
-            List<Object[]> repeatRes = repeat > 0 ? new List<Object[]>() : null;
-            var res = new System.Collections.ArrayList();
+            ArrayList repeatRes = repeat > 0 ? new ArrayList() : null;
+            var res = new ArrayList();
             var off = 0;
             var fp0 = 0;
             var parser = new TokenParser(fmt);
@@ -170,8 +172,44 @@ namespace Jacdac
 
                 if (parser.nfmt != NumberFormat.Unknown)
                 {
-                    float v = Util.GetNumber(buf, parser.nfmt, off);
-                    if (parser.div != 1) v /= parser.div;
+                    object v = Util.GetNumber(buf, parser.nfmt, off);
+                    switch(parser.nfmt)
+                    {
+                        case NumberFormat.UInt8BE:
+                        case NumberFormat.UInt8LE:
+                            v = (byte)v;
+                            if (parser.div != 1) v = (float)((double)(byte)v / parser.div);
+                            break;
+                        case NumberFormat.Int8BE:
+                        case NumberFormat.Int8LE:
+                            v = (sbyte)v;
+                            if (parser.div != 1) v = (float)((double)(sbyte)v / parser.div);
+                            break;
+                        case NumberFormat.Int16BE:
+                        case NumberFormat.Int16LE:
+                            v = (short)v;
+                            if (parser.div != 1) v = (float)((double)(short)v / parser.div);
+                            break;
+                        case NumberFormat.UInt16BE:
+                        case NumberFormat.UInt16LE:
+                            v = (ushort)v;
+                            if (parser.div != 1) v = (float)((double)(ushort)v / parser.div);
+                            break;
+                        case NumberFormat.Float32BE:
+                        case NumberFormat.Float32LE:
+                            v = (float)v;
+                            if (parser.div != 1) v = (float)((float)v / parser.div);
+                            break;
+                        case NumberFormat.Float64BE:
+                        case NumberFormat.Float64LE:
+                            v = (double)v;
+                            if (parser.div != 1) v = (float)((double)v / parser.div);
+                            break;
+                        default:
+                            if (parser.div != 1) v = (float)((double)(uint)v / parser.div);
+                            break;
+                    }
+                    res.Add(v);
                     off += parser.size;
                 }
                 else
@@ -234,7 +272,7 @@ namespace Jacdac
         /// <param name="fmt"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>        
-        public static object[] UnPack(byte[] buf, string fmt)
+        public static object[] UnPack(string fmt, byte[] buf)
         {
             if (buf == null || String.IsNullOrEmpty(fmt)) return null;
 

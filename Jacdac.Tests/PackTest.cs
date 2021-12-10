@@ -5,6 +5,136 @@ namespace Jacdac.Tests
 {
     public class PackTest
     {
+        [Fact]
+        public void ParseSimpleBuffer()
+        {
+            var buffer = new byte[] { 0x1, 0x2, 0x3, 0x4 };
+            var format = "b";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<byte[]>(parsed[0]);
+            Assert.Equal<byte[]>(parsed[0] as byte[], buffer);
+        }
+
+        [Fact]
+        public void ParseU16()
+        {
+            var buffer = new byte[] { 0x92, 0x93 };
+            var format = "u16";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<ushort>(parsed[0]);
+            Assert.Equal<ushort>(37778, (ushort)parsed[0]);
+        }
+
+        [Fact]
+        public void ParseU8()
+        {
+            var buffer = new byte[] { 0x92 };
+            var format = "u8";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<byte>(parsed[0]);
+            Assert.Equal<byte>(0x92, (byte)parsed[0]);
+        }
+
+        [Fact]
+        public void ParseU32()
+        {
+            var buffer = new byte[] { 0x92, 0x10, 0x0, 0x0 };
+            var format = "u32";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<UInt32>(parsed[0]);
+            Assert.Equal<UInt32>(4242, (uint)parsed[0]);
+        }
+
+        [Fact]
+        public void ParseTwoSimpleNumbers()
+        {
+            var buffer = new byte[] { 0x92, 0x10, 0x0, 0x0, 0xCF, 0x7, 0x0, 0x0 };
+            var format = "u32 u32";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(2 == parsed.Length);
+            Assert.True(4242 == (uint)parsed[0]);
+            Assert.True(1999 == (uint)parsed[1]);
+        }
+
+        [Fact]
+        public void ParseFloat()
+        {
+            var buffer = new byte[] { 0x7F, 0xFF };
+            var format = "u8.8";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<float>(parsed[0]);
+            Assert.Equal<float>(255.4961f, (float)parsed[0]);
+        }
+
+        [Fact]
+        public void ParseString()
+        {
+            var buffer = new byte[] { 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100 };
+            var format = "s";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<string>(parsed[0]);
+            Assert.Equal("Hello World", parsed[0]);
+        }
+
+        [Fact]
+        public void ParseTerminatedString()
+        {
+            var buffer = new byte[] { 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 0, 0xFF };
+            var format = "z u8";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 2);
+            Assert.IsType<string>(parsed[0]);
+            Assert.IsType<byte>(parsed[1]);
+            Assert.Equal("Hello World", parsed[0]);
+            Assert.Equal<byte>(255, (byte)parsed[1]);
+        }
+
+        [Fact]
+        public void ParseExhaustingArray()
+        {
+            var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0x78, 0x56 };
+            var format = "u8 u16[]";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 2);
+            Assert.IsType<byte>(parsed[0]);
+            Assert.Equal<byte>(127, (byte)parsed[0]);
+
+            Assert.IsType<object[]>(parsed[1]);
+            Assert.Equal<ushort>(43981, (ushort)((object[])parsed[1])[0]);
+            Assert.Equal<ushort>(4660, (ushort)((object[])parsed[1])[1]);
+            Assert.Equal<ushort>(22136, (ushort)((object[])parsed[1])[2]);
+        }
+
+        [Fact]
+        public void ParseSizeArray()
+        {
+            var buffer = new byte[] { 0x7F, 0xCD, 0xAB, 0x34, 0x12, 0xFF };
+            var format = "u8 x[4] u8";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 2);
+            Assert.IsType<byte>(parsed[0]);
+            Assert.Equal<byte>(127, (byte)parsed[0]);
+
+            Assert.IsType<byte>(parsed[1]);
+            Assert.Equal<byte>(255, (byte)parsed[1]);
+        }
+
         const double err = 1e-4;
 
         [Theory]
