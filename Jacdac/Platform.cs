@@ -1,9 +1,15 @@
-﻿namespace Jacdac
+﻿using System;
+
+namespace Jacdac
 {
+    public delegate string DeviceIdCalculator();
+    public delegate TimeSpan TimestampCalculator();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
 
     public static class Platform
     {
+        public static DeviceIdCalculator DeviceId = () => "0";
+        public static TimestampCalculator Now = () => new TimeSpan(0, 0, 0, 0);
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;

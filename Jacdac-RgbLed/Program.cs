@@ -24,14 +24,11 @@ namespace Jacdac_RgbLed
         {
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
-            var jacdacController = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
+            var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
+            transport.PacketReceived += JacdacController_PacketReceived;
+            transport.ErrorReceived += JacdacController_ErrorReceived;
 
-            // subscribe events
-            jacdacController.PacketReceived += JacdacController_PacketReceived;
-            jacdacController.ErrorReceived += JacdacController_ErrorReceived;
-
-            // Jacdac enable
-            jacdacController.Connect();
+            var bus = new JDBus(transport);
 
             // raw data packet
             var ledOnPacket = Packet.FromBinary(new byte[] { 0xa3, 0x2f, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0x7f, 0x7f, 0x7f, 0x0 });
@@ -41,11 +38,11 @@ namespace Jacdac_RgbLed
 
             while (true)
             {
-                jacdacController.SendPacket(ledOnPacket);
+                transport.SendPacket(ledOnPacket);
 
                 Thread.Sleep(250);
 
-                jacdacController.SendPacket(ledOffPacket);
+                transport.SendPacket(ledOffPacket);
                 Thread.Sleep(250);
             }
 
@@ -85,7 +82,7 @@ namespace Jacdac_RgbLed
         {
             Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
             Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
-            Debug.WriteLine("device_identifier      = " + packet.DeviceIdentifier);
+            Debug.WriteLine("device_identifier      = " + packet.DeviceId);
             //Debug.WriteLine("size                   = " + packet.Size);
             //Debug.WriteLine("frame_flags            = " + packet.FrameFlags);
             //Debug.WriteLine("is_command             = " + packet.IsCommand);
