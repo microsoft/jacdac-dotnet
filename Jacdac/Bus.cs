@@ -10,7 +10,7 @@ namespace Jacdac
         private readonly Transport transport;
         private readonly string selfDeviceId;
 
-        private TimeSpan _lastResetInTime;
+        public TimeSpan LastResetInTime;
 
         public JDBus(Transport transport)
         {
@@ -37,7 +37,8 @@ namespace Jacdac
         void ProcessPacket(Packet pkt)
         {
             JDDevice device = null;
-            if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device)) return; // ignore unknown device or invalid multicommand packet
+            if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device))
+                device = this.GetDevice(pkt.DeviceId);
 
             var isAnnounce = false;
             if (device == null)
@@ -74,7 +75,7 @@ namespace Jacdac
                   )
                     {
                         // someone else is doing reset in
-                        this._lastResetInTime = pkt.Timestamp;
+                        this.LastResetInTime = pkt.Timestamp;
                     }
                 }
                 device.ProcessPacket(pkt);
@@ -111,21 +112,26 @@ namespace Jacdac
             }
         }
 
-        public JDDevice Device(string deviceId)
+        public JDDevice GetDevice(string deviceId)
         {
+            var changed = false;
+            JDDevice device;
             lock (this)
             {
-                JDDevice device;
                 if (!this.TryGetDevice(deviceId, out device))
                 {
                     device = new JDDevice(this, deviceId);
                     this.devices.Add(device);
+                    changed = true;
                 }
-                // sorting?
-                //this.devices.Sort(new JDDevice.Comparer());
-                this.RaiseChanged();
-                return device;
             }
+            if (changed)
+            {
+                if (this.DeviceConnected != null)
+                    this.DeviceConnected.Invoke(this, new DeviceEventArgs(device));
+                this.RaiseChanged();
+            }
+            return device;
         }
 
         public JDDevice[] Devices()
@@ -144,7 +150,7 @@ namespace Jacdac
 
         public JDDevice SelfDevice
         {
-            get { return this.Device(this.selfDeviceId); }
+            get { return this.GetDevice(this.selfDeviceId); }
         }
 
         internal void SendPacket(Packet pkt)
@@ -154,5 +160,9 @@ namespace Jacdac
 
             this.transport.SendPacket(pkt);
         }
+
+        public event DeviceEventHandler DeviceConnected;
+
+        public event DeviceEventHandler DeviceDisconnected;
     }
 }

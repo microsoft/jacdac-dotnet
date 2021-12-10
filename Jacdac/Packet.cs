@@ -1,8 +1,7 @@
 using System;
 
 namespace Jacdac
-{
-    public sealed class Packet
+{    public sealed class Packet
     {
         byte[] header;
         byte[] data;
@@ -167,4 +166,14 @@ namespace Jacdac
             return PacketEncoding.UnPack(format, this.Data);
         }
     }
+
+    public sealed class PacketEventArgs : EventArgs
+    {
+        public readonly Packet Packet;
+        internal PacketEventArgs(Packet packet)
+        {
+            this.Packet = packet;
+        }
+    }
+    public delegate void PacketEventHandler(JDNode sensor, PacketEventArgs e);
 }

@@ -10,7 +10,7 @@ namespace Jacdac
         public readonly string ShortId;
         public TimeSpan LastSeen;
 
-        byte[] _servicesData;
+        byte[] _servicesData = null;
         JDService[] _services = null;
 
         public JDDevice(JDBus bus, string deviceId)
@@ -19,7 +19,7 @@ namespace Jacdac
             this.DeviceId = deviceId;
             this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
-            this._servicesData = new byte[0];
+            this._servicesData = null;
         }
 
         public override string ToString()
@@ -136,4 +136,14 @@ namespace Jacdac
             }
         }
     }
+
+    public sealed class DeviceEventArgs : EventArgs
+    {
+        public readonly JDDevice Device;
+        internal DeviceEventArgs(JDDevice device)
+        {
+            this.Device = device;
+        }
+    }
+    public delegate void DeviceEventHandler(JDNode sensor, DeviceEventArgs e);
 }

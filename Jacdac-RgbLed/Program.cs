@@ -29,8 +29,25 @@ namespace Jacdac_RgbLed
             transport.ErrorReceived += JacdacController_ErrorReceived;
 
             var bus = new JDBus(transport);
+            bus.DeviceConnected += Bus_DeviceConnected;
+            bus.DeviceDisconnected += Bus_DeviceDisconnected;
 
-            // raw data packet
+            Display.WriteLine("Waiting for Jacdac...");
+            Blink(transport);
+        }
+
+        private static void Bus_DeviceDisconnected(JDNode sensor, DeviceEventArgs e)
+        {
+            Display.WriteLine($"{e.Device} disconnected");
+        }
+
+        private static void Bus_DeviceConnected(JDNode sensor, DeviceEventArgs e)
+        {
+            Display.WriteLine($"{e.Device} connected");
+        }
+
+        private static void Blink(UartTransport transport)
+        {
             var ledOnPacket = Packet.FromBinary(new byte[] { 0xa3, 0x2f, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0x7f, 0x7f, 0x7f, 0x0 });
             var ledOffPacket = Packet.FromBinary(new byte[] { 0x9c, 0xa8, 0x08, 0x01, 0x46, 0x2e, 0xcd, 0xca, 0x66, 0xca, 0x4d, 0x19, 0x04, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 0x0 });
 
@@ -45,8 +62,8 @@ namespace Jacdac_RgbLed
                 transport.SendPacket(ledOffPacket);
                 Thread.Sleep(250);
             }
-
         }
+
         private static void JacdacController_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
             switch (args.Error)
