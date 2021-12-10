@@ -27,22 +27,22 @@ namespace Jacdac
             return p;
         }
 
-        public static Packet From(uint service_command, byte[] buffer)
+        public static Packet From(ushort serviceCommand, byte[] buffer)
         {
             var p = new Packet
             {
                 header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE],
                 data = buffer,
-                ServiceCommand = (ushort)service_command
+                ServiceCommand = serviceCommand
             };
 
             return p;
         }
 
-        public static Packet OnlyHeader(uint service_command)
+        public static Packet OnlyHeader(ushort serviceCommand)
         {
             var data = new byte[0];
-            return Packet.From(service_command, data);
+            return Packet.From(serviceCommand, data);
         }
 
         public byte[] ToBuffer() => Util.BufferConcat(this.header, this.data);
@@ -97,9 +97,9 @@ namespace Jacdac
         }
 
 
-        public uint ServiceIndex
+        public byte ServiceIndex
         {
-            get => (uint)(this.header[13] & Jacdac.Constants.JD_SERVICE_INDEX_MASK);
+            get => (byte)(this.header[13] & Jacdac.Constants.JD_SERVICE_INDEX_MASK);
             set => this.header[13] = (byte)((this.header[13] & Jacdac.Constants.JD_SERVICE_INDEX_INV_MASK) | value);
         }
 

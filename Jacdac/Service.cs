@@ -6,12 +6,12 @@ namespace Jacdac
     public sealed class JDService : JDNode
     {
         JDDevice _device;
-        public readonly int ServiceIndex;
+        public readonly byte ServiceIndex;
         public readonly uint ServiceClass;
         ArrayList _registers;
         ArrayList _events;
 
-        internal JDService(JDDevice device, int ServiceIndex, uint ServiceClass)
+        internal JDService(JDDevice device, byte ServiceIndex, uint ServiceClass)
         {
             this._device = device;
             this.ServiceIndex = ServiceIndex;
@@ -43,7 +43,7 @@ namespace Jacdac
                     var ev = this.GetEvent(pkt.EventCode);
                     if (null != ev) ev.ProcessPacket(pkt);
                 }
-                else if (pkt.ServiceCommand == (ushort)Jacdac.SystemCmd.CommandNotImplemented)
+                else if (pkt.ServiceCommand == Jacdac.Constants.CMD_NOT_IMPLEMENTED)
                 {
                     var serviceCommand = Util.Read16(pkt.Data, 0);
                     if (
@@ -80,6 +80,12 @@ namespace Jacdac
             var regs = this.Registers();
             for (var i = 0; i < regs.Length; i++)
                 regs[i].LastGetTimestamp = TimeSpan.Zero;
+        }
+
+        public void SendPacket(Packet pkt)
+        {
+            pkt.ServiceIndex = this.ServiceIndex;
+            this.Device.SendPacket(pkt);
         }
 
         public JDRegister[] Registers()

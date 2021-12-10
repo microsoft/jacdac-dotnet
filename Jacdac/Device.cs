@@ -97,9 +97,9 @@ namespace Jacdac
 
             if (null == this._services && null != this._servicesData)
             {
-                var n = this._servicesData.Length >> 2;
+                byte n = (byte)(this._servicesData.Length >> 2);
                 var s = new JDService[n];
-                for (var i = 0; i < n; ++i)
+                for (byte i = 0; i < n; ++i)
                 {
                     var sc = i == 0 ? 0 : Util.Read32(this._servicesData, i * 4);
                     s[i] = new JDService(this, i, sc);
@@ -114,6 +114,12 @@ namespace Jacdac
         {
             var srvs = this._services.Clone() as JDService[];
             return srvs;
+        }
+
+        public void SendPacket(Packet pkt)
+        {
+            pkt.DeviceId = this.DeviceId;
+            this.Bus.SendPacket(pkt);
         }
 
         public event NodeEventHandler Restarted;

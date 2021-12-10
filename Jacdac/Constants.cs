@@ -13,13 +13,15 @@
         // Commands 0x080-0xeff - defined per-service
         // Commands 0xf00-0xfff - reserved for implementation
         // enumeration data for CTRL, ad-data for other services
-        public const uint CMD_ADVERTISEMENT_DATA = 0x00;
+        public const ushort CMD_ADVERTISEMENT_DATA = 0x00;
         // event from sensor or on broadcast service
-        public const uint CMD_EVENT = 0x01;
+        public const ushort CMD_EVENT = 0x01;
         // request to calibrate sensor
-        public const uint CMD_CALIBRATE = 0x02;
+        public const ushort CMD_CALIBRATE = 0x02;
         // request human-readable description of service
-        public const uint CMD_GET_DESCRIPTION = 0x03;
+        public const ushort CMD_GET_DESCRIPTION = 0x03;
+        // command not available
+        public const ushort CMD_NOT_IMPLEMENTED = 0x3;
 
         // Commands specific to control service
         // do nothing
@@ -38,7 +40,7 @@
         public const uint JD_SERIAL_MAX_PAYLOAD_SIZE = 236;
         public const uint JD_SERVICE_INDEX_MASK = 0x3f;
         public const uint JD_SERVICE_INDEX_INV_MASK = 0xc0;
-        public const uint JD_SERVICE_INDEX_CRC_ACK = 0x3f;
+        public const byte JD_SERVICE_INDEX_CRC_ACK = 0x3f;
         public const uint JD_SERVICE_INDEX_STREAM = 0x3e;
         public const uint JD_SERVICE_INDEX_CTRL = 0x00;
 
@@ -58,6 +60,8 @@
         public const uint CMD_EVENT_CODE_MASK = 0xff;
         public const uint CMD_EVENT_COUNTER_MASK = 0x7f;
         public const byte CMD_EVENT_COUNTER_POS = 8;
+
+        public const ushort CONTROL_REG_RESET_IN = 0x80;
 
         public const uint UNDEFINED = 0xFFFFFFFF;
     }

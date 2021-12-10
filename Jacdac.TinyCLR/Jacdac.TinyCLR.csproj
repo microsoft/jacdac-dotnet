@@ -38,9 +38,6 @@
 		<Compile Include="..\Jacdac\*.cs">
 			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>
-		<Compile Include="..\Jacdac\Constants\*.cs">
-			<Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
-		</Compile>
 		<Compile Include="Properties\AssemblyInfo.cs" />
 		<Compile Include="UartTransport.cs" />
 	</ItemGroup>

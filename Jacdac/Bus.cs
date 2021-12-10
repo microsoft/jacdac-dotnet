@@ -52,7 +52,8 @@ namespace Jacdac
                     {
                         var ack = Packet.OnlyHeader(pkt.Crc);
                         ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
-                        this.SendReport(ack, this.SelfDevice);
+                        ack.DeviceId = this.selfDeviceId;
+                        this.SendPacket(pkt);
                     }
                 }
                 device.ProcessPacket(pkt);
@@ -69,7 +70,7 @@ namespace Jacdac
                     }
                     else if (
                       pkt.IsMultiCommand &&
-                      pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | (ushort)Jacdac.ControlReg.ResetIn)
+                      pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
                   )
                     {
                         // someone else is doing reset in
@@ -146,12 +147,12 @@ namespace Jacdac
             get { return this.Device(this.selfDeviceId); }
         }
 
-        private void SendReport(Packet packet, JDDevice device)
+        internal void SendPacket(Packet pkt)
         {
-            if (device != null)
-                packet.DeviceId = device.DeviceId;
-            if (this.transport.ConnectionState == ConnectionState.Connected)
-                this.transport.SendPacket(packet);
+            if (this.transport.ConnectionState != ConnectionState.Connected)
+                return;
+
+            this.transport.SendPacket(pkt);
         }
     }
 }
