@@ -20,7 +20,7 @@ namespace Jacdac
         }
     }
 
-    public sealed class Pack
+    public static class PacketEncoding
     {
         const char ch_0 = (char)0;
         const int ch_b = 98;
@@ -132,7 +132,7 @@ namespace Jacdac
             }
         }
 
-        static object[] jdunpackCore(byte[] buf, string fmt, int repeat)
+        private static object[] jdunpackCore(byte[] buf, string fmt, int repeat)
         {
             List<Object[]> repeatRes = repeat > 0 ? new List<Object[]>() : null;
             var res = new System.Collections.ArrayList();
@@ -227,12 +227,14 @@ namespace Jacdac
             }
         }
 
-        /**
-         Unpacks a byte buffer into structured data as specified in the format string.
-         See jdpack for format string reference.
-         @category Data Packing
-*/
-        public static object[] jdunpack(byte[] buf, string fmt)
+        /// <summary>
+        /// Unpacks a byte buffer into structured data as specified in the format string.
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="fmt"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>        
+        public static object[] UnPack(byte[] buf, string fmt)
         {
             if (buf == null || String.IsNullOrEmpty(fmt)) return null;
 
