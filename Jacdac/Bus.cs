@@ -61,7 +61,6 @@ namespace Jacdac
             if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device))
                 device = this.GetDevice(pkt.DeviceId);
 
-            var isAnnounce = false;
             if (device == null)
             {
                 // skip
@@ -83,35 +82,21 @@ namespace Jacdac
             else
             {
                 device.LastSeen = pkt.Timestamp;
-                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL)
+                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
                 {
-                    if (pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
-                    {
-                        isAnnounce = true;
-                        device.ProcessAnnouncement(pkt);
-                    }
-                    else if (
-                      pkt.IsMultiCommand &&
-                      pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
-                  )
-                    {
-                        // someone else is doing reset in
-                        this.LastResetInTime = pkt.Timestamp;
-                    }
+                    device.ProcessAnnouncement(pkt);
                 }
-                device.ProcessPacket(pkt);
-            }
-            // this.emit(PACKET_PROCESS, pkt)
-            // don't spam with duplicate advertisement events
-            if (isAnnounce)
-            {
-                // this.emit(PACKET_RECEIVE_ANNOUNCE, pkt)
-            }
-            else
-            {
-                //   this.emit(PACKET_RECEIVE, pkt)
-                //if (pkt.isEvent) this.emit(PACKET_EVENT, pkt)
-                //else if (pkt.isReport) this.emit(PACKET_REPORT, pkt)
+                else if (
+                pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL &&
+                  pkt.IsMultiCommand &&
+                  pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
+              )
+                {
+                    // someone else is doing reset in
+                    this.LastResetInTime = pkt.Timestamp;
+                }
+                else
+                    device.ProcessPacket(pkt);
             }
         }
 

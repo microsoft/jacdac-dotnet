@@ -1,7 +1,10 @@
 using System;
+using System.Diagnostics;
 
 namespace Jacdac
-{    public sealed class Packet
+{
+    [DebuggerDisplay("{DeviceId}[{ServiceIndex}]>{ServiceCommand}")]
+    public sealed class Packet
     {
         byte[] header;
         byte[] data;
@@ -129,8 +132,8 @@ namespace Jacdac
         }
 
         public ushort RegisterCode => (ushort)(this.ServiceCommand & Jacdac.Constants.CMD_REG_MASK);
-        public bool IsRegisterSet => (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_SET_REG >> 12) ? true : false;
-        public bool IsRegisterGet => (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_GET_REG >> 12) ? true : false;
+        public bool IsRegisterSet => this.ServiceIndex <= Jacdac.Constants.JD_SERVICE_INDEX_MAX_NORMAL && (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_SET_REG >> 12);
+        public bool IsRegisterGet => this.ServiceIndex <= Jacdac.Constants.JD_SERVICE_INDEX_MAX_NORMAL && (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_GET_REG >> 12);
 
         public byte[] Header
         {
@@ -154,7 +157,7 @@ namespace Jacdac
             }
         }
 
-        public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0 ? true : false;
+        public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0;
         public bool IsReport => !this.IsCommand;
 
         public object[] UnPack(string format)

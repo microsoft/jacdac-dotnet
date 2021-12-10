@@ -38,10 +38,11 @@
 
         public const uint JD_SERIAL_HEADER_SIZE = 16;
         public const uint JD_SERIAL_MAX_PAYLOAD_SIZE = 236;
-        public const uint JD_SERVICE_INDEX_MASK = 0x3f;
-        public const uint JD_SERVICE_INDEX_INV_MASK = 0xc0;
+        public const byte JD_SERVICE_INDEX_MASK = 0x3f;
+        public const byte JD_SERVICE_INDEX_INV_MASK = 0xc0;
         public const byte JD_SERVICE_INDEX_CRC_ACK = 0x3f;
-        public const uint JD_SERVICE_INDEX_STREAM = 0x3e;
+        public const byte JD_SERVICE_INDEX_STREAM = 0x3e;
+        public const byte JD_SERVICE_INDEX_MAX_NORMAL = 0x30;
         public const byte JD_SERVICE_INDEX_CTRL = 0x00;
 
         // the COMMAND flag signifies that the device_identifier is the recipent

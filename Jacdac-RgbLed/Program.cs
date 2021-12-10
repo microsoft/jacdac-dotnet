@@ -121,12 +121,13 @@ namespace Jacdac_RgbLed
 
         private static void JacdacController_PacketReceived(Transport sender, Packet packet)
         {
-            //Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
-            //Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
-            ///Debug.WriteLine("device_identifier      = " + packet.DeviceId);
+            Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
+            Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
+            Debug.WriteLine("device_identifier      = " + packet.DeviceId);
             //Debug.WriteLine("size                   = " + packet.Size);
             //Debug.WriteLine("frame_flags            = " + packet.FrameFlags);
-            //Debug.WriteLine("is_command             = " + packet.IsCommand);
+            Debug.WriteLine("is_command             = " + packet.IsCommand);
+            Debug.WriteLine("service_command        = " + packet.ServiceCommand.ToString("x2"));
             //Debug.WriteLine("is_report              = " + packet.IsReport);
             //Debug.WriteLine("multicommand_class     = " + packet.MulticommandClass.ToString("x2"));
             //Debug.WriteLine("requires_ack           = " + packet.IsRequiresAck);
@@ -134,7 +135,7 @@ namespace Jacdac_RgbLed
             //Debug.WriteLine("event_code             = " + packet.EventCode.ToString("x2"));
             //Debug.WriteLine("reg_code               = " + packet.RegisterCode.ToString("x2"));
             //Debug.WriteLine("eventCounter           = " + packet.EventCounter.ToString("x2"));
-
+            Debug.WriteLine(packet.ToString());
             Debug.WriteLine(" ");
         }
     }
