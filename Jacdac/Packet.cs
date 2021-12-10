@@ -12,7 +12,6 @@ namespace Jacdac
         {
 
         }
-
         public override string ToString()
         {
             return Util.ToHex(this.ToBuffer());
@@ -114,13 +113,13 @@ namespace Jacdac
 
         public bool IsEvent => this.IsReport && this.ServiceIndex <= 0x30 && ((this.ServiceCommand & Jacdac.Constants.CMD_EVENT_MASK) != 0);
 
-        public uint EventCode
+        public ushort EventCode
         {
             get
             {
                 if (this.IsEvent)
-                    return this.ServiceCommand & Jacdac.Constants.CMD_EVENT_CODE_MASK;
-                return Constants.UNDEFINED;
+                    return (ushort)(this.ServiceCommand & Jacdac.Constants.CMD_EVENT_CODE_MASK);
+                return 0xffff;
             }
         }
 
@@ -134,7 +133,7 @@ namespace Jacdac
             }
         }
 
-        public uint RegisterCode => (uint)(this.ServiceCommand & Jacdac.Constants.CMD_REG_MASK);
+        public ushort RegisterCode => (ushort)(this.ServiceCommand & Jacdac.Constants.CMD_REG_MASK);
         public bool IsRegisterSet => (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_SET_REG >> 12) ? true : false;
         public bool IsRegisterGet => (this.ServiceCommand >> 12) == (Jacdac.Constants.CMD_GET_REG >> 12) ? true : false;
 
@@ -162,5 +161,10 @@ namespace Jacdac
 
         public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0 ? true : false;
         public bool IsReport => !this.IsCommand;
+
+        public object[] UnPack(string format)
+        {
+            return PacketEncoding.UnPack(format, this.Data);
+        }
     }
 }

@@ -51,6 +51,9 @@
         // the device_identifier contains target service class number
         public const uint JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS = 0x04;
 
+        public const uint JD_ADVERTISEMENT_0_COUNTER_MASK = 0x0000000f;
+        public const uint JD_ADVERTISEMENT_0_ACK_SUPPORTED = 0x00000100;
+
         public const uint CMD_EVENT_MASK = 0x8000;
         public const uint CMD_EVENT_CODE_MASK = 0xff;
         public const uint CMD_EVENT_COUNTER_MASK = 0x7f;

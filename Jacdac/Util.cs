@@ -95,6 +95,17 @@ namespace Jacdac
             return r;
         }
 
+        public static bool BufferEquals(byte[] a, byte[] b, int offset = 0)
+        {
+            if (a == b) return true;
+            if (a == null || b == null || a.Length != b.Length) return false;
+            for (var i = offset; i < a.Length; ++i)
+            {
+                if (a[i] != b[i]) return false;
+            }
+            return true;
+        }
+
         public static string ToHex(byte[] data)
         {
             var hex = "";
@@ -131,7 +142,7 @@ namespace Jacdac
             data[pos + 1] = (byte)((v >> 8) & 0xff);
         }
 
-        public static object GetNumber(byte[] buf, NumberFormat fmt, int offset)
+        public static uint GetNumber(byte[] buf, NumberFormat fmt, int offset)
         {
             switch (fmt)
             {
@@ -223,5 +234,32 @@ namespace Jacdac
         public static ushort CRC(byte[] p) => CRC(p, 0, p.Length);
 
         public static ushort CRC(byte[] p, int start, int size) => Platform.Crc16(p, start, size);
+
+        static uint Fnv1(byte[] data)
+        {
+            var h = 0x811c9dc5;
+            for (var i = 0; i < data.Length; ++i)
+            {
+                h = (h * 0x1000193) ^ data[i];
+            }
+            return h;
+        }
+        static uint Hash(byte[] buf, int bits)
+        {
+            if (bits < 1) return 0;
+            var h = Fnv1(buf);
+            if (bits >= 32) return h >> 0;
+            else return (uint)((h ^ (h >> bits)) & ((1 << bits) - 1)) >> 0;
+        }
+        public static string ShortDeviceId(string devid)
+        {
+            var h = Hash(Util.FromHex(devid), 30);
+            return new String(new char[] {
+                (char)(0x41 + (h % 26)) ,
+                (char)(0x41 + ((h / 26) % 26)) ,
+                (char)(0x30 + ((h / 26 * 26) % 10)) ,
+                (char)(0x30 + ((h / 26 * 26 * 10) % 10))
+                });
+        }
     }
 }

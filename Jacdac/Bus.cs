@@ -3,23 +3,6 @@ using System.Collections;
 
 namespace Jacdac
 {
-    public delegate void NodeChangedEvent(JDNode node, EventArgs args);
-
-    public abstract class JDNode
-    {
-        internal JDNode()
-        {
-
-        }
-
-        public event NodeChangedEvent Changed;
-
-        protected void RaiseChanged()
-        {
-            Changed?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
     public sealed class JDBus : JDNode
     {
         // updated concurrently, locked by this
