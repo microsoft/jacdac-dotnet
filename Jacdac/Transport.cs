@@ -38,7 +38,7 @@ namespace Jacdac
         Disconnected,
     }
 
-    public abstract class Transport : IDisposable
+    public abstract class Transport : JDNode, IDisposable
     {
         private ConnectionState _connectionState = ConnectionState.Disconnected;
 
@@ -122,10 +122,10 @@ namespace Jacdac
                 this.InternalDisconnect();
                 this.SetConnectionState(ConnectionState.Disconnected);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.SetConnectionState(ConnectionState.Disconnected);
-                throw ex;
+                throw;
             }
         }
 

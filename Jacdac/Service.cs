@@ -70,7 +70,8 @@ namespace Jacdac
             else if (pkt.IsCommand)
             {
                 this.InvalidateRegisterValues(pkt);
-                //  this.emit(COMMAND_RECEIVE, pkt)
+                if (this.CommandReceived != null)
+                    this.CommandReceived.Invoke(this, new PacketEventArgs(pkt));
             }
         }
 
@@ -140,5 +141,7 @@ namespace Jacdac
                 return r;
             }
         }
+
+        public event PacketEventHandler CommandReceived;
     }
 }

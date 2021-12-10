@@ -13,7 +13,7 @@
             return this.Service.ToString() + "{" + this.Code.ToString("x2") + "}";
         }
 
-        internal void ProcessPacket(Packet pkt)
+        public void ProcessPacket(Packet pkt)
         {
 
         }

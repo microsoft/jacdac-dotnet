@@ -6,6 +6,7 @@ namespace Jacdac
     {
         public bool NotImplemented = false;
         public TimeSpan LastGetTimestamp = TimeSpan.Zero;
+        Packet _lastReportPkt;
 
         internal JDRegister(JDService service, ushort code)
             : base(service, code)

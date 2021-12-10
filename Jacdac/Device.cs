@@ -61,7 +61,7 @@ namespace Jacdac
                 (w0 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK)
         )
             {
-                this.initServices(true);
+                this.InitServices(true);
                 this.Restarted?.Invoke(this, EventArgs.Empty);
                 changed = true;
             }
@@ -69,7 +69,7 @@ namespace Jacdac
             // notify that services got updated
             if (servicesChanged)
             {
-                if (!changed) this.initServices(true);
+                if (!changed) this.InitServices(true);
                 this.Announced?.Invoke(this, EventArgs.Empty);
                 changed = true;
             }
@@ -83,7 +83,7 @@ namespace Jacdac
                 this.RaiseChanged();
         }
 
-        private void initServices(bool force)
+        private void InitServices(bool force)
         {
             if (force)
             {

@@ -4,6 +4,16 @@ namespace Jacdac
 {
     public delegate void NodeEventHandler(JDNode sender, EventArgs e);
 
+    public sealed class PacketEventArgs : EventArgs
+    {
+        readonly Packet Packet;
+        internal PacketEventArgs(Packet packet)
+        {
+            this.Packet = packet;
+        }
+    }
+    public delegate void PacketEventHandler(JDNode sensor, PacketEventArgs e);
+
     public abstract class JDNode
     {
         internal JDNode()
