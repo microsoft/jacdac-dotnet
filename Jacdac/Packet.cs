@@ -7,8 +7,13 @@ namespace Jacdac {
         public TimeSpan Timestamp { get; set; }
         internal JDDevice dev;
 
-        public Packet() {
+        private Packet() {
 
+        }
+
+        public override string ToString()
+        {
+            return Util.ToHex(this.ToBuffer());
         }
 
         public static Packet FromBinary(byte[] buffer) {
@@ -16,9 +21,7 @@ namespace Jacdac {
                 header = Util.Slice(buffer, 0, Jacdac.Constants.JD_SERIAL_HEADER_SIZE),
                 data = Util.Slice(buffer, Jacdac.Constants.JD_SERIAL_HEADER_SIZE)
             };
-
             return p;
-
         }
 
         public static Packet From(uint service_command, byte[] buffer) {
@@ -66,7 +69,6 @@ namespace Jacdac {
 
         public uint Size => this.header[12];
 
-
         public bool IsRequiresAck {
             get => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_ACK_REQUESTED) != 0 ? true : false;
 
@@ -91,7 +93,6 @@ namespace Jacdac {
             }
         }
         public ushort Crc => Util.Read16(this.header, 0);
-
 
         public ushort ServiceCommand {
             get => Util.Read16(this.header, 14);
@@ -136,11 +137,6 @@ namespace Jacdac {
                 this.header[12] = (byte)value.Length;
                 this.data = value;
             }
-        }
-
-        public bool hasData()
-        {
-            return this.data != null;
         }
 
         public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0 ? true : false;
