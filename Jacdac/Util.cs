@@ -3,6 +3,31 @@ using System.Runtime.CompilerServices;
 
 namespace Jacdac
 {
+    public static class HexEncoding
+    {
+        public static string ToString(byte[] data)
+        {
+            var hex = "";
+            for (var i = 0; i < data.Length; i++)
+            {
+                hex += data[i].ToString("x2");
+            }
+
+            return hex;
+        }
+
+        public static byte[] ToBuffer(string hex)
+        {
+            var data = new byte[hex.Length / 2];
+            for (var i = 0; i < hex.Length; i += 2)
+            {
+                var sub = hex.Substring(i, 2);
+                data[i >> 1] = (byte)Convert.ToInt32(sub, 16);
+            }
+            return data;
+        }
+    }
+
     internal enum NumberFormat
     {
         Unknown = 0,
@@ -92,32 +117,6 @@ namespace Jacdac
                 if (a[i] != b[i]) return false;
             }
             return true;
-        }
-
-        public static string ToHex(byte[] data)
-        {
-            var hex = "";
-            for (var i = 0; i < data.Length; i++)
-            {
-                hex += data[i].ToString("x2");
-            }
-
-            return hex;
-
-        }
-
-        public static byte[] FromHex(string hex)
-        {
-            var data = new byte[hex.Length / 2];
-
-            for (var i = 0; i < hex.Length; i += 2)
-            {
-                var sub = hex.Substring(i, 2);
-                data[i >> 1] = (byte)Convert.ToInt32(sub, 16);
-            }
-
-            return data;
-
         }
 
         public static ushort Read16(byte[] data, int pos) => BitConverter.ToUInt16(data, pos);
@@ -241,7 +240,7 @@ namespace Jacdac
         }
         public static string ShortDeviceId(string devid)
         {
-            var h = Hash(Util.FromHex(devid), 30);
+            var h = Hash(HexEncoding.ToBuffer(devid), 30);
             return new String(new char[] {
                 (char)(0x41 + (h % 26)) ,
                 (char)(0x41 + ((h / 26) % 26)) ,

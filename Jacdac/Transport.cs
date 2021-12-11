@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public delegate void ConnectionStateChangedEvent(Transport sender, ConnectionState newState);
 
-    public delegate void PacketReceivedEvent(Transport sender, Packet packet);
+    public delegate void FrameReceivedEvent(Transport sender, byte[] frame, TimeSpan timestamp);
 
     public enum TransportError
     {
@@ -99,10 +99,10 @@ namespace Jacdac
                 this.InternalConnect();
                 this.SetConnectionState(ConnectionState.Connected);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.SetConnectionState(ConnectionState.Disconnected);
-                throw ex;
+                throw;
             }
         }
 
@@ -133,10 +133,7 @@ namespace Jacdac
 
         public virtual void Dispose() { }
 
-        /// <summary>
-        /// Raised when a packet is received
-        /// </summary>
-        public abstract event PacketReceivedEvent PacketReceived;
+        public abstract event FrameReceivedEvent FrameReceived;
 
         /// <summary>
         /// Raised when an error is received

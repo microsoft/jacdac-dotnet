@@ -16,13 +16,13 @@ namespace Jacdac
             this.controller = controller;
         }
 
-        public override event PacketReceivedEvent PacketReceived
+        public override event FrameReceivedEvent FrameReceived
         {
             add
             {
                 this.controller.PacketReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Packet packet) =>
                 {
-                    value(this, Packet.FromBinary(packet.ToBuffer()));
+                    value(this, packet.ToBuffer(), packet.Timestamp);
                 };
             }
             remove

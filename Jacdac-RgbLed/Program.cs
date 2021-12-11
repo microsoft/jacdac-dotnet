@@ -4,6 +4,7 @@ using GHIElectronics.TinyCLR.Pins;
 using System.Diagnostics;
 using System.Threading;
 using Jacdac;
+using System;
 
 namespace Jacdac_RgbLed
 {
@@ -25,7 +26,7 @@ namespace Jacdac_RgbLed
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
             var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
-            transport.PacketReceived += JacdacController_PacketReceived;
+            transport.FrameReceived += Transport_FrameReceived;
             transport.ErrorReceived += JacdacController_ErrorReceived;
 
             var bus = new JDBus(transport);
@@ -33,8 +34,11 @@ namespace Jacdac_RgbLed
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
 
             Display.WriteLine($"Self device: {bus.SelfDevice}");
-            Display.WriteLine("Waiting for Jacdac...");
-            Blink(transport);
+            //Blink(transport);
+            while(true)
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)
@@ -65,7 +69,6 @@ namespace Jacdac_RgbLed
                         Display.WriteLine($"{reading}: {reading.Data}");
                     };
                 }
-                Display.WriteLine($"Self device: {bus.SelfDevice}");
             };
         }
 
@@ -119,15 +122,23 @@ namespace Jacdac_RgbLed
             }            
         }
 
+        private static void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
+        {
+            Debug.WriteLine($"{timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
+        }
+
+
         private static void JacdacController_PacketReceived(Transport sender, Packet packet)
         {
-            Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>> New packet >>>>>>>>>>>>>>>>>>>>>>>>");            
+            Debug.WriteLine("=>>>>>>>>>>>>>>>>>>>>>>>>>>");            
             Debug.WriteLine("packet crc             = " + packet.Crc.ToString("x2"));
             Debug.WriteLine("device_identifier      = " + packet.DeviceId);
             //Debug.WriteLine("size                   = " + packet.Size);
             //Debug.WriteLine("frame_flags            = " + packet.FrameFlags);
             Debug.WriteLine("is_command             = " + packet.IsCommand);
             Debug.WriteLine("service_command        = " + packet.ServiceCommand.ToString("x2"));
+            Debug.WriteLine("get                    = " + packet.IsRegisterGet);
+            Debug.WriteLine("set                    = " + packet.IsRegisterSet);
             //Debug.WriteLine("is_report              = " + packet.IsReport);
             //Debug.WriteLine("multicommand_class     = " + packet.MulticommandClass.ToString("x2"));
             //Debug.WriteLine("requires_ack           = " + packet.IsRequiresAck);

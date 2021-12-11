@@ -21,11 +21,21 @@ namespace Jacdac
             this.selfDeviceId = Platform.DeviceId();
 
             this.transport = transport;
-            this.transport.PacketReceived += Transport_PacketReceived;
+            this.transport.FrameReceived += Transport_FrameReceived;
             this.transport.ErrorReceived += Transport_ErrorReceived;
 
             this.transport.Connect();
             this.Start();
+        }
+
+        private void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
+        {
+            var packets = Packet.FromFrame(frame);
+            foreach (var packet in packets)
+            {
+                packet.Timestamp = timestamp;
+                this.ProcessPacket(packet);
+            }
         }
 
         public void Start()
@@ -43,11 +53,6 @@ namespace Jacdac
                 this.announceTimer.Dispose();
                 this.announceTimer = null;
             }
-        }
-
-        private void Transport_PacketReceived(Transport sender, Packet packet)
-        {
-            this.ProcessPacket(packet);
         }
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
@@ -171,6 +176,7 @@ namespace Jacdac
         {
             // we do not support any services (at least yet)
             if (this.RestartCounter < 0xf) this.RestartCounter++;
+
             var data = new byte[2];
             Util.Write16(data, 0, (ushort)(this.RestartCounter |
                     (ushort)ControlAnnounceFlags.IsClient |
@@ -180,13 +186,14 @@ namespace Jacdac
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             this.SelfDevice.SendPacket(pkt);
-            this.SelfAnnounce?.Invoke(this, EventArgs.Empty);
+
+            this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
         }
 
         public event DeviceEventHandler DeviceConnected;
 
         public event DeviceEventHandler DeviceDisconnected;
 
-        public event NodeEventHandler SelfAnnounce;
+        public event NodeEventHandler SelfAnnounced;
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Jacdac
 {
@@ -10,23 +11,83 @@ namespace Jacdac
         byte[] data;
         public TimeSpan Timestamp { get; set; }
 
+        public static readonly Packet[] EmptyFrame = new Packet[0];
+
         private Packet()
         {
 
         }
+
         public override string ToString()
         {
-            return Util.ToHex(this.ToBuffer());
+            return HexEncoding.ToString(this.ToBuffer());
         }
 
         public static Packet FromBinary(byte[] buffer)
         {
             var p = new Packet
             {
-                header = Util.Slice(buffer, 0, (int)Jacdac.Constants.JD_SERIAL_HEADER_SIZE),
-                data = Util.Slice(buffer, (int)Jacdac.Constants.JD_SERIAL_HEADER_SIZE)
+                header = Util.Slice(buffer, 0, (int)Constants.JD_SERIAL_HEADER_SIZE),
+                data = Util.Slice(buffer, (int)Constants.JD_SERIAL_HEADER_SIZE)
             };
+
             return p;
+
+        }
+
+        public static Packet[] FromFrame(byte[] frame)
+        {
+            var size = frame.Length < 12 ? 0 : frame[2];
+            if (frame.Length < size + 12)
+            {
+                Debug.WriteLine($"got only {frame.Length} bytes; expecting {size + 12}`");
+                return Packet.EmptyFrame;
+
+            }
+            else if (size < 4)
+            {
+                Debug.WriteLine("empty packet");
+                return Packet.EmptyFrame;
+            }
+            else
+            {
+                var computed = Util.CRC(Util.Slice(frame, 2, size + 12));
+                var actual = Util.Read16(frame, 0);
+                if (actual != computed)
+                {
+                    Debug.WriteLine($"crc mismatch; sz={size} got:{actual}, exp:{computed}");
+                    return Packet.EmptyFrame;
+                }
+
+                ArrayList res = new ArrayList();
+                if (frame.Length != 12 + size)
+                {
+                    Debug.WriteLine($"unexpected packet len: ${frame.Length}");
+                    return Packet.EmptyFrame;
+                }
+
+                for (var ptr = 12; ptr < 12 + size;)
+                {
+                    var psz = frame[ptr] + 4;
+                    var sz = (psz + 3) & ~3; // align
+                    var pkt = Util.BufferConcat(
+                        Util.Slice(frame, 0, 12),
+                        Util.Slice(frame, ptr, ptr + psz)
+                    );
+                    if (ptr + psz > 12 + size)
+                    {
+                        Debug.WriteLine($"invalid frame compression, res len ={res.Count}");
+                        break;
+                    }
+                    var p = Packet.FromBinary(pkt);
+                    res.Add(p);
+                    // only set req_ack flag on first packet - otherwise we would sent multiple acks
+                    if (res.Count > 1) p.RequiresAck = false;
+                    ptr += sz;
+                }
+
+                return (Packet[])res.ToArray(typeof(Packet));
+            }
         }
 
         public static Packet From(ushort serviceCommand, byte[] buffer)
@@ -51,10 +112,10 @@ namespace Jacdac
 
         public string DeviceId
         {
-            get => Util.ToHex(Util.Slice(this.header, 4, 4 + 8));
+            get => HexEncoding.ToString(Util.Slice(this.header, 4, 4 + 8));
             set
             {
-                var idb = Util.FromHex(value);
+                var idb = HexEncoding.ToBuffer(value);
                 if (idb.Length != 8)
                     throw new Exception("Invalid id");
                 Array.Copy(idb, 0, this.header, 4, idb.Length);
