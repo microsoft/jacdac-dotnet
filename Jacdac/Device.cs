@@ -9,6 +9,7 @@ namespace Jacdac
         public readonly string DeviceId;
         public readonly string ShortId;
         public TimeSpan LastSeen;
+        public uint EventCounter;
 
         byte[] _servicesData;
         JDService[] _services = null;

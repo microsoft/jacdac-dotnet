@@ -37,7 +37,8 @@ namespace Jacdac_RgbLed
             //Blink(transport);
             while(true)
             {
-                Thread.Sleep(1000);
+                //Display.WriteLine($".");
+                Thread.Sleep(10000);
             }
         }
 
@@ -63,10 +64,23 @@ namespace Jacdac_RgbLed
                     if (service.ServiceIndex == 0) continue;
                     Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");
 
+                    // attach to reading
                     var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading, true);
                     reading.Changed += (reg, er) =>
                     {
-                        Display.WriteLine($"{reading}: {reading.Data}");
+                        Display.WriteLine($"reading {reading}: {reading.Data}");
+                    };
+
+                    // attach to active/inactive
+                    var active = service.GetEvent((ushort)Jacdac.SystemEvent.Active, true);
+                    active.Changed += (eve, evv) =>
+                    {
+                        Display.WriteLine($"active {active}: {active.Count}");
+                    };
+                    var inactive = service.GetEvent((ushort)Jacdac.SystemEvent.Inactive, true);
+                    inactive.Changed += (eve, evv) =>
+                    {
+                        Display.WriteLine($"inactive {inactive}: {inactive.Count}");
                     };
                 }
             };
