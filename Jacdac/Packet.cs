@@ -53,7 +53,7 @@ namespace Jacdac
             }
             else
             {
-                var computed = Platform.Crc16(frame, 2, size + 12);
+                var computed = Platform.Crc16(frame, 2, size + 10);
                 var actual = Util.Read16(frame, 0);
                 if (actual != computed)
                 {
@@ -103,21 +103,20 @@ namespace Jacdac
                 if (!Util.BufferEquals(packets[i].DeviceIdBuffer, deviceId) || packets[i].FrameFlags != flags)
                     throw new ArgumentException("All packets have to have the same device id and flags");
 
-            uint frameSize = 12; // crc,size, flags, deviceid
+            uint frameSize = 0;
             for (var i = 0; i < packets.Length; i++)
                 frameSize += (uint)packets[i].Size + 4;
 
             if (frameSize > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE + 4)
                 throw new ArgumentOutOfRangeException("Frame size too large");
 
-            byte[] frameData = new byte[frameSize];
+            byte[] frameData = new byte[frameSize + 12];
             uint offset = 2; // // frame_crc placeholder
             frameData[offset++] = (byte)frameSize;
             frameData[offset++] = flags;
             deviceId.CopyTo(frameData, (int)offset);
             offset += 8;
             Debug.Assert(offset == 12);
-
             foreach (var packet in packets)
             {
                 frameData[offset++] = packet.Size;
@@ -127,11 +126,10 @@ namespace Jacdac
                 packet.Data.CopyTo(frameData, (int)offset);
                 offset += (uint)packet.Data.Length;
             }
-            Debug.Assert(offset == frameSize);
+            Debug.Assert(offset == frameData.Length);
 
             ushort crc = Platform.Crc16(frameData, 2, frameData.Length - 2);
-            frameData[0] = (byte)(crc & 0xff);
-            frameData[1] = (byte)((crc >> 8) & 0xff);
+            Util.Write16(frameData, 0, crc);
             return frameData;
         }
 
