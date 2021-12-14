@@ -45,7 +45,7 @@ namespace Jacdac
             if (pkt.ServiceIndex < this.servers.Length)
             {
                 var server = this.servers[pkt.ServiceIndex];
-                var processed = server.ProcessPacket(pkt);
+                server.ProcessPacket(pkt);
             }
         }
 
@@ -97,12 +97,12 @@ namespace Jacdac
             );
         }
 
-        public void DelayedSendPacket(Packet pkt, TimeSpan delay)
+        public void DelayedSendPacket(Packet pkt, int delay)
         {
             var timer = new System.Threading.Timer((state) =>
             {
                 this.SendPacket(pkt);
-            }, null, delay, System.Threading.Timeout.InfiniteTimeSpan);
+            }, null, delay, System.Threading.Timeout.Infinite);
         }
     }
 }

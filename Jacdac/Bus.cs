@@ -108,15 +108,15 @@ namespace Jacdac
             else
             {
                 device.LastSeen = pkt.Timestamp;
-                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
+                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL 
+                    && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
                 {
                     device.ProcessAnnouncement(pkt);
                 }
-                else if (
-                pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL &&
+                else if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL &&
                   pkt.IsMultiCommand &&
                   pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
-              )
+                  )
                 {
                     // someone else is doing reset in
                     this.LastResetInTime = pkt.Timestamp;
@@ -184,9 +184,9 @@ namespace Jacdac
         }
 
         //public JDDevice SelfDevice
-       // {
-       //     get { return this.GetDevice(this.selfDeviceId); }
-       // }
+        // {
+        //     get { return this.GetDevice(this.selfDeviceId); }
+        // }
 
         private void SendAnnounce(Object stateInfo)
         {

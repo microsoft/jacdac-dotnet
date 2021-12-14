@@ -31,6 +31,11 @@
         // reset device
         public const ushort CMD_CTRL_RESET = 0x82;
 
+        public const byte PIPE_PORT_SHIFT = 7;
+        public const ushort PIPE_COUNTER_MASK = 0x001f;
+        public const ushort PIPE_CLOSE_MASK = 0x0020;
+        public const ushort PIPE_METADATA_MASK = 0x0040;
+
         public const uint STREAM_PORT_SHIFT = 7;
         public const uint STREAM_COUNTER_MASK = 0x001f;
         public const uint STREAM_CLOSE_MASK = 0x0020;
@@ -41,7 +46,7 @@
         public const byte JD_SERVICE_INDEX_MASK = 0x3f;
         public const byte JD_SERVICE_INDEX_INV_MASK = 0xc0;
         public const byte JD_SERVICE_INDEX_CRC_ACK = 0x3f;
-        public const byte JD_SERVICE_INDEX_STREAM = 0x3e;
+        public const byte JD_SERVICE_INDEX_PIPE = 0x3e;
         public const byte JD_SERVICE_INDEX_MAX_NORMAL = 0x30;
         public const byte JD_SERVICE_INDEX_CTRL = 0x00;
 

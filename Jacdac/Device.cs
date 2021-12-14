@@ -148,10 +148,12 @@ namespace Jacdac
             return srvs;
         }
 
-        public void SendPacket(Packet pkt)
+        public void SendPacket(Packet pkt, bool ack = false)
         {
             pkt.DeviceId = this.DeviceId;
             this.Bus.SelfDeviceServer.SendPacket(pkt);
+            if (ack)
+                throw new Exception("Not implemented");
         }
 
         public bool IsUniqueBrain

@@ -25,6 +25,13 @@ namespace Jacdac
                 return false;
             }
 
+            if (pkt.IsMultiCommand)
+            {
+                var data = PacketEncoding.Pack("u16 u16", new object[] { pkt.ServiceCommand, pkt.Crc });
+                var resp = Packet.From((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
+                this.SendPacket(pkt);
+            }
+
             return false;
         }
 
@@ -76,8 +83,8 @@ namespace Jacdac
             var cmd = device.CreateEventCmd(eventCode);
             var pkt = Packet.From(cmd, data);
             this.SendPacket(pkt);
-            device.DelayedSendPacket(pkt, now.Add(TimeSpan.FromMilliseconds(20)));
-            device.DelayedSendPacket(pkt, now.Add(TimeSpan.FromMilliseconds(100)));
+            device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 20);
+            device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 100);
         }
     }
 }
