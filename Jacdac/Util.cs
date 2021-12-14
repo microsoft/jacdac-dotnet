@@ -169,6 +169,10 @@ namespace Jacdac
                     return BitConverter.ToUInt32(buf, offset);
                 case NumberFormat.Int32LE:
                     return BitConverter.ToInt32(buf, offset);
+                case NumberFormat.UInt64LE:
+                    return BitConverter.ToUInt64(buf, offset);
+                case NumberFormat.Int64LE:
+                    return BitConverter.ToInt64(buf, offset);
                 case NumberFormat.Float32LE:
                     return BitConverter.ToSingle(buf, offset);
                 case NumberFormat.Float64LE:
@@ -242,7 +246,7 @@ namespace Jacdac
                         {
                             var f = (float)r * div;
                             if (f < uint.MinValue) f = uint.MinValue;
-                            else if (f > short.MaxValue) f = uint.MaxValue;
+                            else if (f > uint.MaxValue) f = uint.MaxValue;
                             v = (uint)f;
                         }
                         else v = (uint)r;
@@ -260,6 +264,34 @@ namespace Jacdac
                             v = (int)f;
                         }
                         else v = (int)r;
+                        bytes = BitConverter.GetBytes(v);
+                        break;
+                    }
+                case NumberFormat.UInt64LE:
+                    {
+                        ulong v;
+                        if (div != 1)
+                        {
+                            var f = (double)r * div;
+                            if (f < ulong.MinValue) f = ulong.MinValue;
+                            else if (f > ulong.MaxValue) f = ulong.MaxValue;
+                            v = (ulong)f;
+                        }
+                        else v = (ulong)r;
+                        bytes = BitConverter.GetBytes(v);
+                        break;
+                    }
+                case NumberFormat.Int64LE:
+                    {
+                        long v;
+                        if (div != 1)
+                        {
+                            var f = (double)r * div;
+                            if (f < long.MinValue) f = long.MinValue;
+                            else if (f > long.MaxValue) f = long.MaxValue;
+                            v = (long)f;
+                        }
+                        else v = (long)r;
                         bytes = BitConverter.GetBytes(v);
                         break;
                     }

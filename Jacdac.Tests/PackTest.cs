@@ -54,6 +54,18 @@ namespace Jacdac.Tests
         }
 
         [Fact]
+        public void ParseU64()
+        {
+            var buffer = new byte[] { 0x92, 0x10, 0x0, 0x0, 0xCF, 0x7, 0x0, 0x0 };
+            var format = "u64";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<ulong>(parsed[0]);
+            Assert.Equal<ulong>(BitConverter.ToUInt64(buffer), (ulong)parsed[0]);
+        }
+
+        [Fact]
         public void ParseTwoSimpleNumbers()
         {
             var buffer = new byte[] { 0x92, 0x10, 0x0, 0x0, 0xCF, 0x7, 0x0, 0x0 };
@@ -141,9 +153,11 @@ namespace Jacdac.Tests
         [InlineData("u8", new object[] { (byte)42 })]
         [InlineData("u16", new object[] { (ushort)42 })]
         [InlineData("u32", new object[] { (uint)42 })]
+        [InlineData("u64", new object[] { (ulong)42 })]
         [InlineData("i8", new object[] { (sbyte)-3 })]
         [InlineData("i16", new object[] { (short)-42 })]
         [InlineData("i32", new object[] { (int)-42 })]
+        [InlineData("i64", new object[] { (long)-42 })]
         [InlineData("u16 u16 i16", new object[] { (ushort)42, (ushort)77, (short)-10 })]
         [InlineData("u16 z s", new object[] { (ushort)42, "foo", "bar" })]
         [InlineData("u32 z s", new object[] { (uint)42, "foo", "bar" })]

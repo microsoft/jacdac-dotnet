@@ -2,14 +2,17 @@
 
 namespace Jacdac
 {
-    public delegate string DeviceIdCalculator();
     public delegate TimeSpan Clock();
     public delegate Clock ClockFactory();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
+    public delegate short McuTemperatureCalculator();
 
     public static class Platform
     {
-        public static DeviceIdCalculator DeviceId = () => "0123456701234567";
+        public static byte[] DeviceId;
+        public static string FirmwareVersion;
+        public static string DeviceDescription;
+
         public static ClockFactory CreateClock = () =>
         {
             var start = DateTime.Now;
@@ -28,5 +31,6 @@ namespace Jacdac
             }
             return crc;
         };
+        public static McuTemperatureCalculator McuTemperature;
     }
 }

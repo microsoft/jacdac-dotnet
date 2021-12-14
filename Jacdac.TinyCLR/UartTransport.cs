@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GHIElectronics.TinyCLR.Native;
+using System;
+using System.Runtime.InteropServices;
 
 namespace Jacdac
 {
@@ -7,6 +9,16 @@ namespace Jacdac
         static UartTransport()
         {
             Platform.Crc16 = GHIElectronics.TinyCLR.Devices.Jacdac.Util.CRC;
+            var id = DeviceInformation.GetUniqueId();
+            // TODO: compress device id into 8 bytes
+            Platform.DeviceId = Util.Slice(id, 0, 8);
+            Platform.DeviceDescription = DeviceInformation.DeviceName;
+            var version = DeviceInformation.Version;
+            var major = (ushort)((version >> 48) & 0xFFFF);
+            var minor = (ushort)((version >> 32) & 0xFFFF);
+            var build = (ushort)((version >> 16) & 0xFFFF);
+            var revision = (ushort)((version >> 0) & 0xFFFF);
+            Platform.FirmwareVersion = major + "." + minor + "." + build + "." + revision;
         }
 
         public readonly GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller;

@@ -6,8 +6,10 @@ namespace Jacdac
 {
     public sealed class JDBusOptions
     {
-        public string Description;
-        public string FirmwareVersion;
+        public byte[] DeviceId;
+        public string Description = Platform.DeviceDescription;
+        public string FirmwareVersion = Platform.FirmwareVersion;
+        public uint ProductIdentifier;
     }
 
     public sealed class JDBus : JDNode
@@ -29,7 +31,7 @@ namespace Jacdac
 
         public JDBus(Transport transport, JDBusOptions options = null)
         {
-            this.selfDeviceId = Platform.DeviceId();
+            this.selfDeviceId = HexEncoding.ToString(options?.DeviceId ?? Platform.DeviceId);
             this.clock = Platform.CreateClock();
 
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };

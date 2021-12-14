@@ -78,6 +78,30 @@ namespace Jacdac
         public abstract void ProcessPacket(Packet pkt);
     }
 
+    public delegate object[] RegisterGetHandler(JDRegisterServer server);
+
+    public sealed class JDDynamicRegisterServer : JDRegisterServer
+    {
+        readonly string format;
+        readonly RegisterGetHandler dataFactory;
+        public JDDynamicRegisterServer(ushort code, string format, RegisterGetHandler dataFactory)
+            : base(code)
+        {
+            this.format = format;
+            this.dataFactory = dataFactory;
+        }
+
+        public override void ProcessPacket(Packet pkt)
+        {
+            if (pkt.IsRegisterGet)
+            {
+                var data = PacketEncoding.Pack(this.format, this.dataFactory(this));
+                var server = this.Server;
+                var resp = Packet.From((ushort)(Jacdac.Constants.CMD_GET_REG | this.Code), data);
+                this.Server.SendPacket(resp);
+            }
+        }
+    }
 
     public sealed class JDStaticRegisterServer : JDRegisterServer
     {
@@ -144,16 +168,24 @@ namespace Jacdac
 
     public sealed class ControlServer : JDServer
     {
-        public readonly JDBusOptions Options;
-
         internal ControlServer(JDBusOptions options)
             : base(Jacdac.ControlConstants.ServiceClass)
         {
-            this.Options = options;
-            if (this.Options?.FirmwareVersion != null)
-                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.ControlReg.FirmwareVersion, "s", new object[] { this.Options.FirmwareVersion }));
-            if (this.Options?.Description != null)
-                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.ControlReg.DeviceDescription, "s", new object[] { this.Options.Description }));
+            this.AddRegister(new JDDynamicRegisterServer(
+                (ushort)Jacdac.ControlReg.Uptime, "u64", 
+                (reg) => new object[] { reg.Server.Bus.Timestamp.TotalMilliseconds * 1000 })
+            );
+            if (Platform.McuTemperature != null)
+                this.AddRegister(new JDDynamicRegisterServer(
+                    (ushort)Jacdac.ControlReg.McuTemperature, "i16", 
+                    (reg) => new object[] { Platform.McuTemperature() })
+                );
+            if (options?.FirmwareVersion != null)
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.ControlReg.FirmwareVersion, "s", new object[] { options.FirmwareVersion }));
+            if (options?.Description != null)
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.ControlReg.DeviceDescription, "s", new object[] { options.Description }));
+            if (options != null && options.ProductIdentifier != 0)
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.ControlReg.ProductIdentifier, "u32", new object[] { options.ProductIdentifier }));
         }
     }
 }
