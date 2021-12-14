@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public delegate void ConnectionStateChangedEvent(Transport sender, ConnectionState newState);
 
-    public delegate void FrameReceivedEvent(Transport sender, byte[] frame, TimeSpan timestamp);
+    public delegate void FrameReceivedEvent(Transport sender, byte[] frame, DateTime timestamp);
 
     public enum TransportError
     {

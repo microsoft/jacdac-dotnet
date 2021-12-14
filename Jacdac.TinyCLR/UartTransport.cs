@@ -6,12 +6,12 @@ namespace Jacdac
     {
         static UartTransport()
         {
-            Platform.Crc16 = GHIElectronics.TinyCLR.Devices.Jacdac.Util.CRC;
+            Platform.Crc16 = GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController.Crc;
         }
 
-        public readonly GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller;
+        public readonly GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller;
 
-        public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller)
+        public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller)
         {
             this.controller = controller;
         }
@@ -20,9 +20,9 @@ namespace Jacdac
         {
             add
             {
-                this.controller.PacketReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Packet packet) =>
+                this.controller.PacketReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Transport.PacketReceivedEventArgs args) =>
                 {
-                    value(this, packet.ToBuffer(), packet.Timestamp);
+                    value(this, args.Data, args.Timestamp);
                 };
             }
             remove
@@ -37,7 +37,7 @@ namespace Jacdac
         {
             add
             {
-                this.controller.ErrorReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args) =>
+                this.controller.ErrorReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Transport.ErrorReceivedEventArgs args) =>
                 {
                     value(this, new TransportErrorReceivedEventArgs((TransportError)(uint)args.Error, args.Timestamp, args.Data));
                 };
@@ -66,7 +66,7 @@ namespace Jacdac
 
         protected override void SendData(byte[] data)
         {
-            this.controller.SendData(data);
+            this.controller.Write(data);
         }
     }
 }

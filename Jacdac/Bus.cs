@@ -28,12 +28,12 @@ namespace Jacdac
             this.Start();
         }
 
-        private void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
+        private void Transport_FrameReceived(Transport sender, byte[] frame, DateTime timestamp)
         {
             var packets = Packet.FromFrame(frame);
             foreach (var packet in packets)
             {
-                packet.Timestamp = timestamp;
+                packet.Timestamp = new TimeSpan(timestamp.Ticks);
                 this.ProcessPacket(packet);
             }
         }

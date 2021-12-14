@@ -25,7 +25,7 @@ namespace Jacdac_RgbLed
         {
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
-            var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
+            var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
             transport.FrameReceived += Transport_FrameReceived;
             transport.ErrorReceived += JacdacController_ErrorReceived;
 
@@ -136,9 +136,9 @@ namespace Jacdac_RgbLed
             }            
         }
 
-        private static void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
+        private static void Transport_FrameReceived(Transport sender, byte[] frame, DateTime timestamp)
         {
-            Debug.WriteLine($"{timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
+            Debug.WriteLine($"{new TimeSpan(timestamp.Ticks).TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
         }
 
 
