@@ -48,16 +48,16 @@ namespace Jacdac
         public TimeSpan LastSetTime;
         public bool IsConst = false;
 
-        public JDStaticRegisterServer(ushort code, string format, object[] value)
+        public JDStaticRegisterServer(ushort code, string format, object[] values)
             : base(code)
         {
             this.Format = format;
             this.Data = new byte[0];
             this.LastSetTime = TimeSpan.Zero;
-            this.SetValue(value);
+            this.SetValues(values);
         }
 
-        public void SetValue(object[] value)
+        public void SetValues(object[] value)
         {
             var packed = PacketEncoding.Pack(this.Format, value);
             if (!Util.BufferEquals(this.Data, packed))
@@ -67,7 +67,7 @@ namespace Jacdac
             }
         }
 
-        public object[] GetValue()
+        public object[] GetValues()
         {
             if (this.Data.Length == 0) return new object[0];
             return PacketEncoding.UnPack(this.Format, this.Data);
@@ -106,7 +106,7 @@ namespace Jacdac
             {
                 this.LastSetTime = pkt.Timestamp;
                 var values = PacketEncoding.UnPack(this.Format, pkt.Data);
-                this.SetValue(values);
+                this.SetValues(values);
             }
             catch (Exception)
             {

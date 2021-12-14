@@ -2,17 +2,30 @@
 
 namespace Jacdac
 {
+    internal sealed class JDCommand
+    {
+        public readonly ushort Code;
+        public readonly PacketEventHandler Handler;
+        public JDCommand(ushort code, PacketEventHandler handler)
+        {
+            this.Code = code;
+            this.Handler = handler;
+        }
+    }
+
     public abstract class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
         public JDDeviceServer Device;
         public readonly uint ServiceClass;
         private JDRegisterServer[] registers;
+        private JDCommand[] commands;
 
         protected JDServiceServer(uint serviceClass)
         {
             this.ServiceClass = serviceClass;
             this.registers = new JDRegisterServer[0];
+            this.commands = new JDCommand[0];
         }
 
         public virtual bool ProcessPacket(Packet pkt)
@@ -24,14 +37,23 @@ namespace Jacdac
                     return register.ProcessPacket(pkt);
                 return false;
             }
+            else if (pkt.IsCommand)
+            {
+                PacketEventHandler handler;
+                if (this.TryGetCommand(pkt.ServiceCommand, out handler))
+                {
+                    handler(this, new PacketEventArgs(pkt));
+                    return true;
+                }
+            }
 
+            // nothing done
             if (pkt.IsMultiCommand)
             {
                 var data = PacketEncoding.Pack("u16 u16", new object[] { pkt.ServiceCommand, pkt.Crc });
                 var resp = Packet.From((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
                 this.SendPacket(pkt);
             }
-
             return false;
         }
 
@@ -49,6 +71,18 @@ namespace Jacdac
             }
         }
 
+        public void AddCommand(ushort code, PacketEventHandler handler)
+        {
+            lock (this)
+            {
+                var commands = this.commands;
+                var newCommands = new JDCommand[commands.Length + 1];
+                commands.CopyTo(newCommands, 0);
+                newCommands[newCommands.Length - 1] = new JDCommand(code, handler);
+                this.commands = newCommands;
+            }
+        }
+
         public bool TryGetRegister(ushort code, out JDRegisterServer register)
         {
             var registers = this.registers;
@@ -62,6 +96,22 @@ namespace Jacdac
                 }
             }
             register = null;
+            return false;
+        }
+
+        public bool TryGetCommand(ushort code, out PacketEventHandler command)
+        {
+            var commands = this.commands;
+            for (var i = 0; i < commands.Length; i++)
+            {
+                var r = commands[i];
+                if (r.Code == code)
+                {
+                    command = r.Handler;
+                    return true;
+                }
+            }
+            command = null;
             return false;
         }
 

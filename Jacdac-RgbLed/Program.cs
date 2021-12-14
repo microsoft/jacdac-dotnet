@@ -23,9 +23,10 @@ namespace Jacdac_RgbLed
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new[]
+                Services = new JDServiceServer[]
                 {
-                    new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal)
+                    new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal),
+                    new WifiServer()
                 }
             });
             bus.DeviceConnected += Bus_DeviceConnected;

@@ -41,6 +41,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Servers\WifiServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GHIElectronics.TinyCLR.Core">
@@ -61,6 +62,9 @@
     <PackageReference Include="GHIElectronics.TinyCLR.Devices.Spi">
       <Version>2.1.0</Version>
     </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Storage">
+      <Version>2.1.0</Version>
+    </PackageReference>
     <PackageReference Include="GHIElectronics.TinyCLR.Devices.Uart">
       <Version>2.1.0</Version>
     </PackageReference>
@@ -71,6 +75,9 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="GHIElectronics.TinyCLR.Drivers.Sitronix.ST7735">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.IO">
       <Version>2.1.0</Version>
     </PackageReference>
     <PackageReference Include="GHIElectronics.TinyCLR.Networking">
@@ -101,9 +108,6 @@
       <Project>{FEAE5AA6-08FC-449E-8CE1-6F3697211323}</Project>
       <Name>Jacdac.TinyCLR</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="trace.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
