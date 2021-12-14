@@ -70,9 +70,11 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            Debug.WriteLine($"Transport error {args.Error}");
+            Debug.WriteLine($"transport error {args.Error}");
             if (args.Data != null)
+            {
                 Debug.WriteLine(HexEncoding.ToString(args.Data));
+            }
         }
 
         void ProcessPacket(Packet pkt)

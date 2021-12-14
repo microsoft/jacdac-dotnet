@@ -7,8 +7,8 @@ namespace Jacdac
     [DebuggerDisplay("{DeviceId}[{ServiceIndex}]>{ServiceCommand}")]
     public sealed class Packet
     {
-        byte[] header;
-        byte[] data;
+        private byte[] header;
+        private byte[] data;
         public TimeSpan Timestamp { get; set; }
 
         public static readonly Packet[] EmptyFrame = new Packet[0];
@@ -92,13 +92,15 @@ namespace Jacdac
 
         public static Packet From(ushort serviceCommand, byte[] buffer)
         {
+            if (buffer.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
+                throw new ArgumentOutOfRangeException("packet data length too large");
             var p = new Packet
             {
                 header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE],
                 data = buffer,
                 ServiceCommand = serviceCommand
             };
-
+            p.header[12] = (byte)p.data.Length;
             return p;
         }
 
