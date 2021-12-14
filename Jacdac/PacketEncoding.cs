@@ -225,7 +225,7 @@ namespace Jacdac
                     {
                         var zerop = 0;
                         while (zerop < subbuf.Length && subbuf[zerop] != 0) zerop++;
-                        res.Add(System.Text.UTF8Encoding.UTF8.GetString(Util.Slice(subbuf, 0, zerop)));
+                        res.Add(System.Text.UTF8Encoding.UTF8.GetString(subbuf, 0, zerop));
                     }
                     else if (c0 == ch_b)
                     {

@@ -143,6 +143,14 @@ namespace Jacdac
             data[pos + 1] = (byte)((v >> 8) & 0xff);
         }
 
+        public static void Write32(byte[] data, int pos, uint v)
+        {
+            data[pos + 0] = (byte)((v >> 0) & 0xff);
+            data[pos + 1] = (byte)((v >> 8) & 0xff);
+            data[pos + 2] = (byte)((v >> 16) & 0xff);
+            data[pos + 3] = (byte)((v >> 24) & 0xff);
+        }
+
         public static object GetNumber(byte[] buf, NumberFormat fmt, int offset)
         {
             switch (fmt)

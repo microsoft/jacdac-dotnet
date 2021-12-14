@@ -65,10 +65,8 @@ namespace Jacdac
         public void SendPacket(Packet packet)
         {
             var data = new byte[packet.Header.Length + packet.Data.Length];
-
-            Array.Copy(packet.Header, data, packet.Header.Length);
-            Array.Copy(packet.Data, 0, data, packet.Header.Length, packet.Data.Length);
-
+            packet.Header.CopyTo(data, 0);
+            packet.Data.CopyTo(data, packet.Header.Length);
             data[2] = (byte)(packet.Size + 4);
 
             var crc = Util.CRC(data, 2, data.Length - 2);

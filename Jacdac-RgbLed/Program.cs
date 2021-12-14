@@ -29,17 +29,28 @@ namespace Jacdac_RgbLed
             transport.FrameReceived += Transport_FrameReceived;
             transport.ErrorReceived += JacdacController_ErrorReceived;
 
-            var bus = new JDBus(transport);
+            var bus = new JDBus(transport, new JDBusOptions
+            {
+                Description = "TinyCLR Demo",
+                FirmwareVersion = "0.0.0"
+            });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
+            bus.SelfAnnounced += Bus_SelfAnnounced;
 
             Display.WriteLine($"Self device: {bus.SelfDevice}");
+            bus.Start();
             //Blink(transport);
             while(true)
             {
                 //Display.WriteLine($".");
                 Thread.Sleep(10000);
             }
+        }
+
+        private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
+        {
+            Debug.WriteLine($"self announced");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)
