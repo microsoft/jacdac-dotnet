@@ -36,6 +36,7 @@ namespace Jacdac_RgbLed
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
+            bus.SelfAnnounced += Bus_SelfAnnounced;
 
             Display.WriteLine($"Self device: {bus.SelfDevice}");
             bus.Start();
@@ -45,6 +46,11 @@ namespace Jacdac_RgbLed
                 //Display.WriteLine($".");
                 Thread.Sleep(10000);
             }
+        }
+
+        private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
+        {
+            Debug.WriteLine($"self announced");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)

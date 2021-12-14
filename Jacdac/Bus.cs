@@ -218,17 +218,21 @@ namespace Jacdac
             if (this.restartCounter < 0xf) this.restartCounter++;
 
             var servers = this.servers;
-            var data = new byte[servers.Length * 4];
-            Util.Write16(data, 0, (ushort)((ushort)this.restartCounter |
+            var serviceClasses = new object[servers.Length - 1];
+            for (var i = 1; i < servers.Length; ++i)
+                serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
+            var data = PacketEncoding.Pack("u16 u8 x[8] r: u32",
+                new object[] {
+                    (ushort)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
                         (ushort)ControlAnnounceFlags.SupportsFrames |
                         (ushort)ControlAnnounceFlags.SupportsACK
-                ));
-            data[2] = (byte)this.packetCount;
+                    ),
+                    this.packetCount,
+                    serviceClasses
+                });
             this.packetCount = 0;
-            for (var i = 1; i < servers.Length; ++i)
-                Util.Write32(data, i * 4, servers[i].ServiceClass);
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             var selfDevice = this.SelfDevice;
