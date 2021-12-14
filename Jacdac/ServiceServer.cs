@@ -5,7 +5,7 @@ namespace Jacdac
     public abstract class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
-        public JDServerServiceProvider Device;
+        public JDDeviceServer Device;
         public readonly uint ServiceClass;
         private JDRegisterServer[] registers;
 
@@ -32,7 +32,7 @@ namespace Jacdac
         {
             lock (this)
             {
-                register.Server = this;
+                register.Service = this;
 
                 var registers = this.registers;
                 var newRegisters = new JDRegisterServer[registers.Length + 1];

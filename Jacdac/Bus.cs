@@ -19,11 +19,10 @@ namespace Jacdac
         // updated concurrently, locked by this
         private JDDevice[] devices;
 
-        private readonly JDServerServiceProvider selfDeviceServer;
+        public readonly JDDeviceServer SelfDeviceServer;
         private readonly Clock clock;
-        private readonly string selfDeviceId;
 
-        private readonly Transport transport;
+        public readonly Transport Transport;
         public bool IsClient;
 
         public TimeSpan LastResetInTime;
@@ -36,16 +35,14 @@ namespace Jacdac
 
             this.clock = Platform.CreateClock();
             this.IsClient = options.IsClient;
-            this.selfDeviceId = HexEncoding.ToString(options.DeviceId);
-            this.selfDeviceServer = new JDServerServiceProvider(this, options);
+            this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
 
-            this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
+            this.devices = new JDDevice[] { new JDDevice(this, this.SelfDeviceServer.DeviceId) };
 
-            this.transport = transport;
-            this.transport.FrameReceived += Transport_FrameReceived;
-            this.transport.ErrorReceived += Transport_ErrorReceived;
-
-            this.transport.Connect();
+            this.Transport = transport;
+            this.Transport.FrameReceived += Transport_FrameReceived;
+            this.Transport.ErrorReceived += Transport_ErrorReceived;
+            this.Transport.Connect();
         }
 
         private void Transport_FrameReceived(Transport sender, byte[] frame)
@@ -97,14 +94,13 @@ namespace Jacdac
             }
             else if (pkt.IsCommand)
             {
-                if (pkt.DeviceId == this.selfDeviceId)
+                if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
                 {
                     if (pkt.RequiresAck)
                     {
                         var ack = Packet.OnlyHeader(pkt.Crc);
                         ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
-                        ack.DeviceId = this.selfDeviceId;
-                        this.SendPacket(pkt);
+                        this.SelfDeviceServer.SendPacket(pkt);
                     }
                 }
                 device.ProcessPacket(pkt);
@@ -127,14 +123,8 @@ namespace Jacdac
                 }
                 else
                 {
-                    if (pkt.DeviceId == this.selfDeviceId)
-                    {
-                        if (pkt.ServiceIndex < this.servers.Length)
-                        {
-                            var server = this.servers[pkt.ServiceIndex];
-                            server.ProcessPacket(pkt);
-                        }
-                    }
+                    if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
+                        this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);
                 }
             }
@@ -188,56 +178,19 @@ namespace Jacdac
             return res;
         }
 
-        public JDServiceServer[] Servers()
-        {
-            return (JDServiceServer[])this.servers.Clone();
-        }
-
         public TimeSpan Timestamp
         {
             get { return this.clock(); }
         }
 
-        public JDDevice SelfDevice
-        {
-            get { return this.GetDevice(this.selfDeviceId); }
-        }
-
-        internal void SendPacket(Packet pkt)
-        {
-            if (this.transport.ConnectionState != ConnectionState.Connected)
-                return;
-            this.packetCount++;
-            var frame = Packet.ToFrame(new Packet[] { pkt });
-            this.transport.SendFrame(frame);
-        }
+        //public JDDevice SelfDevice
+       // {
+       //     get { return this.GetDevice(this.selfDeviceId); }
+       // }
 
         private void SendAnnounce(Object stateInfo)
         {
-            // we do not support any services (at least yet)
-            if (this.restartCounter < 0xf) this.restartCounter++;
-
-            var servers = this.servers;
-            var serviceClasses = new object[servers.Length - 1];
-            for (var i = 1; i < servers.Length; ++i)
-                serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
-            var data = PacketEncoding.Pack("u16 u8 x[8] r: u32",
-                new object[] {
-                    (ushort)((ushort)this.restartCounter |
-                        (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
-                        (ushort)ControlAnnounceFlags.SupportsBroadcast |
-                        (ushort)ControlAnnounceFlags.SupportsFrames |
-                        (ushort)ControlAnnounceFlags.SupportsACK
-                    ),
-                    this.packetCount,
-                    serviceClasses
-                });
-            this.packetCount = 0;
-            var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
-            pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
-            var selfDevice = this.SelfDevice;
-            selfDevice.SendPacket(pkt);
-
+            this.SelfDeviceServer.SendAnnounce();
             this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
         }
 
