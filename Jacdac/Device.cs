@@ -7,7 +7,6 @@ namespace Jacdac
     {
         public readonly JDBus Bus;
         public readonly string DeviceId;
-        public readonly string ShortId;
         public TimeSpan LastSeen;
         public uint EventCounter;
 
@@ -18,9 +17,13 @@ namespace Jacdac
         {
             this.Bus = bus;
             this.DeviceId = deviceId;
-            this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
             this._servicesData = new byte[0];
+        }
+
+        public string ShortId
+        {
+            get { return Util.ShortDeviceId(this.DeviceId); }
         }
 
         public override string ToString()
@@ -148,7 +151,7 @@ namespace Jacdac
         public void SendPacket(Packet pkt)
         {
             pkt.DeviceId = this.DeviceId;
-            this.Bus.SendPacket(pkt);
+            this.Bus.SelfDeviceServer.SendPacket(pkt);
         }
 
         public bool IsUniqueBrain

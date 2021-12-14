@@ -9,7 +9,7 @@ namespace Jacdac
         {
             this.AddRegister(new JDDynamicRegisterServer(
                 (ushort)Jacdac.ControlReg.Uptime, "u64", 
-                (reg) => new object[] { reg.Server.Bus.Timestamp.TotalMilliseconds * 1000 })
+                (reg) => new object[] { reg.Service.Device.Bus.Timestamp.TotalMilliseconds * 1000 })
             );
             if (Platform.McuTemperature != null)
                 this.AddRegister(new JDDynamicRegisterServer(

@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public abstract class JDRegisterServer : JDNode
     {
-        public JDServiceServer Server;
+        public JDServiceServer Service;
         public readonly ushort Code;
         protected JDRegisterServer(ushort code)
         {
@@ -31,9 +31,9 @@ namespace Jacdac
             if (pkt.IsRegisterGet)
             {
                 var data = PacketEncoding.Pack(this.format, this.dataFactory(this));
-                var server = this.Server;
+                var server = this.Service;
                 var resp = Packet.From((ushort)(Jacdac.Constants.CMD_GET_REG | this.Code), data);
-                this.Server.SendPacket(resp);
+                this.Service.SendPacket(resp);
                 return true;
             }
 
@@ -75,11 +75,11 @@ namespace Jacdac
 
         public void SendGet()
         {
-            var server = this.Server;
+            var server = this.Service;
             if (server == null) return;
 
             var pkt = Packet.From((ushort)(Jacdac.Constants.CMD_GET_REG | this.Code), this.Data);
-            this.Server.SendPacket(pkt);
+            this.Service.SendPacket(pkt);
         }
 
         public override bool ProcessPacket(Packet pkt)

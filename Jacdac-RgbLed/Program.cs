@@ -36,7 +36,7 @@ namespace Jacdac_RgbLed
                 Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
             };
 
-            Display.WriteLine($"Self device: {bus.SelfDevice}");
+            Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
             //Blink(transport);
             while (true)
@@ -64,7 +64,7 @@ namespace Jacdac_RgbLed
             device.Announced += (JDNode sender, System.EventArgs ev) =>
             {
                 Display.WriteLine($"{e.Device} announced");
-                if (e.Device == bus.SelfDevice) Display.WriteLine("  self");
+                if (e.Device.DeviceId == bus.SelfDeviceServer.DeviceId) Display.WriteLine("  self");
                 if (e.Device.IsDashboard) Display.WriteLine($" dashboard");
                 if (e.Device.IsUniqueBrain) Display.WriteLine($" unique brain");
                 if (e.Device.IsBridge) Display.WriteLine($" bridge");
