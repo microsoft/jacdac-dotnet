@@ -7,15 +7,19 @@ namespace Jacdac
     [DebuggerDisplay("{DeviceId}[{ServiceIndex}]>{ServiceCommand}")]
     public sealed class Packet
     {
-        private byte[] header;
-        private byte[] data;
+        private readonly byte[] header;
+        private readonly byte[] data;
         public TimeSpan Timestamp { get; set; }
 
         public static readonly Packet[] EmptyFrame = new Packet[0];
 
-        private Packet()
+        private Packet(byte[] header, byte[] data)
         {
-
+            Debug.Assert(header != null);
+            Debug.Assert(data != null);
+            this.header = header;
+            this.data = data;
+            Debug.Assert(this.Size == this.Data.Length);
         }
 
         public override string ToString()
@@ -23,16 +27,14 @@ namespace Jacdac
             return HexEncoding.ToString(this.ToBuffer());
         }
 
-        public static Packet FromBinary(byte[] buffer)
+        public static Packet FromBinary(byte[] buffer, bool fixSize = false)
         {
-            var p = new Packet
-            {
-                header = Util.Slice(buffer, 0, (int)Constants.JD_SERIAL_HEADER_SIZE),
-                data = Util.Slice(buffer, (int)Constants.JD_SERIAL_HEADER_SIZE)
-            };
-
+            var header = Util.Slice(buffer, 0, (int)Constants.JD_SERIAL_HEADER_SIZE);
+            var data = Util.Slice(buffer, (int)Constants.JD_SERIAL_HEADER_SIZE);
+            if (fixSize)
+                header[12] = (byte)data.Length;
+            var p = new Packet(header, data);
             return p;
-
         }
 
         public static Packet[] FromFrame(byte[] frame)
@@ -40,7 +42,7 @@ namespace Jacdac
             var size = frame.Length < 12 ? 0 : frame[2];
             if (frame.Length < size + 12)
             {
-                Debug.WriteLine($"got only {frame.Length} bytes; expecting {size + 12}`");
+                Debug.WriteLine($"frame too short: got only {frame.Length} bytes; expecting {size + 12}");
                 return Packet.EmptyFrame;
 
             }
@@ -51,7 +53,7 @@ namespace Jacdac
             }
             else
             {
-                var computed = Util.CRC(Util.Slice(frame, 2, size + 12));
+                var computed = Platform.Crc16(frame, 2, size + 12);
                 var actual = Util.Read16(frame, 0);
                 if (actual != computed)
                 {
@@ -59,7 +61,7 @@ namespace Jacdac
                     return Packet.EmptyFrame;
                 }
 
-                ArrayList res = new ArrayList();
+                var res = new ArrayList();
                 if (frame.Length != 12 + size)
                 {
                     Debug.WriteLine($"unexpected packet len: ${frame.Length}");
@@ -90,17 +92,60 @@ namespace Jacdac
             }
         }
 
+        public static byte[] ToFrame(Packet[] packets)
+        {
+            if (packets == null || packets.Length == 0)
+                throw new ArgumentNullException("packets");
+            var firstPacket = packets[0];
+            var deviceId = firstPacket.DeviceIdBuffer;
+            var flags = firstPacket.FrameFlags;
+            for (var i = 1; i < packets.Length; i++)
+                if (!Util.BufferEquals(packets[i].DeviceIdBuffer, deviceId) || packets[i].FrameFlags != flags)
+                    throw new ArgumentException("All packets have to have the same device id and flags");
+
+            uint frameSize = 12; // crc,size, flags, deviceid
+            for (var i = 0; i < packets.Length; i++)
+                frameSize += (uint)packets[i].Size + 4;
+
+            if (frameSize > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE + 4)
+                throw new ArgumentOutOfRangeException("Frame size too large");
+
+            byte[] frameData = new byte[frameSize];
+            uint offset = 2; // // frame_crc placeholder
+            frameData[offset++] = (byte)frameSize;
+            frameData[offset++] = flags;
+            deviceId.CopyTo(frameData, (int)offset);
+            offset += 8;
+            Debug.Assert(offset == 12);
+
+            foreach (var packet in packets)
+            {
+                frameData[offset++] = packet.Size;
+                frameData[offset++] = packet.ServiceIndex;
+                Util.Write16(frameData, offset, packet.ServiceCommand);
+                offset += 2;
+                packet.Data.CopyTo(frameData, (int)offset);
+                offset += (uint)packet.Data.Length;
+            }
+            Debug.Assert(offset == frameSize);
+
+            ushort crc = Platform.Crc16(frameData, 2, frameData.Length - 2);
+            frameData[0] = (byte)(crc & 0xff);
+            frameData[1] = (byte)((crc >> 8) & 0xff);
+            return frameData;
+        }
+
         public static Packet From(ushort serviceCommand, byte[] buffer)
         {
             if (buffer.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
                 throw new ArgumentOutOfRangeException("packet data length too large");
-            var p = new Packet
-            {
-                header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE],
-                data = buffer,
-                ServiceCommand = serviceCommand
-            };
-            p.header[12] = (byte)p.data.Length;
+            var header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE];
+            header[12] = (byte)buffer.Length;
+            var p = new Packet(
+                header,
+                buffer
+            );
+            p.ServiceCommand = serviceCommand;
             return p;
         }
 
@@ -114,20 +159,31 @@ namespace Jacdac
 
         public string DeviceId
         {
-            get => HexEncoding.ToString(Util.Slice(this.header, 4, 4 + 8));
+            get => HexEncoding.ToString(this.DeviceIdBuffer);
             set
             {
                 var idb = HexEncoding.ToBuffer(value);
-                if (idb.Length != 8)
-                    throw new Exception("Invalid id");
-                Array.Copy(idb, 0, this.header, 4, idb.Length);
+                this.DeviceIdBuffer = idb;
             }
         }
 
-
+        public byte[] DeviceIdBuffer
+        {
+            get
+            {
+                return Util.Slice(this.header, 4, 4 + 8);
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("DeviceIdBuffer");
+                if (value.Length != 8)
+                    throw new ArgumentOutOfRangeException("DeviceIdBuffer");
+                Array.Copy(value, 0, this.header, 4, value.Length);
+            }
+        }
 
         public byte FrameFlags => this.header[3];
-
 
         public bool IsMultiCommand
         {
@@ -144,7 +200,7 @@ namespace Jacdac
             }
         }
 
-        public uint Size => this.header[12];
+        public byte Size => this.header[12];
 
         public bool RequiresAck
         {
@@ -201,23 +257,10 @@ namespace Jacdac
         public byte[] Header
         {
             get => this.header;
-            set
-            {
-                if (value.Length > Jacdac.Constants.JD_SERIAL_HEADER_SIZE)
-                    throw new ArgumentOutOfRangeException("Data payload too large");
-                this.header = value;
-            }
         }
         public byte[] Data
         {
             get => this.data;
-            set
-            {
-                if (value.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
-                    throw new ArgumentOutOfRangeException("Data payload too large");
-                this.header[12] = (byte)value.Length;
-                this.data = value;
-            }
         }
 
         public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0;

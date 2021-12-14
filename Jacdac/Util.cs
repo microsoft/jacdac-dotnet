@@ -137,13 +137,13 @@ namespace Jacdac
 
         public static uint Read32(byte[] data, int pos) => BitConverter.ToUInt32(data, pos);
 
-        public static void Write16(byte[] data, int pos, ushort v)
+        public static void Write16(byte[] data, uint pos, ushort v)
         {
             data[pos + 0] = (byte)((v >> 0) & 0xff);
             data[pos + 1] = (byte)((v >> 8) & 0xff);
         }
 
-        public static void Write32(byte[] data, int pos, uint v)
+        public static void Write32(byte[] data, uint pos, uint v)
         {
             data[pos + 0] = (byte)((v >> 0) & 0xff);
             data[pos + 1] = (byte)((v >> 8) & 0xff);

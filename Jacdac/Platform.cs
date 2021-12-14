@@ -3,13 +3,18 @@
 namespace Jacdac
 {
     public delegate string DeviceIdCalculator();
-    public delegate TimeSpan TimestampCalculator();
+    public delegate TimeSpan Clock();
+    public delegate Clock ClockFactory();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
 
     public static class Platform
     {
         public static DeviceIdCalculator DeviceId = () => "0123456701234567";
-        public static TimestampCalculator Now = () => new TimeSpan(0, 0, 0, 0);
+        public static ClockFactory CreateClock = () =>
+        {
+            var start = DateTime.Now;
+            return () => DateTime.Now - start;
+        };
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;

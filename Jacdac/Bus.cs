@@ -15,6 +15,7 @@ namespace Jacdac
         // updated concurrently, locked by this
         private JDDevice[] devices;
 
+        private readonly Clock clock;
         private readonly string selfDeviceId;
         private byte restartCounter = 0;
         private byte packetCount = 0;
@@ -29,6 +30,8 @@ namespace Jacdac
         public JDBus(Transport transport, JDBusOptions options = null)
         {
             this.selfDeviceId = Platform.DeviceId();
+            this.clock = Platform.CreateClock();
+
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
             this.servers = new JDServer[0];
 
@@ -41,9 +44,10 @@ namespace Jacdac
             this.transport.Connect();
         }
 
-        private void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
+        private void Transport_FrameReceived(Transport sender, byte[] frame)
         {
             var packets = Packet.FromFrame(frame);
+            var timestamp = this.Timestamp;
             foreach (var packet in packets)
             {
                 packet.Timestamp = timestamp;
@@ -198,7 +202,7 @@ namespace Jacdac
 
         public TimeSpan Timestamp
         {
-            get { return Platform.Now(); }
+            get { return this.clock(); }
         }
 
         public JDDevice SelfDevice
@@ -211,7 +215,8 @@ namespace Jacdac
             if (this.transport.ConnectionState != ConnectionState.Connected)
                 return;
             this.packetCount++;
-            this.transport.SendPacket(pkt);
+            var frame = Packet.ToFrame(new Packet[] { pkt });
+            this.transport.SendFrame(frame);
         }
 
         private void SendAnnounce(Object stateInfo)

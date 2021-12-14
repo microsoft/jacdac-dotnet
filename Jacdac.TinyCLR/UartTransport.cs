@@ -22,7 +22,9 @@ namespace Jacdac
             {
                 this.controller.PacketReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Packet packet) =>
                 {
-                    value(this, packet.ToBuffer(), packet.Timestamp);
+                    var pkt = Packet.FromBinary(packet.ToBuffer(), true);
+                    var frame = Packet.ToFrame(new Packet[] { pkt });
+                    value(this, frame);
                 };
             }
             remove
@@ -64,7 +66,7 @@ namespace Jacdac
             this.controller.Dispose();
         }
 
-        protected override void SendData(byte[] data)
+        public override void SendFrame(byte[] data)
         {
             this.controller.SendData(data);
         }

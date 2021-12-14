@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public delegate void ConnectionStateChangedEvent(Transport sender, ConnectionState newState);
 
-    public delegate void FrameReceivedEvent(Transport sender, byte[] frame, TimeSpan timestamp);
+    public delegate void FrameReceivedEvent(Transport sender, byte[] frame);
 
     public enum TransportError
     {
@@ -62,26 +62,10 @@ namespace Jacdac
             get { return this._connectionState; }
         }
 
-        public void SendPacket(Packet packet)
-        {
-            var data = new byte[packet.Header.Length + packet.Data.Length];
-            packet.Header.CopyTo(data, 0);
-            packet.Data.CopyTo(data, packet.Header.Length);
-            data[2] = (byte)(packet.Size + 4);
-
-            var crc = Util.CRC(data, 2, data.Length - 2);
-
-            data[0] = (byte)(crc >> 0);
-            data[1] = (byte)(crc >> 8);
-
-            this.SendData(data);
-        }
-
         /// <summary>
-        /// Sends data over the transport
+        /// Sends data over the transport. First 2 bytes should be a Crc16
         /// </summary>
-        /// <param name="packet"></param>
-        protected abstract void SendData(byte[] data);
+        public abstract void SendFrame(byte[] data);
 
         /// <summary>
         /// Connect to the transport
