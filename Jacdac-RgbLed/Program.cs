@@ -18,7 +18,7 @@ namespace Jacdac_RgbLed
 
             DoTestJacdacBlink();
 
-            //DoTestJacdacAdafruit();
+            //DoTestJacdacAdafruit(); 
         }
 
         static void DoTestJacdacBlink()
@@ -68,7 +68,7 @@ namespace Jacdac_RgbLed
                     var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading, true);
                     reading.Changed += (reg, er) =>
                     {
-                        Display.WriteLine($"reading {reading}: {reading.Data}");
+                        Display.WriteLine($"get {reading}: {HexEncoding.ToString(reading.Data)}");
                     };
 
                     // attach to active/inactive

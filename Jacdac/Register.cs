@@ -20,7 +20,7 @@ namespace Jacdac
         {
             get
             {
-                if (this._lastReportPkt == null)
+                if (this._lastReportPkt != null)
                     return this._lastReportPkt.Data;
                 return null;
             }

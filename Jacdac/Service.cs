@@ -27,6 +27,11 @@ namespace Jacdac
             internal set { this._device = value; }
         }
 
+        public override string ToString()
+        {
+            return $"{this.Device}[{this.ServiceIndex}]";
+        }
+
         internal void ProcessPacket(Packet pkt)
         {
             //this.emit(PACKET_RECEIVE, pkt);
