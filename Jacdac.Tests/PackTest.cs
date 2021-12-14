@@ -135,45 +135,63 @@ namespace Jacdac.Tests
             Assert.Equal<byte>(255, (byte)parsed[1]);
         }
 
-        const double err = 1e-4;
+        const int precision = 4;
 
         [Theory]
-        [InlineData("u16", new object[] { 42 })]
-        [InlineData("u8", new object[] { 42 })]
-        [InlineData("u32", new object[] { 42 })]
-        [InlineData("u16 u16 i16", new object[] { 42, 77, -10 })]
-        [InlineData("u16 z s", new object[] { 42, "foo", "bar" })]
-        [InlineData("u32 z s", new object[] { 42, "foo", "bar" })]
-        [InlineData("i8 z s", new object[] { 42, "foo", "bar" })]
-        [InlineData("u8 z s", new object[] { 42, "foo12", "bar" })]
-        [InlineData("u8 r: u8 z", new object[] {42,    new object[] {
-        new object[] { 17, "xy" },        new object[] { 18, "xx" }}
-        })]
+        [InlineData("u8", new object[] { (byte)42 })]
+        [InlineData("u16", new object[] { (ushort)42 })]
+        [InlineData("u32", new object[] { (uint)42 })]
+        [InlineData("i8", new object[] { (sbyte)-3 })]
+        [InlineData("i16", new object[] { (short)-42 })]
+        [InlineData("i32", new object[] { (int)-42 })]
+        [InlineData("u16 u16 i16", new object[] { (ushort)42, (ushort)77, (short)-10 })]
+        [InlineData("u16 z s", new object[] { (ushort)42, "foo", "bar" })]
+        [InlineData("u32 z s", new object[] { (uint)42, "foo", "bar" })]
+        [InlineData("i8 z s", new object[] { (sbyte)42, "foo", "bar" })]
+        [InlineData("u8 z s", new object[] { (byte)42, "foo12", "bar" })]
+        [InlineData("u8 r: u8 z", new object[] {
+            (byte)42,
+            new object[] {
+                new object[] { (byte)17, "xy" },
+                new object[] { (byte)18, "xx" }}
+            })]
         [InlineData("z b", new object[] { "foo12", new byte[] { 0, 1, 2, 3, 4 } })]
-        [InlineData("u16 r: u16", new object[] { 42, new object[] { new object[] { 17 }, new object[] { 18 } } })]
-        [InlineData("i8 s[9] u16 s[10] u8", new object[] { -100, "foo", 1000, "barbaz", 250 })]
-        [InlineData("i8 x[4] s[9] u16 x[2] s[10] x[3] u8", new object[] { -100, "foo", 1000, "barbaz", 250 })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { 17, 18 } })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { 18 } })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { } })]
-        [InlineData("u16 z[]", new object[] { 42, new object[] { "foo", "bar", "bz" } })]
-        /*
-        [InlineData("u0.16", [0], { maxError: err })]
-        [InlineData("u0.16", [0.42], { maxError: err })]
-        [InlineData("u0.16", [1], { maxError: err })]
-        [InlineData("i1.15", [0], { maxError: err })]
-        [InlineData("i1.15", [1], { maxError: err })]
-        [InlineData("i1.15", [-1], { maxError: err })]
-     [InlineData(
-        "b[8] u32 u8 s",
-        [fromHex(`a1b2c3d4e5f6a7b8`), 0x12345678, 0x42, "barbaz"],
-        { expectedPayload: "a1b2c3d4e5f6a7b8785634124262617262617a" }
-    )]
-    [InlineData("i16.16", [0.1], { maxError: err })]
-    [InlineData("i16.16", [1], { maxError: err })]
-    [InlineData("i16.16", [Math.PI], { maxError: err }) ]*/
-        public void TestOne(string fmt, object[] values)
+        [InlineData("u16 r: u16", new object[] { (ushort)42, new object[] { new object[] { (ushort)17 }, new object[] { (ushort)18 } } })]
+        [InlineData("i8 s[9] u16 s[10] u8", new object[] { (sbyte)-100, "foo", (ushort)1000, "barbaz", (byte)250 })]
+        [InlineData("i8 x[4] s[9] u16 x[2] s[10] x[3] u8", new object[] { (sbyte)-100, "foo", (ushort)1000, "barbaz", (byte)250 })]
+        [InlineData("u16 u16[]", new object[] { (ushort)42, new object[] { (ushort)17, (ushort)18 } })]
+        [InlineData("u16 u16[]", new object[] { (ushort)42, new object[] { (ushort)18 } })]
+        [InlineData("u16 u16[]", new object[] { (ushort)42, new object[] { } })]
+        [InlineData("u0.16", new object[] { (float)0 }, precision)]
+        [InlineData("u0.16", new object[] { (float)0.42 }, precision)]
+        [InlineData("u0.16", new object[] { (float)1 }, precision)]
+        [InlineData("i1.15", new object[] { (float)0 }, precision)]
+        [InlineData("i1.15", new object[] { (float)1 }, precision)]
+        [InlineData("i1.15", new object[] { (float)-1 }, precision)]
+        [InlineData("i16.16", new object[] { (float)0.1}, precision)]
+        [InlineData("i16.16", new object[] { (float)1 }, precision)]
+        [InlineData("i16.16", new object[] { (float)Math.PI }, precision) ]
+        public void TestOne(string fmt, object[] values, int precision = 0)
         {
+            var packed = PacketEncoding.Pack(fmt, values);
+            Console.WriteLine(packed);
+
+            var unpacked = PacketEncoding.UnPack(fmt, packed);
+            Console.WriteLine(unpacked);
+
+            var repacked = PacketEncoding.Pack(fmt, unpacked);
+            Console.WriteLine(repacked);
+
+            Assert.True(packed != null);
+            Assert.Equal(values.Length, unpacked.Length);
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (precision > 0)
+                    Assert.Equal((float)values[i], (float)unpacked[i], precision);
+                else
+                    Assert.Equal(values[i], unpacked[i]);
+            }
+            Assert.Equal(HexEncoding.ToString(packed), HexEncoding.ToString(repacked));
         }
     }
 }

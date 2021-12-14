@@ -47,8 +47,8 @@ namespace Jacdac
             var changed = false;
             uint w0 = this._servicesData.Length == 0
                 ? 0
-                : Util.GetNumber(this._servicesData, NumberFormat.UInt32LE, 0);
-            uint w1 = data.Length == 0 ? 0 : Util.GetNumber(data, NumberFormat.UInt32LE, 0);
+                : Util.Read32(this._servicesData, 0);
+            uint w1 = data.Length == 0 ? 0 : Util.Read32(data, 0);
 
             // compare service data
             var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
