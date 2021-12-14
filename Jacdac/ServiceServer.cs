@@ -66,5 +66,18 @@ namespace Jacdac
             pkt.ServiceIndex = this.ServiceIndex;
             device.SendPacket(pkt);
         }
+
+        public void SendEvent(ushort eventCode, byte[] data)
+        {
+            var device = this.Device;
+            if (device == null) return;
+
+            var now = device.Bus.Timestamp;
+            var cmd = device.CreateEventCmd(eventCode);
+            var pkt = Packet.From(cmd, data);
+            this.SendPacket(pkt);
+            device.DelayedSendPacket(pkt, now.Add(TimeSpan.FromMilliseconds(20)));
+            device.DelayedSendPacket(pkt, now.Add(TimeSpan.FromMilliseconds(100)));
+        }
     }
 }

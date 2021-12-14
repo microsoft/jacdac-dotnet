@@ -1,4 +1,7 @@
-﻿namespace Jacdac
+﻿using System;
+using System.Collections;
+
+namespace Jacdac
 {
     public sealed class JDDeviceServer
     {
@@ -8,6 +11,7 @@
         private byte packetCount = 0;
         private JDServiceServer[] servers;
         public bool IsClient;
+        private ushort eventCounter = 0;
 
         public JDDeviceServer(JDBus bus, string deviceId, JDBusOptions options)
         {
@@ -78,6 +82,27 @@
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             this.SendPacket(pkt);
+        }
+
+        public ushort CreateEventCmd(ushort evCode)
+        {
+            if ((evCode >> 8) != 0)
+                throw new ArgumentException("invalid event code");
+
+            this.eventCounter = (ushort)((this.eventCounter + 1) & Jacdac.Constants.CMD_EVENT_COUNTER_MASK);
+            return (ushort)(
+                Jacdac.Constants.CMD_EVENT_MASK |
+                (this.eventCounter << Jacdac.Constants.CMD_EVENT_COUNTER_POS) |
+                evCode
+            );
+        }
+
+        public void DelayedSendPacket(Packet pkt, TimeSpan delay)
+        {
+            var timer = new System.Threading.Timer((state) =>
+            {
+                this.SendPacket(pkt);
+            }, null, delay, System.Threading.Timeout.InfiniteTimeSpan);
         }
     }
 }
