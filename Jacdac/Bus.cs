@@ -4,28 +4,38 @@ using System.Threading;
 
 namespace Jacdac
 {
+    public sealed class JDBusOptions
+    {
+        public string Description;
+        public string FirmwareVersion;
+    }
+
     public sealed class JDBus : JDNode
     {
         // updated concurrently, locked by this
-        private readonly ArrayList devices;
+        private JDDevice[] devices;
+        private JDServer[] servers;
         private readonly Transport transport;
         private readonly string selfDeviceId;
         public byte RestartCounter = 0;
+        public bool IsClient = true;
 
         public TimeSpan LastResetInTime;
         private Timer announceTimer;
 
-        public JDBus(Transport transport)
+        public JDBus(Transport transport, JDBusOptions options = null)
         {
-            this.devices = new ArrayList();
             this.selfDeviceId = Platform.DeviceId();
+            this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
+            this.servers = new JDServer[0];
+
+            this.AddServer(new ControlServer(options));
 
             this.transport = transport;
             this.transport.FrameReceived += Transport_FrameReceived;
             this.transport.ErrorReceived += Transport_ErrorReceived;
 
             this.transport.Connect();
-            this.Start();
         }
 
         private void Transport_FrameReceived(Transport sender, byte[] frame, TimeSpan timestamp)
@@ -107,20 +117,18 @@ namespace Jacdac
 
         public bool TryGetDevice(string deviceId, out JDDevice device)
         {
-            lock (this)
+            var devices = this.devices;
+            for (var i = 0; i < devices.Length; i++)
             {
-                for (var i = 0; i < this.devices.Count; i++)
+                var d = (JDDevice)devices[i];
+                if (d.DeviceId == deviceId)
                 {
-                    var d = (JDDevice)this.devices[i];
-                    if (d.DeviceId == deviceId)
-                    {
-                        device = d;
-                        return true;
-                    }
+                    device = d;
+                    return true;
                 }
-                device = null;
-                return false;
             }
+            device = null;
+            return false;
         }
 
         public JDDevice GetDevice(string deviceId)
@@ -132,7 +140,10 @@ namespace Jacdac
                 if (!this.TryGetDevice(deviceId, out device))
                 {
                     device = new JDDevice(this, deviceId);
-                    this.devices.Add(device);
+                    var newDevices = new JDDevice[this.devices.Length + 1];
+                    this.devices.CopyTo(newDevices, 0);
+                    newDevices[newDevices.Length - 1] = device;
+                    this.devices = newDevices;
                     changed = true;
                 }
             }
@@ -147,11 +158,35 @@ namespace Jacdac
 
         public JDDevice[] Devices()
         {
+            var devices = this.devices;
+            var res = (JDDevice[])devices.Clone();
+            return res;
+        }
+
+        public void AddServer(JDServer server)
+        {
             lock (this)
             {
-                var res = (JDDevice[])this.devices.ToArray();
-                return res;
+                this.RestartCounter = 0; // force refreshing services
+
+                var servers = this.servers;
+                server.Bus = this;
+                server.ServiceIndex = (byte)servers.Length;
+
+                var newServers = new JDServer[servers.Length + 1];
+                servers.CopyTo(newServers, 0);
+                newServers[server.ServiceIndex] = server;
+
+                this.servers = newServers;
+
             }
+
+            this.RaiseChanged();
+        }
+
+        public JDServer[] Servers()
+        {
+            return (JDServer[])this.servers.Clone();
         }
 
         public TimeSpan Timestamp
@@ -177,12 +212,16 @@ namespace Jacdac
             // we do not support any services (at least yet)
             if (this.RestartCounter < 0xf) this.RestartCounter++;
 
-            var data = new byte[2];
-            Util.Write16(data, 0, (ushort)(this.RestartCounter |
-                    (ushort)ControlAnnounceFlags.IsClient |
-                    (ushort)ControlAnnounceFlags.SupportsBroadcast |
-                    (ushort)ControlAnnounceFlags.SupportsFrames |
-                    (ushort)ControlAnnounceFlags.SupportsACK));
+            var servers = this.servers;
+            var data = new byte[servers.Length * 4];
+            Util.Write32(data, 0, (uint)this.RestartCounter |
+                        (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
+                        (ushort)ControlAnnounceFlags.SupportsBroadcast |
+                        (ushort)ControlAnnounceFlags.SupportsFrames |
+                        (ushort)ControlAnnounceFlags.SupportsACK
+                );
+            for (var i = 1; i < servers.Length; ++i)
+                Util.Write32(data, i * 4, servers[i].ServiceClass);
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             this.SelfDevice.SendPacket(pkt);
