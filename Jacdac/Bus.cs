@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using Jacdac.Servers;
 
 namespace Jacdac
 {
@@ -12,7 +11,7 @@ namespace Jacdac
         public string FirmwareVersion = Platform.FirmwareVersion;
         public uint ProductIdentifier;
         public bool IsClient = true;
-        public RealTimeClockVariant RealTimeClock = Platform.RealTimeClock;
+        public JDServer[] Servers;
     }
 
     public sealed class JDBus : JDNode
@@ -42,11 +41,16 @@ namespace Jacdac
             this.IsClient = options.IsClient;
 
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
-            this.servers = new JDServer[0];
-
-            this.AddServer(new Servers.ControlServer(options));
-            if (options.RealTimeClock > 0)
-                this.AddServer(new RealTimeClockServer(options.RealTimeClock));
+            this.servers = new JDServer[1 + (options.Servers != null ? options.Servers.Length : 0)];
+            this.servers[0] = new ControlServer(options);
+            if (options.Servers != null)
+                options.Servers.CopyTo(this.servers, 1);
+            for(byte i = 0; i < servers.Length; i++)
+            {
+                var server = this.servers[i];
+                server.Bus = this;
+                server.ServiceIndex = i;
+            }
 
             this.transport = transport;
             this.transport.FrameReceived += Transport_FrameReceived;
@@ -183,27 +187,6 @@ namespace Jacdac
             var devices = this.devices;
             var res = (JDDevice[])devices.Clone();
             return res;
-        }
-
-        public void AddServer(JDServer server)
-        {
-            lock (this)
-            {
-                this.restartCounter = 0; // force refreshing services
-
-                var servers = this.servers;
-                server.Bus = this;
-                server.ServiceIndex = (byte)servers.Length;
-
-                var newServers = new JDServer[servers.Length + 1];
-                servers.CopyTo(newServers, 0);
-                newServers[server.ServiceIndex] = server;
-
-                this.servers = newServers;
-
-            }
-
-            this.RaiseChanged();
         }
 
         public JDServer[] Servers()

@@ -20,6 +20,11 @@ namespace Jacdac
             var revision = (ushort)((version >> 0) & 0xFFFF);
             Platform.FirmwareVersion = major + "." + minor + "." + build + "." + revision;
             Platform.RealTimeClock = RealTimeClockVariant.Crystal;
+            Platform.CreateClock = () =>
+            {
+                var start = DateTime.Now;
+                return () => DateTime.Now - start;
+            };
         }
 
         public readonly GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller;

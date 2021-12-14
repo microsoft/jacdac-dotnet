@@ -13,12 +13,7 @@ namespace Jacdac
         public static string FirmwareVersion;
         public static string DeviceDescription;
         public static RealTimeClockVariant RealTimeClock = 0;
-
-        public static ClockFactory CreateClock = () =>
-        {
-            var start = DateTime.Now;
-            return () => DateTime.Now - start;
-        };
+        public static ClockFactory CreateClock;        
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;

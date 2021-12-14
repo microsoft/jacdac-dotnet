@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using Jacdac;
 using System;
+using Jacdac.Servers;
 
 namespace Jacdac_RgbLed
 {
@@ -21,7 +22,11 @@ namespace Jacdac_RgbLed
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
-                FirmwareVersion = "0.0.0"
+                FirmwareVersion = "0.0.0",
+                Servers = new[]
+                {
+                    new RealTimeClockServer(RealTimeClockVariant.Crystal)
+                }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;

@@ -18,33 +18,12 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="..\Jacdac\*.cs">
-      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\bridge.cs">
-      <Link>Constants\bridge.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\control.cs">
-      <Link>Constants\control.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\dashboard.cs">
-      <Link>Constants\dashboard.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\proxy.cs">
-      <Link>Constants\proxy.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\uniquebrain.cs">
-      <Link>Constants\uniquebrain.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\_base.cs">
-      <Link>Constants\_base.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\_sensor.cs">
-      <Link>Constants\_sensor.cs</Link>
-    </Compile>
-    <Compile Include="..\Jacdac\Constants\_system.cs">
-      <Link>Constants\_system.cs</Link>
-    </Compile>
+	  <Compile Include="..\Jacdac\*.cs">
+		  <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+	  </Compile>
+	  <Compile Include="..\Jacdac\Constants\*.cs">
+		  <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
+	  </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

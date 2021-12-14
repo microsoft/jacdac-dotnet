@@ -2,7 +2,7 @@
 
 namespace Jacdac.Servers
 {
-    internal sealed class RealTimeClockServer : JDServer
+    public sealed class RealTimeClockServer : JDServer
     {
         public RealTimeClockServer(RealTimeClockVariant variant)
             : base(Jacdac.RealTimeClockConstants.ServiceClass)

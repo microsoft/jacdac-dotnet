@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jacdac.Servers
+namespace Jacdac
 {
     public abstract class JDRegisterServer : JDNode
     {
