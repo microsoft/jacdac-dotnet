@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac
@@ -14,10 +14,13 @@ namespace Jacdac
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;
-        private JDServer[] servers;
-        private readonly Transport transport;
+
         private readonly string selfDeviceId;
-        public byte RestartCounter = 0;
+        private byte restartCounter = 0;
+        private byte packetCount = 0;
+        private JDServer[] servers;
+
+        private readonly Transport transport;
         public bool IsClient = true;
 
         public TimeSpan LastResetInTime;
@@ -67,7 +70,9 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            // TODO
+            Debug.WriteLine($"Transport error {args.Error}");
+            if (args.Data != null)
+                Debug.WriteLine(HexEncoding.ToString(args.Data));
         }
 
         void ProcessPacket(Packet pkt)
@@ -167,7 +172,7 @@ namespace Jacdac
         {
             lock (this)
             {
-                this.RestartCounter = 0; // force refreshing services
+                this.restartCounter = 0; // force refreshing services
 
                 var servers = this.servers;
                 server.Bus = this;
@@ -203,28 +208,31 @@ namespace Jacdac
         {
             if (this.transport.ConnectionState != ConnectionState.Connected)
                 return;
-
+            this.packetCount++;
             this.transport.SendPacket(pkt);
         }
 
         private void SendAnnounce(Object stateInfo)
         {
             // we do not support any services (at least yet)
-            if (this.RestartCounter < 0xf) this.RestartCounter++;
+            if (this.restartCounter < 0xf) this.restartCounter++;
 
             var servers = this.servers;
             var data = new byte[servers.Length * 4];
-            Util.Write32(data, 0, (uint)this.RestartCounter |
+            Util.Write16(data, 0, (ushort)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
                         (ushort)ControlAnnounceFlags.SupportsFrames |
                         (ushort)ControlAnnounceFlags.SupportsACK
-                );
+                ));
+            data[2] = (byte)this.packetCount;
+            this.packetCount = 0;
             for (var i = 1; i < servers.Length; ++i)
                 Util.Write32(data, i * 4, servers[i].ServiceClass);
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
-            this.SelfDevice.SendPacket(pkt);
+            var selfDevice = this.SelfDevice;
+            selfDevice.SendPacket(pkt);
 
             this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
         }
