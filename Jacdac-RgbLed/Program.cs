@@ -25,7 +25,7 @@ namespace Jacdac_RgbLed
                 FirmwareVersion = "0.0.0",
                 Services = new[]
                 {
-                    new RealTimeClockServer(RealTimeClockVariant.Crystal)
+                    new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal)
                 }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
