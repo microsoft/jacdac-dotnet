@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Jacdac.Servers;
 
 namespace Jacdac
 {
     public sealed class JDBusOptions
     {
-        public byte[] DeviceId;
+        public byte[] DeviceId = Platform.DeviceId;
         public string Description = Platform.DeviceDescription;
         public string FirmwareVersion = Platform.FirmwareVersion;
         public uint ProductIdentifier;
+        public bool IsClient = true;
+        public RealTimeClockVariant RealTimeClock = Platform.RealTimeClock;
     }
 
     public sealed class JDBus : JDNode
@@ -24,20 +27,26 @@ namespace Jacdac
         private JDServer[] servers;
 
         private readonly Transport transport;
-        public bool IsClient = true;
+        public bool IsClient;
 
         public TimeSpan LastResetInTime;
         private Timer announceTimer;
 
         public JDBus(Transport transport, JDBusOptions options = null)
         {
-            this.selfDeviceId = HexEncoding.ToString(options?.DeviceId ?? Platform.DeviceId);
+            if (options == null)
+                options = new JDBusOptions();
+
+            this.selfDeviceId = HexEncoding.ToString(options.DeviceId);
             this.clock = Platform.CreateClock();
+            this.IsClient = options.IsClient;
 
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
             this.servers = new JDServer[0];
 
-            this.AddServer(new ControlServer(options));
+            this.AddServer(new Servers.ControlServer(options));
+            if (options.RealTimeClock > 0)
+                this.AddServer(new RealTimeClockServer(options.RealTimeClock));
 
             this.transport = transport;
             this.transport.FrameReceived += Transport_FrameReceived;

@@ -12,6 +12,7 @@ namespace Jacdac
         public static byte[] DeviceId;
         public static string FirmwareVersion;
         public static string DeviceDescription;
+        public static RealTimeClockVariant RealTimeClock = 0;
 
         public static ClockFactory CreateClock = () =>
         {
