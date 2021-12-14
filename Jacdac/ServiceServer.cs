@@ -5,7 +5,7 @@ namespace Jacdac
     public abstract class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
-        public JDBus Bus;
+        public JDServerServiceProvider Device;
         public readonly uint ServiceClass;
         private JDRegisterServer[] registers;
 
@@ -60,12 +60,11 @@ namespace Jacdac
 
         public void SendPacket(Packet pkt)
         {
-            var bus = this.Bus;
-            if (bus == null) return;
+            var device = this.Device;
+            if (device == null) return;
 
-            pkt.DeviceId = bus.SelfDevice.DeviceId;
             pkt.ServiceIndex = this.ServiceIndex;
-            bus.SendPacket(pkt);
+            device.SendPacket(pkt);
         }
     }
 }

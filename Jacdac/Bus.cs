@@ -19,11 +19,9 @@ namespace Jacdac
         // updated concurrently, locked by this
         private JDDevice[] devices;
 
+        private readonly JDServerServiceProvider selfDeviceServer;
         private readonly Clock clock;
         private readonly string selfDeviceId;
-        private byte restartCounter = 0;
-        private byte packetCount = 0;
-        private JDServiceServer[] servers;
 
         private readonly Transport transport;
         public bool IsClient;
@@ -36,21 +34,12 @@ namespace Jacdac
             if (options == null)
                 options = new JDBusOptions();
 
-            this.selfDeviceId = HexEncoding.ToString(options.DeviceId);
             this.clock = Platform.CreateClock();
             this.IsClient = options.IsClient;
+            this.selfDeviceId = HexEncoding.ToString(options.DeviceId);
+            this.selfDeviceServer = new JDServerServiceProvider(this, options);
 
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
-            this.servers = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
-            this.servers[0] = new ControlServer(options);
-            if (options.Services != null)
-                options.Services.CopyTo(this.servers, 1);
-            for(byte i = 0; i < servers.Length; i++)
-            {
-                var server = this.servers[i];
-                server.Bus = this;
-                server.ServiceIndex = i;
-            }
 
             this.transport = transport;
             this.transport.FrameReceived += Transport_FrameReceived;
