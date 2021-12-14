@@ -2,7 +2,7 @@
 
 namespace Jacdac
 {
-    public sealed class ControlServer : JDServer
+    public sealed class ControlServer : JDServiceServer
     {
         internal ControlServer(JDBusOptions options)
             : base(Jacdac.ControlConstants.ServiceClass)

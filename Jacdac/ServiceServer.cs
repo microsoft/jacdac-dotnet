@@ -2,28 +2,30 @@
 
 namespace Jacdac
 {
-    public abstract class JDServer : JDNode
+    public abstract class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
         public JDBus Bus;
         public readonly uint ServiceClass;
         private JDRegisterServer[] registers;
 
-        public JDServer(uint serviceClass)
+        protected JDServiceServer(uint serviceClass)
         {
             this.ServiceClass = serviceClass;
             this.registers = new JDRegisterServer[0];
         }
 
-        public virtual void ProcessPacket(Packet pkt)
+        public virtual bool ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet || pkt.IsRegisterSet)
             {
                 JDRegisterServer register;
                 if (this.TryGetRegister(pkt.RegisterCode, out register))
-                    register.ProcessPacket(pkt);
-                return;
+                    return register.ProcessPacket(pkt);
+                return false;
             }
+
+            return false;
         }
 
         public void AddRegister(JDRegisterServer register)

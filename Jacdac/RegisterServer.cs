@@ -4,13 +4,13 @@ namespace Jacdac
 {
     public abstract class JDRegisterServer : JDNode
     {
-        public JDServer Server;
+        public JDServiceServer Server;
         public readonly ushort Code;
-        public JDRegisterServer(ushort code)
+        protected JDRegisterServer(ushort code)
         {
             this.Code = code;
         }
-        public abstract void ProcessPacket(Packet pkt);
+        public abstract bool ProcessPacket(Packet pkt);
     }
 
     public delegate object[] RegisterGetHandler(JDRegisterServer server);
@@ -26,7 +26,7 @@ namespace Jacdac
             this.dataFactory = dataFactory;
         }
 
-        public override void ProcessPacket(Packet pkt)
+        public override bool ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet)
             {
@@ -34,7 +34,10 @@ namespace Jacdac
                 var server = this.Server;
                 var resp = Packet.From((ushort)(Jacdac.Constants.CMD_GET_REG | this.Code), data);
                 this.Server.SendPacket(resp);
+                return true;
             }
+
+            return false;
         }
     }
 
@@ -43,6 +46,7 @@ namespace Jacdac
         public readonly string Format;
         public byte[] Data;
         public TimeSpan LastSetTime;
+        public bool IsConst = false;
 
         public JDStaticRegisterServer(ushort code, string format, object[] value)
             : base(code)
@@ -78,12 +82,22 @@ namespace Jacdac
             this.Server.SendPacket(pkt);
         }
 
-        public override void ProcessPacket(Packet pkt)
+        public override bool ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet)
+            {
                 this.SendGet();
-            else if (pkt.IsRegisterSet)
+                return true;
+            }
+            else if (pkt.IsRegisterSet && !this.IsConst)
+            {
                 this.SetData(pkt);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void SetData(Packet pkt)

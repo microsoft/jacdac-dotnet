@@ -11,7 +11,7 @@ namespace Jacdac
         public string FirmwareVersion = Platform.FirmwareVersion;
         public uint ProductIdentifier;
         public bool IsClient = true;
-        public JDServer[] Servers;
+        public JDServiceServer[] Services;
     }
 
     public sealed class JDBus : JDNode
@@ -23,7 +23,7 @@ namespace Jacdac
         private readonly string selfDeviceId;
         private byte restartCounter = 0;
         private byte packetCount = 0;
-        private JDServer[] servers;
+        private JDServiceServer[] servers;
 
         private readonly Transport transport;
         public bool IsClient;
@@ -41,10 +41,10 @@ namespace Jacdac
             this.IsClient = options.IsClient;
 
             this.devices = new JDDevice[] { new JDDevice(this, this.selfDeviceId) };
-            this.servers = new JDServer[1 + (options.Servers != null ? options.Servers.Length : 0)];
+            this.servers = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
             this.servers[0] = new ControlServer(options);
-            if (options.Servers != null)
-                options.Servers.CopyTo(this.servers, 1);
+            if (options.Services != null)
+                options.Services.CopyTo(this.servers, 1);
             for(byte i = 0; i < servers.Length; i++)
             {
                 var server = this.servers[i];
@@ -137,7 +137,17 @@ namespace Jacdac
                     this.LastResetInTime = pkt.Timestamp;
                 }
                 else
+                {
+                    if (pkt.DeviceId == this.selfDeviceId)
+                    {
+                        if (pkt.ServiceIndex < this.servers.Length)
+                        {
+                            var server = this.servers[pkt.ServiceIndex];
+                            server.ProcessPacket(pkt);
+                        }
+                    }
                     device.ProcessPacket(pkt);
+                }
             }
         }
 
@@ -189,9 +199,9 @@ namespace Jacdac
             return res;
         }
 
-        public JDServer[] Servers()
+        public JDServiceServer[] Servers()
         {
-            return (JDServer[])this.servers.Clone();
+            return (JDServiceServer[])this.servers.Clone();
         }
 
         public TimeSpan Timestamp

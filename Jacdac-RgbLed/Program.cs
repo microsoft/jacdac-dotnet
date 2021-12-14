@@ -23,7 +23,7 @@ namespace Jacdac_RgbLed
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Servers = new[]
+                Services = new[]
                 {
                     new RealTimeClockServer(RealTimeClockVariant.Crystal)
                 }
