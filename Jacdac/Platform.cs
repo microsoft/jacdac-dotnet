@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Jacdac
 {
@@ -13,7 +14,7 @@ namespace Jacdac
         public static string FirmwareVersion;
         public static string DeviceDescription;
         public static RealTimeClockVariant RealTimeClock = 0;
-        public static ClockFactory CreateClock;        
+        public static ClockFactory CreateClock;
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;
@@ -28,5 +29,21 @@ namespace Jacdac
             return crc;
         };
         public static McuTemperatureCalculator McuTemperature;
+    }
+
+
+
+    public interface IKeyStorage
+    {
+        string[] GetKeys();
+        byte[] Read(string key);
+        void Write(string key, byte[] buffer);
+        void Delete(string key);
+        void Clear();
+    }
+
+    public interface IWebClient
+    {
+        byte[] Get(string url);
     }
 }

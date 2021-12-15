@@ -19,8 +19,9 @@ namespace Jacdac_RgbLed
             Display.WriteLine("Configuration Jacdac....");
             var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
+            var ssidStorage = new SdCardKeyStorage("wifi.json");
             var rtc = new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal);
-            var wifiServer = new WifiServer();
+            var wifiServer = new WifiServer(ssidStorage);
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
