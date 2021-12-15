@@ -133,8 +133,10 @@ namespace Jacdac
             return frameData;
         }
 
-        public static Packet From(ushort serviceCommand, byte[] buffer)
+        public static Packet From(ushort serviceCommand, byte[] buffer = null)
         {
+            if (buffer == null)
+                buffer = new byte[0];
             if (buffer.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
                 throw new ArgumentOutOfRangeException("packet data length too large");
             var header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE];

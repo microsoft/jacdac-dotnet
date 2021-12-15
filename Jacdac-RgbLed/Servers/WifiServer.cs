@@ -38,8 +38,16 @@ namespace Jacdac.Servers
                 ));
 
             this.Enabled.Changed += Enabled_Changed;
+            this.Ssid.Changed += Ssid_Changed;
 
             this.Start();
+        }
+
+        private void Ssid_Changed(JDNode sender, EventArgs e)
+        {
+            var ssid = (string)this.Ssid.GetValues()[0];
+            var ev = !String.IsNullOrEmpty(ssid) ? (ushort)Jacdac.WifiEvent.GotIp : (ushort)Jacdac.WifiEvent.LostIp;
+            this.SendEvent(ev);
         }
 
         private void Enabled_Changed(JDNode sender, EventArgs e)
@@ -131,11 +139,11 @@ namespace Jacdac.Servers
                 {
                     this.Ssid.SetValues(new object[] { networkInterfaceSetting.Ssid });
                     this.IpAddress.SetValues(new object[] { address });
-                    this.Enabled.SetValues(new object[] { (byte)1 });
                     Debug.WriteLine($"Wifi {networkInterfaceSetting.Ssid} connected");
                 }
             };
             this.networkController.Enable();
+            this.Enabled.SetValues(new object[] { (byte)1 });
         }
 
         private string[] ReadSecrets()

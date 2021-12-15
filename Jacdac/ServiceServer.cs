@@ -124,7 +124,7 @@ namespace Jacdac
             device.SendPacket(pkt);
         }
 
-        public void SendEvent(ushort eventCode, byte[] data)
+        public void SendEvent(ushort eventCode, byte[] data = null)
         {
             var device = this.Device;
             if (device == null) return;
