@@ -31,6 +31,7 @@ namespace Jacdac_RgbLed
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
             bus.SelfAnnounced += Bus_SelfAnnounced;
+            wifiServer.ScanStarted += WifiServer_ScanStarted;
             wifiServer.ScanCompleted += WifiServer_ScanCompleted;
             wifiServer.Ssid.Changed += Ssid_Changed;
             transport.FrameReceived += (Transport sender, byte[] frame) =>
@@ -40,6 +41,9 @@ namespace Jacdac_RgbLed
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
+            wifiServer.AddNetwork("THEMARSHMALLOWS", "SMORESFOREVER");
+            wifiServer.Start();
+
             //Blink(transport);
             while (true)
             {
@@ -48,10 +52,14 @@ namespace Jacdac_RgbLed
             }
         }
 
+        private static void WifiServer_ScanStarted(JDNode sender, EventArgs e)
+        {
+            Display.WriteLine($"Wifi: Scanning...");
+        }
+
         private static void WifiServer_ScanCompleted(JDNode sender, EventArgs e)
         {
             var wifi = (WifiServer)sender;
-            Display.WriteLine($"Wifi: Scan completed");
             foreach (var ssid in wifi.LastScanResults)
                 Display.WriteLine($"  {ssid}");
         }
@@ -60,7 +68,7 @@ namespace Jacdac_RgbLed
         {
             var wifi = (JDStaticRegisterServer)sender;
             var ssid = wifi.GetValues()[0];
-            Display.WriteLine($"wifi: {ssid}");
+            Display.WriteLine($"SSID: {ssid}");
         }
 
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)

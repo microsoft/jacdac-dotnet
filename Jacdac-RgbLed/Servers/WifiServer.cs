@@ -51,15 +51,13 @@ namespace Jacdac.Servers
             this.Enabled.Changed += Enabled_Changed;
             this.Ssid.Changed += Ssid_Changed;
             this.ScanCompleted += WifiServer_ScanCompleted;
-
-            this.Start();
         }
 
         private void WifiServer_ScanCompleted(JDNode sender, EventArgs e)
         {
             var enabled = this.Enabled.GetValueAsBool();
             if (enabled)
-                this.Connect();
+                new Thread(this.Connect).Start();
         }
 
         private void Ssid_Changed(JDNode sender, EventArgs e)
@@ -203,10 +201,17 @@ namespace Jacdac.Servers
             if (values == null) return;
 
             var ssid = (string)values[0];
-            var password = (string)values[1];
-            if (!string.IsNullOrEmpty(ssid))
-                this.KeyStorage.Write(ssid, UTF8Encoding.UTF8.GetBytes(password));
+            if (string.IsNullOrEmpty(ssid)) return;
 
+            var password = (string)values[1];
+            this.AddNetwork(ssid, password);
+        }
+
+        public void AddNetwork(string ssid, string password)
+        {
+            if (string.IsNullOrEmpty(ssid))
+                throw new ArgumentNullException("ssid");
+            this.KeyStorage.Write(ssid, UTF8Encoding.UTF8.GetBytes(password));
             this.RaiseChanged();
         }
 
@@ -282,7 +287,7 @@ namespace Jacdac.Servers
                 if (Array.IndexOf(keys, ssid) != -1)
                 {
                     var buffer = this.KeyStorage.Read(ssid);
-                    var password = UTF8Encoding.UTF8.GetString(buffer); ;
+                    var password = UTF8Encoding.UTF8.GetString(buffer);
                     return new string[] { ssid, password };
                 }
             }

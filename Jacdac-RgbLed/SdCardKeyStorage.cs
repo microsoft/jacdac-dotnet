@@ -12,16 +12,10 @@ using System.Threading;
 namespace Jacdac
 {
     [Serializable]
-    internal sealed class StorageEntry
+    public sealed class StorageEntry
     {
         public string Key;
-        public byte[] Data;
-    }
-
-    [Serializable]
-    internal sealed class StorageFile
-    {
-        public StorageEntry[] Entries;
+        public string Data;
     }
 
     internal class SdCardKeyStorage : IKeyStorage, IDisposable
@@ -56,29 +50,34 @@ namespace Jacdac
 
         }
 
-        private StorageFile deserialize(string fn)
+        private StorageEntry[] deserialize(string fn)
         {
-            StorageFile file = null;
+            StorageEntry[] entries = null;
             try
             {
                 var bytes = System.IO.File.ReadAllBytes(fn);
                 var text = UTF8Encoding.UTF8.GetString(bytes);
-                file = (StorageFile)JsonConverter.DeserializeObject(text, typeof(StorageFile));
+                entries = (StorageEntry[])JsonConverter.DeserializeObject(text, typeof(StorageEntry[]),
+                    (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
+                {
+                    if (instancePath == "/")
+                        return new StorageEntry();
+
+                    return null;
+                });
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
-            if (file == null)
-                file = new StorageFile();
-            if (file.Entries == null)
-                file.Entries = new StorageEntry[0];
-            return file;
+            if (entries == null)
+                entries = new StorageEntry[0];
+            return entries;
         }
 
-        private void serialize(string fn, StorageFile file)
+        private void serialize(string fn, StorageEntry[] entries)
         {
-            var text = JsonConverter.Serialize(file).ToString();
+            var text = JsonConverter.Serialize(entries).ToString();
             var buffer = UTF8Encoding.UTF8.GetBytes(text);
             System.IO.File.WriteAllBytes(fn, buffer);
         }
@@ -89,10 +88,9 @@ namespace Jacdac
             {
                 // load
                 var fn = this.FullFileName(drive);
-                var file = this.deserialize(fn);
+                var entries = this.deserialize(fn);
 
                 // delete
-                var entries = file.Entries;
                 var newEntries = new StorageEntry[entries.Length - 1];
                 var k = 0;
                 for (var i = 0; i < entries.Length; i++)
@@ -101,10 +99,10 @@ namespace Jacdac
                     if (entry.Key != key)
                         newEntries[k++] = entry;
                 }
-                file.Entries = newEntries;
+                entries = newEntries;
 
                 // save back
-                this.serialize(fn, file);
+                this.serialize(fn, entries);
             }
             finally
             {
@@ -114,47 +112,26 @@ namespace Jacdac
 
         public string[] GetKeys()
         {
-            try
+            var fn = this.FullFileName(drive);
+            var entries = this.deserialize(fn);
+            var keys = new string[entries.Length];
+            for (var i = 0; i < entries.Length; i++)
             {
-                // load
-                var fn = this.FullFileName(drive);
-                var file = this.deserialize(fn);
-                var entries = file.Entries;
-                var keys = new string[entries.Length];
-                for (var i = 0; i < entries.Length; i++)
-                {
-                    keys[i] = entries[i].Key;
-                }
-                return keys;
+                keys[i] = entries[i].Key;
             }
-            finally
-            {
-                FileSystem.Flush(sd.Hdc);
-            }
+            return keys;
         }
 
         public byte[] Read(string key)
         {
-            try
+            var fn = this.FullFileName(drive);
+            var entries = this.deserialize(fn);
+            for (var i = 0; i < entries.Length; i++)
             {
-                // load
-                var fn = this.FullFileName(drive);
-                var file = this.deserialize(fn);
-
-                // delete
-                var entries = file.Entries;
-                for (var i = 0; i < entries.Length; i++)
-                {
-                    var entry = entries[i];
-                    if (entry.Key == key)
-                        return entry.Data;
-                }
+                var entry = entries[i];
+                if (entry.Key == key)
+                    return HexEncoding.ToBuffer(entry.Data);
             }
-            finally
-            {
-                FileSystem.Flush(this.sd.Hdc);
-            }
-
             return null;
         }
 
@@ -162,19 +139,19 @@ namespace Jacdac
         {
             try
             {
+                var data = HexEncoding.ToString(buffer);
                 // load
                 var fn = this.FullFileName(drive);
-                var file = this.deserialize(fn);
+                var entries = this.deserialize(fn);
 
                 // update
                 var updated = false;
-                var entries = file.Entries;
                 for (var i = 0; i < entries.Length; i++)
                 {
                     var entry = entries[i];
                     if (entry.Key == key)
                     {
-                        entry.Data = buffer;
+                        entry.Data = data;
                         updated = true;
                     }
                 }
@@ -186,13 +163,13 @@ namespace Jacdac
                     newEntries[newEntries.Length - 1] = new StorageEntry
                     {
                         Key = key,
-                        Data = buffer
+                        Data = data
                     };
-                    file.Entries = newEntries;
+                    entries = newEntries;
                 }
 
                 // save back
-                this.serialize(fn, file);
+                this.serialize(fn, entries);
             }
             finally
             {
