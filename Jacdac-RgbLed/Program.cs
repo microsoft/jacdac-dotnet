@@ -31,6 +31,7 @@ namespace Jacdac_RgbLed
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
             bus.SelfAnnounced += Bus_SelfAnnounced;
+            wifiServer.ScanCompleted += WifiServer_ScanCompleted;
             wifiServer.Ssid.Changed += Ssid_Changed;
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {
@@ -45,6 +46,14 @@ namespace Jacdac_RgbLed
                 //Display.WriteLine($".");
                 Thread.Sleep(10000);
             }
+        }
+
+        private static void WifiServer_ScanCompleted(JDNode sender, EventArgs e)
+        {
+            var wifi = (WifiServer)sender;
+            Display.WriteLine($"Wifi: Scan completed");
+            foreach (var ssid in wifi.LastScanResults)
+                Display.WriteLine($"  {ssid}");
         }
 
         private static void Ssid_Changed(JDNode sender, EventArgs e)

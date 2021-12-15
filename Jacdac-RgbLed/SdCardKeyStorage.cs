@@ -24,13 +24,17 @@ namespace Jacdac
         public StorageEntry[] Entries;
     }
 
-    internal class SdCardKeyStorage : IKeyStorage
+    internal class SdCardKeyStorage : IKeyStorage, IDisposable
     {
         public readonly string FileName;
+        private StorageController sd;
+        private IDriveProvider drive;
 
         public SdCardKeyStorage(string fileName)
         {
             this.FileName = fileName;
+            this.sd = StorageController.FromName(SC20100.StorageController.SdCard);
+            this.drive = FileSystem.Mount(sd.Hdc);
         }
 
         private string FullFileName(IDriveProvider drive)
@@ -40,10 +44,8 @@ namespace Jacdac
 
         public void Clear()
         {
-            var sd = StorageController.FromName(SC20100.StorageController.SdCard);
             try
             {
-                var drive = FileSystem.Mount(sd.Hdc);
                 var fn = this.FullFileName(drive);
                 drive.Delete(fn);
             }
@@ -83,11 +85,9 @@ namespace Jacdac
 
         public void Delete(string key)
         {
-            var sd = StorageController.FromName(SC20100.StorageController.SdCard);
             try
             {
                 // load
-                var drive = FileSystem.Mount(sd.Hdc);
                 var fn = this.FullFileName(drive);
                 var file = this.deserialize(fn);
 
@@ -108,17 +108,15 @@ namespace Jacdac
             }
             finally
             {
-                FileSystem.Flush(sd.Hdc);
+                FileSystem.Flush(this.sd.Hdc);
             }
         }
 
         public string[] GetKeys()
         {
-            var sd = StorageController.FromName(SC20100.StorageController.SdCard);
             try
             {
                 // load
-                var drive = FileSystem.Mount(sd.Hdc);
                 var fn = this.FullFileName(drive);
                 var file = this.deserialize(fn);
                 var entries = file.Entries;
@@ -137,11 +135,9 @@ namespace Jacdac
 
         public byte[] Read(string key)
         {
-            var sd = StorageController.FromName(SC20100.StorageController.SdCard);
             try
             {
                 // load
-                var drive = FileSystem.Mount(sd.Hdc);
                 var fn = this.FullFileName(drive);
                 var file = this.deserialize(fn);
 
@@ -156,7 +152,7 @@ namespace Jacdac
             }
             finally
             {
-                FileSystem.Flush(sd.Hdc);
+                FileSystem.Flush(this.sd.Hdc);
             }
 
             return null;
@@ -164,11 +160,9 @@ namespace Jacdac
 
         public void Write(string key, byte[] buffer)
         {
-            var sd = StorageController.FromName(SC20100.StorageController.SdCard);
             try
             {
                 // load
-                var drive = FileSystem.Mount(sd.Hdc);
                 var fn = this.FullFileName(drive);
                 var file = this.deserialize(fn);
 
@@ -202,7 +196,17 @@ namespace Jacdac
             }
             finally
             {
-                FileSystem.Flush(sd.Hdc);
+                FileSystem.Flush(this.sd.Hdc);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.sd != null)
+            {
+                FileSystem.Unmount(this.sd.Hdc);
+                this.drive = null;
+                this.sd = null;
             }
         }
     }

@@ -73,6 +73,22 @@ namespace Jacdac
             return PacketEncoding.UnPack(this.Format, this.Data);
         }
 
+        public bool GetValueAsBool()
+        {
+            var values = this.GetValues();
+            if (values == null || values.Length == 0) return false;
+            var b = (byte)values[0] != 0;
+            return b;
+        }
+
+        public string GetValueAsString()
+        {
+            var values = this.GetValues();
+            if (values == null || values.Length == 0) return null;
+            var b = (string)values[0];
+            return b;
+        }
+
         public void SendGet()
         {
             var server = this.Service;

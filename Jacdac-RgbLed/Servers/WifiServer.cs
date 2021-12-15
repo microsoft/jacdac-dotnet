@@ -57,9 +57,8 @@ namespace Jacdac.Servers
 
         private void WifiServer_ScanCompleted(JDNode sender, EventArgs e)
         {
-            var values = this.Enabled.GetValues();
-            var enabled = (byte)values[0] != 0 ? true : false;
-            if (enabled && this.networkController == null)
+            var enabled = this.Enabled.GetValueAsBool();
+            if (enabled)
                 this.Connect();
         }
 
@@ -72,8 +71,7 @@ namespace Jacdac.Servers
 
         private void Enabled_Changed(JDNode sender, EventArgs e)
         {
-            var values = this.Enabled.GetValues();
-            var enabled = (byte)values[0] != 0 ? true : false;
+            var enabled = this.Enabled.GetValueAsBool();
             if (enabled)
                 this.StartScan();
             else
@@ -82,10 +80,7 @@ namespace Jacdac.Servers
 
         public void Start()
         {
-            if (this.networkController != null) return;
-
             this.Enabled.SetValues(new object[] { (byte)1 });
-            this.StartScan();
         }
 
         public void Stop()
@@ -103,89 +98,14 @@ namespace Jacdac.Servers
 
         private void handleScan(JDNode node, PacketEventArgs args)
         {
-            this.StartScan();
+            var enabled = this.Enabled.GetValueAsBool();
+            if (enabled)
+                this.StartScan();
         }
 
-        public void StartScan()
+        private void initController()
         {
-            if (this.scanning) return;
-
-            this.scanning = true;
-            new Thread(() =>
-            {
-                try
-                {
-                    /*
-                    var ssids = Winc15x0Interface.Scan();
-                    this.lastScanResults = ssids;
-
-                    var knownSsids = this.KeyStorage.GetKeys();
-                    var total = ssids.Length;
-                    var known = 0;
-                    for (var i = 0; i < ssids.Length; i++)
-                        if (Array.IndexOf(knownSsids, ssids[i]) != -1)
-                            known++;
-
-                    this.SendEvent(
-                        (ushort)Jacdac.WifiEvent.ScanComplete,
-                        PacketEncoding.Pack("u16 u16", new object[] { total, known })
-                    );
-                    */
-                    this.lastScanResults = new string[0];
-                    this.ScanCompleted?.Invoke(this, EventArgs.Empty);
-                }
-                finally
-                {
-                    this.scanning = false;
-                }
-            }).Start();
-        }
-
-        public event NodeEventHandler ScanCompleted;
-
-        private void handleAddNetwork(JDNode node, PacketEventArgs args)
-        {
-            var pkt = args.Packet;
-            var values = PacketEncoding.UnPack("z z", pkt.Data);
-            if (values == null) return;
-
-            var ssid = (string)values[0];
-            var password = (string)values[1];
-            if (!string.IsNullOrEmpty(ssid))
-                this.KeyStorage.Write(ssid, UTF8Encoding.UTF8.GetBytes(password));
-
-            this.RaiseChanged();
-        }
-
-        private void handleForgetNetwork(JDNode node, PacketEventArgs args)
-        {
-            var pkt = args.Packet;
-            var values = PacketEncoding.UnPack("s", pkt.Data);
-            if (values == null) return;
-            var ssid = (string)values[0];
-            if (!string.IsNullOrEmpty(ssid))
-                this.KeyStorage.Delete(ssid);
-            this.RaiseChanged();
-        }
-
-        private void handleForgetAllNetworks(JDNode node, PacketEventArgs args)
-        {
-            this.KeyStorage.Clear();
-            this.RaiseChanged();
-        }
-
-        private void Connect()
-        {
-            Debug.Assert(this.networkController == null);
-
-            // find best access point
-            var secrets = this.FindAccessPoint();
-            if (secrets == null)
-            {
-                Debug.WriteLine("Wifi: no known ssid found");
-                return;
-            }
-            Debug.WriteLine($"Wifi: connecting to {secrets[0]}");
+            if (this.networkController != null) return;
 
             const string WIFI_API_NAME = "GHIElectronics.TinyCLR.NativeApis.ATWINC15xx.NetworkController";
 
@@ -225,6 +145,105 @@ namespace Jacdac.Servers
             en.Write(GpioPinValue.High);
 
             this.networkController = NetworkController.FromName(WIFI_API_NAME);
+            this.networkController.SetCommunicationInterfaceSettings(networkCommunicationInterfaceSettings);
+        }
+
+        public string[] LastScanResults
+        {
+            get { return this.lastScanResults != null ? (string[])this.lastScanResults.Clone() : new string[0]; }
+        }
+
+        public void StartScan()
+        {
+            if (this.scanning) return;
+
+
+            this.scanning = true;
+            this.ScanStarted?.Invoke(this, EventArgs.Empty);
+
+            new Thread(() =>
+            {
+                try
+                {
+                    Debug.WriteLine("Wifi: scanning...");
+                    this.initController();
+                    var ssids = Winc15x0Interface.Scan();
+                    this.lastScanResults = ssids;
+
+                    var knownSsids = this.KeyStorage.GetKeys();
+                    ushort total = (ushort)ssids.Length;
+                    ushort known = 0;
+                    for (var i = 0; i < ssids.Length; i++)
+                        if (Array.IndexOf(knownSsids, ssids[i]) != -1)
+                            known++;
+
+                    Debug.WriteLine($"Wifi: found {total} ssids, {known} known");
+
+                    this.SendEvent(
+                        (ushort)Jacdac.WifiEvent.ScanComplete,
+                        PacketEncoding.Pack("u16 u16", new object[] { total, known })
+                    );
+
+                    this.ScanCompleted?.Invoke(this, EventArgs.Empty);
+                }
+                finally
+                {
+                    this.scanning = false;
+                }
+            }).Start();
+        }
+
+        public event NodeEventHandler ScanStarted;
+        public event NodeEventHandler ScanCompleted;
+
+        private void handleAddNetwork(JDNode node, PacketEventArgs args)
+        {
+            var pkt = args.Packet;
+            var values = PacketEncoding.UnPack("z z", pkt.Data);
+            if (values == null) return;
+
+            var ssid = (string)values[0];
+            var password = (string)values[1];
+            if (!string.IsNullOrEmpty(ssid))
+                this.KeyStorage.Write(ssid, UTF8Encoding.UTF8.GetBytes(password));
+
+            this.RaiseChanged();
+        }
+
+        private void handleForgetNetwork(JDNode node, PacketEventArgs args)
+        {
+            var pkt = args.Packet;
+            var values = PacketEncoding.UnPack("s", pkt.Data);
+            if (values == null) return;
+            var ssid = (string)values[0];
+            if (!string.IsNullOrEmpty(ssid))
+                this.KeyStorage.Delete(ssid);
+            this.RaiseChanged();
+        }
+
+        private void handleForgetAllNetworks(JDNode node, PacketEventArgs args)
+        {
+            this.KeyStorage.Clear();
+            this.RaiseChanged();
+        }
+
+        private void Connect()
+        {
+            if (this.networkController.ActiveInterfaceSettings != null)
+            {
+                Debug.WriteLine("Wifi: skip connect, already connecting");
+                return;
+            }
+
+            // find best access point
+            var secrets = this.FindAccessPoint();
+            if (secrets == null)
+            {
+                Debug.WriteLine("Wifi: no known ssid found");
+                return;
+            }
+            Debug.WriteLine($"Wifi: connecting to {secrets[0]}");
+
             var networkInterfaceSetting = new WiFiNetworkInterfaceSettings()
             {
                 Ssid = secrets[0],
@@ -234,7 +253,6 @@ namespace Jacdac.Servers
             networkInterfaceSetting.DhcpEnable = true;
             networkInterfaceSetting.DynamicDnsEnable = true;
 
-            this.networkController.SetCommunicationInterfaceSettings(networkCommunicationInterfaceSettings);
             this.networkController.SetInterfaceSettings(networkInterfaceSetting);
             this.networkController.SetAsDefaultController();
 
