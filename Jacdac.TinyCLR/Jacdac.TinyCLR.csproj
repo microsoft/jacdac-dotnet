@@ -54,6 +54,9 @@
     <Reference Include="GHIElectronics.TinyCLR.Data.Json, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GHIElectronics.TinyCLR.Data.Json.2.1.0\lib\net452\GHIElectronics.TinyCLR.Data.Json.dll</HintPath>
     </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Jacdac.Transport, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.dll</HintPath>
+    </Reference>
     <Reference Include="GHIElectronics.TinyCLR.Devices.Uart, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Uart.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Uart.dll</HintPath>
     </Reference>
@@ -71,10 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GHIElectronics.TinyCLR.Devices.Jacdac\GHIElectronics.TinyCLR.Devices.Jacdac.csproj">
-      <Project>{DE954FF7-0454-4717-AEC0-8225FD3A6373}</Project>
-      <Name>GHIElectronics.TinyCLR.Devices.Jacdac</Name>
-    </ProjectReference>
+    <Folder Include="Firmware\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

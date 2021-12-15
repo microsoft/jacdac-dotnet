@@ -6,6 +6,7 @@ using System.Threading;
 using Jacdac;
 using System;
 using Jacdac.Servers;
+using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 
 namespace Jacdac_RgbLed
 {
@@ -23,7 +24,7 @@ namespace Jacdac_RgbLed
             Display.Enable();
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
-            var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
+            var transport = new UartTransport(new JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             var ssidStorage = new SdCardKeyStorage("wifi.json");
             this.serviceTwins = new ServiceTwins(null);
@@ -49,7 +50,6 @@ namespace Jacdac_RgbLed
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
-            wifiServer.AddNetwork("THEMARSHMALLOWS", "SMORESFOREVER");
             wifiServer.Start();
 
             //Blink(transport);

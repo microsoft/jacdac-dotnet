@@ -67,7 +67,8 @@ namespace Jacdac
             var serviceClasses = new object[servers.Length - 1];
             for (var i = 1; i < servers.Length; ++i)
                 serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
-            var data = PacketEncoding.Pack("u16 u8 x[8] r: u32",
+            var reserved = (byte)0;
+            var data = PacketEncoding.Pack("u16 u8 u8 r: u32",
                 new object[] {
                     (ushort)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
@@ -76,6 +77,7 @@ namespace Jacdac
                         (ushort)ControlAnnounceFlags.SupportsACK
                     ),
                     this.packetCount,
+                    reserved,
                     serviceClasses
                 });
             this.packetCount = 0;

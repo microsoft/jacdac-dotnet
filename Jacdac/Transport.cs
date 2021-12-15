@@ -6,11 +6,21 @@ namespace Jacdac
 
     public delegate void FrameReceivedEvent(Transport sender, byte[] frame);
 
-    public enum TransportError
+    public enum TransportError : uint
     {
-        Frame = 0,
-        Overrun = 1,
-        BufferFull = 2,
+        NoError = 0u,
+        Overrun = 1u,
+        BufferFull = 2u,
+        Frame = 0x80000000u,
+        Frame_MaxData = 2147483649u,
+        Frame_NoPayload = 2147483650u,
+        Frame_Busy = 2147483652u,
+        Frame_A = 2147483656u,
+        Frame_B = 2147483664u,
+        Frame_C = 2147483680u,
+        Frame_D = 2147483712u,
+        Frame_E = 2147483776u,
+        Frame_F = 2147483904u
     }
 
     public sealed class TransportErrorReceivedEventArgs

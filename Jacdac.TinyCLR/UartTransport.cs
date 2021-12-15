@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
+using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 
 namespace Jacdac
 {
@@ -12,7 +12,7 @@ namespace Jacdac
     {
         static UartTransport()
         {
-            Platform.Crc16 = GHIElectronics.TinyCLR.Devices.Jacdac.Util.CRC;
+            Platform.Crc16 = JacdacSerialWireController.Crc;
             var id = DeviceInformation.GetUniqueId();
             // TODO: compress device id into 8 bytes
             Platform.DeviceId = Util.Slice(id, 0, 8);
@@ -50,12 +50,12 @@ namespace Jacdac
             };
             Platform.WebGet = (string url) =>
             {
-                var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
+                //var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
                 using (var req = HttpWebRequest.Create(url) as HttpWebRequest)
                 {
                     req.KeepAlive = false;
                     req.ReadWriteTimeout = 2000;
-                    req.HttpsAuthentCerts = certx509;
+                    //req.HttpsAuthentCerts = certx509;
                     using (var res = req.GetResponse() as HttpWebResponse)
                     {
                         if (res.StatusCode == HttpStatusCode.OK)
@@ -77,9 +77,9 @@ namespace Jacdac
             };
         }
 
-        public readonly GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller;
+        public readonly GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller;
 
-        public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController controller)
+        public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller)
         {
             this.controller = controller;
         }
@@ -88,10 +88,9 @@ namespace Jacdac
         {
             add
             {
-                this.controller.PacketReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.Packet packet) =>
+                this.controller.PacketReceived += (JacdacSerialWireController sender, PacketReceivedEventArgs packet) =>
                 {
-                    var pkt = Packet.FromBinary(packet.ToBuffer(), true);
-                    var frame = Packet.ToFrame(new Packet[] { pkt });
+                    var frame = packet.Data;
                     value(this, frame);
                 };
             }
@@ -107,7 +106,7 @@ namespace Jacdac
         {
             add
             {
-                this.controller.ErrorReceived += (GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController sender, GHIElectronics.TinyCLR.Devices.Jacdac.ErrorReceivedEventArgs args) =>
+                this.controller.ErrorReceived += (JacdacSerialWireController sender, ErrorReceivedEventArgs args) =>
                 {
                     value(this, new TransportErrorReceivedEventArgs((TransportError)(uint)args.Error, args.Timestamp, args.Data));
                 };
@@ -136,7 +135,7 @@ namespace Jacdac
 
         public override void SendFrame(byte[] data)
         {
-            this.controller.SendData(data);
+            this.controller.Write(data);
         }
     }
 }

@@ -60,6 +60,9 @@
     <PackageReference Include="GHIElectronics.TinyCLR.Devices.Gpio">
       <Version>2.1.0</Version>
     </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Jacdac.Transport">
+      <Version>2.1.0</Version>
+    </PackageReference>
     <PackageReference Include="GHIElectronics.TinyCLR.Devices.Network">
       <Version>2.1.0</Version>
     </PackageReference>
@@ -110,10 +113,6 @@
     <None Include="Resources\small.tinyfnt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GHIElectronics.TinyCLR.Devices.Jacdac\GHIElectronics.TinyCLR.Devices.Jacdac.csproj">
-      <Project>{DE954FF7-0454-4717-AEC0-8225FD3A6373}</Project>
-      <Name>GHIElectronics.TinyCLR.Devices.Jacdac</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jacdac.TinyCLR\Jacdac.TinyCLR.csproj">
       <Project>{FEAE5AA6-08FC-449E-8CE1-6F3697211323}</Project>
       <Name>Jacdac.TinyCLR</Name>
