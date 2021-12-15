@@ -19,19 +19,18 @@ namespace Jacdac_RgbLed
             Display.WriteLine("Configuration Jacdac....");
             var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
+            var rtc = new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal);
+            var wifiServer = new WifiServer();
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[]
-                {
-                    new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal),
-                    new WifiServer()
-                }
+                Services = new JDServiceServer[] { rtc, wifiServer }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
             bus.SelfAnnounced += Bus_SelfAnnounced;
+            wifiServer.Ssid.Changed += Ssid_Changed;
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {
                 Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
@@ -45,6 +44,13 @@ namespace Jacdac_RgbLed
                 //Display.WriteLine($".");
                 Thread.Sleep(10000);
             }
+        }
+
+        private static void Ssid_Changed(JDNode sender, EventArgs e)
+        {
+            var wifi = (JDStaticRegisterServer)sender;
+            var ssid = wifi.GetValues()[0];
+            Display.WriteLine($"wifi: {ssid}");
         }
 
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
