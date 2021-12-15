@@ -15,7 +15,13 @@ namespace Jacdac
             Platform.Crc16 = JacdacSerialWireController.Crc;
             var id = DeviceInformation.GetUniqueId();
             // TODO: compress device id into 8 bytes
-            Platform.DeviceId = Util.Slice(id, 0, 8);
+            var jid = Util.Slice(id, 0, 8);
+            Platform.DeviceId = jid;
+            for (var i = 8; i < id.Length; ++i)
+            {
+                jid[i % jid.Length] |= (byte)(id[i] << 4);
+            }
+            Platform.DeviceId = jid;
             Platform.DeviceDescription = DeviceInformation.DeviceName;
             var version = DeviceInformation.Version;
             var major = (ushort)((version >> 48) & 0xFFFF);

@@ -75,10 +75,33 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            Debug.WriteLine($"transport error {args.Error}");
+            var e = args.Error;
+            string name = "?";
+            switch (e)
+            {
+                case TransportError.Overrun: name = "overrun"; break;
+                case TransportError.BufferFull: name = "overrun"; break;
+                case TransportError.Frame: name = "frame"; break;
+                case TransportError.Frame_MaxData: name = "frame max data"; break;
+                case TransportError.Frame_NoPayload: name = "frame no payload"; break;
+                case TransportError.Frame_Busy: name = "frame busy"; break;
+                case TransportError.Frame_A: name = "frame A"; break;
+                case TransportError.Frame_B: name = "frame B"; break;
+                case TransportError.Frame_C: name = "frame C"; break;
+                case TransportError.Frame_D: name = "frame D"; break;
+                case TransportError.Frame_E: name = "frame E"; break;
+                case TransportError.Frame_F: name = "frame F"; break;
+            }
+
+            Debug.WriteLine($"transport error {name}");
             if (args.Data != null)
             {
-                Debug.WriteLine(HexEncoding.ToString(args.Data));
+                Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
+            }
+
+            if (args.Error == TransportError.Frame_NoPayload)
+            {
+                this.Transport_FrameReceived(sender, args.Data);
             }
         }
 
@@ -102,13 +125,14 @@ namespace Jacdac
                         ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
                         this.SelfDeviceServer.SendPacket(pkt);
                     }
+                    this.SelfDeviceServer.ProcessPacket(pkt);
                 }
                 device.ProcessPacket(pkt);
             }
             else
             {
                 device.LastSeen = pkt.Timestamp;
-                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL 
+                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL
                     && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
                 {
                     device.ProcessAnnouncement(pkt);
@@ -123,6 +147,7 @@ namespace Jacdac
                 }
                 else
                 {
+                    Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
                     if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
                         this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);

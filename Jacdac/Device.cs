@@ -94,7 +94,7 @@ namespace Jacdac
                 var data = this._servicesData;
                 var n = data == null ? 0 : data.Length >> 2;
                 var res = new uint[n];
-                for(var i = 1; i < res.Length;++i)
+                for (var i = 1; i < res.Length; ++i)
                 {
                     res[i] = Util.Read32(data, i * 4);
                 }

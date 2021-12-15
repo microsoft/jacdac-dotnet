@@ -35,7 +35,7 @@ namespace Jacdac_RgbLed
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { rtc, wifiServer }
+                Services = new JDServiceServer[] { }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
@@ -45,12 +45,12 @@ namespace Jacdac_RgbLed
             wifiServer.Ssid.Changed += this.Ssid_Changed;
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {
-                Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
+                //  Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
             };
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
-            wifiServer.Start();
+            // wifiServer.Start();
 
             //Blink(transport);
             while (true)
@@ -77,15 +77,11 @@ namespace Jacdac_RgbLed
             var wifi = (JDStaticRegisterServer)sender;
             var ssid = wifi.GetValueAsString();
             Display.WriteLine($"SSID: {ssid}");
-            if (!String.IsNullOrEmpty(ssid))
-            {
-                this.serviceTwins.ResolveSpecification(Jacdac.BuzzerConstants.ServiceClass);
-            }
         }
 
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
         {
-            Debug.WriteLine($"self announced");
+            //Debug.WriteLine($"self announced");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)

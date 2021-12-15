@@ -8,12 +8,12 @@ namespace Jacdac
             : base(Jacdac.ControlConstants.ServiceClass)
         {
             this.AddRegister(new JDDynamicRegisterServer(
-                (ushort)Jacdac.ControlReg.Uptime, "u64", 
-                (reg) => new object[] { reg.Service.Device.Bus.Timestamp.TotalMilliseconds * 1000 })
+                (ushort)Jacdac.ControlReg.Uptime, "u64",
+                (reg) => new object[] { (ulong)(reg.Service.Device.Bus.Timestamp.TotalMilliseconds * 1000) })
             );
             if (Platform.McuTemperature != null)
                 this.AddRegister(new JDDynamicRegisterServer(
-                    (ushort)Jacdac.ControlReg.McuTemperature, "i16", 
+                    (ushort)Jacdac.ControlReg.McuTemperature, "i16",
                     (reg) => new object[] { Platform.McuTemperature() })
                 );
             if (options?.FirmwareVersion != null)
