@@ -13,6 +13,12 @@ namespace Jacdac_RgbLed
     {
         static void Main()
         {
+            new Program().Start();
+        }
+
+        ServiceTwins serviceTwins;
+        public void Start()
+        {
             // Display enable
             Display.Enable();
             // jacdac
@@ -20,6 +26,8 @@ namespace Jacdac_RgbLed
             var transport = new UartTransport(new GHIElectronics.TinyCLR.Devices.Jacdac.JacdacController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             var ssidStorage = new SdCardKeyStorage("wifi.json");
+            this.serviceTwins = new ServiceTwins(null);
+
             var rtc = new RealTimeClockServer(() => DateTime.Now, RealTimeClockVariant.Crystal);
             var wifiServer = new WifiServer(ssidStorage);
             var bus = new JDBus(transport, new JDBusOptions
@@ -33,7 +41,7 @@ namespace Jacdac_RgbLed
             bus.SelfAnnounced += Bus_SelfAnnounced;
             wifiServer.ScanStarted += WifiServer_ScanStarted;
             wifiServer.ScanCompleted += WifiServer_ScanCompleted;
-            wifiServer.Ssid.Changed += Ssid_Changed;
+            wifiServer.Ssid.Changed += this.Ssid_Changed;
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {
                 Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
@@ -64,11 +72,15 @@ namespace Jacdac_RgbLed
                 Display.WriteLine($"  {ssid}");
         }
 
-        private static void Ssid_Changed(JDNode sender, EventArgs e)
+        private void Ssid_Changed(JDNode sender, EventArgs e)
         {
             var wifi = (JDStaticRegisterServer)sender;
-            var ssid = wifi.GetValues()[0];
+            var ssid = wifi.GetValueAsString();
             Display.WriteLine($"SSID: {ssid}");
+            if (!String.IsNullOrEmpty(ssid))
+            {
+                this.serviceTwins.ResolveSpecification(Jacdac.BuzzerConstants.ServiceClass);
+            }
         }
 
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
@@ -81,7 +93,7 @@ namespace Jacdac_RgbLed
             Display.WriteLine($"{e.Device} disconnected");
         }
 
-        private static void Bus_DeviceConnected(JDNode node, DeviceEventArgs e)
+        private void Bus_DeviceConnected(JDNode node, DeviceEventArgs e)
         {
             Display.WriteLine($"{e.Device} connected");
             var bus = (JDBus)node;
@@ -116,6 +128,10 @@ namespace Jacdac_RgbLed
                     {
                         Display.WriteLine($"inactive {inactive}: {inactive.Count}");
                     };
+
+                    // spec
+                    var spec = this.serviceTwins.ResolveSpecification(service.ServiceClass);
+                    Debug.WriteLine(spec?.ToString());
                 }
             };
         }

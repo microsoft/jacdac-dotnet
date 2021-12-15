@@ -32,19 +32,16 @@ namespace Jacdac
 
     public delegate ServiceTwinSpec ServiceTwinSpecReader(byte[] buffer);
 
-
     public sealed class ServiceTwins
     {
         public string Root = "https://microsoft.github.io/jacdac-docs/";
-        public readonly IWebClient WebClient;
         public readonly IKeyStorage Storage;
         public readonly ServiceTwinSpecReader SpecificationReader;
 
-        public ServiceTwins(IWebClient webClient, IKeyStorage storage, ServiceTwinSpecReader specificationReader)
+        public ServiceTwins(IKeyStorage storage)
         {
-            this.WebClient = webClient;
             this.Storage = storage;
-            this.SpecificationReader = specificationReader;
+            this.SpecificationReader = Platform.ServiceTwinReader;
         }
 
         public ServiceTwinSpec ResolveSpecification(uint serviceClass)
@@ -58,7 +55,7 @@ namespace Jacdac
         private ServiceTwinSpec ReadFromStorage(uint serviceClass)
         {
             var key = serviceClass.ToString("x8");
-            var buffer = this.Storage.Read(key);
+            var buffer = this.Storage?.Read(key);
             if (buffer == null) return null;
             else return this.SpecificationReader(buffer);
         }
@@ -66,15 +63,16 @@ namespace Jacdac
         private ServiceTwinSpec DownloadSpecification(uint serviceClass)
         {
             var key = serviceClass.ToString("x8");
-            var url = $"https://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x8")}.json";
+            var url = $"http://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x8")}.json";
             Debug.WriteLine($"fetch {url}");
             try
             {
-                var buffer = this.WebClient.Get(url);
+                var buffer = Platform.WebGet(url);
                 if (buffer != null)
                 {
-                    this.Storage.Write(key, buffer);
-                    return this.ReadFromStorage(serviceClass);
+                    var spec = this.SpecificationReader(buffer);
+                    this.Storage?.Write(key, buffer);
+                    return spec;
                 }
             }
             catch (Exception ex)

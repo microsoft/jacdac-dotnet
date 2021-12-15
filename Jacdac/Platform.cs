@@ -29,9 +29,9 @@ namespace Jacdac
             return crc;
         };
         public static McuTemperatureCalculator McuTemperature;
+        public static ServiceTwinSpecReader ServiceTwinReader;
+        public static HttpWebRequestGet WebGet;
     }
-
-
 
     public interface IKeyStorage
     {
@@ -42,8 +42,5 @@ namespace Jacdac
         void Clear();
     }
 
-    public interface IWebClient
-    {
-        byte[] Get(string url);
-    }
+    public delegate byte[] HttpWebRequestGet(string url);
 }

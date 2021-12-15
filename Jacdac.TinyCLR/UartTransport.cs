@@ -1,6 +1,10 @@
-﻿using GHIElectronics.TinyCLR.Native;
+﻿using GHIElectronics.TinyCLR.Data.Json;
+using GHIElectronics.TinyCLR.Native;
 using System;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Jacdac
 {
@@ -24,6 +28,52 @@ namespace Jacdac
             {
                 var start = DateTime.Now;
                 return () => DateTime.Now - start;
+            };
+            Platform.ServiceTwinReader = (byte[] buffer) =>
+            {
+                try
+                {
+                    var text = System.Text.UTF8Encoding.UTF8.GetString(buffer);
+                    return (ServiceTwinSpec)JsonConverter.DeserializeObject(text, typeof(ServiceTwinSpec),
+                        (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
+                            {
+                                if (instancePath == "/")
+                                    return new ServiceTwinSpec();
+                                return null;
+                            });
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    return null;
+                }
+            };
+            Platform.WebGet = (string url) =>
+            {
+                var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
+                using (var req = HttpWebRequest.Create(url) as HttpWebRequest)
+                {
+                    req.KeepAlive = false;
+                    req.ReadWriteTimeout = 2000;
+                    req.HttpsAuthentCerts = certx509;
+                    using (var res = req.GetResponse() as HttpWebResponse)
+                    {
+                        if (res.StatusCode == HttpStatusCode.OK)
+                            using (var stream = res.GetResponseStream())
+                            {
+                                var mem = new MemoryStream();
+                                var read = 0;
+                                var buf = new byte[512];
+                                do
+                                {
+                                    read = stream.Read(buf, 0, buf.Length);
+                                    mem.Write(buf, 0, buf.Length);
+                                } while (read != 0);
+                                return mem.ToArray();
+                            }
+                    }
+                }
+                return null;
             };
         }
 
