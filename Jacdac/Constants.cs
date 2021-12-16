@@ -72,5 +72,9 @@
         public const uint UNDEFINED = 0xFFFFFFFF;
 
         public const uint RESET_IN_TIME_US = 2000000;
+        // time withouth seeing a package to be considered "lost", 2x announce interval
+        public const uint JD_DEVICE_LOST_DELAY = 1500;
+        // time without seeing a packet to be considered "disconnected"
+        public const uint JD_DEVICE_DISCONNECTED_DELAY = 5000;
     }
 }

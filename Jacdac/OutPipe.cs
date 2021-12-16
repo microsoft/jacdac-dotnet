@@ -18,6 +18,8 @@ namespace Jacdac
 
         public static OutPipe From(JDBus bus, Packet pkt)
         {
+            if (bus == null) return null;
+
             var values = PacketEncoding.UnPack("b[8] u16", pkt.Data);
             var id = HexEncoding.ToString((byte[])values[0]);
             var port = (ushort)values[1];

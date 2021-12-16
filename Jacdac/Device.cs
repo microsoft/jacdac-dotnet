@@ -5,7 +5,7 @@ namespace Jacdac
 {
     public sealed class JDDevice : JDNode
     {
-        public readonly JDBus Bus;
+        private JDBus bus;
         public readonly string DeviceId;
         public TimeSpan LastSeen;
         public uint EventCounter;
@@ -15,10 +15,20 @@ namespace Jacdac
 
         public JDDevice(JDBus bus, string deviceId)
         {
-            this.Bus = bus;
+            this.bus = bus;
             this.DeviceId = deviceId;
             this.LastSeen = bus.Timestamp;
             this._servicesData = new byte[0];
+        }
+
+        public JDBus Bus
+        {
+            get { return bus; }
+        }
+
+        public void Disconnect()
+        {
+            this.bus = null;
         }
 
         public string ShortId
@@ -150,6 +160,8 @@ namespace Jacdac
 
         public void SendPacket(Packet pkt, bool ack = false)
         {
+            if (this.Bus == null) return;
+
             pkt.DeviceId = this.DeviceId;
             this.Bus.SelfDeviceServer.SendPacket(pkt);
             if (ack)

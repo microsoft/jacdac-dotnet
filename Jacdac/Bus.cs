@@ -217,10 +217,11 @@ namespace Jacdac
         {
             this.SelfDeviceServer.SendAnnounce();
             this.SendResetIn();
+            this.CleanDevices();
             this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
         }
 
-        public void SendResetIn()
+        private void SendResetIn()
         {
             if ((this.Timestamp - this.LastResetInTime).TotalMilliseconds < Jacdac.Constants.RESET_IN_TIME_US / 2)
                 return;
@@ -234,6 +235,43 @@ namespace Jacdac
                 );
             rst.SetMultiCommand(Jacdac.ControlConstants.ServiceClass);
             this.SelfDeviceServer.SendPacket(rst);
+        }
+
+        private void CleanDevices()
+        {
+            var now = this.Timestamp;
+            var devices = this.devices;
+            var disconnected = 0;
+            foreach (var device in devices)
+            {
+                if (device.DeviceId != this.SelfDeviceServer.DeviceId &&
+                    (now - device.LastSeen).TotalMilliseconds > Jacdac.Constants.JD_DEVICE_DISCONNECTED_DELAY)
+                {
+                    device.Disconnect();
+                    disconnected++;
+                }
+            }
+            if (disconnected > 0)
+            {
+                Debug.WriteLine($"cleaning out {disconnected} devices");
+                var disco = new JDDevice[disconnected];
+                var newDevices = new JDDevice[devices.Length - disconnected];
+                var k = 0;
+                var d = 0;
+                for (var i = 0; i < devices.Length; i++)
+                {
+                    var device = devices[i];
+                    if (device.Bus != null)
+                        newDevices[k++] = device;
+                    else
+                        disco[d++] = device;
+                }
+                Debug.Assert(d == disconnected);
+                Debug.Assert(k == newDevices.Length);
+                this.devices = newDevices;
+                for (var i = 0; i < disco.Length; i++)
+                    this.DeviceDisconnected(this, new DeviceEventArgs(disco[i]));
+            }
         }
 
         public event DeviceEventHandler DeviceConnected;

@@ -107,7 +107,7 @@ namespace Jacdac.Servers
             new Thread(() =>
             {
                 var pipe = OutPipe.From(this.Device.Bus, args.Packet);
-                pipe.RespondForEach(this.KeyStorage.GetKeys(), (result) =>
+                pipe?.RespondForEach(this.KeyStorage.GetKeys(), (result) =>
                 {
                     var key = (string)result;
                     return PacketEncoding.Pack("i16 i16 s", new object[] { (int)0, (int)0, key });
@@ -121,7 +121,7 @@ namespace Jacdac.Servers
             {
                 var pipe = OutPipe.From(this.Device.Bus, args.Packet);
                 var ssids = this.lastScanResults ?? new string[0];
-                pipe.RespondForEach(ssids, (result) =>
+                pipe?.RespondForEach(ssids, (result) =>
                 {
                     var ssid = (string)result;
                     return PacketEncoding.Pack("u32 u32 i8 u8 u8[6] s", new object[] {
