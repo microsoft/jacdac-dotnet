@@ -190,6 +190,13 @@ namespace Jacdac
             get { return (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS) != 0; }
         }
 
+        public void SetMultiCommand(uint serviceClass)
+        {
+            this.header[3] |= (byte)Jacdac.Constants.JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS | (byte)Jacdac.Constants.JD_FRAME_FLAG_COMMAND;
+            Util.Write32(this.header, 4, serviceClass);
+            Util.Write32(this.header, 8, 0);
+        }
+
         public uint MulticommandClass
         {
             get

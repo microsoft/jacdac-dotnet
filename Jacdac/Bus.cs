@@ -216,7 +216,24 @@ namespace Jacdac
         private void SendAnnounce(Object stateInfo)
         {
             this.SelfDeviceServer.SendAnnounce();
+            this.SendResetIn();
             this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SendResetIn()
+        {
+            if ((this.Timestamp - this.LastResetInTime).TotalMilliseconds < Jacdac.Constants.RESET_IN_TIME_US / 2)
+                return;
+
+            // don't send reset if already received
+            // or no devices
+            this.LastResetInTime = this.Timestamp;
+            var rst = Packet.From(
+                (ushort)((ushort)Jacdac.Constants.CMD_SET_REG | (ushort)Jacdac.ControlReg.ResetIn),
+                PacketEncoding.Pack("u32", new object[] { Jacdac.Constants.RESET_IN_TIME_US })
+                );
+            rst.SetMultiCommand(Jacdac.ControlConstants.ServiceClass);
+            this.SelfDeviceServer.SendPacket(rst);
         }
 
         public event DeviceEventHandler DeviceConnected;

@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public sealed class JDRegister : JDServiceNode
     {
-        public bool NotImplemented = false;
+        private bool notImplemented = false;
         public TimeSpan LastGetTimestamp = TimeSpan.Zero;
         public TimeSpan LastSetTimestamp = TimeSpan.Zero;
         public bool NeedsRefresh = false;
@@ -23,6 +23,19 @@ namespace Jacdac
                 if (this._lastReportPkt != null)
                     return this._lastReportPkt.Data;
                 return null;
+            }
+        }
+
+        public bool NotImplemented
+        {
+            get { return this.notImplemented; }
+            set
+            {
+                if (value != this.notImplemented)
+                {
+                    this.notImplemented = value;
+                    this.RaiseChanged();
+                }
             }
         }
 
@@ -62,7 +75,8 @@ namespace Jacdac
             }
         }
 
-        public void SendSet(byte[] data, bool ack = false) {
+        public void SendSet(byte[] data, bool ack = false)
+        {
             if (this.NotImplemented) return;
 
             ushort cmd = (ushort)(Jacdac.Constants.CMD_SET_REG | this.Code);

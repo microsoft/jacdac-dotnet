@@ -101,6 +101,9 @@ namespace Jacdac
             this.packetCount = 0;
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
+
+
+
             this.SendPacket(pkt);
         }
 

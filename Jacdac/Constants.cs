@@ -70,5 +70,7 @@
         public const ushort CONTROL_REG_RESET_IN = 0x80;
 
         public const uint UNDEFINED = 0xFFFFFFFF;
+
+        public const uint RESET_IN_TIME_US = 2000000;
     }
 }
