@@ -70,8 +70,6 @@ namespace Jacdac
         public void SendPacket(Packet pkt)
         {
             this.packetCount++;
-            if (!pkt.IsMultiCommand)
-                pkt.DeviceId = this.DeviceId;
             var frame = Packet.ToFrame(new Packet[] { pkt });
             this.Bus.Transport.SendFrame(frame);
         }
@@ -101,9 +99,7 @@ namespace Jacdac
             this.packetCount = 0;
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
-
-
-
+            pkt.DeviceId = this.DeviceId;
             this.SendPacket(pkt);
         }
 

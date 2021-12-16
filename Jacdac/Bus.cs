@@ -78,7 +78,6 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            /*
             var e = args.Error;
             string name = "?";
             switch (e)
@@ -102,7 +101,6 @@ namespace Jacdac
             {
                 Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
             }
-            */
             if (args.Error == TransportError.Frame_NoPayload)
             {
                 this.Transport_FrameReceived(sender, args.Data);
@@ -127,7 +125,8 @@ namespace Jacdac
                     {
                         var ack = Packet.OnlyHeader(pkt.Crc);
                         ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
-                        this.SelfDeviceServer.SendPacket(pkt);
+                        ack.DeviceId = this.SelfDeviceServer.DeviceId;
+                        this.SelfDeviceServer.SendPacket(ack);
                     }
                     this.SelfDeviceServer.ProcessPacket(pkt);
                 }

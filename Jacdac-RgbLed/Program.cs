@@ -104,6 +104,8 @@ namespace Jacdac_RgbLed
                 if (e.Device.IsUniqueBrain) Display.WriteLine($" unique brain");
                 if (e.Device.IsBridge) Display.WriteLine($" bridge");
 
+                if (device.StatusLight != null)
+                    device.StatusLight.Blink(0xff0000, 0, 500, 10);
                 var uptimeReg = device.Services()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime, true);
                 try
                 {

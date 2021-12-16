@@ -14,6 +14,7 @@ namespace Jacdac
 
         byte[] _servicesData;
         JDService[] _services = null;
+        LEDController _statusLight = null;
 
         public JDDevice(JDBus bus, string deviceId)
         {
@@ -36,6 +37,33 @@ namespace Jacdac
         public string ShortId
         {
             get { return Util.ShortDeviceId(this.DeviceId); }
+        }
+
+        /**
+         * Gets the control announce flag from the annouce packet.
+         * @category Control
+         */
+        public ControlAnnounceFlags AnnounceFlags
+        {
+            get => (ControlAnnounceFlags)(this._servicesData != null ? Util.Read16(this._servicesData, 0) : 0);
+        }
+
+        public ControlAnnounceFlags StatusLightFlags
+        {
+            get => this.AnnounceFlags & ControlAnnounceFlags.StatusLightRgbFade;
+        }
+
+        public LEDController StatusLight
+        {
+            get
+            {
+                if (this._statusLight == null && this.StatusLightFlags != ControlAnnounceFlags.StatusLightNone)
+                    this._statusLight = new LEDController(
+                        this._services[0],
+                        (ushort)Jacdac.ControlCmd.SetStatusLight
+                    );
+                return this._statusLight;
+            }
         }
 
         public override string ToString()
@@ -306,6 +334,7 @@ namespace Jacdac
         {
             if (this.Bus == null || this.Bus.IsPassive) return;
 
+            Debug.Assert(!pkt.IsMultiCommand);
             pkt.DeviceId = this.DeviceId;
             this.Bus.SelfDeviceServer.SendPacket(pkt);
             if (pkt.RequiresAck)

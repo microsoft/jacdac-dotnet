@@ -136,6 +136,7 @@ namespace Jacdac
             if (device == null) return;
 
             pkt.ServiceIndex = this.ServiceIndex;
+            pkt.DeviceId = this.Device.DeviceId;
             device.SendPacket(pkt);
         }
 
@@ -147,6 +148,8 @@ namespace Jacdac
             var now = device.Bus.Timestamp;
             var cmd = device.CreateEventCmd(eventCode);
             var pkt = Packet.From(cmd, data);
+            pkt.ServiceIndex = this.ServiceIndex;
+            pkt.DeviceId = this.Device.DeviceId;
             this.SendPacket(pkt);
             device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 20);
             device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 100);
