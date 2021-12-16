@@ -161,13 +161,19 @@ namespace Jacdac
             return p;
         }
 
-        public static Packet OnlyHeader(ushort serviceCommand)
+        public static Packet FromCmd(ushort serviceCommand, byte[] buffer = null)
         {
-            var data = new byte[0];
-            return Packet.From(serviceCommand, data);
+            var pkt = From(serviceCommand, buffer);
+            pkt.IsCommand = true;
+            return pkt;
         }
 
         public byte[] ToBuffer() => Util.BufferConcat(this.header, this.data);
+
+        public string ToTrace()
+        {
+            return $"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(Packet.ToFrame(new Packet[] { this }))}";
+        }
 
         public string DeviceId
         {
@@ -301,7 +307,19 @@ namespace Jacdac
             get => this.data;
         }
 
-        public bool IsCommand => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0;
+        public bool IsCommand
+        {
+            get => (this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_COMMAND) != 0;
+            set
+            {
+                unchecked
+                {
+                    if (value) this.header[3] |= (byte)Jacdac.Constants.JD_FRAME_FLAG_COMMAND;
+                    else this.header[3] &= (byte)~Jacdac.Constants.JD_FRAME_FLAG_COMMAND;
+                }
+            }
+
+        }
         public bool IsReport => !this.IsCommand;
 
         public object[] UnPack(string format)

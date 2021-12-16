@@ -101,105 +101,105 @@ namespace Jacdac
             {
                 Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
             }
+        }
+        void ProcessPacket(Packet pkt)
+        {
+            JDDevice device = null;
+            if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device))
+                device = this.GetDevice(pkt.DeviceId);
 
-            void ProcessPacket(Packet pkt)
+            if (device == null)
             {
-                JDDevice device = null;
-                if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device))
-                    device = this.GetDevice(pkt.DeviceId);
-
-                if (device == null)
+                // skip
+            }
+            else if (pkt.IsCommand)
+            {
+                if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
                 {
-                    // skip
-                }
-                else if (pkt.IsCommand)
-                {
-                    if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
+                    if (pkt.RequiresAck)
                     {
-                        if (pkt.RequiresAck)
-                        {
-                            var ack = Packet.OnlyHeader(pkt.Crc);
-                            ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
-                            ack.DeviceId = this.SelfDeviceServer.DeviceId;
-                            this.SelfDeviceServer.SendPacket(ack);
-                        }
-                        this.SelfDeviceServer.ProcessPacket(pkt);
+                        var ack = Packet.From(pkt.Crc);
+                        ack.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
+                        ack.DeviceId = this.SelfDeviceServer.DeviceId;
+                        this.SelfDeviceServer.SendPacket(ack);
                     }
-                    device.ProcessPacket(pkt);
+                    this.SelfDeviceServer.ProcessPacket(pkt);
+                }
+                device.ProcessPacket(pkt);
+            }
+            else
+            {
+                device.LastSeen = pkt.Timestamp;
+                if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL
+                    && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
+                {
+                    device.ProcessAnnouncement(pkt);
+                }
+                else if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL &&
+                  pkt.IsMultiCommand &&
+                  pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
+                  )
+                {
+                    // someone else is doing reset in
+                    this.LastResetInTime = pkt.Timestamp;
                 }
                 else
                 {
-                    device.LastSeen = pkt.Timestamp;
-                    if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL
-                        && pkt.ServiceCommand == Jacdac.Constants.CMD_ADVERTISEMENT_DATA)
-                    {
-                        device.ProcessAnnouncement(pkt);
-                    }
-                    else if (pkt.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CTRL &&
-                      pkt.IsMultiCommand &&
-                      pkt.ServiceCommand == (Jacdac.Constants.CMD_SET_REG | Jacdac.Constants.CONTROL_REG_RESET_IN)
-                      )
-                    {
-                        // someone else is doing reset in
-                        this.LastResetInTime = pkt.Timestamp;
-                    }
-                    else
-                    {
-                        //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
-                        if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
-                            this.SelfDeviceServer.ProcessPacket(pkt);
-                        device.ProcessPacket(pkt);
-                    }
+                    //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
+                    if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
+                        this.SelfDeviceServer.ProcessPacket(pkt);
+                    device.ProcessPacket(pkt);
                 }
             }
+        }
 
-            public bool TryGetDevice(string deviceId, out JDDevice device)
+        public bool TryGetDevice(string deviceId, out JDDevice device)
+        {
+            var devices = this.devices;
+            for (var i = 0; i < devices.Length; i++)
             {
-                var devices = this.devices;
-                for (var i = 0; i < devices.Length; i++)
+                var d = (JDDevice)devices[i];
+                if (d.DeviceId == deviceId)
                 {
-                    var d = (JDDevice)devices[i];
-                    if (d.DeviceId == deviceId)
-                    {
-                        device = d;
-                        return true;
-                    }
+                    device = d;
+                    return true;
                 }
-                device = null;
-                return false;
             }
+            device = null;
+            return false;
+        }
 
-            public JDDevice GetDevice(string deviceId)
+        public JDDevice GetDevice(string deviceId)
+        {
+            var changed = false;
+            JDDevice device;
+            lock (this)
             {
-                var changed = false;
-                JDDevice device;
-                lock (this)
+                if (!this.TryGetDevice(deviceId, out device))
                 {
-                    if (!this.TryGetDevice(deviceId, out device))
-                    {
-                        device = new JDDevice(this, deviceId);
-                        var newDevices = new JDDevice[this.devices.Length + 1];
-                        this.devices.CopyTo(newDevices, 0);
-                        newDevices[newDevices.Length - 1] = device;
-                        this.devices = newDevices;
-                        changed = true;
-                    }
+                    device = new JDDevice(this, deviceId);
+                    var newDevices = new JDDevice[this.devices.Length + 1];
+                    this.devices.CopyTo(newDevices, 0);
+                    newDevices[newDevices.Length - 1] = device;
+                    this.devices = newDevices;
+                    changed = true;
                 }
-                if (changed)
-                {
-                    if (this.DeviceConnected != null)
-                        this.DeviceConnected.Invoke(this, new DeviceEventArgs(device));
-                    this.RaiseChanged();
-                }
-                return device;
             }
+            if (changed)
+            {
+                if (this.DeviceConnected != null)
+                    this.DeviceConnected.Invoke(this, new DeviceEventArgs(device));
+                this.RaiseChanged();
+            }
+            return device;
+        }
 
-            public JDDevice[] Devices()
-            {
-                var devices = this.devices;
-                var res = (JDDevice[])devices.Clone();
-                return res;
-            }
+        public JDDevice[] Devices()
+        {
+            var devices = this.devices;
+            var res = (JDDevice[])devices.Clone();
+            return res;
+        }
 
         public TimeSpan Timestamp
         {

@@ -93,7 +93,7 @@ namespace Jacdac
 
             this.LastGetAttempts++;
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
-            var pkt = Packet.OnlyHeader(cmd);
+            var pkt = Packet.From(cmd);
             if (ack)
                 pkt.RequiresAck = true;
             this.Service.SendPacket(pkt);

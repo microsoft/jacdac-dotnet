@@ -30,6 +30,8 @@ namespace Jacdac
 
         public void Blink(uint from, uint to, int interval, int repeat)
         {
+            if (interval <= 0 || repeat <= 0) return;
+
             var aid = ++this.animationId;
             var on = PacketEncoding.Pack("u8 u8 u8 u8", trgbToValues(from));
             var off = PacketEncoding.Pack("u8 u8 u8 u8", trgbToValues(to));
@@ -37,14 +39,12 @@ namespace Jacdac
             {
                 for (var i = 0; i < repeat; ++i)
                 {
-                    Debug.WriteLine("blink on");
-                    var onPkt = Packet.From(this.Code, on);
+                    var onPkt = Packet.FromCmd(this.Code, on);
                     this.Service.SendPacket(onPkt);
                     Thread.Sleep(interval);
                     if (this.animationId != aid) return;
 
-                    Debug.WriteLine("blink off");
-                    var offPkt = Packet.From(this.Code, off);
+                    var offPkt = Packet.FromCmd(this.Code, off);
                     this.Service.SendPacket(offPkt);
                     Thread.Sleep(interval);
                     if (this.animationId != aid) return;

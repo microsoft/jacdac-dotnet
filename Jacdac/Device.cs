@@ -71,6 +71,13 @@ namespace Jacdac
             return this.ShortId;
         }
 
+        public void Reset()
+        {
+            var ctrl = this.GetService(0);
+            if (ctrl != null)
+                ctrl.SendPacket(Packet.FromCmd((ushort)Jacdac.ControlCmd.Reset));
+        }
+
         public void ProcessPacket(Packet pkt)
         {
             if (pkt.IsCrcAck)
@@ -186,6 +193,11 @@ namespace Jacdac
         {
             var srvs = this._services.Clone() as JDService[];
             return srvs;
+        }
+
+        public JDService GetService(byte serviceIndex)
+        {
+            return this._services != null && serviceIndex < this._services.Length ? this._services[serviceIndex] : null;
         }
 
         sealed class Ack

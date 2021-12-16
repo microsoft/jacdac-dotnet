@@ -53,7 +53,7 @@
         // the COMMAND flag signifies that the device_identifier is the recipent
         // (i.e., it's a command for the peripheral); the bit clear means device_identifier is the source
         // (i.e., it's a report from peripheral or a broadcast message)
-        public const uint JD_FRAME_FLAG_COMMAND = 0x01;
+        public const byte JD_FRAME_FLAG_COMMAND = 0x01;
         // an ACK should be issued with CRC of this package upon reception
         public const byte JD_FRAME_FLAG_ACK_REQUESTED = 0x02;
         // the device_identifier contains target service class number
