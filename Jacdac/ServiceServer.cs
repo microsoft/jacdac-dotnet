@@ -14,6 +14,11 @@ namespace Jacdac
         }
     }
 
+    public class JDServiceServerOptions
+    {
+        public string InstanceName;
+    }
+
     public abstract class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
@@ -22,11 +27,17 @@ namespace Jacdac
         private JDRegisterServer[] registers;
         private JDCommand[] commands;
 
-        protected JDServiceServer(uint serviceClass)
+        protected JDServiceServer(uint serviceClass, JDServiceServerOptions options)
         {
             this.ServiceClass = serviceClass;
             this.registers = new JDRegisterServer[0];
             this.commands = new JDCommand[0];
+
+            if (!String.IsNullOrEmpty(options?.InstanceName))
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.BaseReg.InstanceName, "s", new object[] { options.InstanceName })
+                {
+                    IsConst = true
+                });
         }
 
         public virtual bool ProcessPacket(Packet pkt)

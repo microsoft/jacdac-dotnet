@@ -5,7 +5,7 @@ namespace Jacdac
     public sealed class ControlServer : JDServiceServer
     {
         internal ControlServer(JDBusOptions options)
-            : base(Jacdac.ControlConstants.ServiceClass)
+            : base(Jacdac.ControlConstants.ServiceClass, null)
         {
             this.AddRegister(new JDDynamicRegisterServer(
                 (ushort)Jacdac.ControlReg.Uptime, "u64",
