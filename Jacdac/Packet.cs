@@ -4,6 +4,18 @@ using System.Collections;
 
 namespace Jacdac
 {
+    [Serializable]
+    public sealed class AckException : Exception
+    {
+        public readonly Packet Packet;
+
+        public AckException(Packet packet)
+        {
+            this.Packet = packet;
+        }
+    }
+
+    [Serializable]
     [DebuggerDisplay("{DeviceId}[{ServiceIndex}]>{ServiceCommand}")]
     public sealed class Packet
     {
@@ -220,6 +232,25 @@ namespace Jacdac
             }
         }
 
+        public bool IsCrcAck
+        {
+            get => this.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_CRC_ACK;
+        }
+
+        public bool IsPipe
+        {
+            get => this.ServiceIndex == Jacdac.Constants.JD_SERVICE_INDEX_PIPE;
+        }
+
+        public ushort PipePort
+        {
+            get => (ushort)(this.ServiceCommand >> Jacdac.Constants.PIPE_PORT_SHIFT);
+        }
+
+        public ushort pipeCount
+        {
+            get => (ushort)(this.ServiceCommand & Jacdac.Constants.PIPE_COUNTER_MASK);
+        }
 
         public byte ServiceIndex
         {

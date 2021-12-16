@@ -87,13 +87,15 @@ namespace Jacdac
             this.Service.SendPacket(pkt);
         }
 
-        public void SendGet()
+        public void SendGet(bool ack = false)
         {
             if (this.NotImplemented) return;
 
             this.LastGetAttempts++;
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
             var pkt = Packet.OnlyHeader(cmd);
+            if (ack)
+                pkt.RequiresAck = true;
             this.Service.SendPacket(pkt);
         }
     }

@@ -57,12 +57,13 @@ namespace Jacdac
                 flags |
                 (this._count & Jacdac.Constants.PIPE_COUNTER_MASK));
             var pkt = Packet.From(cmd, buf);
+            pkt.RequiresAck = true;
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_PIPE;
             try
             {
-                this.device.SendPacket(pkt, true);
+                this.device.SendPacket(pkt);
             }
-            catch (Exception)
+            catch (AckException)
             {
                 this.free();
             }

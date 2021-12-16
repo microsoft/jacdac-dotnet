@@ -11,6 +11,7 @@ namespace Jacdac
         public string FirmwareVersion = Platform.FirmwareVersion;
         public uint ProductIdentifier;
         public bool IsClient = true;
+        public bool IsPassive = false;
         public JDServiceServer[] Services;
     }
 
@@ -24,6 +25,7 @@ namespace Jacdac
 
         public readonly Transport Transport;
         public bool IsClient;
+        public bool IsPassive;
 
         public TimeSpan LastResetInTime;
         private Timer announceTimer;
@@ -35,6 +37,7 @@ namespace Jacdac
 
             this.clock = Platform.CreateClock();
             this.IsClient = options.IsClient;
+            this.IsPassive = options.IsPassive;
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
 
             this.devices = new JDDevice[] { new JDDevice(this, this.SelfDeviceServer.DeviceId) };
@@ -75,6 +78,7 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
+            /*
             var e = args.Error;
             string name = "?";
             switch (e)
@@ -98,7 +102,7 @@ namespace Jacdac
             {
                 Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
             }
-
+            */
             if (args.Error == TransportError.Frame_NoPayload)
             {
                 this.Transport_FrameReceived(sender, args.Data);
@@ -147,7 +151,7 @@ namespace Jacdac
                 }
                 else
                 {
-                    Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
+                    //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
                     if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
                         this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);

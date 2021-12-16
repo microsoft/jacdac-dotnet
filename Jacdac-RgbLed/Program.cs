@@ -103,6 +103,17 @@ namespace Jacdac_RgbLed
                 if (e.Device.IsDashboard) Display.WriteLine($" dashboard");
                 if (e.Device.IsUniqueBrain) Display.WriteLine($" unique brain");
                 if (e.Device.IsBridge) Display.WriteLine($" bridge");
+
+                var uptimeReg = device.Services()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime, true);
+                try
+                {
+                    uptimeReg.SendGet(true);
+                }
+                catch (AckException)
+                {
+                    Debug.WriteLine("ack missing");
+                }
+
                 foreach (var service in device.Services())
                 {
                     if (service.ServiceIndex == 0) continue;
