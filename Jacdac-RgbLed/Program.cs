@@ -35,7 +35,7 @@ namespace Jacdac_RgbLed
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { rtc }
+                Services = new JDServiceServer[] { rtc, wifiServer }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
@@ -50,7 +50,7 @@ namespace Jacdac_RgbLed
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
-            // wifiServer.Start();
+            //wifiServer.Start();
 
             //Blink(transport);
             while (true)
@@ -126,8 +126,8 @@ namespace Jacdac_RgbLed
                     };
 
                     // spec
-                    var spec = this.serviceTwins.ResolveSpecification(service.ServiceClass);
-                    Debug.WriteLine(spec?.ToString());
+                    //var spec = this.serviceTwins.ResolveSpecification(service.ServiceClass);
+                    //Debug.WriteLine(spec?.ToString());
                 }
             };
         }

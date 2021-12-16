@@ -47,6 +47,9 @@ namespace Jacdac.Servers
             this.AddCommand((ushort)Jacdac.WifiCmd.ForgetNetwork, this.handleForgetNetwork);
             this.AddCommand((ushort)Jacdac.WifiCmd.ForgetAllNetworks, this.handleForgetAllNetworks);
             this.AddCommand((ushort)Jacdac.WifiCmd.Scan, this.handleScan);
+            this.AddCommand((ushort)Jacdac.WifiCmd.LastScanResults, this.handleLastScanResults);
+            this.AddCommand((ushort)Jacdac.WifiCmd.ListKnownNetworks, this.handleListKnownNetworks);
+            this.AddCommand((ushort)Jacdac.WifiCmd.Reconnect, this.handleReconnect);
 
             this.Enabled.Changed += Enabled_Changed;
             this.Ssid.Changed += Ssid_Changed;
@@ -92,6 +95,45 @@ namespace Jacdac.Servers
             this.Ssid.SetValues(new object[] { "" });
             this.IpAddress.SetValues(new object[] { new byte[0] });
             this.Enabled.SetValues(new object[] { (byte)0 });
+        }
+
+        private void handleReconnect(JDNode node, PacketEventArgs args)
+        {
+            this.Connect();
+        }
+
+        private void handleListKnownNetworks(JDNode node, PacketEventArgs args)
+        {
+            new Thread(() =>
+            {
+                var pipe = OutPipe.From(this.Device.Bus, args.Packet);
+                pipe.RespondForEach(this.KeyStorage.GetKeys(), (result) =>
+                {
+                    var key = (string)result;
+                    return PacketEncoding.Pack("i16 i16 s", new object[] { (int)0, (int)0, key });
+                });
+            }).Start();
+        }
+
+        private void handleLastScanResults(JDNode node, PacketEventArgs args)
+        {
+            new Thread(() =>
+            {
+                var pipe = OutPipe.From(this.Device.Bus, args.Packet);
+                var ssids = this.lastScanResults ?? new string[0];
+                pipe.RespondForEach(ssids, (result) =>
+                {
+                    var ssid = (string)result;
+                    return PacketEncoding.Pack("u32 u32 i8 u8 u8[6] s", new object[] {
+                        (Jacdac.WifiAPFlags)0,
+                        (uint)0, // reserved
+                        (sbyte)0, // RSSI
+                        (byte)0, // channel
+                        new byte[6], // bssid
+                        ssid
+                    });
+                });
+            }).Start();
         }
 
         private void handleScan(JDNode node, PacketEventArgs args)
