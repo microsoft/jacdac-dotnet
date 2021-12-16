@@ -1,17 +1,18 @@
 ﻿namespace Jacdac
 {
-    public sealed class SensorServerOptions {
+    public sealed class SensorServerOptions
+    {
         public uint StreamingInterval;
         public uint StreamingPreferredInterval;
     }
 
-    public abstract class SensorServer : JDServiceServer
+    public abstract class JDSensorServer : JDServiceServer
     {
         public readonly JDStaticRegisterServer Reading;
         public readonly JDStaticRegisterServer StreamingSamples;
         public readonly JDStaticRegisterServer StreamingInterval;
 
-        protected SensorServer(uint serviceClass, string readingFormat, object[] reading, SensorServerOptions options = null)
+        protected JDSensorServer(uint serviceClass, string readingFormat, object[] reading, SensorServerOptions options = null)
             : base(serviceClass)
         {
             this.AddRegister(this.Reading = new JDStaticRegisterServer((ushort)SystemReg.Reading, readingFormat, reading));

@@ -35,7 +35,7 @@ namespace Jacdac_RgbLed
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { }
+                Services = new JDServiceServer[] { rtc }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;

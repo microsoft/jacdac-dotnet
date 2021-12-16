@@ -25,6 +25,7 @@ namespace Jacdac.Servers
                     (byte)now.Second
                 };
             }));
+            this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.SensorReg.StreamingInterval, "u32", new object[] { 60000u }));
             if (variant > 0)
                 this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.RealTimeClockReg.Variant, "u8", new object[] { variant }));
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacdac
 {
@@ -35,7 +36,6 @@ namespace Jacdac
                 JDRegisterServer register;
                 if (this.TryGetRegister(pkt.RegisterCode, out register))
                     return register.ProcessPacket(pkt);
-                return false;
             }
             else if (pkt.IsCommand)
             {
@@ -47,14 +47,18 @@ namespace Jacdac
                 }
             }
 
-            // nothing done
-            if (pkt.IsMultiCommand)
-            {
-                var data = PacketEncoding.Pack("u16 u16", new object[] { pkt.ServiceCommand, pkt.Crc });
-                var resp = Packet.From((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
-                this.SendPacket(pkt);
-            }
+            if (!pkt.IsMultiCommand)
+                this.SendNotImplemented(pkt);
+
             return false;
+        }
+
+        private void SendNotImplemented(Packet pkt)
+        {
+            Debug.Assert(!pkt.IsMultiCommand);
+            var data = PacketEncoding.Pack("u16 u16", new object[] { pkt.ServiceCommand, pkt.Crc });
+            var resp = Packet.From((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
+            this.SendPacket(resp);
         }
 
         public void AddRegister(JDRegisterServer register)

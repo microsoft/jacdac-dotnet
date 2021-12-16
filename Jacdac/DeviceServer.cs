@@ -9,7 +9,7 @@ namespace Jacdac
         public readonly string DeviceId;
         private byte restartCounter = 0;
         private byte packetCount = 0;
-        private JDServiceServer[] servers;
+        private JDServiceServer[] services;
         public bool IsClient;
         private ushort eventCounter = 0;
 
@@ -18,13 +18,13 @@ namespace Jacdac
             this.Bus = bus;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
-            this.servers = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
-            this.servers[0] = new ControlServer(options);
+            this.services = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
+            this.services[0] = new ControlServer(options);
             if (options.Services != null)
-                options.Services.CopyTo(this.servers, 1);
-            for (byte i = 0; i < servers.Length; i++)
+                options.Services.CopyTo(this.services, 1);
+            for (byte i = 0; i < services.Length; i++)
             {
-                var server = this.servers[i];
+                var server = this.services[i];
                 server.Device = this;
                 server.ServiceIndex = i;
             }
@@ -42,11 +42,29 @@ namespace Jacdac
 
         public void ProcessPacket(Packet pkt)
         {
-            if (pkt.ServiceIndex < this.servers.Length)
+            var services = this.services;
+            if (pkt.IsMultiCommand)
             {
-                var server = this.servers[pkt.ServiceIndex];
-                server.ProcessPacket(pkt);
+                var serviceClass = pkt.MulticommandClass;
+                for (var i = 0; i < services.Length; ++i)
+                {
+                    var service = services[i];
+                    if (service.ServiceClass == serviceClass)
+                        service.ProcessPacket(pkt);
+                }
             }
+            else
+            {
+                if (pkt.ServiceIndex < services.Length)
+                {
+                    var service = services[pkt.ServiceIndex];
+                    if (!service.ProcessPacket(pkt))
+                    {
+
+                    }
+                }
+            }
+
         }
 
         public void SendPacket(Packet pkt)
@@ -63,7 +81,7 @@ namespace Jacdac
             // we do not support any services (at least yet)
             if (this.restartCounter < 0xf) this.restartCounter++;
 
-            var servers = this.servers;
+            var servers = this.services;
             var serviceClasses = new object[servers.Length - 1];
             for (var i = 1; i < servers.Length; ++i)
                 serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
