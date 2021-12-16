@@ -1,22 +1,17 @@
 namespace Jacdac {
-    // Service: Thermocouple
-    public static class ThermocoupleConstants
+    // Service: Temperature
+    public static class TemperatureConstants
     {
-        public const uint ServiceClass = 0x143ac061;
+        public const uint ServiceClass = 0x1421bac7;
     }
 
-    public enum ThermocoupleVariant: byte { // uint8_t
-        TypeK = 0x1,
-        TypeJ = 0x2,
-        TypeT = 0x3,
-        TypeE = 0x4,
-        TypeN = 0x5,
-        TypeS = 0x6,
-        TypeR = 0x7,
-        TypeB = 0x8,
+    public enum TemperatureVariant: byte { // uint8_t
+        Outdoor = 0x1,
+        Indoor = 0x2,
+        Body = 0x3,
     }
 
-    public enum ThermocoupleReg {
+    public enum TemperatureReg {
         /**
          * Read-only °C i22.10 (int32_t). The temperature.
          *
@@ -57,7 +52,7 @@ namespace Jacdac {
          * Constant Variant (uint8_t). Specifies the type of thermometer.
          *
          * ```
-         * const [variant] = jdunpack<[ThermocoupleVariant]>(buf, "u8")
+         * const [variant] = jdunpack<[TemperatureVariant]>(buf, "u8")
          * ```
          */
         Variant = 0x107,

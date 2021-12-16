@@ -23,6 +23,16 @@ namespace Jacdac {
          * ```
          */
         ClicksPerTurn = 0x180,
+
+        /**
+         * Constant bool (uint8_t). The encoder is combined with a clicker. If this is the case, the clicker button service
+         * should follow this service in the service list of the device.
+         *
+         * ```
+         * const [clicker] = jdunpack<[number]>(buf, "u8")
+         * ```
+         */
+        Clicker = 0x181,
     }
 
 }

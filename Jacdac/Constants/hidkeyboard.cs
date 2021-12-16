@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x18b05b6a;
     }
 
+    [System.Flags]
     public enum HidKeyboardModifiers: byte { // uint8_t
         None = 0x0,
         LeftControl = 0x1,

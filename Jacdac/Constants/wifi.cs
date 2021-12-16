@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x18aae1fa;
     }
 
+    [System.Flags]
     public enum WifiAPFlags: uint { // uint32_t
         HasPassword = 0x1,
         WPS = 0x2,

@@ -7,8 +7,7 @@ namespace Jacdac {
 
     public enum LightLevelVariant: byte { // uint8_t
         PhotoResistor = 0x1,
-        LEDMatrix = 0x2,
-        Ambient = 0x3,
+        ReverseBiasedLED = 0x2,
     }
 
     public enum LightLevelReg {

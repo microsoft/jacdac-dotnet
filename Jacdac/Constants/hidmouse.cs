@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x1885dc1c;
     }
 
+    [System.Flags]
     public enum HidMouseButton: ushort { // uint16_t
         Left = 0x1,
         Right = 0x2,
