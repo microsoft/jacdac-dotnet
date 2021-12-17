@@ -23,6 +23,26 @@ namespace Jacdac
         Frame_F = 2147483904u
     }
 
+    public static class TransportStats
+    {
+        public static uint FrameReceived;
+        public static uint FrameSent;
+        public static uint FrameError;
+
+        public static uint Overrun;
+        public static uint BufferFull;
+        public static uint Frame;
+        public static uint FrameMaxData;
+        public static uint FrameNoPayload;
+        public static uint FrameBusy;
+        public static uint FrameA;
+        public static uint FrameB;
+        public static uint FrameC;
+        public static uint FrameD;
+        public static uint FrameE;
+        public static uint FrameF;
+    }
+
     public sealed class TransportErrorReceivedEventArgs
     {
         public TransportError Error { get; }

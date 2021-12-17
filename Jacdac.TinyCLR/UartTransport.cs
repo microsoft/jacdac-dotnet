@@ -96,7 +96,6 @@ namespace Jacdac
             {
                 this.controller.PacketReceived += (JacdacSerialWireController sender, PacketReceivedEventArgs packet) =>
                 {
-                    Stats.FrameReceived++;
                     var frame = packet.Data;
                     value(this, frame);
                 };
@@ -142,7 +141,7 @@ namespace Jacdac
 
         public override void SendFrame(byte[] data)
         {
-            Stats.FrameSent++;
+            TransportStats.FrameSent++;
             this.controller.Write(data);
         }
     }

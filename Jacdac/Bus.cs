@@ -50,6 +50,7 @@ namespace Jacdac
 
         private void Transport_FrameReceived(Transport sender, byte[] frame)
         {
+            TransportStats.FrameReceived++;
             var packets = Packet.FromFrame(frame);
             var timestamp = this.Timestamp;
             foreach (var packet in packets)
@@ -78,29 +79,30 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
+            TransportStats.FrameError++;
             var e = args.Error;
             string name = "?";
             switch (e)
             {
-                case TransportError.Overrun: name = "overrun"; break;
-                case TransportError.BufferFull: name = "overrun"; break;
-                case TransportError.Frame: name = "frame"; break;
-                case TransportError.Frame_MaxData: name = "frame max data"; break;
-                case TransportError.Frame_NoPayload: name = "frame no payload"; break;
-                case TransportError.Frame_Busy: name = "frame busy"; break;
-                case TransportError.Frame_A: name = "frame A"; break;
-                case TransportError.Frame_B: name = "frame B"; break;
-                case TransportError.Frame_C: name = "frame C"; break;
-                case TransportError.Frame_D: name = "frame D"; break;
-                case TransportError.Frame_E: name = "frame E"; break;
-                case TransportError.Frame_F: name = "frame F"; break;
+                case TransportError.Overrun: name = "overrun"; TransportStats.Overrun++; break;
+                case TransportError.BufferFull: name = "overrun"; TransportStats.BufferFull++; break;
+                case TransportError.Frame: name = "frame"; TransportStats.Frame++; break;
+                case TransportError.Frame_MaxData: name = "frame max data"; TransportStats.FrameMaxData++; break;
+                case TransportError.Frame_NoPayload: name = "frame no payload"; TransportStats.FrameNoPayload++; break;
+                case TransportError.Frame_Busy: name = "frame busy"; TransportStats.FrameBusy++; break;
+                case TransportError.Frame_A: name = "frame A"; TransportStats.FrameA++; break;
+                case TransportError.Frame_B: name = "frame B"; TransportStats.FrameB++; break;
+                case TransportError.Frame_C: name = "frame C"; TransportStats.FrameC++; break;
+                case TransportError.Frame_D: name = "frame D"; TransportStats.FrameD++; break;
+                case TransportError.Frame_E: name = "frame E"; TransportStats.FrameE++; break;
+                case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            Debug.WriteLine($"transport error {name}");
-            if (args.Data != null)
-            {
-                Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
-            }
+            //  Debug.WriteLine($"transport error {name}");
+            // if (args.Data != null)
+            // {
+            //    Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
+            // }
         }
         void ProcessPacket(Packet pkt)
         {
