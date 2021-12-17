@@ -37,7 +37,7 @@ namespace Jacdac {
         /**
          * Pack format for 'open' register data.
          */
-        public const string Open = "u16";
+        public const string OpenReport = "u16";
     }
 
     public enum TcpPipeCmd {

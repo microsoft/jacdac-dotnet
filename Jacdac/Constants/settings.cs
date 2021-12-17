@@ -72,7 +72,7 @@ namespace Jacdac {
         /**
          * Pack format for 'get' register data.
          */
-        public const string Get = "z b";
+        public const string GetReport = "z b";
 
         /**
          * Pack format for 'set' register data.

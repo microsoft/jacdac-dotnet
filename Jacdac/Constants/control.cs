@@ -126,7 +126,7 @@ namespace Jacdac {
         /**
          * Pack format for 'services' register data.
          */
-        public const string Services = "u16 u8 u8 r: u32";
+        public const string ServicesReport = "u16 u8 u8 r: u32";
 
         /**
          * Pack format for 'flood_ping' register data.
@@ -136,7 +136,7 @@ namespace Jacdac {
         /**
          * Pack format for 'flood_ping' register data.
          */
-        public const string FloodPing = "u32 b";
+        public const string FloodPingReport = "u32 b";
 
         /**
          * Pack format for 'set_status_light' register data.
@@ -151,7 +151,7 @@ namespace Jacdac {
         /**
          * Pack format for 'reliable_commands' register data.
          */
-        public const string ReliableCommands = "b[12]";
+        public const string ReliableCommandsReport = "b[12]";
     }
 
 

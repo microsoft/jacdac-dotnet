@@ -67,7 +67,7 @@ namespace Jacdac {
         /**
          * Pack format for 'info' register data.
          */
-        public const string Info = "u32 u32 u32 u32";
+        public const string InfoReport = "u32 u32 u32 u32";
 
         /**
          * Pack format for 'set_session' register data.
@@ -77,7 +77,7 @@ namespace Jacdac {
         /**
          * Pack format for 'set_session' register data.
          */
-        public const string SetSession = "u32";
+        public const string SetSessionReport = "u32";
 
         /**
          * Pack format for 'page_data' register data.
@@ -87,7 +87,7 @@ namespace Jacdac {
         /**
          * Pack format for 'page_data' register data.
          */
-        public const string PageData = "u32 u32 u32";
+        public const string PageDataReport = "u32 u32 u32";
     }
 
 }

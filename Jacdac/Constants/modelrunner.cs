@@ -58,7 +58,7 @@ namespace Jacdac {
         /**
          * Pack format for 'set_model' register data.
          */
-        public const string SetModel = "u16";
+        public const string SetModelReport = "u16";
 
         /**
          * Pack format for 'predict' register data.
@@ -68,7 +68,7 @@ namespace Jacdac {
         /**
          * Pack format for 'predict' register data.
          */
-        public const string Predict = "u16";
+        public const string PredictReport = "u16";
     }
 
     public enum ModelRunnerReg {

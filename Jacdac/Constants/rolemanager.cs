@@ -100,7 +100,7 @@ namespace Jacdac {
         /**
          * Pack format for 'get_role' register data.
          */
-        public const string GetRole = "b[8] u8 s";
+        public const string GetRoleReport = "b[8] u8 s";
 
         /**
          * Pack format for 'set_role' register data.
