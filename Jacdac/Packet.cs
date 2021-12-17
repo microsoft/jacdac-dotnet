@@ -116,10 +116,9 @@ namespace Jacdac
             if (packets == null || packets.Length == 0)
                 throw new ArgumentNullException("packets");
             var firstPacket = packets[0];
-            var deviceId = firstPacket.DeviceIdBuffer;
             var flags = firstPacket.FrameFlags;
             for (var i = 1; i < packets.Length; i++)
-                if (!Util.BufferEquals(packets[i].DeviceIdBuffer, deviceId) || packets[i].FrameFlags != flags)
+                if (!firstPacket.IsSameDevice(packets[i]) || packets[i].FrameFlags != flags)
                     throw new ArgumentException("All packets have to have the same device id and flags");
 
             uint frameSize = 0;
@@ -133,7 +132,7 @@ namespace Jacdac
             uint offset = 2; // // frame_crc placeholder
             frameData[offset++] = (byte)frameSize;
             frameData[offset++] = flags;
-            deviceId.CopyTo(frameData, (int)offset);
+            Array.Copy(firstPacket.header, 4, frameData, (int)offset, 8);
             offset += 8;
             Debug.Assert(offset == 12);
             foreach (var packet in packets)
@@ -184,7 +183,7 @@ namespace Jacdac
 
         public string DeviceId
         {
-            get => HexEncoding.ToString(this.DeviceIdBuffer);
+            get => HexEncoding.ToString(this.header, 4, 8);
             set
             {
                 var idb = HexEncoding.ToBuffer(value);
@@ -206,6 +205,17 @@ namespace Jacdac
                     throw new ArgumentOutOfRangeException("DeviceIdBuffer");
                 Array.Copy(value, 0, this.header, 4, value.Length);
             }
+        }
+
+        public bool IsSameDevice(Packet other)
+        {
+            var oheader = other.header;
+            for (var i = 4; i < 12; i++)
+            {
+                if (this.header[i] != oheader[i])
+                    return false;
+            }
+            return true;
         }
 
         public byte FrameFlags => this.header[3];

@@ -5,15 +5,21 @@ namespace Jacdac
 {
     public static class HexEncoding
     {
-        public static string ToString(byte[] data)
+        public static string ToString(byte[] data, int start, int length)
         {
             Stats.HexEncode++;
-            var hex = new StringBuilder(data.Length * 2);
-            for (var i = 0; i < data.Length; i++)
+            var n = Math.Min(length, data.Length - start);
+            var hex = new StringBuilder(n * 2);
+            for (var i = 0; i < n; i++)
             {
-                hex.Append(data[i].ToString("x2"));
+                hex.Append(data[start + i].ToString("x2"));
             }
             return hex.ToString();
+        }
+
+        public static string ToString(byte[] data)
+        {
+            return ToString(data, 0, data.Length);
         }
 
         public static byte[] ToBuffer(string hex)
@@ -196,6 +202,10 @@ namespace Jacdac
                 if (i < 0) throw new ArgumentOutOfRangeException("value");
                 return (uint)i;
             }
+            if (value is bool)
+            {
+                return (bool)value ? 1u : 0u;
+            }
             // try for enums
             return (uint)value;
         }
@@ -211,6 +221,10 @@ namespace Jacdac
                 var i = (uint)value;
                 if (i > int.MaxValue) throw new ArgumentOutOfRangeException("value");
                 return (int)i;
+            }
+            if (value is bool)
+            {
+                return (bool)value ? 1 : 0;
             }
             // try for enums
             return (int)value;

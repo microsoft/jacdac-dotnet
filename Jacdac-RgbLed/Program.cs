@@ -35,11 +35,12 @@ namespace Jacdac_RgbLed
             var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
             var wifiServer = new WifiServer(ssidStorage);
             var settingsServer = new SettingsServer(settingsStorage);
+            var protoTest = new ProtoTestServer();
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { rtc, wifiServer, settingsServer }
+                Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
@@ -85,11 +86,11 @@ namespace Jacdac_RgbLed
 
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
         {
-            //Debug.WriteLine($"self announced");
+            var bus = (JDBus)sender;
             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
             var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
             Display.WriteLine($"s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
-            Debug.WriteLine($"s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
+            Debug.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)

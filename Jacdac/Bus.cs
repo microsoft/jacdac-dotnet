@@ -105,9 +105,10 @@ namespace Jacdac
         }
         void ProcessPacket(Packet pkt)
         {
+            var deviceId = pkt.DeviceId;
             JDDevice device = null;
-            if (!pkt.IsMultiCommand && !this.TryGetDevice(pkt.DeviceId, out device))
-                device = this.GetDevice(pkt.DeviceId);
+            if (!pkt.IsMultiCommand && !this.TryGetDevice(deviceId, out device))
+                device = this.GetDevice(deviceId);
 
             if (device == null)
             {
@@ -115,7 +116,7 @@ namespace Jacdac
             }
             else if (pkt.IsCommand)
             {
-                if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
+                if (deviceId == this.SelfDeviceServer.DeviceId)
                 {
                     if (pkt.RequiresAck)
                     {
@@ -147,7 +148,7 @@ namespace Jacdac
                 else
                 {
                     //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
-                    if (pkt.DeviceId == this.SelfDeviceServer.DeviceId)
+                    if (deviceId == this.SelfDeviceServer.DeviceId)
                         this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);
                 }

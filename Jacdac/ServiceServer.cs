@@ -86,6 +86,13 @@ namespace Jacdac
             }
         }
 
+        public JDStaticRegisterServer AddRegister(ushort code, string packFormat, object[] values)
+        {
+            var register = new JDStaticRegisterServer(code, packFormat, values);
+            this.AddRegister(register);
+            return register;
+        }
+
         public void AddCommand(ushort code, PacketEventHandler handler)
         {
             lock (this)
