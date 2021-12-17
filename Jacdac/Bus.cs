@@ -88,7 +88,6 @@ namespace Jacdac
                 case TransportError.BufferFull: name = "overrun"; TransportStats.BufferFull++; break;
                 case TransportError.Frame: name = "frame"; TransportStats.Frame++; break;
                 case TransportError.Frame_MaxData: name = "frame max data"; TransportStats.FrameMaxData++; break;
-                case TransportError.Frame_NoPayload: name = "frame no payload"; TransportStats.FrameNoPayload++; break;
                 case TransportError.Frame_Busy: name = "frame busy"; TransportStats.FrameBusy++; break;
                 case TransportError.Frame_A: name = "frame A"; TransportStats.FrameA++; break;
                 case TransportError.Frame_B: name = "frame B"; TransportStats.FrameB++; break;

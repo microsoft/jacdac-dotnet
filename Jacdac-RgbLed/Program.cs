@@ -86,7 +86,8 @@ namespace Jacdac_RgbLed
             //Debug.WriteLine($"self announced");
             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
             var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-            Display.WriteLine($"s{Jacdac.TransportStats.FrameSent} r{Jacdac.TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
+            Display.WriteLine($"s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
+            Debug.WriteLine($"s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)

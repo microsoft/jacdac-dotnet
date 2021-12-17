@@ -13,14 +13,13 @@ namespace Jacdac
         BufferFull = 2u,
         Frame = 0x80000000u,
         Frame_MaxData = 2147483649u,
-        Frame_NoPayload = 2147483650u,
-        Frame_Busy = 2147483652u,
-        Frame_A = 2147483656u,
-        Frame_B = 2147483664u,
-        Frame_C = 2147483680u,
-        Frame_D = 2147483712u,
-        Frame_E = 2147483776u,
-        Frame_F = 2147483904u
+        Frame_Busy = 2147483650u,
+        Frame_A = 2147483652u,
+        Frame_B = 2147483656u,
+        Frame_C = 2147483664u,
+        Frame_D = 2147483680u,
+        Frame_E = 2147483712u,
+        Frame_F = 2147483776u
     }
 
     public static class TransportStats
@@ -33,7 +32,6 @@ namespace Jacdac
         public static uint BufferFull;
         public static uint Frame;
         public static uint FrameMaxData;
-        public static uint FrameNoPayload;
         public static uint FrameBusy;
         public static uint FrameA;
         public static uint FrameB;
