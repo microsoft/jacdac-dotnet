@@ -162,6 +162,7 @@ namespace Jacdac.Tests
         [InlineData("u32 z s", new object[] { 42u, "foo", "bar" })]
         [InlineData("i8 z s", new object[] { 42, "foo", "bar" })]
         [InlineData("u8 z s", new object[] { 42u, "foo12", "bar" })]
+        [InlineData("z b", new object[] { "foo", new byte[] { 1, 2, 3 } })]
         [InlineData("u8 r: u8 z", new object[] {
             42u,
             new object[] {

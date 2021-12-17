@@ -25,7 +25,7 @@
                 var key = (string)k;
                 var isSecret = key[0] == '$';
                 var value = isSecret ? new byte[1] : (this.Storage.Read(key) ?? new byte[0]);
-                return PacketEncoding.Pack("s b", new object[] { key, value });
+                return PacketEncoding.Pack("z b", new object[] { key, value });
             });
         }
 
