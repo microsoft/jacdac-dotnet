@@ -43,4 +43,26 @@ namespace Jacdac {
         MaxRatesSupported = 0x10a,
     }
 
+    public static class GyroscopeRegPack {
+        /**
+         * Pack format for 'rotation_rates' register data.
+         */
+        public const string RotationRates = "i12.20 i12.20 i12.20";
+
+        /**
+         * Pack format for 'rotation_rates_error' register data.
+         */
+        public const string RotationRatesError = "u12.20";
+
+        /**
+         * Pack format for 'max_rate' register data.
+         */
+        public const string MaxRate = "u12.20";
+
+        /**
+         * Pack format for 'max_rates_supported' register data.
+         */
+        public const string MaxRatesSupported = "r: u12.20";
+    }
+
 }

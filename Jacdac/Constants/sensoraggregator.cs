@@ -63,4 +63,31 @@ namespace Jacdac {
         CurrentSample = 0x101,
     }
 
+    public static class SensorAggregatorRegPack {
+        /**
+         * Pack format for 'inputs' register data.
+         */
+        public const string Inputs = "u16 u16 u32 r: b[8] u32 u8 u8 u8 i8";
+
+        /**
+         * Pack format for 'num_samples' register data.
+         */
+        public const string NumSamples = "u32";
+
+        /**
+         * Pack format for 'sample_size' register data.
+         */
+        public const string SampleSize = "u8";
+
+        /**
+         * Pack format for 'streaming_samples' register data.
+         */
+        public const string StreamingSamples = "u32";
+
+        /**
+         * Pack format for 'current_sample' register data.
+         */
+        public const string CurrentSample = "b";
+    }
+
 }

@@ -24,4 +24,16 @@ namespace Jacdac {
         Length = 0x180,
     }
 
+    public static class FlexRegPack {
+        /**
+         * Pack format for 'bending' register data.
+         */
+        public const string Bending = "i1.15";
+
+        /**
+         * Pack format for 'length' register data.
+         */
+        public const string Length = "u16";
+    }
+
 }

@@ -41,6 +41,18 @@ namespace Jacdac {
         Formats = 0x180,
     }
 
+    public static class BarcodeReaderRegPack {
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+
+        /**
+         * Pack format for 'formats' register data.
+         */
+        public const string Formats = "r: u8";
+    }
+
     public enum BarcodeReaderEvent {
         /**
          * Raised when a bar code is detected and decoded. If the reader detects multiple codes, it will issue multiple events.
@@ -51,6 +63,13 @@ namespace Jacdac {
          * ```
          */
         Detect = 0x1,
+    }
+
+    public static class BarcodeReaderEventPack {
+        /**
+         * Pack format for 'detect' register data.
+         */
+        public const string Detect = "u8 s";
     }
 
 }

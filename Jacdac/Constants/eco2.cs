@@ -57,4 +57,31 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class ECO2RegPack {
+        /**
+         * Pack format for 'e_CO2' register data.
+         */
+        public const string ECO2 = "u22.10";
+
+        /**
+         * Pack format for 'e_CO2_error' register data.
+         */
+        public const string ECO2Error = "u22.10";
+
+        /**
+         * Pack format for 'min_e_CO2' register data.
+         */
+        public const string MinECO2 = "u22.10";
+
+        /**
+         * Pack format for 'max_e_CO2' register data.
+         */
+        public const string MaxECO2 = "u22.10";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

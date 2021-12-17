@@ -42,4 +42,26 @@ namespace Jacdac {
         MaxTVOC = 0x105,
     }
 
+    public static class TvocRegPack {
+        /**
+         * Pack format for 'TVOC' register data.
+         */
+        public const string TVOC = "u22.10";
+
+        /**
+         * Pack format for 'TVOC_error' register data.
+         */
+        public const string TVOCError = "u22.10";
+
+        /**
+         * Pack format for 'min_TVOC' register data.
+         */
+        public const string MinTVOC = "u22.10";
+
+        /**
+         * Pack format for 'max_TVOC' register data.
+         */
+        public const string MaxTVOC = "u22.10";
+    }
+
 }

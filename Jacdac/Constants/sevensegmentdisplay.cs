@@ -55,6 +55,33 @@ namespace Jacdac {
         DecimalPoint = 0x181,
     }
 
+    public static class SevenSegmentDisplayRegPack {
+        /**
+         * Pack format for 'digits' register data.
+         */
+        public const string Digits = "b";
+
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.16";
+
+        /**
+         * Pack format for 'double_dots' register data.
+         */
+        public const string DoubleDots = "u8";
+
+        /**
+         * Pack format for 'digit_count' register data.
+         */
+        public const string DigitCount = "u8";
+
+        /**
+         * Pack format for 'decimal_point' register data.
+         */
+        public const string DecimalPoint = "u8";
+    }
+
     public enum SevenSegmentDisplayCmd {
         /**
          * Argument: value f64 (uint64_t). Shows the number on the screen using the decimal dot if available.
@@ -65,6 +92,18 @@ namespace Jacdac {
          * Argument: text string (bytes). Shows the text on the screen. The client may decide to scroll the text if too long.
          */
         SetText = 0x81,
+    }
+
+    public static class SevenSegmentDisplayCmdPack {
+        /**
+         * Pack format for 'set_number' register data.
+         */
+        public const string SetNumber = "f64";
+
+        /**
+         * Pack format for 'set_text' register data.
+         */
+        public const string SetText = "s";
     }
 
 }

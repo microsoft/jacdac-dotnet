@@ -42,4 +42,11 @@ namespace Jacdac {
         Clear = 0x81,
     }
 
+    public static class HidKeyboardCmdPack {
+        /**
+         * Pack format for 'key' register data.
+         */
+        public const string Key = "r: u16 u8 u8";
+    }
+
 }

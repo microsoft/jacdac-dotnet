@@ -40,4 +40,21 @@ namespace Jacdac {
         MaxSwitchingCurrent = 0x180,
     }
 
+    public static class RelayRegPack {
+        /**
+         * Pack format for 'closed' register data.
+         */
+        public const string Closed = "u8";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+
+        /**
+         * Pack format for 'max_switching_current' register data.
+         */
+        public const string MaxSwitchingCurrent = "u32";
+    }
+
 }

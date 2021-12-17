@@ -96,4 +96,56 @@ namespace Jacdac {
         CurrentAngle = 0x101,
     }
 
+    public static class ServoRegPack {
+        /**
+         * Pack format for 'angle' register data.
+         */
+        public const string Angle = "i16.16";
+
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+
+        /**
+         * Pack format for 'offset' register data.
+         */
+        public const string Offset = "i16.16";
+
+        /**
+         * Pack format for 'min_angle' register data.
+         */
+        public const string MinAngle = "i16.16";
+
+        /**
+         * Pack format for 'min_pulse' register data.
+         */
+        public const string MinPulse = "u16";
+
+        /**
+         * Pack format for 'max_angle' register data.
+         */
+        public const string MaxAngle = "i16.16";
+
+        /**
+         * Pack format for 'max_pulse' register data.
+         */
+        public const string MaxPulse = "u16";
+
+        /**
+         * Pack format for 'stall_torque' register data.
+         */
+        public const string StallTorque = "u16.16";
+
+        /**
+         * Pack format for 'response_speed' register data.
+         */
+        public const string ResponseSpeed = "u16.16";
+
+        /**
+         * Pack format for 'current_angle' register data.
+         */
+        public const string CurrentAngle = "i16.16";
+    }
+
 }

@@ -132,6 +132,78 @@ namespace Jacdac {
         RoU8String = 0x187,
     }
 
+    public static class ProtoTestRegPack {
+        /**
+         * Pack format for 'rw_bool' register data.
+         */
+        public const string RwBool = "u8";
+
+        /**
+         * Pack format for 'ro_bool' register data.
+         */
+        public const string RoBool = "u8";
+
+        /**
+         * Pack format for 'rw_u32' register data.
+         */
+        public const string RwU32 = "u32";
+
+        /**
+         * Pack format for 'ro_u32' register data.
+         */
+        public const string RoU32 = "u32";
+
+        /**
+         * Pack format for 'rw_i32' register data.
+         */
+        public const string RwI32 = "i32";
+
+        /**
+         * Pack format for 'ro_i32' register data.
+         */
+        public const string RoI32 = "i32";
+
+        /**
+         * Pack format for 'rw_string' register data.
+         */
+        public const string RwString = "s";
+
+        /**
+         * Pack format for 'ro_string' register data.
+         */
+        public const string RoString = "s";
+
+        /**
+         * Pack format for 'rw_bytes' register data.
+         */
+        public const string RwBytes = "b";
+
+        /**
+         * Pack format for 'ro_bytes' register data.
+         */
+        public const string RoBytes = "b";
+
+        /**
+         * Pack format for 'rw_i8_u8_u16_i32' register data.
+         */
+        public const string RwI8U8U16I32 = "i8 u8 u16 i32";
+
+        /**
+         * Pack format for 'ro_i8_u8_u16_i32' register data.
+         */
+        public const string RoI8U8U16I32 = "i8 u8 u16 i32";
+
+        /**
+         * Pack format for 'rw_u8_string' register data.
+         */
+        public const string RwU8String = "u8 s";
+
+        /**
+         * Pack format for 'ro_u8_string' register data.
+         */
+        public const string RoU8String = "u8 s";
+    }
+
     public enum ProtoTestEvent {
         /**
          * Argument: bool bool (uint8_t). An event raised when rw_bool is modified
@@ -195,6 +267,43 @@ namespace Jacdac {
          * ```
          */
         EU8String = 0x87,
+    }
+
+    public static class ProtoTestEventPack {
+        /**
+         * Pack format for 'e_bool' register data.
+         */
+        public const string EBool = "u8";
+
+        /**
+         * Pack format for 'e_u32' register data.
+         */
+        public const string EU32 = "u32";
+
+        /**
+         * Pack format for 'e_i32' register data.
+         */
+        public const string EI32 = "i32";
+
+        /**
+         * Pack format for 'e_string' register data.
+         */
+        public const string EString = "s";
+
+        /**
+         * Pack format for 'e_bytes' register data.
+         */
+        public const string EBytes = "b";
+
+        /**
+         * Pack format for 'e_i8_u8_u16_i32' register data.
+         */
+        public const string EI8U8U16I32 = "i8 u8 u16 i32";
+
+        /**
+         * Pack format for 'e_u8_string' register data.
+         */
+        public const string EU8String = "u8 s";
     }
 
     public enum ProtoTestCmd {
@@ -271,6 +380,48 @@ namespace Jacdac {
         CReportPipe = 0x90,
     }
 
+    public static class ProtoTestCmdPack {
+        /**
+         * Pack format for 'c_bool' register data.
+         */
+        public const string CBool = "u8";
+
+        /**
+         * Pack format for 'c_u32' register data.
+         */
+        public const string CU32 = "u32";
+
+        /**
+         * Pack format for 'c_i32' register data.
+         */
+        public const string CI32 = "i32";
+
+        /**
+         * Pack format for 'c_string' register data.
+         */
+        public const string CString = "s";
+
+        /**
+         * Pack format for 'c_bytes' register data.
+         */
+        public const string CBytes = "b";
+
+        /**
+         * Pack format for 'c_i8_u8_u16_i32' register data.
+         */
+        public const string CI8U8U16I32 = "i8 u8 u16 i32";
+
+        /**
+         * Pack format for 'c_u8_string' register data.
+         */
+        public const string CU8String = "u8 s";
+
+        /**
+         * Pack format for 'c_report_pipe' register data.
+         */
+        public const string CReportPipe = "b[12]";
+    }
+
 
     /**
      * pipe_report PBytes
@@ -279,5 +430,12 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class ProtoTestinfoPack {
+        /**
+         * Pack format for 'p_bytes' register data.
+         */
+        public const string PBytes = "u8";
+    }
 
 }

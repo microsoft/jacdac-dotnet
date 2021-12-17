@@ -42,4 +42,21 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class HeartRateRegPack {
+        /**
+         * Pack format for 'heart_rate' register data.
+         */
+        public const string HeartRate = "u16.16";
+
+        /**
+         * Pack format for 'heart_rate_error' register data.
+         */
+        public const string HeartRateError = "u16.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

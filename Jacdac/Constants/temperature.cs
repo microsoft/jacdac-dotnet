@@ -58,4 +58,31 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class TemperatureRegPack {
+        /**
+         * Pack format for 'temperature' register data.
+         */
+        public const string Temperature = "i22.10";
+
+        /**
+         * Pack format for 'min_temperature' register data.
+         */
+        public const string MinTemperature = "i22.10";
+
+        /**
+         * Pack format for 'max_temperature' register data.
+         */
+        public const string MaxTemperature = "i22.10";
+
+        /**
+         * Pack format for 'temperature_error' register data.
+         */
+        public const string TemperatureError = "u22.10";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

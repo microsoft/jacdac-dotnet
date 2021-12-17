@@ -18,6 +18,13 @@ namespace Jacdac {
         Sample = 0x81,
     }
 
+    public static class MicrophoneCmdPack {
+        /**
+         * Pack format for 'sample' register data.
+         */
+        public const string Sample = "b[12] u32";
+    }
+
     public enum MicrophoneReg {
         /**
          * Read-write μs uint32_t. Get or set microphone sampling period.
@@ -28,6 +35,13 @@ namespace Jacdac {
          * ```
          */
         SamplingPeriod = 0x80,
+    }
+
+    public static class MicrophoneRegPack {
+        /**
+         * Pack format for 'sampling_period' register data.
+         */
+        public const string SamplingPeriod = "u32";
     }
 
 }

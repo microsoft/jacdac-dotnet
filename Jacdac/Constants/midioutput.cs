@@ -15,6 +15,13 @@ namespace Jacdac {
         Enabled = 0x1,
     }
 
+    public static class MidiOutputRegPack {
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+    }
+
     public enum MidiOutputCmd {
         /**
          * No args. Clears any pending send data that has not yet been sent from the MIDIOutput's queue.
@@ -29,6 +36,13 @@ namespace Jacdac {
          * ```
          */
         Send = 0x81,
+    }
+
+    public static class MidiOutputCmdPack {
+        /**
+         * Pack format for 'send' register data.
+         */
+        public const string Send = "b";
     }
 
 }

@@ -46,6 +46,23 @@ namespace Jacdac {
         AutoOffDelay = 0x180,
     }
 
+    public static class SwitchRegPack {
+        /**
+         * Pack format for 'active' register data.
+         */
+        public const string Active = "u8";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+
+        /**
+         * Pack format for 'auto_off_delay' register data.
+         */
+        public const string AutoOffDelay = "u16.16";
+    }
+
     public enum SwitchEvent {
         /**
          * Emitted when switch goes from `off` to `on`.

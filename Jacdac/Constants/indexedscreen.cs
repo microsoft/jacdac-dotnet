@@ -25,6 +25,18 @@ namespace Jacdac {
         SetPixels = 0x83,
     }
 
+    public static class IndexedScreenCmdPack {
+        /**
+         * Pack format for 'start_update' register data.
+         */
+        public const string StartUpdate = "u16 u16 u16 u16";
+
+        /**
+         * Pack format for 'set_pixels' register data.
+         */
+        public const string SetPixels = "b";
+    }
+
     public enum IndexedScreenReg {
         /**
          * Read-write ratio u0.8 (uint8_t). Set backlight brightness.
@@ -111,6 +123,48 @@ namespace Jacdac {
          * ```
          */
         Rotation = 0x83,
+    }
+
+    public static class IndexedScreenRegPack {
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.8";
+
+        /**
+         * Pack format for 'palette' register data.
+         */
+        public const string Palette = "r: u8 u8 u8 u8";
+
+        /**
+         * Pack format for 'bits_per_pixel' register data.
+         */
+        public const string BitsPerPixel = "u8";
+
+        /**
+         * Pack format for 'width' register data.
+         */
+        public const string Width = "u16";
+
+        /**
+         * Pack format for 'height' register data.
+         */
+        public const string Height = "u16";
+
+        /**
+         * Pack format for 'width_major' register data.
+         */
+        public const string WidthMajor = "u8";
+
+        /**
+         * Pack format for 'up_sampling' register data.
+         */
+        public const string UpSampling = "u8";
+
+        /**
+         * Pack format for 'rotation' register data.
+         */
+        public const string Rotation = "u16";
     }
 
 }

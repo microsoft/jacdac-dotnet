@@ -24,4 +24,16 @@ namespace Jacdac {
         IlluminanceError = 0x106,
     }
 
+    public static class IlluminanceRegPack {
+        /**
+         * Pack format for 'illuminance' register data.
+         */
+        public const string Illuminance = "u22.10";
+
+        /**
+         * Pack format for 'illuminance_error' register data.
+         */
+        public const string IlluminanceError = "u22.10";
+    }
+
 }

@@ -29,6 +29,18 @@ namespace Jacdac {
         AllRolesAllocated = 0x181,
     }
 
+    public static class RoleManagerRegPack {
+        /**
+         * Pack format for 'auto_bind' register data.
+         */
+        public const string AutoBind = "u8";
+
+        /**
+         * Pack format for 'all_roles_allocated' register data.
+         */
+        public const string AllRolesAllocated = "u8";
+    }
+
     public enum RoleManagerCmd {
         /**
          * Get the role corresponding to given device identifer. Returns empty string if unset.
@@ -79,6 +91,33 @@ namespace Jacdac {
         ListRequiredRoles = 0x83,
     }
 
+    public static class RoleManagerCmdPack {
+        /**
+         * Pack format for 'get_role' register data.
+         */
+        public const string GetRole = "b[8] u8";
+
+        /**
+         * Pack format for 'get_role' register data.
+         */
+        public const string GetRole = "b[8] u8 s";
+
+        /**
+         * Pack format for 'set_role' register data.
+         */
+        public const string SetRole = "b[8] u8 s";
+
+        /**
+         * Pack format for 'list_stored_roles' register data.
+         */
+        public const string ListStoredRoles = "b[12]";
+
+        /**
+         * Pack format for 'list_required_roles' register data.
+         */
+        public const string ListRequiredRoles = "b[12]";
+    }
+
 
     /**
      * pipe_report StoredRoles
@@ -94,6 +133,18 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class RoleManagerinfoPack {
+        /**
+         * Pack format for 'stored_roles' register data.
+         */
+        public const string StoredRoles = "b[8] u8 s";
+
+        /**
+         * Pack format for 'required_roles' register data.
+         */
+        public const string RequiredRoles = "b[8] u32 u8 s";
+    }
 
     public enum RoleManagerEvent {
         /**

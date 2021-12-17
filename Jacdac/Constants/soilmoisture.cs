@@ -39,4 +39,21 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class SoilMoistureRegPack {
+        /**
+         * Pack format for 'moisture' register data.
+         */
+        public const string Moisture = "u0.16";
+
+        /**
+         * Pack format for 'moisture_error' register data.
+         */
+        public const string MoistureError = "u0.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

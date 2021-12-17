@@ -24,4 +24,16 @@ namespace Jacdac {
         PrecipitationPrecision = 0x108,
     }
 
+    public static class RainGaugeRegPack {
+        /**
+         * Pack format for 'precipitation' register data.
+         */
+        public const string Precipitation = "u16.16";
+
+        /**
+         * Pack format for 'precipitation_precision' register data.
+         */
+        public const string PrecipitationPrecision = "u16.16";
+    }
+
 }

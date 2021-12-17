@@ -17,6 +17,13 @@ namespace Jacdac {
         CommandNotImplemented = 0x3,
     }
 
+    public static class BaseCmdPack {
+        /**
+         * Pack format for 'command_not_implemented' register data.
+         */
+        public const string CommandNotImplemented = "u16 u16";
+    }
+
     public enum BaseReg {
         /**
          * Constant string (bytes). A friendly name that describes the role of this service instance in the device.
@@ -44,6 +51,18 @@ namespace Jacdac {
         StatusCode = 0x103,
     }
 
+    public static class BaseRegPack {
+        /**
+         * Pack format for 'instance_name' register data.
+         */
+        public const string InstanceName = "s";
+
+        /**
+         * Pack format for 'status_code' register data.
+         */
+        public const string StatusCode = "u16 u16";
+    }
+
     public enum BaseEvent {
         /**
          * Notifies that the status code of the service changed.
@@ -53,6 +72,13 @@ namespace Jacdac {
          * ```
          */
         StatusCodeChanged = 0x4,
+    }
+
+    public static class BaseEventPack {
+        /**
+         * Pack format for 'status_code_changed' register data.
+         */
+        public const string StatusCodeChanged = "u16 u16";
     }
 
 }

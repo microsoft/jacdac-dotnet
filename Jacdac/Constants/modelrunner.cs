@@ -49,6 +49,28 @@ namespace Jacdac {
          */
     }
 
+    public static class ModelRunnerCmdPack {
+        /**
+         * Pack format for 'set_model' register data.
+         */
+        public const string SetModel = "u32";
+
+        /**
+         * Pack format for 'set_model' register data.
+         */
+        public const string SetModel = "u16";
+
+        /**
+         * Pack format for 'predict' register data.
+         */
+        public const string Predict = "b[12]";
+
+        /**
+         * Pack format for 'predict' register data.
+         */
+        public const string Predict = "u16";
+    }
+
     public enum ModelRunnerReg {
         /**
          * Read-write uint16_t. When register contains `N > 0`, run the model automatically every time new `N` samples are collected.
@@ -155,6 +177,63 @@ namespace Jacdac {
          * ```
          */
         Parallel = 0x188,
+    }
+
+    public static class ModelRunnerRegPack {
+        /**
+         * Pack format for 'auto_invoke_every' register data.
+         */
+        public const string AutoInvokeEvery = "u16";
+
+        /**
+         * Pack format for 'outputs' register data.
+         */
+        public const string Outputs = "r: f32";
+
+        /**
+         * Pack format for 'input_shape' register data.
+         */
+        public const string InputShape = "r: u16";
+
+        /**
+         * Pack format for 'output_shape' register data.
+         */
+        public const string OutputShape = "r: u16";
+
+        /**
+         * Pack format for 'last_run_time' register data.
+         */
+        public const string LastRunTime = "u32";
+
+        /**
+         * Pack format for 'allocated_arena_size' register data.
+         */
+        public const string AllocatedArenaSize = "u32";
+
+        /**
+         * Pack format for 'model_size' register data.
+         */
+        public const string ModelSize = "u32";
+
+        /**
+         * Pack format for 'last_error' register data.
+         */
+        public const string LastError = "s";
+
+        /**
+         * Pack format for 'format' register data.
+         */
+        public const string Format = "u32";
+
+        /**
+         * Pack format for 'format_version' register data.
+         */
+        public const string FormatVersion = "u32";
+
+        /**
+         * Pack format for 'parallel' register data.
+         */
+        public const string Parallel = "u8";
     }
 
 }

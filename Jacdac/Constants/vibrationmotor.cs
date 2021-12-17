@@ -16,4 +16,11 @@ namespace Jacdac {
         Vibrate = 0x80,
     }
 
+    public static class VibrationMotorCmdPack {
+        /**
+         * Pack format for 'vibrate' register data.
+         */
+        public const string Vibrate = "r: u8 u0.8";
+    }
+
 }

@@ -33,4 +33,21 @@ namespace Jacdac {
         MaxWindSpeed = 0x105,
     }
 
+    public static class WindSpeedRegPack {
+        /**
+         * Pack format for 'wind_speed' register data.
+         */
+        public const string WindSpeed = "u16.16";
+
+        /**
+         * Pack format for 'wind_speed_error' register data.
+         */
+        public const string WindSpeedError = "u16.16";
+
+        /**
+         * Pack format for 'max_wind_speed' register data.
+         */
+        public const string MaxWindSpeed = "u16.16";
+    }
+
 }

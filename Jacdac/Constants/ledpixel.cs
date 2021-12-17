@@ -114,6 +114,53 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class LedPixelRegPack {
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.8";
+
+        /**
+         * Pack format for 'actual_brightness' register data.
+         */
+        public const string ActualBrightness = "u0.8";
+
+        /**
+         * Pack format for 'light_type' register data.
+         */
+        public const string LightType = "u8";
+
+        /**
+         * Pack format for 'num_pixels' register data.
+         */
+        public const string NumPixels = "u16";
+
+        /**
+         * Pack format for 'num_columns' register data.
+         */
+        public const string NumColumns = "u16";
+
+        /**
+         * Pack format for 'max_power' register data.
+         */
+        public const string MaxPower = "u16";
+
+        /**
+         * Pack format for 'max_pixels' register data.
+         */
+        public const string MaxPixels = "u16";
+
+        /**
+         * Pack format for 'num_repeats' register data.
+         */
+        public const string NumRepeats = "u16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
     public enum LedPixelCmd {
         /**
          * Argument: program bytes. Run the given light "program". See service description for details.
@@ -123,6 +170,13 @@ namespace Jacdac {
          * ```
          */
         Run = 0x81,
+    }
+
+    public static class LedPixelCmdPack {
+        /**
+         * Pack format for 'run' register data.
+         */
+        public const string Run = "b";
     }
 
 }

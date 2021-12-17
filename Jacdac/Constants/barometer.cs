@@ -24,4 +24,16 @@ namespace Jacdac {
         PressureError = 0x106,
     }
 
+    public static class BarometerRegPack {
+        /**
+         * Pack format for 'pressure' register data.
+         */
+        public const string Pressure = "u22.10";
+
+        /**
+         * Pack format for 'pressure_error' register data.
+         */
+        public const string PressureError = "u22.10";
+    }
+
 }

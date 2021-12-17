@@ -56,6 +56,28 @@ namespace Jacdac {
         FingerprintTemplate = 0x182,
     }
 
+    public static class VerifiedTelemetryRegPack {
+        /**
+         * Pack format for 'telemetry_status' register data.
+         */
+        public const string TelemetryStatus = "u8";
+
+        /**
+         * Pack format for 'telemetry_status_interval' register data.
+         */
+        public const string TelemetryStatusInterval = "u32";
+
+        /**
+         * Pack format for 'fingerprint_type' register data.
+         */
+        public const string FingerprintType = "u8";
+
+        /**
+         * Pack format for 'fingerprint_template' register data.
+         */
+        public const string FingerprintTemplate = "u16 b";
+    }
+
     public enum VerifiedTelemetryCmd {
         /**
          * No args. This command will clear the template fingerprint of a sensor and collect a new template fingerprint of the attached sensor.
@@ -82,6 +104,13 @@ namespace Jacdac {
          * The fingerprint template was updated
          */
         FingerprintTemplateChange = 0x80,
+    }
+
+    public static class VerifiedTelemetryEventPack {
+        /**
+         * Pack format for 'telemetry_status_change' register data.
+         */
+        public const string TelemetryStatusChange = "u8";
     }
 
 }

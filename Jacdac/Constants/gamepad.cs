@@ -63,6 +63,23 @@ namespace Jacdac {
         ButtonsAvailable = 0x180,
     }
 
+    public static class GamepadRegPack {
+        /**
+         * Pack format for 'direction' register data.
+         */
+        public const string Direction = "u32 i1.15 i1.15";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+
+        /**
+         * Pack format for 'buttons_available' register data.
+         */
+        public const string ButtonsAvailable = "u32";
+    }
+
     public enum GamepadEvent {
         /**
          * Argument: buttons Buttons (uint32_t). Emitted whenever the state of buttons changes.
@@ -72,6 +89,13 @@ namespace Jacdac {
          * ```
          */
         ButtonsChanged = 0x3,
+    }
+
+    public static class GamepadEventPack {
+        /**
+         * Pack format for 'buttons_changed' register data.
+         */
+        public const string ButtonsChanged = "u32";
     }
 
 }

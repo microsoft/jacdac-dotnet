@@ -23,6 +23,13 @@ namespace Jacdac {
         Animate = 0x80,
     }
 
+    public static class LedCmdPack {
+        /**
+         * Pack format for 'animate' register data.
+         */
+        public const string Animate = "u8 u8 u8 u8";
+    }
+
     public enum LedReg {
         /**
          * The current color of the LED.
@@ -77,6 +84,38 @@ namespace Jacdac {
          * ```
          */
         Variant = 0x107,
+    }
+
+    public static class LedRegPack {
+        /**
+         * Pack format for 'color' register data.
+         */
+        public const string Color = "u8 u8 u8";
+
+        /**
+         * Pack format for 'max_power' register data.
+         */
+        public const string MaxPower = "u16";
+
+        /**
+         * Pack format for 'led_count' register data.
+         */
+        public const string LedCount = "u16";
+
+        /**
+         * Pack format for 'wave_length' register data.
+         */
+        public const string WaveLength = "u16";
+
+        /**
+         * Pack format for 'luminous_intensity' register data.
+         */
+        public const string LuminousIntensity = "u16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
     }
 
 }

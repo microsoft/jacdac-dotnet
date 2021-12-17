@@ -39,4 +39,21 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class UvIndexRegPack {
+        /**
+         * Pack format for 'uv_index' register data.
+         */
+        public const string UvIndex = "u16.16";
+
+        /**
+         * Pack format for 'uv_index_error' register data.
+         */
+        public const string UvIndexError = "u16.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

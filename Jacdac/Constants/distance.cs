@@ -59,4 +59,31 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class DistanceRegPack {
+        /**
+         * Pack format for 'distance' register data.
+         */
+        public const string Distance = "u16.16";
+
+        /**
+         * Pack format for 'distance_error' register data.
+         */
+        public const string DistanceError = "u16.16";
+
+        /**
+         * Pack format for 'min_range' register data.
+         */
+        public const string MinRange = "u16.16";
+
+        /**
+         * Pack format for 'max_range' register data.
+         */
+        public const string MaxRange = "u16.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

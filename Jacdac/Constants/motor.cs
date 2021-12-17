@@ -53,4 +53,31 @@ namespace Jacdac {
         Reversible = 0x182,
     }
 
+    public static class MotorRegPack {
+        /**
+         * Pack format for 'duty' register data.
+         */
+        public const string Duty = "i1.15";
+
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+
+        /**
+         * Pack format for 'load_torque' register data.
+         */
+        public const string LoadTorque = "u16.16";
+
+        /**
+         * Pack format for 'load_speed' register data.
+         */
+        public const string LoadSpeed = "u16.16";
+
+        /**
+         * Pack format for 'reversible' register data.
+         */
+        public const string Reversible = "u8";
+    }
+
 }

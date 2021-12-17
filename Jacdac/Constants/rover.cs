@@ -15,4 +15,11 @@ namespace Jacdac {
         Kinematics = 0x101,
     }
 
+    public static class RoverRegPack {
+        /**
+         * Pack format for 'kinematics' register data.
+         */
+        public const string Kinematics = "i16.16 i16.16 i16.16 i16.16 i16.16";
+    }
+
 }
