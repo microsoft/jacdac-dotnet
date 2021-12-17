@@ -45,7 +45,7 @@ namespace Jacdac
          */
         public ControlAnnounceFlags AnnounceFlags
         {
-            get => (ControlAnnounceFlags)(this._servicesData != null ? Util.Read16(this._servicesData, 0) : 0);
+            get => (ControlAnnounceFlags)(this._servicesData != null ? BitConverter.ToUInt16(this._servicesData, 0) : 0);
         }
 
         public ControlAnnounceFlags StatusLightFlags
@@ -97,8 +97,8 @@ namespace Jacdac
             var changed = false;
             uint w0 = this._servicesData.Length == 0
                 ? 0
-                : Util.Read32(this._servicesData, 0);
-            uint w1 = data.Length == 0 ? 0 : Util.Read32(data, 0);
+                : BitConverter.ToUInt32(this._servicesData, 0);
+            uint w1 = data.Length == 0 ? 0 : BitConverter.ToUInt32(data, 0);
 
             // compare service data
             var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
@@ -143,7 +143,7 @@ namespace Jacdac
                 var res = new uint[n];
                 for (var i = 1; i < res.Length; ++i)
                 {
-                    res[i] = Util.Read32(data, i * 4);
+                    res[i] = BitConverter.ToUInt32(data, i * 4);
                 }
                 return res;
             }
@@ -157,7 +157,7 @@ namespace Jacdac
             var n = data == null ? 0 : data.Length >> 2;
             for (var i = 1; i < n; ++i)
             {
-                var sc = Util.Read32(data, i * 4);
+                var sc = BitConverter.ToUInt32(data, i * 4);
                 if (sc == serviceClass) return true;
             }
             return false;

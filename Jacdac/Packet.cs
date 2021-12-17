@@ -66,7 +66,7 @@ namespace Jacdac
             else
             {
                 var computed = Platform.Crc16(frame, 2, size + 10);
-                var actual = Util.Read16(frame, 0);
+                var actual = BitConverter.ToUInt16(frame, 0);
                 if (actual != computed)
                 {
                     Debug.WriteLine($"crc mismatch; sz={size} got:{actual}, exp:{computed}");
@@ -220,7 +220,7 @@ namespace Jacdac
             get
             {
                 if ((this.FrameFlags & Jacdac.Constants.JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS) != 0)
-                    return Util.Read32(this.header, 4);
+                    return BitConverter.ToUInt32(this.header, 4);
                 return Constants.UNDEFINED;
             }
         }
@@ -264,11 +264,11 @@ namespace Jacdac
             set => this.header[13] = (byte)((this.header[13] & Jacdac.Constants.JD_SERVICE_INDEX_INV_MASK) | value);
         }
 
-        public ushort Crc => Util.Read16(this.header, 0);
+        public ushort Crc => BitConverter.ToUInt16(this.header, 0);
 
         public ushort ServiceCommand
         {
-            get => Util.Read16(this.header, 14);
+            get => BitConverter.ToUInt16(this.header, 14);
             set => Util.Write16(this.header, 14, value);
         }
 
@@ -321,11 +321,6 @@ namespace Jacdac
 
         }
         public bool IsReport => !this.IsCommand;
-
-        public object[] UnPack(string format)
-        {
-            return PacketEncoding.UnPack(format, this.Data);
-        }
     }
 
     public sealed class PacketEventArgs : EventArgs

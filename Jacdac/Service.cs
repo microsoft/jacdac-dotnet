@@ -51,7 +51,7 @@ namespace Jacdac
                 }
                 else if (pkt.ServiceCommand == Jacdac.Constants.CMD_NOT_IMPLEMENTED)
                 {
-                    var serviceCommand = Util.Read16(pkt.Data, 0);
+                    var serviceCommand = BitConverter.ToUInt16(pkt.Data, 0);
                     if (
                       serviceCommand >> 12 == Jacdac.Constants.CMD_GET_REG >> 12 ||
                       serviceCommand >> 12 == Jacdac.Constants.CMD_SET_REG >> 12

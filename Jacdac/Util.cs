@@ -129,10 +129,6 @@ namespace Jacdac
             return true;
         }
 
-        public static ushort Read16(byte[] data, int pos) => BitConverter.ToUInt16(data, pos);
-
-        public static uint Read32(byte[] data, int pos) => BitConverter.ToUInt32(data, pos);
-
         public static void Write16(byte[] data, uint pos, ushort v)
         {
             data[pos + 0] = (byte)((v >> 0) & 0xff);

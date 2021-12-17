@@ -151,11 +151,11 @@ namespace Jacdac
         {
             var intervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingInterval, true);
             if (intervalReg.Data != null)
-                return (uint)PacketEncoding.UnPack("u32", intervalReg.Data)[0];
+                return BitConverter.ToUInt32(intervalReg.Data, 0);
 
             var preferredIntervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingPreferredInterval, true);
             if (preferredIntervalReg.Data != null)
-                return (uint)PacketEncoding.UnPack("u32", preferredIntervalReg.Data)[0];
+                return BitConverter.ToUInt32(preferredIntervalReg.Data, 0);
 
             return Jacdac.Constants.REGISTER_POLL_STREAMING_INTERVAL;
         }
