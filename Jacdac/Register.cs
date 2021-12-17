@@ -81,7 +81,7 @@ namespace Jacdac
             if (this.NotImplemented) return;
 
             ushort cmd = (ushort)(Jacdac.Constants.CMD_SET_REG | this.Code);
-            var pkt = Packet.From(cmd, data);
+            var pkt = Packet.FromCmd(cmd, data);
             if (ack)
                 pkt.RequiresAck = true;
             this.LastSetTimestamp = this.Service.Device.Bus.Timestamp;
@@ -94,7 +94,7 @@ namespace Jacdac
 
             this.LastGetAttempts++;
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
-            var pkt = Packet.From(cmd);
+            var pkt = Packet.FromCmd(cmd);
             if (ack)
                 pkt.RequiresAck = true;
             this.Service.SendPacket(pkt);
@@ -104,14 +104,60 @@ namespace Jacdac
         {
             if (this.NotImplemented) return;
 
+            var now = this.Service.Device.Bus.Timestamp;
+            var age = (now - this.LastGetTimestamp).TotalMilliseconds;
+            var noDataYet = this.Data == null;
+            var backoff = this.LastGetAttempts;
             var service = this.Service;
+            var hasListeners = this.HasChangedListeners();
+
+            if (!this.NeedsRefresh && !hasListeners)
+                return;
+
             if (this.Code == (ushort)Jacdac.SystemReg.Reading)
             {
+                var interval = this.ResolveStreamingInterval();
+                var samplesAge = this.ResolveStreamingSamplesAge();
+                var midAge = (interval * 0xff) >> 1;
+                if (samplesAge.TotalMilliseconds > midAge)
+                    this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples).SendSet(PacketEncoding.Pack("u8", new object[] { (uint)0xff }));
+                if (this.NeedsRefresh || (noDataYet && age > 1000))
+                    this.SendGet();
             }
             else
             {
-
+                var expiration = Math.Min(
+                          Jacdac.Constants.REGISTER_POLL_REPORT_MAX_INTERVAL,
+                          (noDataYet
+                              ? Jacdac.Constants.REGISTER_POLL_FIRST_REPORT_INTERVAL
+                              : Jacdac.Constants.REGISTER_POLL_REPORT_INTERVAL) *
+                              (1 << backoff)
+                      );
+                if (this.NeedsRefresh || age > expiration)
+                    this.SendGet();
             }
+        }
+
+        private TimeSpan ResolveStreamingSamplesAge()
+        {
+            var samplesReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples, true);
+            if (samplesReg.Data == null)
+                return TimeSpan.MaxValue;
+
+            return this.Service.Device.Bus.Timestamp - samplesReg.LastSetTimestamp;
+        }
+
+        private uint ResolveStreamingInterval()
+        {
+            var intervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingInterval, true);
+            if (intervalReg.Data != null)
+                return (uint)PacketEncoding.UnPack("u32", intervalReg.Data)[0];
+
+            var preferredIntervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingPreferredInterval, true);
+            if (preferredIntervalReg.Data != null)
+                return (uint)PacketEncoding.UnPack("u32", preferredIntervalReg.Data)[0];
+
+            return Jacdac.Constants.REGISTER_POLL_STREAMING_INTERVAL;
         }
     }
 }

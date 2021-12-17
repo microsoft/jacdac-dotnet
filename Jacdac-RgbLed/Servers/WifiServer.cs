@@ -104,9 +104,12 @@ namespace Jacdac.Servers
 
         private void handleListKnownNetworks(JDNode node, PacketEventArgs args)
         {
+            var device = this.Device;
+            if (device == null) return;
+
             new Thread(() =>
             {
-                var pipe = OutPipe.From(this.Device.Bus, args.Packet);
+                var pipe = OutPipe.From(device.Bus, args.Packet);
                 pipe?.RespondForEach(this.KeyStorage.GetKeys(), (result) =>
                 {
                     var key = (string)result;
@@ -117,9 +120,12 @@ namespace Jacdac.Servers
 
         private void handleLastScanResults(JDNode node, PacketEventArgs args)
         {
+            var device = this.Device;
+            if (device == null) return;
+
             new Thread(() =>
             {
-                var pipe = OutPipe.From(this.Device.Bus, args.Packet);
+                var pipe = OutPipe.From(device.Bus, args.Packet);
                 var ssids = this.lastScanResults ?? new string[0];
                 pipe?.RespondForEach(ssids, (result) =>
                 {

@@ -29,7 +29,8 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return $"{this.Device}[{this.ServiceIndex}]";
+            var device = this.Device;
+            return device == null ? "?" : $"{device}[{this.ServiceIndex}]";
         }
 
         internal void ProcessPacket(Packet pkt)
@@ -89,8 +90,11 @@ namespace Jacdac
 
         public void SendPacket(Packet pkt)
         {
+            var device = this.Device;
+            if (device == null) return;
+
             pkt.ServiceIndex = this.ServiceIndex;
-            this.Device.SendPacket(pkt);
+            device.SendPacket(pkt);
         }
 
         public JDRegister[] GetRegisters()

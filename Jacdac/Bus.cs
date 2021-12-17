@@ -286,7 +286,11 @@ namespace Jacdac
                     var registers = service.GetRegisters();
                     foreach (var register in registers)
                     {
-                        if (register.Stream)
+                        if (!register.NotImplemented
+                            || register.Stream
+                            || register.NeedsRefresh
+                            || register.HasChangedListeners()
+                            || register.Data == null)
                             register.RefreshMaybe();
                     }
                 }

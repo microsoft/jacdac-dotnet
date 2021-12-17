@@ -76,5 +76,10 @@
         public const uint JD_DEVICE_LOST_DELAY = 1500;
         // time without seeing a packet to be considered "disconnected"
         public const uint JD_DEVICE_DISCONNECTED_DELAY = 5000;
+
+        public const uint REGISTER_POLL_STREAMING_INTERVAL = 5000;
+        public const uint REGISTER_POLL_REPORT_MAX_INTERVAL = 60000;
+        public const uint REGISTER_POLL_FIRST_REPORT_INTERVAL = 400;
+        public const uint REGISTER_POLL_REPORT_INTERVAL = 5001;
     }
 }
