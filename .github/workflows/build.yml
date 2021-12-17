@@ -11,7 +11,7 @@ jobs:
       - name: Build Jacdac
         run: dotnet build .\Jacdac\Jacdac.csproj
       - name: Build Jacdac.TinyClR
-        run: dotnet build .\Jacdac\Jacdac.TinyCLR.csproj
+        run: dotnet build .\Jacdac.TinyCLR\Jacdac.TinyCLR.csproj
       - name: Build Tests
         run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Run tests
