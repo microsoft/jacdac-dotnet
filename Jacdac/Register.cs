@@ -8,23 +8,13 @@ namespace Jacdac
         public TimeSpan LastGetTimestamp = TimeSpan.Zero;
         public TimeSpan LastSetTimestamp = TimeSpan.Zero;
         public bool NeedsRefresh = false;
-        Packet _lastReportPkt;
+        public byte[] Data;
         public int LastGetAttempts = 0;
         public bool Stream = false;
 
         internal JDRegister(JDService service, ushort code)
             : base(service, code)
         {
-        }
-
-        public byte[] Data
-        {
-            get
-            {
-                if (this._lastReportPkt != null)
-                    return this._lastReportPkt.Data;
-                return null;
-            }
         }
 
         public bool NotImplemented
@@ -63,7 +53,8 @@ namespace Jacdac
         private void ProcessReport(Packet pkt)
         {
             var updated = this.NeedsRefresh || !Util.BufferEquals(this.Data, pkt.Data);
-            this._lastReportPkt = pkt;
+            if (updated)
+                this.Data = pkt.Data;
             this.LastGetAttempts = 0; // reset counter
             this.LastGetTimestamp = pkt.Timestamp;
             this.NeedsRefresh = false;
