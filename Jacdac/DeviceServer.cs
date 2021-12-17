@@ -83,16 +83,16 @@ namespace Jacdac
             var serviceClasses = new object[servers.Length - 1];
             for (var i = 1; i < servers.Length; ++i)
                 serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
-            var reserved = (byte)0;
+            var reserved = 0u;
             var data = PacketEncoding.Pack("u16 u8 u8 r: u32",
                 new object[] {
-                    (ushort)((ushort)this.restartCounter |
+                    (uint)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
                         (ushort)ControlAnnounceFlags.SupportsFrames |
                         (ushort)ControlAnnounceFlags.SupportsACK
                     ),
-                    this.packetCount,
+                    (uint)this.packetCount,
                     reserved,
                     serviceClasses
                 });

@@ -26,18 +26,18 @@ namespace Jacdac.Servers
                 var now = this.localTime();
                 return new object[]
                 {
-                    (ushort)now.Year,
-                    (byte)now.Month,
-                    (byte)now.Day,
-                    (byte)now.DayOfWeek,
-                    (byte)now.Hour,
-                    (byte)now.Minute,
-                    (byte)now.Second
+                    (uint)now.Year,
+                    (uint)now.Month,
+                    (uint)now.Day,
+                    (uint)now.DayOfWeek,
+                    (uint)now.Hour,
+                    (uint)now.Minute,
+                    (uint)now.Second
                 };
             }));
             this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.SensorReg.StreamingInterval, "u32", new object[] { 60000u }));
             if (options != null && options.Variant > 0)
-                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.RealTimeClockReg.Variant, "u8", new object[] { options.Variant }));
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.RealTimeClockReg.Variant, "u8", new object[] { (byte)options.Variant }));
             if (options != null && options.SetTime != null)
                 this.AddCommand((ushort)Jacdac.RealTimeClockCmd.SetTime, this.handleSetTime);
         }
@@ -45,13 +45,13 @@ namespace Jacdac.Servers
         private void handleSetTime(JDNode sender, PacketEventArgs args)
         {
             var values = PacketEncoding.UnPack("u16 u8 u8 u8 u8 u8 u8", args.Packet.Data);
-            var year = (ushort)values[0];
-            var month = (byte)values[1];
-            var dayOfMonth = (byte)values[2];
-            var dayOfWeek = (byte)values[3];
-            var hour = (byte)values[4];
-            var minute = (byte)values[5];
-            var second = (byte)values[6];
+            var year = (ushort)(uint)values[0];
+            var month = (byte)(uint)values[1];
+            var dayOfMonth = (byte)(uint)values[2];
+            var dayOfWeek = (byte)(uint)values[3];
+            var hour = (byte)(uint)values[4];
+            var minute = (byte)(uint)values[5];
+            var second = (byte)(uint)values[6];
 
             var now = new DateTime(year, month, dayOfMonth, hour, minute, second);
             this.setTime(now);

@@ -8,8 +8,8 @@ namespace Jacdac
         JDDevice _device;
         public readonly byte ServiceIndex;
         public readonly uint ServiceClass;
-        ArrayList _registers;
-        ArrayList _events;
+        JDRegister[] registers;
+        JDEvent[] events;
 
         internal JDService(JDDevice device, byte ServiceIndex, uint ServiceClass)
         {
@@ -17,8 +17,8 @@ namespace Jacdac
             this.ServiceIndex = ServiceIndex;
             this.ServiceClass = ServiceClass;
 
-            this._registers = new ArrayList();
-            this._events = new ArrayList();
+            this.registers = new JDRegister[0];
+            this.events = new JDEvent[0];
         }
 
         public JDDevice Device
@@ -82,9 +82,9 @@ namespace Jacdac
 
         private void InvalidateRegisterValues(Packet pkt)
         {
-            var regs = this.Registers();
-            for (var i = 0; i < regs.Length; i++)
-                regs[i].LastGetTimestamp = TimeSpan.Zero;
+            var registers = this.registers;
+            for (var i = 0; i < registers.Length; i++)
+                registers[i].LastGetTimestamp = TimeSpan.Zero;
         }
 
         public void SendPacket(Packet pkt)
@@ -93,72 +93,70 @@ namespace Jacdac
             this.Device.SendPacket(pkt);
         }
 
-        public JDRegister[] Registers()
+        public JDRegister[] GetRegisters()
         {
-            lock (this)
-            {
-                var res = new JDRegister[this._registers.Count];
-                this._registers.CopyTo(res, 0);
-                return res;
-            }
+            return (JDRegister[])this.registers.Clone();
         }
 
         public JDRegister GetRegister(ushort code, bool createIfMissing = false)
         {
-            lock (this)
+            var registers = this.registers;
+            JDRegister r = null;
+            for (var i = 0; i < registers.Length; ++i)
             {
-                JDRegister r = null;
-                for (var i = 0; i < this._registers.Count; ++i)
+                var reg = registers[i];
+                if (reg.Code == code)
                 {
-                    var reg = (JDRegister)this._registers[i];
-                    if (reg.Code == code)
-                    {
-                        r = reg;
-                        break;
-                    }
+                    r = reg;
+                    break;
                 }
+            }
 
-                if (r == null && createIfMissing)
+            if (r == null && createIfMissing)
+            {
+                lock (this)
                 {
                     r = new JDRegister(this, code);
-                    this._registers.Add(r);
+                    var newRegisters = new JDRegister[this.registers.Length + 1];
+                    this.registers.CopyTo(newRegisters, 0);
+                    newRegisters[newRegisters.Length - 1] = r;
+                    this.registers = newRegisters;
                 }
-                return r;
             }
+            return r;
         }
 
-        public JDEvent[] Events()
+        public JDEvent[] GetEvents()
         {
-            lock (this)
-            {
-                var res = new JDEvent[this._events.Count];
-                this._events.CopyTo(res, 0);
-                return res;
-            }
+            return (JDEvent[])this.events.Clone();
         }
 
         public JDEvent GetEvent(ushort code, bool createIfMissing = false)
         {
-            lock (this)
+            var events = this.events;
+            JDEvent r = null;
+            for (var i = 0; i < events.Length; ++i)
             {
-                JDEvent r = null;
-                for (var i = 0; i < this._events.Count; ++i)
+                var reg = (JDEvent)events[i];
+                if (reg.Code == code)
                 {
-                    var reg = (JDEvent)this._events[i];
-                    if (reg.Code == code)
-                    {
-                        r = reg;
-                        break;
-                    }
+                    r = reg;
+                    break;
                 }
+            }
 
-                if (r == null && createIfMissing)
+            if (r == null && createIfMissing)
+            {
+                lock (this)
                 {
                     r = new JDEvent(this, code);
-                    this._events.Add(r);
+                    var newEvents = new JDEvent[this.events.Length + 1];
+                    this.events.CopyTo(newEvents, 0);
+                    newEvents[newEvents.Length - 1] = r;
+                    this.events = newEvents;
                 }
-                return r;
             }
+            return r;
         }
 
         public event PacketEventHandler CommandReceived;

@@ -36,31 +36,27 @@ namespace Jacdac
         Int16LE = 3,
         UInt16LE = 4,
         Int32LE = 5,
-        Int8BE = 6,
-        UInt8BE = 7,
-        Int16BE = 8,
-        UInt16BE = 9,
-        Int32BE = 10,
+        //Int8BE = 6,
+        //UInt8BE = 7,
+        //Int16BE = 8,
+        //UInt16BE = 9,
+        //Int32BE = 10,
         UInt32LE = 11,
-        UInt32BE = 12,
+        //UInt32BE = 12,
         Float32LE = 13,
         Float64LE = 14,
-        Float32BE = 15,
-        Float64BE = 16,
+        //Float32BE = 15,
+        //Float64BE = 16,
         UInt64LE = 17,
-        UInt64BE = 18,
+        //UInt64BE = 18,
         Int64LE = 19,
-        Int64BE = 20,
+        //Int64BE = 20,
     }
     internal static class Util
     {
         public static bool IsNumber(object value)
         {
-            return value is sbyte
-                    || value is byte
-                    || value is short
-                    || value is ushort
-                    || value is int
+            return value is int
                     || value is uint
                     || value is long
                     || value is ulong
@@ -155,16 +151,14 @@ namespace Jacdac
         {
             switch (fmt)
             {
-                case NumberFormat.UInt8BE:
                 case NumberFormat.UInt8LE:
-                    return (byte)buf[offset];
-                case NumberFormat.Int8BE:
+                    return (uint)buf[offset];
                 case NumberFormat.Int8LE:
-                    return (sbyte)(buf[offset] << 24) >> 24;
+                    return (int)(sbyte)buf[offset];
                 case NumberFormat.UInt16LE:
-                    return BitConverter.ToUInt16(buf, offset);
+                    return (uint)BitConverter.ToUInt16(buf, offset);
                 case NumberFormat.Int16LE:
-                    return BitConverter.ToInt16(buf, offset);
+                    return (int)BitConverter.ToInt16(buf, offset);
                 case NumberFormat.UInt32LE:
                     return BitConverter.ToUInt32(buf, offset);
                 case NumberFormat.Int32LE:
@@ -182,6 +176,49 @@ namespace Jacdac
             }
         }
 
+        public static uint UnboxUint(object value)
+        {
+            if (value is uint) return (uint)value;
+            if (value is ushort) return (uint)(ushort)value;
+            if (value is byte) return (uint)(byte)value;
+            if (value is int)
+            {
+                var i = (int)value;
+                if (i < 0) throw new ArgumentOutOfRangeException("value");
+                return (uint)i;
+            }
+            if (value is short)
+            {
+                var i = (short)value;
+                if (i < 0) throw new ArgumentOutOfRangeException("value");
+                return (uint)i;
+            }
+            if (value is sbyte)
+            {
+                var i = (sbyte)value;
+                if (i < 0) throw new ArgumentOutOfRangeException("value");
+                return (uint)i;
+            }
+            // try for enums
+            return (uint)value;
+        }
+        public static int UnboxInt(object value)
+        {
+            if (value is int) return (int)value;
+            if (value is short) return (int)(short)value;
+            if (value is sbyte) return (int)(sbyte)value;
+            if (value is ushort) return (int)(ushort)value;
+            if (value is byte) return (int)(byte)value;
+            if (value is uint)
+            {
+                var i = (uint)value;
+                if (i > int.MaxValue) throw new ArgumentOutOfRangeException("value");
+                return (int)i;
+            }
+            // try for enums
+            return (int)value;
+        }
+
         public static int SetNumber(
             byte[] buf,
             int offset,
@@ -194,18 +231,16 @@ namespace Jacdac
             switch (fmt)
             {
                 case NumberFormat.UInt8LE:
-                case NumberFormat.UInt8BE:
                     {
                         byte v;
                         if (div != 1) v = (byte)((float)r * div);
-                        else v = (byte)r;
+                        else v = (byte)UnboxUint(r);
                         bytes = new byte[] { v };
                         break;
                     }
                 case NumberFormat.Int8LE:
-                case NumberFormat.Int8BE:
                     {
-                        var v = ((int)r >> 24) << 24;
+                        var v = (byte)UnboxInt(r);
                         if (div != 1)
                             v = (byte)((float)v * div);
                         bytes = new byte[] { (byte)v };
@@ -221,7 +256,7 @@ namespace Jacdac
                             else if (f > ushort.MaxValue) f = ushort.MaxValue;
                             v = (ushort)f;
                         }
-                        else v = (ushort)r;
+                        else v = (ushort)UnboxUint(r);
                         bytes = BitConverter.GetBytes(v);
                         break;
                     }
@@ -235,7 +270,7 @@ namespace Jacdac
                             else if (f > short.MaxValue) f = short.MaxValue;
                             v = (short)f;
                         }
-                        else v = (short)r;
+                        else v = (short)UnboxInt(r);
                         bytes = BitConverter.GetBytes(v);
                         break;
                     }
@@ -249,7 +284,7 @@ namespace Jacdac
                             else if (f > uint.MaxValue) f = uint.MaxValue;
                             v = (uint)f;
                         }
-                        else v = (uint)r;
+                        else v = UnboxUint(r);
                         bytes = BitConverter.GetBytes(v);
                         break;
                     }
@@ -263,7 +298,7 @@ namespace Jacdac
                             else if (f > int.MaxValue) f = int.MaxValue;
                             v = (int)f;
                         }
-                        else v = (int)r;
+                        else v = UnboxInt(r);
                         bytes = BitConverter.GetBytes(v);
                         break;
                     }
@@ -324,26 +359,16 @@ namespace Jacdac
             {
                 case NumberFormat.Int8LE:
                 case NumberFormat.UInt8LE:
-                case NumberFormat.Int8BE:
-                case NumberFormat.UInt8BE:
                     return 1;
                 case NumberFormat.Int16LE:
                 case NumberFormat.UInt16LE:
-                case NumberFormat.Int16BE:
-                case NumberFormat.UInt16BE:
                     return 2;
                 case NumberFormat.Int32LE:
-                case NumberFormat.Int32BE:
-                case NumberFormat.UInt32BE:
                 case NumberFormat.UInt32LE:
-                case NumberFormat.Float32BE:
                 case NumberFormat.Float32LE:
                     return 4;
-                case NumberFormat.UInt64BE:
-                case NumberFormat.Int64BE:
                 case NumberFormat.UInt64LE:
                 case NumberFormat.Int64LE:
-                case NumberFormat.Float64BE:
                 case NumberFormat.Float64LE:
                     return 8;
             }

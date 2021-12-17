@@ -10,6 +10,7 @@ namespace Jacdac
         public bool NeedsRefresh = false;
         Packet _lastReportPkt;
         public int LastGetAttempts = 0;
+        public bool Stream = false;
 
         internal JDRegister(JDService service, ushort code)
             : base(service, code)
@@ -97,6 +98,20 @@ namespace Jacdac
             if (ack)
                 pkt.RequiresAck = true;
             this.Service.SendPacket(pkt);
+        }
+
+        public void RefreshMaybe()
+        {
+            if (this.NotImplemented) return;
+
+            var service = this.Service;
+            if (this.Code == (ushort)Jacdac.SystemReg.Reading)
+            {
+            }
+            else
+            {
+
+            }
         }
     }
 }

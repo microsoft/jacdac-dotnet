@@ -189,9 +189,9 @@ namespace Jacdac
             }
         }
 
-        public JDService[] Services()
+        public JDService[] GetServices()
         {
-            var srvs = this._services.Clone() as JDService[];
+            var srvs = this._services == null ? new JDService[0] : (JDService[])this._services.Clone();
             return srvs;
         }
 

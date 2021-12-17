@@ -67,7 +67,7 @@ namespace Jacdac
         private void SendNotImplemented(Packet pkt)
         {
             Debug.Assert(!pkt.IsMultiCommand);
-            var data = PacketEncoding.Pack("u16 u16", new object[] { pkt.ServiceCommand, pkt.Crc });
+            var data = PacketEncoding.Pack("u16 u16", new object[] { (uint)pkt.ServiceCommand, (uint)pkt.Crc });
             var resp = Packet.FromCmd((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
             this.SendPacket(resp);
         }

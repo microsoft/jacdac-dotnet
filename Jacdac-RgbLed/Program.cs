@@ -106,7 +106,7 @@ namespace Jacdac_RgbLed
 
                 if (device.StatusLight != null)
                     device.StatusLight.Blink(0xff0000, 0, 500, 10);
-                var uptimeReg = device.Services()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime, true);
+                var uptimeReg = device.GetServices()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime, true);
                 try
                 {
                     uptimeReg.SendGet(true);
@@ -116,7 +116,7 @@ namespace Jacdac_RgbLed
                     Debug.WriteLine("ack missing");
                 }
 
-                foreach (var service in device.Services())
+                foreach (var service in device.GetServices())
                 {
                     if (service.ServiceIndex == 0) continue;
                     Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");

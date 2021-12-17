@@ -110,7 +110,7 @@ namespace Jacdac.Servers
                 pipe?.RespondForEach(this.KeyStorage.GetKeys(), (result) =>
                 {
                     var key = (string)result;
-                    return PacketEncoding.Pack("i16 i16 s", new object[] { (int)0, (int)0, key });
+                    return PacketEncoding.Pack("i16 i16 s", new object[] { 0, 0, key });
                 });
             }).Start();
         }
@@ -125,10 +125,10 @@ namespace Jacdac.Servers
                 {
                     var ssid = (string)result;
                     return PacketEncoding.Pack("u32 u32 i8 u8 u8[6] s", new object[] {
-                        (Jacdac.WifiAPFlags)0,
-                        (uint)0, // reserved
-                        (sbyte)0, // RSSI
-                        (byte)0, // channel
+                        0u,
+                        0u, // reserved
+                        0u, // RSSI
+                        0u, // channel
                         new byte[6], // bssid
                         ssid
                     });
@@ -211,8 +211,8 @@ namespace Jacdac.Servers
                     this.lastScanResults = ssids;
 
                     var knownSsids = this.KeyStorage.GetKeys();
-                    ushort total = (ushort)ssids.Length;
-                    ushort known = 0;
+                    uint total = (uint)ssids.Length;
+                    uint known = 0;
                     for (var i = 0; i < ssids.Length; i++)
                         if (Array.IndexOf(knownSsids, ssids[i]) != -1)
                             known++;

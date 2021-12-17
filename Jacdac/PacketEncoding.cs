@@ -176,44 +176,48 @@ namespace Jacdac
                     object v = Util.GetNumber(buf, parser.nfmt, off);
                     switch (parser.nfmt)
                     {
-                        case NumberFormat.UInt8BE:
-                        case NumberFormat.UInt8LE:
-                            v = (byte)v;
-                            if (parser.div != 1) v = (float)((double)(byte)v / parser.div);
-                            break;
-                        case NumberFormat.Int8BE:
                         case NumberFormat.Int8LE:
-                            v = (sbyte)v;
-                            if (parser.div != 1) v = (float)((double)(sbyte)v / parser.div);
+                            v = (int)v;
+                            if (parser.div != 1) v = (float)((double)(int)v / parser.div);
                             break;
-                        case NumberFormat.Int16BE:
+                        case NumberFormat.UInt8LE:
+                            v = (uint)v;
+                            if (parser.div != 1) v = (float)((double)(uint)v / parser.div);
+                            break;
                         case NumberFormat.Int16LE:
-                            v = (short)v;
-                            if (parser.div != 1) v = (float)((double)(short)v / parser.div);
+                            v = (int)v;
+                            if (parser.div != 1) v = (float)((double)(int)v / parser.div);
                             break;
-                        case NumberFormat.UInt16BE:
                         case NumberFormat.UInt16LE:
-                            v = (ushort)v;
-                            if (parser.div != 1) v = (float)((double)(ushort)v / parser.div);
+                            v = (uint)v;
+                            if (parser.div != 1) v = (float)((double)(uint)v / parser.div);
                             break;
-                        case NumberFormat.Float32BE:
+                        case NumberFormat.Int32LE:
+                            v = (int)v;
+                            if (parser.div != 1) v = (float)((double)(int)v / parser.div);
+                            break;
+                        case NumberFormat.UInt32LE:
+                            v = (uint)v;
+                            if (parser.div != 1) v = (float)((double)(uint)v / parser.div);
+                            break;
+                        case NumberFormat.Int64LE:
+                            v = (long)v;
+                            if (parser.div != 1) v = (float)((double)(long)v / parser.div);
+                            break;
+                        case NumberFormat.UInt64LE:
+                            v = (ulong)v;
+                            if (parser.div != 1) v = (float)((double)(ulong)v / parser.div);
+                            break;
                         case NumberFormat.Float32LE:
                             v = (float)v;
                             if (parser.div != 1) v = (float)((float)v / parser.div);
                             break;
-                        case NumberFormat.Float64BE:
                         case NumberFormat.Float64LE:
                             v = (double)v;
                             if (parser.div != 1) v = (float)((double)v / parser.div);
                             break;
-                        case NumberFormat.Int32LE:
-                        case NumberFormat.UInt32BE:
-                            v = (int)v;
-                            if (parser.div != 1) v = (float)((double)(int)v / parser.div);
-                            break;
                         default:
-                            if (parser.div != 1) v = (float)((double)(uint)v / parser.div);
-                            break;
+                            throw new ArgumentException("unknown data format");
                     }
                     res.Add(v);
                     off += parser.Size;

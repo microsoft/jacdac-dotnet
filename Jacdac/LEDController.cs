@@ -21,10 +21,10 @@ namespace Jacdac
         static object[] trgbToValues(uint trgb)
         {
             return new object[] {
-                (byte)((trgb >> 16) & 0xff),
-                (byte)((trgb >> 8) & 0xff),
-                (byte)(trgb & 0xff),
-                (byte)((trgb >> 24) & 0xff)
+                (uint)(byte)((trgb >> 16) & 0xff),
+                (uint)(byte)((trgb >> 8) & 0xff),
+                (uint)(byte)(trgb & 0xff),
+                (uint)(byte)((trgb >> 24) & 0xff)
             };
         }
 

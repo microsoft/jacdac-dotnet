@@ -63,7 +63,7 @@ namespace Jacdac
         {
             if (this.announceTimer == null)
             {
-                this.announceTimer = new System.Threading.Timer(this.SendAnnounce, null, 100, 499);
+                this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
             }
         }
 
@@ -194,7 +194,7 @@ namespace Jacdac
             return device;
         }
 
-        public JDDevice[] Devices()
+        public JDDevice[] GetDevices()
         {
             var devices = this.devices;
             var res = (JDDevice[])devices.Clone();
@@ -211,11 +211,12 @@ namespace Jacdac
         //     get { return this.GetDevice(this.selfDeviceId); }
         // }
 
-        private void SendAnnounce(Object stateInfo)
+        private void handleSelfAnnounce(Object stateInfo)
         {
             this.SelfDeviceServer.SendAnnounce();
             this.SendResetIn();
             this.CleanDevices();
+            this.RefreshRegisters();
             this.SelfAnnounced?.Invoke(this, EventArgs.Empty);
         }
 
@@ -269,6 +270,26 @@ namespace Jacdac
                 this.devices = newDevices;
                 for (var i = 0; i < disco.Length; i++)
                     this.DeviceDisconnected(this, new DeviceEventArgs(disco[i]));
+            }
+        }
+
+        private void RefreshRegisters()
+        {
+            var devices = this.GetDevices();
+            foreach (var device in devices)
+            {
+                if (device.HasService(Jacdac.ProxyConstants.ServiceClass)) continue;
+
+                var services = device.GetServices();
+                foreach (var service in services)
+                {
+                    var registers = service.GetRegisters();
+                    foreach (var register in registers)
+                    {
+                        if (register.Stream)
+                            register.RefreshMaybe();
+                    }
+                }
             }
         }
 
