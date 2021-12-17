@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Jacdac
 {
@@ -7,13 +7,12 @@ namespace Jacdac
     {
         public static string ToString(byte[] data)
         {
-            var hex = "";
+            var hex = new StringBuilder(data.Length * 2);
             for (var i = 0; i < data.Length; i++)
             {
-                hex += data[i].ToString("x2");
+                hex.Append(data[i].ToString("x2"));
             }
-
-            return hex;
+            return hex.ToString();
         }
 
         public static byte[] ToBuffer(string hex)
