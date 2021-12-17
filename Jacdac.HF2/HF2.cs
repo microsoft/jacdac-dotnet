@@ -19,9 +19,7 @@ namespace Jacdac.Transports
 
         public HF2(HF2Transport transport)
         {
-            if (transport == null)
-                throw new ArgumentNullException(nameof(transport));
-            this.transport = transport;
+            this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         }
 
         public async Task<byte[]> SendCommand(int commandId, byte[]? data = null, bool waitForResponse = true)
@@ -138,6 +136,6 @@ namespace Jacdac.Transports
         }
 
         public delegate void HF2EventArgs(byte[] data);
-        public event HF2EventArgs OnJacdacMessage;
+        public event HF2EventArgs? OnJacdacMessage;
     }
 }
