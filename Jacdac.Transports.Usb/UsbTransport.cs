@@ -3,7 +3,7 @@ using LibUsbDotNet;
 using LibUsbDotNet.WinUsb;
 using System.Diagnostics;
 
-namespace Jacdac.Transports
+namespace Jacdac.Transports.Usb
 {
     public sealed class USBDeviceDescription
     {

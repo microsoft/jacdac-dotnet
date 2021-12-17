@@ -268,8 +268,10 @@ namespace Jacdac
                 Debug.Assert(d == disconnected);
                 Debug.Assert(k == newDevices.Length);
                 this.devices = newDevices;
-                for (var i = 0; i < disco.Length; i++)
-                    this.DeviceDisconnected(this, new DeviceEventArgs(disco[i]));
+                var ev = this.DeviceDisconnected;
+                if (ev != null)
+                    for (var i = 0; i < disco.Length; i++)
+                        ev.Invoke(this, new DeviceEventArgs(disco[i]));
             }
         }
 

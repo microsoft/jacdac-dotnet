@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Jacdac.Transports
+namespace Jacdac.NET
 {
     internal struct HF2Response
     {
@@ -32,7 +32,7 @@ namespace Jacdac.Transports
 
             return new HF2Response
             {
-                Tag = (short)(data[0] | (data[1] << 8)),
+                Tag = (short)(data[0] | data[1] << 8),
                 Status = (HF2CommandResponseStatus)data[2],
                 StatusValue = data[2],
                 StatusInfo = data[3],

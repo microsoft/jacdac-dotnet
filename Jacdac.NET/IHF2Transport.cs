@@ -1,4 +1,4 @@
-﻿namespace Jacdac.Transports
+﻿namespace Jacdac.NET
 {
     public interface IHF2Transport
     {

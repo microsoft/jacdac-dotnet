@@ -1,7 +1,7 @@
 ﻿using DeviceId;
 using System.Runtime.CompilerServices;
 
-namespace Jacdac
+namespace Jacdac.NET
 {
     public static class NETPlatform
     {

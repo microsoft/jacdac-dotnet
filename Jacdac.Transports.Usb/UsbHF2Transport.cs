@@ -1,8 +1,9 @@
 ﻿using Jacdac;
+using Jacdac.NET;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
 
-namespace Jacdac.Transports
+namespace Jacdac.Transports.Usb
 {
     internal class UsbHF2Transport : IHF2Transport
     {

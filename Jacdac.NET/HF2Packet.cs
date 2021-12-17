@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Jacdac.Transports
+namespace Jacdac.NET
 {
     internal enum HF2PacketType
     {
@@ -41,7 +41,7 @@ namespace Jacdac.Transports
         public byte[] ToByteArray()
         {
             byte[] output = new byte[64];
-            output[0] = (byte)(((int)PacketType << 6) | PayloadLength);
+            output[0] = (byte)((int)PacketType << 6 | PayloadLength);
             for (var i = 1; i <= PayloadLength; i++)
                 output[i] = Payload[i - 1];
             return output;

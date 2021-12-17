@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Jacdac.Playground
+namespace Jacdac.NET.Playground
 {
     class Program
     {
@@ -14,14 +14,14 @@ namespace Jacdac.Playground
         static async void AsyncMain()
         {
             Debug.WriteLine("connecting usb");
-            Jacdac.NETPlatform.Init();
-            var usbTransport = new UsbTransport();
-            usbTransport.ConnectionChanged += (sender, newState) =>
+            NETPlatform.Init();
+            var transport = new Jacdac.Transports.WebSockets.WebSocketTransport();
+            transport.ConnectionChanged += (sender, newState) =>
             {
                 Console.WriteLine($"usb: ${newState}");
             };
 
-            var bus = new JDBus(usbTransport);
+            var bus = new JDBus(transport);
             bus.DeviceConnected += (sender, conn) =>
             {
                 var device = conn.Device;
@@ -37,7 +37,7 @@ namespace Jacdac.Playground
                 };
             };
             bus.Start();
-            usbTransport.Connect();
+            transport.Connect();
 
             while (true)
             {

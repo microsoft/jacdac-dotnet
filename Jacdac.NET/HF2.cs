@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace Jacdac.Transports
+namespace Jacdac.NET
 {
     public sealed class HF2
     {
@@ -23,7 +23,7 @@ namespace Jacdac.Transports
             this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         }
 
-        public async Task<byte[]> SendCommand(int commandId, byte[]? data = null, bool waitForResponse = true)
+        public async Task<byte[]> SendCommand(int commandId, byte[] data = null, bool waitForResponse = true)
         {
             if (data != null && data.Length > 54)
                 throw new NotSupportedException("Data longer than 54 bytes currently not supported");
@@ -137,6 +137,6 @@ namespace Jacdac.Transports
         }
 
         public delegate void HF2EventArgs(byte[] data);
-        public event HF2EventArgs? OnJacdacMessage;
+        public event HF2EventArgs OnJacdacMessage;
     }
 }
