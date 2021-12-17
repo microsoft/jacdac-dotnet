@@ -80,7 +80,7 @@ namespace Jacdac
             if (this.restartCounter < 0xf) this.restartCounter++;
 
             var services = this.services;
-            var data = new byte[services.Length * 4];
+            var data = new byte[services.Length * 4 + 1];
             Util.Write16(data, 0, (ushort)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
@@ -89,7 +89,6 @@ namespace Jacdac
                     ));
             data[2] = this.packetCount;
             // 3 reserved
-            data[4] = (byte)(services.Length - 1);
             for (uint i = 1; i < services.Length; ++i)
                 Util.Write32(data, i * 4, services[i].ServiceClass);
             this.packetCount = 0;

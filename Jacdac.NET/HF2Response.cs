@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Jacdac.Transport
+namespace Jacdac.Transports
 {
     internal struct HF2Response
     {

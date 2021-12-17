@@ -3,21 +3,21 @@ using System.Text;
 
 namespace Jacdac.Transports
 {
-    public enum HF2BootMode
-    {
-        Bootloader = 1,
-        Application = 2
-    }
-
     public sealed class HF2
     {
+        public enum HF2BootMode
+        {
+            Bootloader = 1,
+            Application = 2
+        }
+
         private short sequentialNumber = 0;
         private ConcurrentQueue<HF2Response> responses = new ConcurrentQueue<HF2Response>();
-        private HF2Transport transport;
+        private IHF2Transport transport;
         private bool inMultiPartResponse = false;
         private HF2Response currentResponse;
 
-        public HF2(HF2Transport transport)
+        public HF2(IHF2Transport transport)
         {
             this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         }

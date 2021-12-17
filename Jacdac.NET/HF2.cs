@@ -1,31 +1,26 @@
-﻿using Jacdac;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Jacdac.Transport
+namespace Jacdac.Transports
 {
-    internal class HF2
+    public sealed class HF2
     {
-        internal enum HF2BootMode
+        public enum HF2BootMode
         {
             Bootloader = 1,
             Application = 2
         }
 
         private short sequentialNumber = 0;
-        private ConcurrentQueue<HF2Response> responses =  new ConcurrentQueue<HF2Response>();
-        private USBTransport usbTransport;
+        private ConcurrentQueue<HF2Response> responses = new ConcurrentQueue<HF2Response>();
+        private IHF2Transport transport;
         private bool inMultiPartResponse = false;
         private HF2Response currentResponse;
 
-        public HF2(USBTransport usbTransport)
+        public HF2(IHF2Transport transport)
         {
-            this.usbTransport = usbTransport;
+            this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         }
 
         public async Task<byte[]> SendCommand(int commandId, byte[]? data = null, bool waitForResponse = true)
@@ -41,7 +36,7 @@ namespace Jacdac.Transport
             bw.Write(commandId);
             bw.Write(currentCommandTag);
             bw.Write((short)0);
-            if(data != null)
+            if (data != null)
                 bw.Write(data);
             bw.Flush();
 
@@ -51,7 +46,7 @@ namespace Jacdac.Transport
 
             var packet = new HF2Packet(HF2PacketType.FinalCommandPacket, commandPayload);
             var packetData = packet.ToByteArray();
-            await usbTransport.SendData(packetData);
+            await transport.SendData(packetData);
 
             if (!waitForResponse)
                 return Array.Empty<byte>();
@@ -77,7 +72,7 @@ namespace Jacdac.Transport
         public async Task<HF2BootMode> GetBootMode()
         {
             var commandResponse = await SendCommand(0x0001);
-            return (HF2BootMode) commandResponse[0];
+            return (HF2BootMode)commandResponse[0];
         }
 
         public async Task ResetIntoApp()
@@ -104,7 +99,7 @@ namespace Jacdac.Transport
 
         private void HandleEventPacket(int eventId, byte[] payload)
         {
-            if(eventId == 0x20)
+            if (eventId == 0x20)
             {
                 OnJacdacMessage?.Invoke(payload);
             }
@@ -116,11 +111,11 @@ namespace Jacdac.Transport
 
             if (packet.PacketType == HF2PacketType.SerialStdout || packet.PacketType == HF2PacketType.SerialStderr)
             {
-                Console.WriteLine($"SERIAL> {Encoding.Default.GetString(packet.Payload)}");
+                Debug.WriteLine($"SERIAL> {Encoding.Default.GetString(packet.Payload)}");
                 return;
             }
 
-            if(packet.PacketType == HF2PacketType.FinalCommandPacket && (HF2Response.HF2CommandResponseStatus)packet.Payload[2] == HF2Response.HF2CommandResponseStatus.Event)
+            if (packet.PacketType == HF2PacketType.FinalCommandPacket && (HF2Response.HF2CommandResponseStatus)packet.Payload[2] == HF2Response.HF2CommandResponseStatus.Event)
             {
                 HandleEventPacket(packet.Payload[0] | packet.Payload[1] << 8, packet.Payload.Skip(4).ToArray());
                 return;
@@ -133,7 +128,7 @@ namespace Jacdac.Transport
 
             inMultiPartResponse = true;
 
-            if(packet.PacketType == HF2PacketType.FinalCommandPacket)
+            if (packet.PacketType == HF2PacketType.FinalCommandPacket)
             {
                 currentResponse.Complete();
                 inMultiPartResponse = false;
@@ -142,6 +137,6 @@ namespace Jacdac.Transport
         }
 
         public delegate void HF2EventArgs(byte[] data);
-        public event HF2EventArgs OnJacdacMessage;
+        public event HF2EventArgs? OnJacdacMessage;
     }
 }

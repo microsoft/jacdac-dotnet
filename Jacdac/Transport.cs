@@ -107,7 +107,7 @@ namespace Jacdac
             try
             {
                 this.InternalConnect();
-                this.SetConnectionState(ConnectionState.Connected);
+                // connected state must be set by internal connect
             }
             catch (Exception)
             {

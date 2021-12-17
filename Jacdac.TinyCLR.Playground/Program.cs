@@ -120,7 +120,7 @@ namespace Jacdac_RgbLed
                 }
                 catch (AckException)
                 {
-                    Debug.WriteLine("ack missing");
+                    System.Diagnostics.Debug.WriteLine("ack missing");
                 }
 
                 foreach (var service in device.GetServices())

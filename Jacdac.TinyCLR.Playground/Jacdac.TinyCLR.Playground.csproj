@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0233B41E-369B-483A-975C-9DAA6C00DEC7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Jacdac_RgbLed</RootNamespace>
-    <AssemblyName>Jacdac-RgbLed</AssemblyName>
+    <RootNamespace>Jacdac.TinyCLR.Playground</RootNamespace>
+    <AssemblyName>Jacdac.TinyCLR.Playground</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

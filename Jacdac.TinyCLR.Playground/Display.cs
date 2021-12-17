@@ -2,7 +2,7 @@
 using GHIElectronics.TinyCLR.Devices.Spi;
 using GHIElectronics.TinyCLR.Drivers.Sitronix.ST7735;
 using GHIElectronics.TinyCLR.Pins;
-using Jacdac_RgbLed.Properties;
+using Jacdac.TinyCLR.Playground.Properties;
 using System;
 using System.Collections;
 using System.Drawing;

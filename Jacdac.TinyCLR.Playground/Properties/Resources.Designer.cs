@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Jacdac_RgbLed.Properties
+namespace Jacdac.TinyCLR.Playground.Properties
 {
     
     internal partial class Resources
@@ -20,7 +20,7 @@ namespace Jacdac_RgbLed.Properties
             {
                 if ((Resources.manager == null))
                 {
-                    Resources.manager = new System.Resources.ResourceManager("Jacdac_RgbLed.Properties.Resources", typeof(Resources).Assembly);
+                    Resources.manager = new System.Resources.ResourceManager("Jacdac.TinyCLR.Playground.Properties.Resources", typeof(Resources).Assembly);
                 }
                 return Resources.manager;
             }

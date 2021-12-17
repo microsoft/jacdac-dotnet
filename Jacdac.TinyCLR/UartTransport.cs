@@ -126,7 +126,15 @@ namespace Jacdac
 
         protected override void InternalConnect()
         {
-            this.controller.Enable();
+            try
+            {
+                this.controller.Enable();
+                this.SetConnectionState(ConnectionState.Connected);
+            }
+            catch (Exception)
+            {
+                this.SetConnectionState(ConnectionState.Disconnected);
+            }
         }
 
         protected override void InternalDisconnect()

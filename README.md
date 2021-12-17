@@ -1,18 +1,26 @@
-# Jacdac .NET (Experimental)
-## ⚠️⚠️⚠️ This library is EXPERIMENTAL and subject to (breaking) changes. ⚠️⚠️⚠️
+# Jacdac .NET
 
 **Jacdac** is a plug-and-play hardware/software stack 
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
-This repository contains a **.NET 5** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
-
+This repository contains a **.NET 6** or **TinyCLR** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
 
 * **[Jacdac Documentation](https://aka.ms/jacdac/)**
 * Discussions at https://github.com/microsoft/jacdac/discussions
 * Issues are tracked on https://github.com/microsoft/jacdac/issues
 
 The rest of this page is for developers of the jacdac-dotnet library.
+
+## Assemblies
+
+This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
+To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
+
+  - `Jacdac`, core Jacdac library, .NET6
+  - `Jacdac.HF2`, HF2 protocol layer, .NET6
+  - `Jacdac.TinyCLR`, mirror of `Jacdac` library, TinyCLR
+  - `Jacdac.Tests`, unit tests, .NET6
 
 ## Developer setup
 
