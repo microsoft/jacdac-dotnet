@@ -74,7 +74,7 @@ namespace Jacdac
                     return Packet.EmptyFrame;
                 }
 
-                var res = new ArrayList();
+                var res = new ArrayList(1);
                 if (frame.Length != 12 + size)
                 {
                     Debug.WriteLine($"unexpected packet len: ${frame.Length}");
@@ -85,16 +85,12 @@ namespace Jacdac
                 {
                     var psz = frame[ptr] + 4;
                     var sz = (psz + 3) & ~3; // align
-                    var pkt = Util.BufferConcat(
-                        Util.Slice(frame, 0, 12),
-                        Util.Slice(frame, ptr, ptr + psz)
-                    );
                     if (ptr + psz > 12 + size)
                     {
                         Debug.WriteLine($"invalid frame compression, res len ={res.Count}");
                         break;
                     }
-                    var p = Packet.FromBinary(pkt);
+                    var p = Packet.FromFrameBinary(frame, ptr, psz);
                     res.Add(p);
                     // only set req_ack flag on first packet - otherwise we would sent multiple acks
                     if (res.Count > 1) p.RequiresAck = false;
@@ -103,6 +99,16 @@ namespace Jacdac
 
                 return (Packet[])res.ToArray(typeof(Packet));
             }
+        }
+
+        private static Packet FromFrameBinary(byte[] frame, int ptr, int psz)
+        {
+            var header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE];
+            var data = new byte[psz - 4];
+            Array.Copy(frame, 0, header, 0, 12);
+            Array.Copy(frame, ptr, header, 12, 4);
+            Array.Copy(frame, ptr + 4, data, 0, psz - 4);
+            return new Packet(header, data);
         }
 
         public static byte[] ToFrame(Packet[] packets)

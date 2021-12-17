@@ -86,7 +86,7 @@ namespace Jacdac_RgbLed
             //Debug.WriteLine($"self announced");
             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
             var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-            Display.WriteLine($"s{Jacdac.Stats.FrameSent} r{Jacdac.Stats.FrameReceived} p{Jacdac.Stats.Pack} r{Jacdac.Stats.UnPack}  {usedRam / 1000} / {freeRam / 1000}kb");
+            Display.WriteLine($"s{Jacdac.Stats.FrameSent} r{Jacdac.Stats.FrameReceived} e{Jacdac.Stats.HexEncode} d{Jacdac.Stats.HexDecode}  {freeRam / 1000}kb");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)

@@ -7,6 +7,7 @@ namespace Jacdac
     {
         public static string ToString(byte[] data)
         {
+            Stats.HexEncode++;
             var hex = new StringBuilder(data.Length * 2);
             for (var i = 0; i < data.Length; i++)
             {
@@ -17,6 +18,7 @@ namespace Jacdac
 
         public static byte[] ToBuffer(string hex)
         {
+            Stats.HexDecode++;
             var data = new byte[hex.Length / 2];
             for (var i = 0; i < hex.Length; i += 2)
             {

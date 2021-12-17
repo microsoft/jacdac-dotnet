@@ -312,6 +312,7 @@ namespace Jacdac
 
         private void WaitForAck(Packet pkt)
         {
+            Stats.WaitForAcks++;
             var ack = new Ack
             {
                 Packet = pkt,
