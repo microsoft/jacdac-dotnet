@@ -13,4 +13,4 @@ jobs:
       - name: Build Tests
         run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Run tests
-        run: dotnet test
+        run: dotnet test .\Jacdac.Tests\Jacdac.Tests.csproj
