@@ -58,7 +58,7 @@ namespace Jacdac_RgbLed
             while (true)
             {
                 //Display.WriteLine($".");
-                Thread.Sleep(10000);
+                Thread.Sleep(200);
             }
         }
 
@@ -125,7 +125,9 @@ namespace Jacdac_RgbLed
                     var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading, true);
                     reading.Changed += (reg, er) =>
                     {
-                        Display.WriteLine($"get {reading}: {HexEncoding.ToString(reading.Data)}");
+                        var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
+                        var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
+                        Display.WriteLine($"get {reading.Service.Device.ShortId}[{reading.Service.ServiceIndex}] {HexEncoding.ToString(reading.Data)} {usedRam / 1000} / {freeRam / 1000}kb");
                     };
 
                     // attach to active/inactive
