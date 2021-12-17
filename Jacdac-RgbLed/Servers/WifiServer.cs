@@ -227,7 +227,7 @@ namespace Jacdac.Servers
 
                     this.SendEvent(
                         (ushort)Jacdac.WifiEvent.ScanComplete,
-                        PacketEncoding.Pack("u16 u16", new object[] { total, known })
+                        PacketEncoding.Pack(Jacdac.WifiEventPack.ScanComplete, new object[] { total, known })
                     );
 
                     this.ScanCompleted?.Invoke(this, EventArgs.Empty);
@@ -245,7 +245,7 @@ namespace Jacdac.Servers
         private void handleAddNetwork(JDNode node, PacketEventArgs args)
         {
             var pkt = args.Packet;
-            var values = PacketEncoding.UnPack("z z", pkt.Data);
+            var values = PacketEncoding.UnPack(Jacdac.WifiCmdPack.AddNetwork, pkt.Data);
             if (values == null) return;
 
             var ssid = (string)values[0];
@@ -266,7 +266,7 @@ namespace Jacdac.Servers
         private void handleForgetNetwork(JDNode node, PacketEventArgs args)
         {
             var pkt = args.Packet;
-            var values = PacketEncoding.UnPack("s", pkt.Data);
+            var values = PacketEncoding.UnPack(Jacdac.WifiCmdPack.ForgetNetwork, pkt.Data);
             if (values == null) return;
             var ssid = (string)values[0];
             if (!string.IsNullOrEmpty(ssid))

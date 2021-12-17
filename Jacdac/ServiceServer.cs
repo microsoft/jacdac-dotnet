@@ -34,7 +34,7 @@ namespace Jacdac
             this.commands = new JDCommand[0];
 
             if (!String.IsNullOrEmpty(options?.InstanceName))
-                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.BaseReg.InstanceName, "s", new object[] { options.InstanceName })
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.BaseReg.InstanceName, Jacdac.BaseRegPack.InstanceName, new object[] { options.InstanceName })
                 {
                     IsConst = true
                 });
@@ -67,7 +67,7 @@ namespace Jacdac
         private void SendNotImplemented(Packet pkt)
         {
             Debug.Assert(!pkt.IsMultiCommand);
-            var data = PacketEncoding.Pack("u16 u16", new object[] { (uint)pkt.ServiceCommand, (uint)pkt.Crc });
+            var data = PacketEncoding.Pack(Jacdac.SystemCmdPack.CommandNotImplemented, new object[] { (uint)pkt.ServiceCommand, (uint)pkt.Crc });
             var resp = Packet.FromCmd((ushort)Jacdac.BaseCmd.CommandNotImplemented, data);
             this.SendPacket(resp);
         }

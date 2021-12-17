@@ -33,8 +33,8 @@ namespace Jacdac
             if (interval <= 0 || repeat <= 0) return;
 
             var aid = ++this.animationId;
-            var on = PacketEncoding.Pack("u8 u8 u8 u8", trgbToValues(from));
-            var off = PacketEncoding.Pack("u8 u8 u8 u8", trgbToValues(to));
+            var on = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, trgbToValues(from));
+            var off = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, trgbToValues(to));
             new Thread(() =>
             {
                 for (var i = 0; i < repeat; ++i)

@@ -21,7 +21,7 @@ namespace Jacdac.Servers
         {
             this.localTime = localTime;
             this.setTime = options.SetTime;
-            this.AddRegister(new JDDynamicRegisterServer((ushort)Jacdac.RealTimeClockReg.LocalTime, "u16 u8 u8 u8 u8 u8 u8", (server) =>
+            this.AddRegister(new JDDynamicRegisterServer((ushort)Jacdac.RealTimeClockReg.LocalTime, Jacdac.RealTimeClockRegPack.LocalTime, (server) =>
             {
                 var now = this.localTime();
                 return new object[]
@@ -35,16 +35,16 @@ namespace Jacdac.Servers
                     (uint)now.Second
                 };
             }));
-            this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.SensorReg.StreamingInterval, "u32", new object[] { 60000u }));
+            this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.SensorReg.StreamingInterval, Jacdac.SensorAggregatorRegPack.StreamingSamples, new object[] { 60000u }));
             if (options != null && options.Variant > 0)
-                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.RealTimeClockReg.Variant, "u8", new object[] { (byte)options.Variant }));
+                this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.RealTimeClockReg.Variant, Jacdac.RealTimeClockRegPack.Variant, new object[] { (byte)options.Variant }));
             if (options != null && options.SetTime != null)
                 this.AddCommand((ushort)Jacdac.RealTimeClockCmd.SetTime, this.handleSetTime);
         }
 
         private void handleSetTime(JDNode sender, PacketEventArgs args)
         {
-            var values = PacketEncoding.UnPack("u16 u8 u8 u8 u8 u8 u8", args.Packet.Data);
+            var values = PacketEncoding.UnPack(Jacdac.RealTimeClockCmdPack.SetTime, args.Packet.Data);
             var year = (ushort)(uint)values[0];
             var month = (byte)(uint)values[1];
             var dayOfMonth = (byte)(uint)values[2];
