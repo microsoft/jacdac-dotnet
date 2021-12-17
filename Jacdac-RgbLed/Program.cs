@@ -29,15 +29,17 @@ namespace Jacdac_RgbLed
             var sdStorage = new SdCardKeyStorage();
             var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
             var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
+            var settingsStorage = sdStorage.MountKeyStorage("settings.json");
             this.serviceTwins = new ServiceTwins(serviceStorage);
 
             var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
             var wifiServer = new WifiServer(ssidStorage);
+            var settingsServer = new SettingsServer(settingsStorage);
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { rtc, wifiServer }
+                Services = new JDServiceServer[] { rtc, wifiServer, settingsServer }
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;

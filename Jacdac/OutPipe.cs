@@ -22,7 +22,7 @@ namespace Jacdac
 
             var values = PacketEncoding.UnPack("b[8] u16", pkt.Data);
             var id = HexEncoding.ToString((byte[])values[0]);
-            var port = (ushort)values[1];
+            var port = (ushort)(uint)values[1];
             JDDevice device;
             if (!bus.TryGetDevice(id, out device))
                 return null;
