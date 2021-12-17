@@ -196,9 +196,7 @@ namespace Jacdac
 
         public JDDevice[] GetDevices()
         {
-            var devices = this.devices;
-            var res = (JDDevice[])devices.Clone();
-            return res;
+            return this.devices;
         }
 
         public TimeSpan Timestamp

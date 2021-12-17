@@ -21,6 +21,8 @@ namespace Jacdac
             this.events = new JDEvent[0];
         }
 
+        public static JDService[] EmptyServices = new JDService[0];
+
         public JDDevice Device
         {
             get { return this._device; }
@@ -99,7 +101,7 @@ namespace Jacdac
 
         public JDRegister[] GetRegisters()
         {
-            return (JDRegister[])this.registers.Clone();
+            return this.registers;
         }
 
         public JDRegister GetRegister(ushort code, bool createIfMissing = false)
@@ -132,7 +134,7 @@ namespace Jacdac
 
         public JDEvent[] GetEvents()
         {
-            return (JDEvent[])this.events.Clone();
+            return this.events;
         }
 
         public JDEvent GetEvent(ushort code, bool createIfMissing = false)

@@ -79,23 +79,19 @@ namespace Jacdac
             // we do not support any services (at least yet)
             if (this.restartCounter < 0xf) this.restartCounter++;
 
-            var servers = this.services;
-            var serviceClasses = new object[servers.Length - 1];
-            for (var i = 1; i < servers.Length; ++i)
-                serviceClasses[i - 1] = new object[] { servers[i].ServiceClass };
-            var reserved = 0u;
-            var data = PacketEncoding.Pack("u16 u8 u8 r: u32",
-                new object[] {
-                    (uint)((ushort)this.restartCounter |
+            var services = this.services;
+            var data = new byte[services.Length * 4];
+            Util.Write16(data, 0, (ushort)((ushort)this.restartCounter |
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
                         (ushort)ControlAnnounceFlags.SupportsFrames |
                         (ushort)ControlAnnounceFlags.SupportsACK
-                    ),
-                    (uint)this.packetCount,
-                    reserved,
-                    serviceClasses
-                });
+                    ));
+            data[2] = this.packetCount;
+            // 3 reserved
+            data[4] = (byte)(services.Length - 1);
+            for (uint i = 1; i < services.Length; ++i)
+                Util.Write32(data, i * 4, services[i].ServiceClass);
             this.packetCount = 0;
             var pkt = Packet.From(Jacdac.Constants.CMD_ADVERTISEMENT_DATA, data);
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;

@@ -84,6 +84,9 @@ namespace Jacdac_RgbLed
         private static void Bus_SelfAnnounced(JDNode sender, EventArgs e)
         {
             //Debug.WriteLine($"self announced");
+            var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
+            var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
+            Display.WriteLine($"s{Jacdac.Stats.FrameSent} r{Jacdac.Stats.FrameReceived} p{Jacdac.Stats.Pack} r{Jacdac.Stats.UnPack}  {usedRam / 1000} / {freeRam / 1000}kb");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)
@@ -127,7 +130,7 @@ namespace Jacdac_RgbLed
                     {
                         var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
                         var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-                        Display.WriteLine($"get {reading.Service.Device.ShortId}[{reading.Service.ServiceIndex}] {HexEncoding.ToString(reading.Data)} {usedRam / 1000} / {freeRam / 1000}kb");
+                        // Display.WriteLine($"get {reading.Service.Device.ShortId}[{reading.Service.ServiceIndex}] {HexEncoding.ToString(reading.Data)} {usedRam / 1000} / {freeRam / 1000}kb");
                     };
 
                     // attach to active/inactive

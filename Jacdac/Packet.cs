@@ -29,6 +29,7 @@ namespace Jacdac
         {
             Debug.Assert(header != null);
             Debug.Assert(data != null);
+            Stats.PacketAllocated++;
             this.header = header;
             this.data = data;
             Debug.Assert(this.Size == this.Data.Length);

@@ -188,8 +188,7 @@ namespace Jacdac
 
         public JDService[] GetServices()
         {
-            var srvs = this._services == null ? new JDService[0] : (JDService[])this._services.Clone();
-            return srvs;
+            return this._services == null ? JDService.EmptyServices : this._services;
         }
 
         public JDService GetService(byte serviceIndex)

@@ -286,6 +286,7 @@ namespace Jacdac
         {
             if (buf == null || String.IsNullOrEmpty(fmt)) return null;
 
+            Jacdac.Stats.UnPack++;
             // hot path for buffers
             if (fmt == "b") return new object[] { buf.Clone() };
             // hot path
@@ -422,6 +423,7 @@ namespace Jacdac
         {
             if (String.IsNullOrEmpty(fmt) || data == null) return null;
 
+            Jacdac.Stats.Pack++;
             // hot path for buffers
             if (fmt == "b")
             {
