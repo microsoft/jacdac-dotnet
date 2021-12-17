@@ -442,5 +442,34 @@ namespace Jacdac
             jdpackCore(res, fmt, data, 0);
             return res;
         }
+
+        public static byte[] Pack(uint value)
+        {
+            return BitConverter.GetBytes(value);
+        }
+        public static byte[] Pack(int value)
+        {
+            return BitConverter.GetBytes(value);
+        }
+
+        public static byte[] Pack(short value)
+        {
+            return BitConverter.GetBytes(value);
+        }
+
+        public static byte[] Pack(ushort value)
+        {
+            return BitConverter.GetBytes(value);
+        }
+
+        public static byte[] Pack(byte value)
+        {
+            return new byte[] { value };
+        }
+
+        public static byte[] Pack(string value)
+        {
+            return System.Text.UTF8Encoding.UTF8.GetBytes(value);
+        }
     }
 }

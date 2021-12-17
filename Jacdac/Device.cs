@@ -9,6 +9,7 @@ namespace Jacdac
     {
         private JDBus bus;
         public readonly string DeviceId;
+        public readonly string ShortId;
         public TimeSpan LastSeen;
         public uint EventCounter;
 
@@ -20,6 +21,7 @@ namespace Jacdac
         {
             this.bus = bus;
             this.DeviceId = deviceId;
+            this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
             this._servicesData = new byte[0];
         }
@@ -32,11 +34,6 @@ namespace Jacdac
         public void Disconnect()
         {
             this.bus = null;
-        }
-
-        public string ShortId
-        {
-            get { return Util.ShortDeviceId(this.DeviceId); }
         }
 
         /**

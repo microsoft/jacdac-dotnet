@@ -120,7 +120,7 @@ namespace Jacdac
                 var samplesAge = this.ResolveStreamingSamplesAge();
                 var midAge = (interval * 0xff) >> 1;
                 if (samplesAge.TotalMilliseconds > midAge)
-                    this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples).SendSet(PacketEncoding.Pack("u8", new object[] { (uint)0xff }));
+                    this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples).SendSet(PacketEncoding.Pack((byte)0xff));
                 if (this.NeedsRefresh || (noDataYet && age > 1000))
                     this.SendGet();
             }

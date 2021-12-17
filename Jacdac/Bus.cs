@@ -230,7 +230,7 @@ namespace Jacdac
             this.LastResetInTime = this.Timestamp;
             var rst = Packet.From(
                 (ushort)((ushort)Jacdac.Constants.CMD_SET_REG | (ushort)Jacdac.ControlReg.ResetIn),
-                PacketEncoding.Pack("u32", new object[] { Jacdac.Constants.RESET_IN_TIME_US })
+                PacketEncoding.Pack((uint)Jacdac.Constants.RESET_IN_TIME_US)
                 );
             rst.SetMultiCommand(Jacdac.ControlConstants.ServiceClass);
             this.SelfDeviceServer.SendPacket(rst);
