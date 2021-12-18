@@ -74,30 +74,34 @@ namespace Jacdac
                     return Packet.EmptyFrame;
                 }
 
-                var res = new ArrayList(1);
                 if (frame.Length != 12 + size)
                 {
                     Debug.WriteLine($"unexpected packet len: ${frame.Length}");
                     return Packet.EmptyFrame;
                 }
 
+                // avoid ArrayList allocation since most of frame has a single packet
+                Packet[] res = Packet.EmptyFrame;
                 for (var ptr = 12; ptr < 12 + size;)
                 {
                     var psz = frame[ptr] + 4;
                     var sz = (psz + 3) & ~3; // align
                     if (ptr + psz > 12 + size)
                     {
-                        Debug.WriteLine($"invalid frame compression, res len ={res.Count}");
+                        Debug.WriteLine($"invalid frame compression");
                         break;
                     }
                     var p = Packet.FromFrameBinary(frame, ptr, psz);
-                    res.Add(p);
+                    var newRes = new Packet[res.Length + 1];
+                    if (res.Length > 0)
+                        res.CopyTo(newRes, 0);
+                    newRes[newRes.Length - 1] = p;
+                    res = newRes;
                     // only set req_ack flag on first packet - otherwise we would sent multiple acks
-                    if (res.Count > 1) p.RequiresAck = false;
+                    if (res.Length > 1) p.RequiresAck = false;
                     ptr += sz;
                 }
-
-                return (Packet[])res.ToArray(typeof(Packet));
+                return res;
             }
         }
 

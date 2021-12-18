@@ -18,8 +18,12 @@ This repository contains a C# implementation of the Jacdac protocol for various 
 To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
 
   - `Jacdac`, core Jacdac library, .NET6
-  - `Jacdac.HF2`, HF2 protocol layer, .NET6
+  - `Jacdac.NET`, HF2 protocol layer and .NET famework specific platform, .NET6
+  - `Jacdac.NET.Playground`, .NET6 test application using jacdac development server
+  - `Jacdac.Transports.Usb`, Usb transport, .NET6, under construction
+  - `Jacdac.Transports.WebSockets`, WebSocket transport, .NET6
   - `Jacdac.TinyCLR`, mirror of `Jacdac` library, TinyCLR
+  - `Jacdac.TinyCLR.Playground`, TinyCLR test application
   - `Jacdac.Tests`, unit tests, .NET6
 
 ## Developer setup
@@ -33,6 +37,21 @@ git pull
 
 * Restore Nuget packages. (Either in your preferred IDE/Editor or using `dotnet restore`).
 * Execute the desired tool or build the core library using your IDE or `dotnet build`/`dotnet run`
+
+## Testing with .NET and Jacdac development server
+
+* install NodeJS 14+
+* install Jacdac cli
+```
+npm install -g jacdac-cli
+```
+
+* launch Jacdac dev tools
+```
+jacdac devtools
+```
+
+* start running or debugging Jacdac.NET.Playground. The webdashboard will serve as a connector to the hardware.
 
 ## Contributing
 

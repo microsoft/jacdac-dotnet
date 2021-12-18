@@ -1,20 +1,25 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Jacdac
 {
     public static class HexEncoding
     {
+        private const string HEX_CHARS = "0123456789abcdef";
         public static string ToString(byte[] data, int start, int length)
         {
             Stats.HexEncode++;
             var n = Math.Min(length, data.Length - start);
-            var hex = new StringBuilder(n * 2);
+            var chars = new char[n * 2];
             for (var i = 0; i < n; i++)
             {
-                hex.Append(data[start + i].ToString("x2"));
+                var b = data[start + i];
+                chars[i << 1] = HexEncoding.HEX_CHARS[(b >> 4) & 0xf];
+                chars[(i << 1) + 1] = HexEncoding.HEX_CHARS[b & 0xf];
             }
-            return hex.ToString();
+            var res = new String(chars);
+            return res;
         }
 
         public static string ToString(byte[] data)
