@@ -78,7 +78,7 @@ namespace Jacdac
 
         private void close()
         {
-            this.sendData(new byte[0], Jacdac.Constants.PIPE_CLOSE_MASK);
+            this.sendData(Packet.EmptyData, Jacdac.Constants.PIPE_CLOSE_MASK);
             this.free();
         }
 

@@ -24,7 +24,7 @@
             {
                 var key = (string)k;
                 var isSecret = key[0] == '$';
-                var value = isSecret ? new byte[1] : (this.Storage.Read(key) ?? new byte[0]);
+                var value = isSecret ? new byte[1] : (this.Storage.Read(key) ?? Packet.EmptyData);
                 return PacketEncoding.Pack("z b", new object[] { key, value });
             });
         }
@@ -42,7 +42,7 @@
             var pkt = args.Packet;
             var key = (string)PacketEncoding.UnPack(SettingsCmdPack.Get, pkt.Data)[0];
             var isSecret = key[0] == '$';
-            var value = isSecret ? new byte[1] : (this.Storage.Read(key) ?? new byte[0]);
+            var value = isSecret ? new byte[1] : (this.Storage.Read(key) ?? Packet.EmptyData);
 
             var resData = PacketEncoding.Pack(SettingsCmdPack.GetReport, new object[] { key, value });
             var res = Packet.From((ushort)SettingsCmd.Get, resData);

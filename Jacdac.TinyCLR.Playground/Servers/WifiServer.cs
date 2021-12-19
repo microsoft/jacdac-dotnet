@@ -33,10 +33,10 @@ namespace Jacdac.Servers
                 (ushort)Jacdac.WifiReg.Enabled, "u8", new object[] { (byte)0 }
                 ));
             this.AddRegister(this.IpAddress = new JDStaticRegisterServer(
-                (ushort)Jacdac.WifiReg.IpAddress, "b", new object[] { new byte[0] }
+                (ushort)Jacdac.WifiReg.IpAddress, "b", new object[] { Packet.EmptyData }
                 ));
             this.AddRegister(this.Eui48 = new JDStaticRegisterServer(
-                (ushort)Jacdac.WifiReg.Eui48, "b", new object[] { new byte[0] }
+                (ushort)Jacdac.WifiReg.Eui48, "b", new object[] { Packet.EmptyData }
                 ));
             this.AddRegister(this.Ssid = new JDStaticRegisterServer(
                 (ushort)Jacdac.WifiReg.Ssid, "s", new object[] { "" }
@@ -93,7 +93,7 @@ namespace Jacdac.Servers
             this.networkController = null;
 
             this.Ssid.SetValues(new object[] { "" });
-            this.IpAddress.SetValues(new object[] { new byte[0] });
+            this.IpAddress.SetValues(new object[] { Packet.EmptyData });
             this.Enabled.SetValues(new object[] { (byte)0 });
         }
 

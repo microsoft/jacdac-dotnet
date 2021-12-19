@@ -52,7 +52,7 @@ namespace Jacdac
             : base(code)
         {
             this.Format = format;
-            this.Data = new byte[0];
+            this.Data = Packet.EmptyData;
             this.LastSetTime = TimeSpan.Zero;
             this.SetValues(values);
         }

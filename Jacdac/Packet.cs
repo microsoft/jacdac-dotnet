@@ -24,6 +24,7 @@ namespace Jacdac
         public TimeSpan Timestamp { get; set; }
 
         public static readonly Packet[] EmptyFrame = new Packet[0];
+        public static readonly byte[] EmptyData = new byte[0];
 
         private Packet(byte[] header, byte[] data)
         {
@@ -158,7 +159,7 @@ namespace Jacdac
         public static Packet From(ushort serviceCommand, byte[] buffer = null)
         {
             if (buffer == null)
-                buffer = new byte[0];
+                buffer = Packet.EmptyData;
             if (buffer.Length > Jacdac.Constants.JD_SERIAL_MAX_PAYLOAD_SIZE)
                 throw new ArgumentOutOfRangeException("packet data length too large");
             var header = new byte[Jacdac.Constants.JD_SERIAL_HEADER_SIZE];

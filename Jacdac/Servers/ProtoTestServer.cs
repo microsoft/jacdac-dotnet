@@ -47,7 +47,7 @@
           (ushort)ProtoTestReg.RoBytes,
           (ushort)ProtoTestCmd.CBytes,
           (ushort)ProtoTestEvent.EBytes,
-            new object[] { new byte[0] }
+            new object[] { Packet.EmptyData }
         );
 
             this.init(

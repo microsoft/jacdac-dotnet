@@ -23,7 +23,7 @@ namespace Jacdac
             this.DeviceId = deviceId;
             this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
-            this._servicesData = new byte[0];
+            this._servicesData = Packet.EmptyData;
         }
 
         public JDBus Bus
