@@ -98,7 +98,7 @@ namespace Jacdac_RgbLed
             var bus = (JDBus)sender;
             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
             var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-            Display.WriteLine($"s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
+            Display.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
             Debug.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
         }
 
