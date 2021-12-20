@@ -7,6 +7,7 @@ namespace Jacdac
     public delegate Clock ClockFactory();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
     public delegate short McuTemperatureCalculator();
+    public delegate void SetStatusLightHandler(byte red, byte green, byte blue, byte speed);
 
     public static class Platform
     {
@@ -31,6 +32,9 @@ namespace Jacdac
         public static McuTemperatureCalculator McuTemperature;
         public static ServiceTwinSpecReader ServiceTwinReader;
         public static HttpWebRequestGet WebGet;
+
+        public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
+        public static SetStatusLightHandler SetStatusLight = null;
     }
 
     public interface IKeyStorage

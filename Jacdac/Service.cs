@@ -60,8 +60,9 @@ namespace Jacdac
                   )
                     {
                         var regCode = (ushort)(serviceCommand & Jacdac.Constants.CMD_REG_MASK);
-                        var reg = this.GetRegister(regCode, false);
-                        if (null != reg) reg.NotImplemented = true;
+                        JDRegister reg;
+                        if (this.TryGetRegister(regCode, out reg))
+                            reg.NotImplemented = true;
                     }
                 }
                 else if (pkt.IsCommand)
@@ -104,29 +105,37 @@ namespace Jacdac
             return this.registers;
         }
 
-        public JDRegister GetRegister(ushort code, bool createIfMissing = false)
+        public bool TryGetRegister(ushort code, out JDRegister register)
         {
             var registers = this.registers;
-            JDRegister r = null;
             for (var i = 0; i < registers.Length; ++i)
             {
                 var reg = registers[i];
                 if (reg.Code == code)
                 {
-                    r = reg;
-                    break;
+                    register = reg;
+                    return true;
                 }
             }
+            register = null;
+            return false;
+        }
 
-            if (r == null && createIfMissing)
+        public JDRegister GetRegister(ushort code)
+        {
+            JDRegister r;
+            if (!this.TryGetRegister(code, out r))
             {
                 lock (this)
                 {
-                    r = new JDRegister(this, code);
-                    var newRegisters = new JDRegister[this.registers.Length + 1];
-                    this.registers.CopyTo(newRegisters, 0);
-                    newRegisters[newRegisters.Length - 1] = r;
-                    this.registers = newRegisters;
+                    if (!this.TryGetRegister(code, out r))
+                    {
+                        r = new JDRegister(this, code);
+                        var newRegisters = new JDRegister[this.registers.Length + 1];
+                        this.registers.CopyTo(newRegisters, 0);
+                        newRegisters[newRegisters.Length - 1] = r;
+                        this.registers = newRegisters;
+                    }
                 }
             }
             return r;

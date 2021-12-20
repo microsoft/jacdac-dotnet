@@ -131,7 +131,7 @@ namespace Jacdac
 
         private TimeSpan ResolveStreamingSamplesAge()
         {
-            var samplesReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples, true);
+            var samplesReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples);
             if (samplesReg.Data == null)
                 return TimeSpan.MaxValue;
 
@@ -140,11 +140,11 @@ namespace Jacdac
 
         private uint ResolveStreamingInterval()
         {
-            var intervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingInterval, true);
+            var intervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingInterval);
             if (intervalReg.Data != null)
                 return BitConverter.ToUInt32(intervalReg.Data, 0);
 
-            var preferredIntervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingPreferredInterval, true);
+            var preferredIntervalReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingPreferredInterval);
             if (preferredIntervalReg.Data != null)
                 return BitConverter.ToUInt32(preferredIntervalReg.Data, 0);
 

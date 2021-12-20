@@ -18,7 +18,7 @@ namespace Jacdac
             this.Code = code;
         }
 
-        static object[] trgbToValues(uint trgb)
+        static object[] srgbToValues(uint trgb)
         {
             return new object[] {
                 (uint)(byte)((trgb >> 16) & 0xff),
@@ -33,8 +33,8 @@ namespace Jacdac
             if (interval <= 0 || repeat <= 0) return;
 
             var aid = ++this.animationId;
-            var on = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, trgbToValues(from));
-            var off = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, trgbToValues(to));
+            var on = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, srgbToValues(from));
+            var off = PacketEncoding.Pack(Jacdac.ControlCmdPack.SetStatusLight, srgbToValues(to));
             new Thread(() =>
             {
                 for (var i = 0; i < repeat; ++i)

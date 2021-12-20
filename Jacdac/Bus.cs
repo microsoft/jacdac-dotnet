@@ -13,6 +13,8 @@ namespace Jacdac
         public bool IsClient = true;
         public bool IsPassive = false;
         public JDServiceServer[] Services;
+        public ControlAnnounceFlags StatusLight = Platform.StatusLight;
+        public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
     }
 
     public sealed class JDBus : JDNode

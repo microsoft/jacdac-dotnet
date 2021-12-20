@@ -24,6 +24,15 @@ namespace Jacdac_RgbLed
             Display.Enable();
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
+
+            // configure FEZbit status light with 1 LED
+            Jacdac.Platform.StatusLight = ControlAnnounceFlags.StatusLightMono;
+            Jacdac.Platform.SetStatusLight = (red, green, blue, speed) =>
+            {
+                var on = red > 0;
+                // TODO: handle light
+            };
+
             var transport = new UartTransport(new JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             var sdStorage = new SdCardKeyStorage();
@@ -113,7 +122,7 @@ namespace Jacdac_RgbLed
 
                 if (device.StatusLight != null)
                     device.StatusLight.Blink(0xff0000, 0, 500, 10);
-                var uptimeReg = device.GetServices()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime, true);
+                var uptimeReg = device.GetServices()[0].GetRegister((ushort)Jacdac.ControlReg.Uptime);
                 try
                 {
                     uptimeReg.SendGet(true);
@@ -129,7 +138,7 @@ namespace Jacdac_RgbLed
                     Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");
 
                     // attach to reading
-                    var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading, true);
+                    var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
                     reading.Changed += (reg, er) =>
                     {
                         var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;

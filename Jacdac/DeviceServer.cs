@@ -7,6 +7,7 @@ namespace Jacdac
     {
         public readonly JDBus Bus;
         public readonly string DeviceId;
+        private readonly ControlAnnounceFlags statusLight;
         private byte restartCounter = 0;
         private byte packetCount = 0;
         private JDServiceServer[] services;
@@ -16,6 +17,7 @@ namespace Jacdac
         public JDDeviceServer(JDBus bus, string deviceId, JDBusOptions options)
         {
             this.Bus = bus;
+            this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
             this.services = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
@@ -85,7 +87,8 @@ namespace Jacdac
                         (this.IsClient ? (ushort)ControlAnnounceFlags.IsClient : (ushort)0) |
                         (ushort)ControlAnnounceFlags.SupportsBroadcast |
                         (ushort)ControlAnnounceFlags.SupportsFrames |
-                        (ushort)ControlAnnounceFlags.SupportsACK
+                        (ushort)ControlAnnounceFlags.SupportsACK |
+                        (ushort)this.statusLight
                     ));
             data[2] = this.packetCount;
             // 3 reserved
