@@ -75,6 +75,18 @@ namespace Jacdac
                 ctrl.SendPacket(Packet.FromCmd((ushort)Jacdac.ControlCmd.Reset));
         }
 
+        public void Identify()
+        {
+            var statusLight = this.StatusLight;
+            if (statusLight != null)
+                statusLight.Blink(0x0000ff, 0, 262, 4);
+            else
+            {
+                var ctrl = this.GetService(0);
+                ctrl.SendPacket(Packet.FromCmd((ushort)ControlCmd.Identify));
+            }
+        }
+
         public void ProcessPacket(Packet pkt)
         {
             if (pkt.IsCrcAck)
@@ -170,6 +182,7 @@ namespace Jacdac
                         this._services[i].Device = null;
                 }
                 this._services = null;
+                this._statusLight = null;
             }
 
             if (null == this._services && null != this._servicesData)
