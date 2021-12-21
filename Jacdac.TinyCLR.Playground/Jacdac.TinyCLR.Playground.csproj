@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0233B41E-369B-483A-975C-9DAA6C00DEC7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Jacdac.TinyCLR.Playground</RootNamespace>
+    <AssemblyName>Jacdac.TinyCLR.Playground</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ProjectTypeGuids>{A1948822-69DD-4150-919B-F3F42EFB71CC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Display.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SdCardKeyStorage.cs" />
+    <Compile Include="Servers\WifiServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GHIElectronics.TinyCLR.Core">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Cryptography">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Data.Json">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Display">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Gpio">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Jacdac.Transport">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Network">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.SecureStorage">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Spi">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Storage">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Devices.Uart">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Drawing">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Drivers.Microchip.Winc15x0">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Drivers.Sitronix.ST7735">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.IO">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Networking">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Networking.Http">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Networking.Mqtt">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="GHIElectronics.TinyCLR.Pins">
+      <Version>2.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\small.tinyfnt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jacdac.TinyCLR\Jacdac.TinyCLR.csproj">
+      <Project>{FEAE5AA6-08FC-449E-8CE1-6F3697211323}</Project>
+      <Name>Jacdac.TinyCLR</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

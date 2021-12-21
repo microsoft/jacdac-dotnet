@@ -33,6 +33,23 @@ namespace Jacdac {
         HeadingError = 0x106,
     }
 
+    public static class CompassRegPack {
+        /**
+         * Pack format for 'heading' register data.
+         */
+        public const string Heading = "u16.16";
+
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+
+        /**
+         * Pack format for 'heading_error' register data.
+         */
+        public const string HeadingError = "u16.16";
+    }
+
     public enum CompassCmd {
         /**
          * No args. Starts a calibration sequence for the compass.

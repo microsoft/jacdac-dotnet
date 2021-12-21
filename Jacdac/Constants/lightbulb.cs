@@ -25,4 +25,16 @@ namespace Jacdac {
         Dimmable = 0x180,
     }
 
+    public static class LightBulbRegPack {
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.16";
+
+        /**
+         * Pack format for 'dimmable' register data.
+         */
+        public const string Dimmable = "u8";
+    }
+
 }

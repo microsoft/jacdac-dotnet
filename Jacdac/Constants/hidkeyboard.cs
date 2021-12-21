@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x18b05b6a;
     }
 
+    [System.Flags]
     public enum HidKeyboardModifiers: byte { // uint8_t
         None = 0x0,
         LeftControl = 0x1,
@@ -39,6 +40,13 @@ namespace Jacdac {
          * No args. Clears all pressed keys.
          */
         Clear = 0x81,
+    }
+
+    public static class HidKeyboardCmdPack {
+        /**
+         * Pack format for 'key' register data.
+         */
+        public const string Key = "r: u16 u8 u8";
     }
 
 }

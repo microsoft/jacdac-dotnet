@@ -73,4 +73,36 @@ namespace Jacdac {
         Columns = 0x181,
     }
 
+    public static class CharacterScreenRegPack {
+        /**
+         * Pack format for 'message' register data.
+         */
+        public const string Message = "s";
+
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+
+        /**
+         * Pack format for 'text_direction' register data.
+         */
+        public const string TextDirection = "u8";
+
+        /**
+         * Pack format for 'rows' register data.
+         */
+        public const string Rows = "u8";
+
+        /**
+         * Pack format for 'columns' register data.
+         */
+        public const string Columns = "u8";
+    }
+
 }

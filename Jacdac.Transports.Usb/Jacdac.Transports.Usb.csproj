@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LibUsbDotNet" Version="2.2.29" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
+		<ProjectReference Include="..\Jacdac\Jacdac.csproj" />
+	</ItemGroup>
+
+</Project>

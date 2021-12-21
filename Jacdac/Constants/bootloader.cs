@@ -63,4 +63,31 @@ namespace Jacdac {
          */
     }
 
+    public static class BootloaderCmdPack {
+        /**
+         * Pack format for 'info' register data.
+         */
+        public const string InfoReport = "u32 u32 u32 u32";
+
+        /**
+         * Pack format for 'set_session' register data.
+         */
+        public const string SetSession = "u32";
+
+        /**
+         * Pack format for 'set_session' register data.
+         */
+        public const string SetSessionReport = "u32";
+
+        /**
+         * Pack format for 'page_data' register data.
+         */
+        public const string PageData = "u32 u16 u8 u8 u32 u32 u32 u32 u32 b[208]";
+
+        /**
+         * Pack format for 'page_data' register data.
+         */
+        public const string PageDataReport = "u32 u32 u32";
+    }
+
 }

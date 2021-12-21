@@ -40,6 +40,18 @@ namespace Jacdac {
         AvailableButtons = 0x180,
     }
 
+    public static class ArcadeGamepadRegPack {
+        /**
+         * Pack format for 'buttons' register data.
+         */
+        public const string Buttons = "r: u8 u0.8";
+
+        /**
+         * Pack format for 'available_buttons' register data.
+         */
+        public const string AvailableButtons = "r: u8";
+    }
+
     public enum ArcadeGamepadEvent {
         /**
          * Argument: button Button (uint8_t). Emitted when button goes from inactive to active.
@@ -58,6 +70,18 @@ namespace Jacdac {
          * ```
          */
         Up = 0x2,
+    }
+
+    public static class ArcadeGamepadEventPack {
+        /**
+         * Pack format for 'down' register data.
+         */
+        public const string Down = "u8";
+
+        /**
+         * Pack format for 'up' register data.
+         */
+        public const string Up = "u8";
     }
 
 }

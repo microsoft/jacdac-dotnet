@@ -29,6 +29,23 @@ namespace Jacdac {
         Pressed = 0x181,
     }
 
+    public static class ButtonRegPack {
+        /**
+         * Pack format for 'pressure' register data.
+         */
+        public const string Pressure = "u0.16";
+
+        /**
+         * Pack format for 'analog' register data.
+         */
+        public const string Analog = "u8";
+
+        /**
+         * Pack format for 'pressed' register data.
+         */
+        public const string Pressed = "u8";
+    }
+
     public enum ButtonEvent {
         /**
          * Emitted when button goes from inactive to active.
@@ -55,6 +72,18 @@ namespace Jacdac {
          * ```
          */
         Hold = 0x81,
+    }
+
+    public static class ButtonEventPack {
+        /**
+         * Pack format for 'up' register data.
+         */
+        public const string Up = "u32";
+
+        /**
+         * Pack format for 'hold' register data.
+         */
+        public const string Hold = "u32";
     }
 
 }

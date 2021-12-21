@@ -41,6 +41,23 @@ namespace Jacdac {
         ConnectionStatus = 0x182,
     }
 
+    public static class AzureIotHubHealthRegPack {
+        /**
+         * Pack format for 'hub_name' register data.
+         */
+        public const string HubName = "s";
+
+        /**
+         * Pack format for 'hub_device_id' register data.
+         */
+        public const string HubDeviceId = "s";
+
+        /**
+         * Pack format for 'connection_status' register data.
+         */
+        public const string ConnectionStatus = "u16";
+    }
+
     public enum AzureIotHubHealthCmd {
         /**
          * No args. Starts a connection to the IoT hub service
@@ -62,6 +79,13 @@ namespace Jacdac {
         SetConnectionString = 0x86,
     }
 
+    public static class AzureIotHubHealthCmdPack {
+        /**
+         * Pack format for 'set_connection_string' register data.
+         */
+        public const string SetConnectionString = "s";
+    }
+
     public enum AzureIotHubHealthEvent {
         /**
          * Argument: connection_status ConnectionStatus (uint16_t). Raised when the connection status changes
@@ -76,6 +100,13 @@ namespace Jacdac {
          * Raised when a message has been sent to the hub.
          */
         MessageSent = 0x80,
+    }
+
+    public static class AzureIotHubHealthEventPack {
+        /**
+         * Pack format for 'connection_status_change' register data.
+         */
+        public const string ConnectionStatusChange = "u16";
     }
 
 }

@@ -30,4 +30,16 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class PotentiometerRegPack {
+        /**
+         * Pack format for 'position' register data.
+         */
+        public const string Position = "u0.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

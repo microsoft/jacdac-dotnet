@@ -15,6 +15,13 @@ namespace Jacdac {
         Volume = 0x1,
     }
 
+    public static class SoundPlayerRegPack {
+        /**
+         * Pack format for 'volume' register data.
+         */
+        public const string Volume = "u0.16";
+    }
+
     public enum SoundPlayerCmd {
         /**
          * Argument: name string (bytes). Starts playing a sound.
@@ -40,6 +47,18 @@ namespace Jacdac {
         ListSounds = 0x82,
     }
 
+    public static class SoundPlayerCmdPack {
+        /**
+         * Pack format for 'play' register data.
+         */
+        public const string Play = "s";
+
+        /**
+         * Pack format for 'list_sounds' register data.
+         */
+        public const string ListSounds = "b[12]";
+    }
+
 
     /**
      * pipe_report ListSoundsPipe
@@ -48,5 +67,12 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class SoundPlayerinfoPack {
+        /**
+         * Pack format for 'list_sounds_pipe' register data.
+         */
+        public const string ListSoundsPipe = "u32 s";
+    }
 
 }

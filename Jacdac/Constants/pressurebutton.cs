@@ -15,4 +15,11 @@ namespace Jacdac {
         Threshold = 0x6,
     }
 
+    public static class PressureButtonRegPack {
+        /**
+         * Pack format for 'threshold' register data.
+         */
+        public const string Threshold = "u0.16";
+    }
+
 }

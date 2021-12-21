@@ -31,6 +31,11 @@
         // reset device
         public const ushort CMD_CTRL_RESET = 0x82;
 
+        public const byte PIPE_PORT_SHIFT = 7;
+        public const ushort PIPE_COUNTER_MASK = 0x001f;
+        public const ushort PIPE_CLOSE_MASK = 0x0020;
+        public const ushort PIPE_METADATA_MASK = 0x0040;
+
         public const uint STREAM_PORT_SHIFT = 7;
         public const uint STREAM_COUNTER_MASK = 0x001f;
         public const uint STREAM_CLOSE_MASK = 0x0020;
@@ -41,14 +46,14 @@
         public const byte JD_SERVICE_INDEX_MASK = 0x3f;
         public const byte JD_SERVICE_INDEX_INV_MASK = 0xc0;
         public const byte JD_SERVICE_INDEX_CRC_ACK = 0x3f;
-        public const byte JD_SERVICE_INDEX_STREAM = 0x3e;
+        public const byte JD_SERVICE_INDEX_PIPE = 0x3e;
         public const byte JD_SERVICE_INDEX_MAX_NORMAL = 0x30;
         public const byte JD_SERVICE_INDEX_CTRL = 0x00;
 
         // the COMMAND flag signifies that the device_identifier is the recipent
         // (i.e., it's a command for the peripheral); the bit clear means device_identifier is the source
         // (i.e., it's a report from peripheral or a broadcast message)
-        public const uint JD_FRAME_FLAG_COMMAND = 0x01;
+        public const byte JD_FRAME_FLAG_COMMAND = 0x01;
         // an ACK should be issued with CRC of this package upon reception
         public const byte JD_FRAME_FLAG_ACK_REQUESTED = 0x02;
         // the device_identifier contains target service class number
@@ -65,5 +70,16 @@
         public const ushort CONTROL_REG_RESET_IN = 0x80;
 
         public const uint UNDEFINED = 0xFFFFFFFF;
+
+        public const uint RESET_IN_TIME_US = 2000000;
+        // time withouth seeing a package to be considered "lost", 2x announce interval
+        public const uint JD_DEVICE_LOST_DELAY = 1500;
+        // time without seeing a packet to be considered "disconnected"
+        public const uint JD_DEVICE_DISCONNECTED_DELAY = 5000;
+
+        public const uint REGISTER_POLL_STREAMING_INTERVAL = 5000;
+        public const uint REGISTER_POLL_REPORT_MAX_INTERVAL = 60000;
+        public const uint REGISTER_POLL_FIRST_REPORT_INTERVAL = 400;
+        public const uint REGISTER_POLL_REPORT_INTERVAL = 5001;
     }
 }

@@ -48,15 +48,6 @@ namespace Jacdac {
         MaxECO2 = 0x105,
 
         /**
-         * Constant s uint32_t. Time required to achieve good sensor stability before measuring after long idle period.
-         *
-         * ```
-         * const [conditioningPeriod] = jdunpack<[number]>(buf, "u32")
-         * ```
-         */
-        ConditioningPeriod = 0x180,
-
-        /**
          * Constant Variant (uint8_t). Type of physical sensor and capabilities.
          *
          * ```
@@ -64,6 +55,33 @@ namespace Jacdac {
          * ```
          */
         Variant = 0x107,
+    }
+
+    public static class ECO2RegPack {
+        /**
+         * Pack format for 'e_CO2' register data.
+         */
+        public const string ECO2 = "u22.10";
+
+        /**
+         * Pack format for 'e_CO2_error' register data.
+         */
+        public const string ECO2Error = "u22.10";
+
+        /**
+         * Pack format for 'min_e_CO2' register data.
+         */
+        public const string MinECO2 = "u22.10";
+
+        /**
+         * Pack format for 'max_e_CO2' register data.
+         */
+        public const string MaxECO2 = "u22.10";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
     }
 
 }

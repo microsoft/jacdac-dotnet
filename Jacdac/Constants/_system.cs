@@ -67,7 +67,19 @@ namespace Jacdac {
         CommandNotImplemented = 0x3,
     }
 
-    public enum SystemReg : ushort {
+    public static class SystemCmdPack {
+        /**
+         * Pack format for 'event' register data.
+         */
+        public const string Event = "u32 u32";
+
+        /**
+         * Pack format for 'command_not_implemented' register data.
+         */
+        public const string CommandNotImplemented = "u16 u16";
+    }
+
+    public enum SystemReg {
         /**
          * Read-write uint32_t. This is either binary on/off (0 or non-zero), or can be gradual (eg. brightness of an RGB LED strip).
          *
@@ -258,6 +270,108 @@ namespace Jacdac {
         InstanceName = 0x109,
     }
 
+    public static class SystemRegPack {
+        /**
+         * Pack format for 'intensity' register data.
+         */
+        public const string Intensity = "u32";
+
+        /**
+         * Pack format for 'value' register data.
+         */
+        public const string Value = "i32";
+
+        /**
+         * Pack format for 'min_value' register data.
+         */
+        public const string MinValue = "i32";
+
+        /**
+         * Pack format for 'max_value' register data.
+         */
+        public const string MaxValue = "i32";
+
+        /**
+         * Pack format for 'max_power' register data.
+         */
+        public const string MaxPower = "u16";
+
+        /**
+         * Pack format for 'streaming_samples' register data.
+         */
+        public const string StreamingSamples = "u8";
+
+        /**
+         * Pack format for 'streaming_interval' register data.
+         */
+        public const string StreamingInterval = "u32";
+
+        /**
+         * Pack format for 'reading' register data.
+         */
+        public const string Reading = "i32";
+
+        /**
+         * Pack format for 'reading_range' register data.
+         */
+        public const string ReadingRange = "u32";
+
+        /**
+         * Pack format for 'supported_ranges' register data.
+         */
+        public const string SupportedRanges = "r: u32";
+
+        /**
+         * Pack format for 'min_reading' register data.
+         */
+        public const string MinReading = "i32";
+
+        /**
+         * Pack format for 'max_reading' register data.
+         */
+        public const string MaxReading = "i32";
+
+        /**
+         * Pack format for 'reading_error' register data.
+         */
+        public const string ReadingError = "u32";
+
+        /**
+         * Pack format for 'reading_resolution' register data.
+         */
+        public const string ReadingResolution = "u32";
+
+        /**
+         * Pack format for 'inactive_threshold' register data.
+         */
+        public const string InactiveThreshold = "i32";
+
+        /**
+         * Pack format for 'active_threshold' register data.
+         */
+        public const string ActiveThreshold = "i32";
+
+        /**
+         * Pack format for 'streaming_preferred_interval' register data.
+         */
+        public const string StreamingPreferredInterval = "u32";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u32";
+
+        /**
+         * Pack format for 'status_code' register data.
+         */
+        public const string StatusCode = "u16 u16";
+
+        /**
+         * Pack format for 'instance_name' register data.
+         */
+        public const string InstanceName = "s";
+    }
+
     public enum SystemEvent {
         /**
          * Notifies that the service has been activated (eg. button pressed, network connected, etc.)
@@ -287,6 +401,13 @@ namespace Jacdac {
          * Notifies that the threshold is back between ``low`` and ``high``.
          */
         Neutral = 0x7,
+    }
+
+    public static class SystemEventPack {
+        /**
+         * Pack format for 'status_code_changed' register data.
+         */
+        public const string StatusCodeChanged = "u16 u16";
     }
 
 }

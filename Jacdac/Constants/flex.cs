@@ -6,22 +6,13 @@ namespace Jacdac {
     }
     public enum FlexReg {
         /**
-         * Read-only ratio u0.16 (uint16_t). The relative position of the slider.
+         * Read-only ratio i1.15 (int16_t). A measure of the bending.
          *
          * ```
-         * const [bending] = jdunpack<[number]>(buf, "u0.16")
+         * const [bending] = jdunpack<[number]>(buf, "i1.15")
          * ```
          */
         Bending = 0x101,
-
-        /**
-         * Read-only ratio u0.16 (uint16_t). Absolute error on the reading value.
-         *
-         * ```
-         * const [bendingError] = jdunpack<[number]>(buf, "u0.16")
-         * ```
-         */
-        BendingError = 0x106,
 
         /**
          * Constant mm uint16_t. Length of the flex sensor
@@ -31,6 +22,18 @@ namespace Jacdac {
          * ```
          */
         Length = 0x180,
+    }
+
+    public static class FlexRegPack {
+        /**
+         * Pack format for 'bending' register data.
+         */
+        public const string Bending = "i1.15";
+
+        /**
+         * Pack format for 'length' register data.
+         */
+        public const string Length = "u16";
     }
 
 }

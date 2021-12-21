@@ -33,4 +33,21 @@ namespace Jacdac {
         Green = 0x82,
     }
 
+    public static class TrafficLightRegPack {
+        /**
+         * Pack format for 'red' register data.
+         */
+        public const string Red = "u8";
+
+        /**
+         * Pack format for 'orange' register data.
+         */
+        public const string Orange = "u8";
+
+        /**
+         * Pack format for 'green' register data.
+         */
+        public const string Green = "u8";
+    }
+
 }

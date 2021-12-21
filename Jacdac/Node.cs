@@ -15,7 +15,12 @@ namespace Jacdac
 
         protected void RaiseChanged()
         {
-            Changed?.Invoke(this, EventArgs.Empty);
+            this.Changed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool HasChangedListeners()
+        {
+            return this.Changed != null;
         }
     }
 

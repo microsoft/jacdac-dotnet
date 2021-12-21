@@ -1,5 +1,3 @@
-using System;
-
 namespace Jacdac {
     // Service: Control
     public static class ControlConstants
@@ -7,7 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x0;
     }
 
-    [Flags]
+    [System.Flags]
     public enum ControlAnnounceFlags: ushort { // uint16_t
         RestartCounterSteady = 0xf,
         RestartCounter1 = 0x1,
@@ -124,6 +122,38 @@ namespace Jacdac {
          */
     }
 
+    public static class ControlCmdPack {
+        /**
+         * Pack format for 'services' register data.
+         */
+        public const string ServicesReport = "u16 u8 u8 r: u32";
+
+        /**
+         * Pack format for 'flood_ping' register data.
+         */
+        public const string FloodPing = "u32 u32 u8";
+
+        /**
+         * Pack format for 'flood_ping' register data.
+         */
+        public const string FloodPingReport = "u32 b";
+
+        /**
+         * Pack format for 'set_status_light' register data.
+         */
+        public const string SetStatusLight = "u8 u8 u8 u8";
+
+        /**
+         * Pack format for 'reliable_commands' register data.
+         */
+        public const string ReliableCommands = "u32";
+
+        /**
+         * Pack format for 'reliable_commands' register data.
+         */
+        public const string ReliableCommandsReport = "b[12]";
+    }
+
 
     /**
      * pipe_command WrappedCommand
@@ -132,6 +162,13 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class ControlinfoPack {
+        /**
+         * Pack format for 'wrapped_command' register data.
+         */
+        public const string WrappedCommand = "u8 u8 u16 b";
+    }
 
     public enum ControlReg {
         /**
@@ -198,6 +235,43 @@ namespace Jacdac {
          * ```
          */
         Uptime = 0x186,
+    }
+
+    public static class ControlRegPack {
+        /**
+         * Pack format for 'reset_in' register data.
+         */
+        public const string ResetIn = "u32";
+
+        /**
+         * Pack format for 'device_description' register data.
+         */
+        public const string DeviceDescription = "s";
+
+        /**
+         * Pack format for 'product_identifier' register data.
+         */
+        public const string ProductIdentifier = "u32";
+
+        /**
+         * Pack format for 'bootloader_product_identifier' register data.
+         */
+        public const string BootloaderProductIdentifier = "u32";
+
+        /**
+         * Pack format for 'firmware_version' register data.
+         */
+        public const string FirmwareVersion = "s";
+
+        /**
+         * Pack format for 'mcu_temperature' register data.
+         */
+        public const string McuTemperature = "i16";
+
+        /**
+         * Pack format for 'uptime' register data.
+         */
+        public const string Uptime = "u64";
     }
 
 }

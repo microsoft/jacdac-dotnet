@@ -15,4 +15,11 @@ namespace Jacdac {
         Color = 0x101,
     }
 
+    public static class ColorRegPack {
+        /**
+         * Pack format for 'color' register data.
+         */
+        public const string Color = "u0.16 u0.16 u0.16";
+    }
+
 }

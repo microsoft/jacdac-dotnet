@@ -25,8 +25,8 @@ namespace Jacdac.Tests
             var parsed = PacketEncoding.UnPack(format, buffer);
 
             Assert.True(parsed.Length == 1);
-            Assert.IsType<ushort>(parsed[0]);
-            Assert.Equal<ushort>(37778, (ushort)parsed[0]);
+            Assert.IsType<uint>(parsed[0]);
+            Assert.Equal<uint>(37778, (uint)parsed[0]);
         }
 
         [Fact]
@@ -37,8 +37,8 @@ namespace Jacdac.Tests
             var parsed = PacketEncoding.UnPack(format, buffer);
 
             Assert.True(parsed.Length == 1);
-            Assert.IsType<byte>(parsed[0]);
-            Assert.Equal<byte>(0x92, (byte)parsed[0]);
+            Assert.IsType<uint>(parsed[0]);
+            Assert.Equal<uint>(0x92, (uint)parsed[0]);
         }
 
         [Fact]
@@ -49,8 +49,20 @@ namespace Jacdac.Tests
             var parsed = PacketEncoding.UnPack(format, buffer);
 
             Assert.True(parsed.Length == 1);
-            Assert.IsType<UInt32>(parsed[0]);
-            Assert.Equal<UInt32>(4242, (uint)parsed[0]);
+            Assert.IsType<uint>(parsed[0]);
+            Assert.Equal<uint>(4242, (uint)parsed[0]);
+        }
+
+        [Fact]
+        public void ParseU64()
+        {
+            var buffer = new byte[] { 0x92, 0x10, 0x0, 0x0, 0xCF, 0x7, 0x0, 0x0 };
+            var format = "u64";
+            var parsed = PacketEncoding.UnPack(format, buffer);
+
+            Assert.True(parsed.Length == 1);
+            Assert.IsType<ulong>(parsed[0]);
+            Assert.Equal<ulong>(BitConverter.ToUInt64(buffer), (ulong)parsed[0]);
         }
 
         [Fact]
@@ -98,9 +110,9 @@ namespace Jacdac.Tests
 
             Assert.True(parsed.Length == 2);
             Assert.IsType<string>(parsed[0]);
-            Assert.IsType<byte>(parsed[1]);
+            Assert.IsType<uint>(parsed[1]);
             Assert.Equal("Hello World", parsed[0]);
-            Assert.Equal<byte>(255, (byte)parsed[1]);
+            Assert.Equal<uint>(255, (uint)parsed[1]);
         }
 
         [Fact]
@@ -111,13 +123,13 @@ namespace Jacdac.Tests
             var parsed = PacketEncoding.UnPack(format, buffer);
 
             Assert.True(parsed.Length == 2);
-            Assert.IsType<byte>(parsed[0]);
-            Assert.Equal<byte>(127, (byte)parsed[0]);
+            Assert.IsType<uint>(parsed[0]);
+            Assert.Equal<uint>(127, (uint)parsed[0]);
 
             Assert.IsType<object[]>(parsed[1]);
-            Assert.Equal<ushort>(43981, (ushort)((object[])parsed[1])[0]);
-            Assert.Equal<ushort>(4660, (ushort)((object[])parsed[1])[1]);
-            Assert.Equal<ushort>(22136, (ushort)((object[])parsed[1])[2]);
+            Assert.Equal<uint>(43981, (uint)((object[])parsed[1])[0]);
+            Assert.Equal<uint>(4660, (uint)((object[])parsed[1])[1]);
+            Assert.Equal<uint>(22136, (uint)((object[])parsed[1])[2]);
         }
 
         [Fact]
@@ -128,52 +140,72 @@ namespace Jacdac.Tests
             var parsed = PacketEncoding.UnPack(format, buffer);
 
             Assert.True(parsed.Length == 2);
-            Assert.IsType<byte>(parsed[0]);
-            Assert.Equal<byte>(127, (byte)parsed[0]);
-
-            Assert.IsType<byte>(parsed[1]);
-            Assert.Equal<byte>(255, (byte)parsed[1]);
+            Assert.IsType<uint>(parsed[0]);
+            Assert.Equal<uint>(127, (uint)parsed[0]);
+            Assert.IsType<uint>(parsed[1]);
+            Assert.Equal<uint>(255, (uint)parsed[1]);
         }
 
-        const double err = 1e-4;
+        const int precision = 4;
 
         [Theory]
-        [InlineData("u16", new object[] { 42 })]
-        [InlineData("u8", new object[] { 42 })]
-        [InlineData("u32", new object[] { 42 })]
-        [InlineData("u16 u16 i16", new object[] { 42, 77, -10 })]
-        [InlineData("u16 z s", new object[] { 42, "foo", "bar" })]
-        [InlineData("u32 z s", new object[] { 42, "foo", "bar" })]
+        [InlineData("u8", new object[] { 42u })]
+        [InlineData("u16", new object[] { 42u })]
+        [InlineData("u32", new object[] { 42u })]
+        [InlineData("u64", new object[] { (ulong)42 })]
+        [InlineData("i8", new object[] { -3 })]
+        [InlineData("i16", new object[] { -42 })]
+        [InlineData("i32", new object[] { -42 })]
+        [InlineData("i64", new object[] { (long)-42 })]
+        [InlineData("u16 u16 i16", new object[] { 42u, 77u, -10 })]
+        [InlineData("u16 z s", new object[] { 42u, "foo", "bar" })]
+        [InlineData("u32 z s", new object[] { 42u, "foo", "bar" })]
         [InlineData("i8 z s", new object[] { 42, "foo", "bar" })]
-        [InlineData("u8 z s", new object[] { 42, "foo12", "bar" })]
-        [InlineData("u8 r: u8 z", new object[] {42,    new object[] {
-        new object[] { 17, "xy" },        new object[] { 18, "xx" }}
-        })]
+        [InlineData("u8 z s", new object[] { 42u, "foo12", "bar" })]
+        [InlineData("z b", new object[] { "foo", new byte[] { 1, 2, 3 } })]
+        [InlineData("u8 r: u8 z", new object[] {
+            42u,
+            new object[] {
+                new object[] { 17u, "xy" },
+                new object[] { 18u, "xx" }}
+            })]
         [InlineData("z b", new object[] { "foo12", new byte[] { 0, 1, 2, 3, 4 } })]
-        [InlineData("u16 r: u16", new object[] { 42, new object[] { new object[] { 17 }, new object[] { 18 } } })]
-        [InlineData("i8 s[9] u16 s[10] u8", new object[] { -100, "foo", 1000, "barbaz", 250 })]
-        [InlineData("i8 x[4] s[9] u16 x[2] s[10] x[3] u8", new object[] { -100, "foo", 1000, "barbaz", 250 })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { 17, 18 } })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { 18 } })]
-        [InlineData("u16 u16[]", new object[] { 42, new object[] { } })]
-        [InlineData("u16 z[]", new object[] { 42, new object[] { "foo", "bar", "bz" } })]
-        /*
-        [InlineData("u0.16", [0], { maxError: err })]
-        [InlineData("u0.16", [0.42], { maxError: err })]
-        [InlineData("u0.16", [1], { maxError: err })]
-        [InlineData("i1.15", [0], { maxError: err })]
-        [InlineData("i1.15", [1], { maxError: err })]
-        [InlineData("i1.15", [-1], { maxError: err })]
-     [InlineData(
-        "b[8] u32 u8 s",
-        [fromHex(`a1b2c3d4e5f6a7b8`), 0x12345678, 0x42, "barbaz"],
-        { expectedPayload: "a1b2c3d4e5f6a7b8785634124262617262617a" }
-    )]
-    [InlineData("i16.16", [0.1], { maxError: err })]
-    [InlineData("i16.16", [1], { maxError: err })]
-    [InlineData("i16.16", [Math.PI], { maxError: err }) ]*/
-        public void TestOne(string fmt, object[] values)
+        [InlineData("u16 r: u16", new object[] { 42u, new object[] { new object[] { 17u }, new object[] { 18u } } })]
+        [InlineData("i8 s[9] u16 s[10] u8", new object[] { -100, "foo", 1000u, "barbaz", 250u })]
+        [InlineData("i8 x[4] s[9] u16 x[2] s[10] x[3] u8", new object[] { -100, "foo", 1000u, "barbaz", 250u })]
+        [InlineData("u16 u16[]", new object[] { 42u, new object[] { 17u, 18u } })]
+        [InlineData("u16 u16[]", new object[] { 42u, new object[] { 18u } })]
+        [InlineData("u16 u16[]", new object[] { 42u, new object[] { } })]
+        [InlineData("u0.16", new object[] { (float)0 }, precision)]
+        [InlineData("u0.16", new object[] { (float)0.42 }, precision)]
+        [InlineData("u0.16", new object[] { (float)1 }, precision)]
+        [InlineData("i1.15", new object[] { (float)0 }, precision)]
+        [InlineData("i1.15", new object[] { (float)1 }, precision)]
+        [InlineData("i1.15", new object[] { (float)-1 }, precision)]
+        [InlineData("i16.16", new object[] { (float)0.1 }, precision)]
+        [InlineData("i16.16", new object[] { (float)1 }, precision)]
+        [InlineData("i16.16", new object[] { (float)Math.PI }, precision)]
+        public void TestOne(string fmt, object[] values, int precision = 0)
         {
+            var packed = PacketEncoding.Pack(fmt, values);
+            Console.WriteLine(packed);
+
+            var unpacked = PacketEncoding.UnPack(fmt, packed);
+            Console.WriteLine(unpacked);
+
+            var repacked = PacketEncoding.Pack(fmt, unpacked);
+            Console.WriteLine(repacked);
+
+            Assert.True(packed != null);
+            Assert.Equal(values.Length, unpacked.Length);
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (precision > 0)
+                    Assert.Equal((float)values[i], (float)unpacked[i], precision);
+                else
+                    Assert.Equal(values[i], unpacked[i]);
+            }
+            Assert.Equal(HexEncoding.ToString(packed), HexEncoding.ToString(repacked));
         }
     }
 }

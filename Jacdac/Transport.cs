@@ -4,13 +4,45 @@ namespace Jacdac
 {
     public delegate void ConnectionStateChangedEvent(Transport sender, ConnectionState newState);
 
+<<<<<<< HEAD
     public delegate void FrameReceivedEvent(Transport sender, byte[] frame, DateTime timestamp);
+=======
+    public delegate void FrameReceivedEvent(Transport sender, byte[] frame);
+>>>>>>> upstream/main
 
-    public enum TransportError
+    public enum TransportError : uint
     {
-        Frame = 0,
-        Overrun = 1,
-        BufferFull = 2,
+        NoError = 0u,
+        Overrun = 1u,
+        BufferFull = 2u,
+        Frame = 0x80000000u,
+        Frame_MaxData = 2147483649u,
+        Frame_Busy = 2147483650u,
+        Frame_A = 2147483652u,
+        Frame_B = 2147483656u,
+        Frame_C = 2147483664u,
+        Frame_D = 2147483680u,
+        Frame_E = 2147483712u,
+        Frame_F = 2147483776u
+    }
+
+    public static class TransportStats
+    {
+        public static uint FrameReceived;
+        public static uint FrameSent;
+        public static uint FrameError;
+
+        public static uint Overrun;
+        public static uint BufferFull;
+        public static uint Frame;
+        public static uint FrameMaxData;
+        public static uint FrameBusy;
+        public static uint FrameA;
+        public static uint FrameB;
+        public static uint FrameC;
+        public static uint FrameD;
+        public static uint FrameE;
+        public static uint FrameF;
     }
 
     public sealed class TransportErrorReceivedEventArgs
@@ -62,28 +94,10 @@ namespace Jacdac
             get { return this._connectionState; }
         }
 
-        public void SendPacket(Packet packet)
-        {
-            var data = new byte[packet.Header.Length + packet.Data.Length];
-
-            Array.Copy(packet.Header, data, packet.Header.Length);
-            Array.Copy(packet.Data, 0, data, packet.Header.Length, packet.Data.Length);
-
-            data[2] = (byte)(packet.Size + 4);
-
-            var crc = Util.CRC(data, 2, data.Length - 2);
-
-            data[0] = (byte)(crc >> 0);
-            data[1] = (byte)(crc >> 8);
-
-            this.SendData(data);
-        }
-
         /// <summary>
-        /// Sends data over the transport
+        /// Sends data over the transport. First 2 bytes should be a Crc16
         /// </summary>
-        /// <param name="packet"></param>
-        protected abstract void SendData(byte[] data);
+        public abstract void SendFrame(byte[] data);
 
         /// <summary>
         /// Connect to the transport
@@ -97,7 +111,7 @@ namespace Jacdac
             try
             {
                 this.InternalConnect();
-                this.SetConnectionState(ConnectionState.Connected);
+                // connected state must be set by internal connect
             }
             catch (Exception)
             {

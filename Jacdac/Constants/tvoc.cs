@@ -33,22 +33,35 @@ namespace Jacdac {
         MinTVOC = 0x104,
 
         /**
-         * Constant ppb u22.10 (uint32_t). Minimum measurable value
+         * Constant ppb u22.10 (uint32_t). Minimum measurable value.
          *
          * ```
          * const [maxTVOC] = jdunpack<[number]>(buf, "u22.10")
          * ```
          */
         MaxTVOC = 0x105,
+    }
+
+    public static class TvocRegPack {
+        /**
+         * Pack format for 'TVOC' register data.
+         */
+        public const string TVOC = "u22.10";
 
         /**
-         * Constant s uint32_t. Time required to achieve good sensor stability before measuring after long idle period.
-         *
-         * ```
-         * const [conditioningPeriod] = jdunpack<[number]>(buf, "u32")
-         * ```
+         * Pack format for 'TVOC_error' register data.
          */
-        ConditioningPeriod = 0x180,
+        public const string TVOCError = "u22.10";
+
+        /**
+         * Pack format for 'min_TVOC' register data.
+         */
+        public const string MinTVOC = "u22.10";
+
+        /**
+         * Pack format for 'max_TVOC' register data.
+         */
+        public const string MaxTVOC = "u22.10";
     }
 
 }

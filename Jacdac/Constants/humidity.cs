@@ -42,4 +42,26 @@ namespace Jacdac {
         MaxHumidity = 0x105,
     }
 
+    public static class HumidityRegPack {
+        /**
+         * Pack format for 'humidity' register data.
+         */
+        public const string Humidity = "u22.10";
+
+        /**
+         * Pack format for 'humidity_error' register data.
+         */
+        public const string HumidityError = "u22.10";
+
+        /**
+         * Pack format for 'min_humidity' register data.
+         */
+        public const string MinHumidity = "u22.10";
+
+        /**
+         * Pack format for 'max_humidity' register data.
+         */
+        public const string MaxHumidity = "u22.10";
+    }
+
 }

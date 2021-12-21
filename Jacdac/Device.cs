@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Jacdac
 {
     public sealed class JDDevice : JDNode
     {
-        public readonly JDBus Bus;
+        private JDBus bus;
         public readonly string DeviceId;
         public readonly string ShortId;
         public TimeSpan LastSeen;
@@ -13,14 +15,52 @@ namespace Jacdac
 
         byte[] _servicesData;
         JDService[] _services = null;
+        LEDController _statusLight = null;
 
         public JDDevice(JDBus bus, string deviceId)
         {
-            this.Bus = bus;
+            this.bus = bus;
             this.DeviceId = deviceId;
             this.ShortId = Util.ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
-            this._servicesData = new byte[0];
+            this._servicesData = Packet.EmptyData;
+        }
+
+        public JDBus Bus
+        {
+            get { return bus; }
+        }
+
+        public void Disconnect()
+        {
+            this.bus = null;
+        }
+
+        /**
+         * Gets the control announce flag from the annouce packet.
+         * @category Control
+         */
+        public ControlAnnounceFlags AnnounceFlags
+        {
+            get => (ControlAnnounceFlags)(this._servicesData != null ? BitConverter.ToUInt16(this._servicesData, 0) : 0);
+        }
+
+        public ControlAnnounceFlags StatusLightFlags
+        {
+            get => this.AnnounceFlags & ControlAnnounceFlags.StatusLightRgbFade;
+        }
+
+        public LEDController StatusLight
+        {
+            get
+            {
+                if (this._statusLight == null && this.StatusLightFlags != ControlAnnounceFlags.StatusLightNone)
+                    this._statusLight = new LEDController(
+                        this._services[0],
+                        (ushort)Jacdac.ControlCmd.SetStatusLight
+                    );
+                return this._statusLight;
+            }
         }
 
         public override string ToString()
@@ -28,17 +68,36 @@ namespace Jacdac
             return this.ShortId;
         }
 
+        public void Reset()
+        {
+            var ctrl = this.GetService(0);
+            if (ctrl != null)
+                ctrl.SendPacket(Packet.FromCmd((ushort)Jacdac.ControlCmd.Reset));
+        }
+
+        public void Identify()
+        {
+            var statusLight = this.StatusLight;
+            if (statusLight != null)
+                statusLight.Blink(0x0000ff, 0, 262, 4);
+            else
+            {
+                var ctrl = this.GetService(0);
+                ctrl.SendPacket(Packet.FromCmd((ushort)ControlCmd.Identify));
+            }
+        }
+
         public void ProcessPacket(Packet pkt)
         {
-            //this.lost = false
-            //this.emit(PACKET_RECEIVE, pkt)
-            //if (pkt.IsReport) this.emit(PACKET_REPORT, pkt)
-            //else if (pkt.IsEvent) this.emit(PACKET_EVENT, pkt)
-
-            var srvs = this._services;
-            var i = pkt.ServiceIndex;
-            if (srvs != null && i < srvs.Length)
-                srvs[i].ProcessPacket(pkt);
+            if (pkt.IsCrcAck)
+                this.ReceiveAck(pkt);
+            else
+            {
+                var srvs = this._services;
+                var i = pkt.ServiceIndex;
+                if (srvs != null && i < srvs.Length)
+                    srvs[i].ProcessPacket(pkt);
+            }
         }
 
         public void ProcessAnnouncement(Packet pkt)
@@ -47,8 +106,8 @@ namespace Jacdac
             var changed = false;
             uint w0 = this._servicesData.Length == 0
                 ? 0
-                : Util.GetNumber(this._servicesData, NumberFormat.UInt32LE, 0);
-            uint w1 = data.Length == 0 ? 0 : Util.GetNumber(data, NumberFormat.UInt32LE, 0);
+                : BitConverter.ToUInt32(this._servicesData, 0);
+            uint w1 = data.Length == 0 ? 0 : BitConverter.ToUInt32(data, 0);
 
             // compare service data
             var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
@@ -91,9 +150,9 @@ namespace Jacdac
                 var data = this._servicesData;
                 var n = data == null ? 0 : data.Length >> 2;
                 var res = new uint[n];
-                for(var i = 1; i < res.Length;++i)
+                for (var i = 1; i < res.Length; ++i)
                 {
-                    res[i] = Util.Read32(data, i * 4);
+                    res[i] = BitConverter.ToUInt32(data, i * 4);
                 }
                 return res;
             }
@@ -107,7 +166,7 @@ namespace Jacdac
             var n = data == null ? 0 : data.Length >> 2;
             for (var i = 1; i < n; ++i)
             {
-                var sc = Util.Read32(data, i * 4);
+                var sc = BitConverter.ToUInt32(data, i * 4);
                 if (sc == serviceClass) return true;
             }
             return false;
@@ -123,6 +182,7 @@ namespace Jacdac
                         this._services[i].Device = null;
                 }
                 this._services = null;
+                this._statusLight = null;
             }
 
             if (null == this._services && null != this._servicesData)
@@ -139,16 +199,168 @@ namespace Jacdac
             }
         }
 
-        public JDService[] Services()
+        public JDService[] GetServices()
         {
-            var srvs = this._services.Clone() as JDService[];
-            return srvs;
+            return this._services == null ? JDService.EmptyServices : this._services;
+        }
+
+        public JDService GetService(byte serviceIndex)
+        {
+            return this._services != null && serviceIndex < this._services.Length ? this._services[serviceIndex] : null;
+        }
+
+        sealed class Ack
+        {
+            public Packet Packet;
+            public int RetriesLeft;
+            public ManualResetEvent Event;
+            public bool Error;
+
+            public void Set()
+            {
+                var ev = this.Event;
+                if (ev == null) return;
+
+                this.Event = null;
+                ev.Set();
+            }
+        }
+        Ack[] _acks;
+
+        private void RefreshAcks(Ack[] acks, int done)
+        {
+            if (acks.Length == done || this.Bus == null)
+                this._acks = null;
+            else
+            {
+                var newAcks = new Ack[acks.Length - done];
+                var k = 0;
+                for (var i = 0; i < acks.Length; ++i)
+                {
+                    var ack = acks[i];
+                    if (ack.Packet != null) newAcks[k] = ack;
+                }
+                Debug.Assert(k == newAcks.Length);
+                this._acks = newAcks;
+            }
+        }
+
+        private void SignalAcks(Ack[] acks)
+        {
+            foreach (var ack in acks)
+            {
+                if (ack.Packet == null)
+                    ack.Set();
+            }
+        }
+
+        private void ReceiveAck(Packet ackPkt)
+        {
+            Debug.WriteLine($"{this}: receive ack {ackPkt.Crc}");
+            var serviceCommand = ackPkt.ServiceCommand;
+            Ack[] acks;
+            var received = 0;
+            lock (this)
+            {
+                acks = this._acks == null ? new Ack[0] : (Ack[])this._acks.Clone();
+                foreach (var ack in acks)
+                {
+                    var pkt = ack.Packet;
+                    if (pkt != null && pkt.Crc == serviceCommand)
+                    {
+                        ack.Packet = null;
+                        received++;
+                    }
+                }
+                if (received > 0)
+                {
+                    Debug.WriteLine($"{this}: ack received {received}");
+                    this.RefreshAcks(acks, received);
+                }
+            }
+            this.SignalAcks(acks);
+        }
+
+        private void ResendAcks()
+        {
+            Ack[] acks;
+            var errors = 0;
+            lock (this)
+            {
+                acks = this._acks == null ? new Ack[0] : (Ack[])this._acks.Clone();
+                Debug.WriteLine($"{this}: resend acks {acks.Length}");
+                foreach (var ack in acks)
+                {
+                    if (ack.Packet == null) continue; // already processed
+                    if (--ack.RetriesLeft < 0)
+                    {
+                        ack.Packet = null;
+                        ack.Error = true;
+                        ack.Event.Set();
+                        errors++;
+                    }
+                    else
+                    {
+                        if (this.Bus == null || this.Bus.IsPassive) continue; // disconnected
+                        this.Bus.SelfDeviceServer.SendPacket(ack.Packet);
+                    }
+                }
+                // filter out error packets
+                if (errors > 0)
+                {
+                    Debug.WriteLine($"{this}: ack errors {errors}");
+                    this.RefreshAcks(acks, errors);
+                }
+
+
+                // schedule acks again
+                if (this._acks != null)
+                    new Timer(state => this.ResendAcks(), null, 40, Timeout.Infinite);
+            }
+
+            // trigger errors
+            if (errors > 0)
+                this.SignalAcks(acks);
+        }
+
+        private void WaitForAck(Packet pkt)
+        {
+            Stats.WaitForAcks++;
+            var ack = new Ack
+            {
+                Packet = pkt,
+                RetriesLeft = 4,
+                Event = new ManualResetEvent(false)
+            };
+            lock (this)
+            {
+                if (this._acks == null)
+                {
+                    this._acks = new Ack[1] { ack };
+                    new Timer((state) => this.ResendAcks(), null, 40, Timeout.Infinite);
+                }
+                else
+                {
+                    var newAcks = new Ack[this._acks.Length];
+                    this._acks.CopyTo(newAcks, 0);
+                    newAcks[newAcks.Length - 1] = ack;
+                    this._acks = newAcks;
+                }
+            }
+            ack.Event.WaitOne();
+            if (ack.Error)
+                throw new AckException(pkt);
         }
 
         public void SendPacket(Packet pkt)
         {
+            if (this.Bus == null || this.Bus.IsPassive) return;
+
+            Debug.Assert(!pkt.IsMultiCommand);
             pkt.DeviceId = this.DeviceId;
-            this.Bus.SendPacket(pkt);
+            this.Bus.SelfDeviceServer.SendPacket(pkt);
+            if (pkt.RequiresAck)
+                this.WaitForAck(pkt);
         }
 
         public bool IsUniqueBrain

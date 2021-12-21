@@ -30,4 +30,16 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class ReflectedLightRegPack {
+        /**
+         * Pack format for 'brightness' register data.
+         */
+        public const string Brightness = "u0.16";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
 }

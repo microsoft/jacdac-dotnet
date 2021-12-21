@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x18aae1fa;
     }
 
+    [System.Flags]
     public enum WifiAPFlags: uint { // uint32_t
         HasPassword = 0x1,
         WPS = 0x2,
@@ -87,6 +88,33 @@ namespace Jacdac {
         ListKnownNetworks = 0x87,
     }
 
+    public static class WifiCmdPack {
+        /**
+         * Pack format for 'last_scan_results' register data.
+         */
+        public const string LastScanResults = "b[12]";
+
+        /**
+         * Pack format for 'add_network' register data.
+         */
+        public const string AddNetwork = "z z";
+
+        /**
+         * Pack format for 'forget_network' register data.
+         */
+        public const string ForgetNetwork = "s";
+
+        /**
+         * Pack format for 'set_network_priority' register data.
+         */
+        public const string SetNetworkPriority = "i16 s";
+
+        /**
+         * Pack format for 'list_known_networks' register data.
+         */
+        public const string ListKnownNetworks = "b[12]";
+    }
+
 
     /**
      * pipe_report Results
@@ -102,6 +130,18 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class WifiinfoPack {
+        /**
+         * Pack format for 'results' register data.
+         */
+        public const string Results = "u32 u32 i8 u8 b[6] s[33]";
+
+        /**
+         * Pack format for 'network_results' register data.
+         */
+        public const string NetworkResults = "i16 i16 s";
+    }
 
     public enum WifiReg {
         /**
@@ -151,6 +191,33 @@ namespace Jacdac {
         Rssi = 0x184,
     }
 
+    public static class WifiRegPack {
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+
+        /**
+         * Pack format for 'ip_address' register data.
+         */
+        public const string IpAddress = "b[16]";
+
+        /**
+         * Pack format for 'eui_48' register data.
+         */
+        public const string Eui48 = "b[6]";
+
+        /**
+         * Pack format for 'ssid' register data.
+         */
+        public const string Ssid = "s[32]";
+
+        /**
+         * Pack format for 'rssi' register data.
+         */
+        public const string Rssi = "i8";
+    }
+
     public enum WifiEvent {
         /**
          * Emitted upon successful join and IP address assignment.
@@ -188,6 +255,18 @@ namespace Jacdac {
          * ```
          */
         ConnectionFailed = 0x82,
+    }
+
+    public static class WifiEventPack {
+        /**
+         * Pack format for 'scan_complete' register data.
+         */
+        public const string ScanComplete = "u16 u16";
+
+        /**
+         * Pack format for 'connection_failed' register data.
+         */
+        public const string ConnectionFailed = "s";
     }
 
 }

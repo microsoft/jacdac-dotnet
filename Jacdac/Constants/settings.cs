@@ -63,6 +63,38 @@ namespace Jacdac {
         Clear = 0x85,
     }
 
+    public static class SettingsCmdPack {
+        /**
+         * Pack format for 'get' register data.
+         */
+        public const string Get = "s";
+
+        /**
+         * Pack format for 'get' register data.
+         */
+        public const string GetReport = "z b";
+
+        /**
+         * Pack format for 'set' register data.
+         */
+        public const string Set = "z b";
+
+        /**
+         * Pack format for 'delete' register data.
+         */
+        public const string Delete = "s";
+
+        /**
+         * Pack format for 'list_keys' register data.
+         */
+        public const string ListKeys = "b[12]";
+
+        /**
+         * Pack format for 'list' register data.
+         */
+        public const string List = "b[12]";
+    }
+
 
     /**
      * pipe_report ListedKey
@@ -78,6 +110,18 @@ namespace Jacdac {
      * ```
      */
 
+
+    public static class SettingsinfoPack {
+        /**
+         * Pack format for 'listed_key' register data.
+         */
+        public const string ListedKey = "s";
+
+        /**
+         * Pack format for 'listed_entry' register data.
+         */
+        public const string ListedEntry = "z b";
+    }
 
     public enum SettingsEvent {
         /**

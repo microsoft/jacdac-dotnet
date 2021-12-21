@@ -1,15 +1,21 @@
 ﻿using System;
+using System.IO;
 
 namespace Jacdac
 {
-    public delegate string DeviceIdCalculator();
-    public delegate TimeSpan TimestampCalculator();
+    public delegate TimeSpan Clock();
+    public delegate Clock ClockFactory();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
+    public delegate short McuTemperatureCalculator();
+    public delegate void SetStatusLightHandler(byte red, byte green, byte blue, byte speed);
 
     public static class Platform
     {
-        public static DeviceIdCalculator DeviceId = () => "0123456701234567";
-        public static TimestampCalculator Now = () => new TimeSpan(0, 0, 0, 0);
+        public static byte[] DeviceId;
+        public static string FirmwareVersion;
+        public static string DeviceDescription;
+        public static RealTimeClockVariant RealTimeClock = 0;
+        public static ClockFactory CreateClock;
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;
@@ -23,5 +29,22 @@ namespace Jacdac
             }
             return crc;
         };
+        public static McuTemperatureCalculator McuTemperature;
+        public static ServiceTwinSpecReader ServiceTwinReader;
+        public static HttpWebRequestGet WebGet;
+
+        public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
+        public static SetStatusLightHandler SetStatusLight = null;
     }
+
+    public interface IKeyStorage
+    {
+        string[] GetKeys();
+        byte[] Read(string key);
+        void Write(string key, byte[] buffer);
+        void Delete(string key);
+        void Clear();
+    }
+
+    public delegate byte[] HttpWebRequestGet(string url);
 }

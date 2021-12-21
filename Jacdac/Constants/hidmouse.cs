@@ -5,6 +5,7 @@ namespace Jacdac {
         public const uint ServiceClass = 0x1885dc1c;
     }
 
+    [System.Flags]
     public enum HidMouseButton: ushort { // uint16_t
         Left = 0x1,
         Right = 0x2,
@@ -50,6 +51,23 @@ namespace Jacdac {
          * ```
          */
         Wheel = 0x82,
+    }
+
+    public static class HidMouseCmdPack {
+        /**
+         * Pack format for 'set_button' register data.
+         */
+        public const string SetButton = "u16 u8";
+
+        /**
+         * Pack format for 'move' register data.
+         */
+        public const string Move = "i16 i16 u16";
+
+        /**
+         * Pack format for 'wheel' register data.
+         */
+        public const string Wheel = "i16 u16";
     }
 
 }

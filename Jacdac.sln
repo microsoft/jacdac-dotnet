@@ -9,18 +9,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Explorer", "Jacdac.E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF5CADE3-4BFB-4BEC-A09A-6D40110ADADE}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Tests", "Jacdac.Tests\Jacdac.Tests.csproj", "{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Playground", "Jacdac.Playground\Jacdac.Playground.csproj", "{922F75F6-632A-414E-B447-0FF41C82935C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac-RgbLed", "Jacdac-RgbLed\Jacdac-RgbLed.csproj", "{0233B41E-369B-483A-975C-9DAA6C00DEC7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR", "Jacdac.TinyCLR\Jacdac.TinyCLR.csproj", "{FEAE5AA6-08FC-449E-8CE1-6F3697211323}"
 EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Jacdac.Nano", "Jacdac.Nano\Jacdac.Nano.nfproj", "{071C8FF7-00A1-4C77-9192-146C24327E8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.NET", "Jacdac.NET\Jacdac.NET.csproj", "{CD87610F-D4CE-455A-AA11-5950747B53FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Playground", "Jacdac.NET.Playground\Jacdac.NET.Playground.csproj", "{C19AE6F7-7D55-4BB3-9621-20FC1AA86253}"
+EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Core", "Jacdac.Core\Jacdac.Core.csproj", "{F7C082A2-F9BC-4EBB-B9C6-6CB9FAF6F8B8}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Playground", "Jacdac.TinyCLR.Playground\Jacdac.TinyCLR.Playground.csproj", "{0233B41E-369B-483A-975C-9DAA6C00DEC7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Usb", "Jacdac.Transports.Usb\Jacdac.Transports.Usb.csproj", "{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.WebSockets", "Jacdac.Transports.WebSockets\Jacdac.Transports.WebSockets.csproj", "{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}"
+>>>>>>> upstream/main
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,16 +51,31 @@ Global
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{922F75F6-632A-414E-B447-0FF41C82935C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{922F75F6-632A-414E-B447-0FF41C82935C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{922F75F6-632A-414E-B447-0FF41C82935C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{071C8FF7-00A1-4C77-9192-146C24327E8B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CD87610F-D4CE-455A-AA11-5950747B53FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD87610F-D4CE-455A-AA11-5950747B53FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD87610F-D4CE-455A-AA11-5950747B53FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD87610F-D4CE-455A-AA11-5950747B53FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C19AE6F7-7D55-4BB3-9621-20FC1AA86253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C19AE6F7-7D55-4BB3-9621-20FC1AA86253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C19AE6F7-7D55-4BB3-9621-20FC1AA86253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C19AE6F7-7D55-4BB3-9621-20FC1AA86253}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+<<<<<<< HEAD
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +84,16 @@ Global
 		{F7C082A2-F9BC-4EBB-B9C6-6CB9FAF6F8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C082A2-F9BC-4EBB-B9C6-6CB9FAF6F8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C082A2-F9BC-4EBB-B9C6-6CB9FAF6F8B8}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> upstream/main
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

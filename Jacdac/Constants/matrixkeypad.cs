@@ -62,6 +62,33 @@ namespace Jacdac {
         Variant = 0x107,
     }
 
+    public static class MatrixKeypadRegPack {
+        /**
+         * Pack format for 'pressed' register data.
+         */
+        public const string Pressed = "r: u8";
+
+        /**
+         * Pack format for 'rows' register data.
+         */
+        public const string Rows = "u8";
+
+        /**
+         * Pack format for 'columns' register data.
+         */
+        public const string Columns = "u8";
+
+        /**
+         * Pack format for 'labels' register data.
+         */
+        public const string Labels = "r: z";
+
+        /**
+         * Pack format for 'variant' register data.
+         */
+        public const string Variant = "u8";
+    }
+
     public enum MatrixKeypadEvent {
         /**
          * Argument: uint8_t. Emitted when a key, at the given index, goes from inactive (`pressed == 0`) to active.
@@ -98,6 +125,28 @@ namespace Jacdac {
          * ```
          */
         LongClick = 0x81,
+    }
+
+    public static class MatrixKeypadEventPack {
+        /**
+         * Pack format for 'down' register data.
+         */
+        public const string Down = "u8";
+
+        /**
+         * Pack format for 'up' register data.
+         */
+        public const string Up = "u8";
+
+        /**
+         * Pack format for 'click' register data.
+         */
+        public const string Click = "u8";
+
+        /**
+         * Pack format for 'long_click' register data.
+         */
+        public const string LongClick = "u8";
     }
 
 }

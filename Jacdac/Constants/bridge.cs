@@ -15,4 +15,11 @@ namespace Jacdac {
         Enabled = 0x1,
     }
 
+    public static class BridgeRegPack {
+        /**
+         * Pack format for 'enabled' register data.
+         */
+        public const string Enabled = "u8";
+    }
+
 }
