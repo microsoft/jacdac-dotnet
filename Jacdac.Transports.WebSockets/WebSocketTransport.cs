@@ -1,6 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net.WebSockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jacdac.Transports.WebSockets
 {
@@ -28,7 +31,7 @@ namespace Jacdac.Transports.WebSockets
                 .ContinueWith(t =>
                 {
                     if (!t.IsFaulted)
-                        this.socket.SendAsync(data, WebSocketMessageType.Binary, WebSocketMessageFlags.EndOfMessage, CancellationToken.None);
+                        this.socket.SendAsync(data, WebSocketMessageType.Binary, true, CancellationToken.None);
                     this.sendSemaphore.Release();
                 });
         }

@@ -1,7 +1,10 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 using LibUsbDotNet;
 using LibUsbDotNet.WinUsb;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Jacdac.Transports.Usb
 {
@@ -17,7 +20,7 @@ namespace Jacdac.Transports.Usb
     {
         public static USBDeviceDescription[] GetDevices()
         {
-            List<USBDeviceDescription> devices = new List<USBDeviceDescription>();
+            var devices = new List<USBDeviceDescription>();
             foreach (var device in LibUsbDotNet.UsbDevice.AllWinUsbDevices.ToArray())
             {
                 UsbDevice potentialDevice;
