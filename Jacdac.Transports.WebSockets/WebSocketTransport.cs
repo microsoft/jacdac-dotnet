@@ -17,6 +17,7 @@ namespace Jacdac.Transports.WebSockets
         private SemaphoreSlim sendSemaphore;
 
         public WebSocketTransport(Uri uri = null)
+            : base("ws")
         {
             this.Uri = uri ?? new Uri("ws://localhost:8081/");
             this.socket = new ClientWebSocket();

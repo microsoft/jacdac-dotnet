@@ -86,6 +86,7 @@ namespace Jacdac
         public readonly GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller;
 
         public UartTransport(GHIElectronics.TinyCLR.Devices.Jacdac.Transport.JacdacSerialWireController controller)
+            : base("uart")
         {
             this.controller = controller;
         }

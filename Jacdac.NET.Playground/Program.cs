@@ -8,24 +8,26 @@ namespace Jacdac.NET.Playground
     {
         static void Main(string[] args)
         {
-            AsyncMain();
-        }
-
-        static async void AsyncMain()
-        {
             Debug.WriteLine("connecting usb");
             NETPlatform.Init();
-            var transport = new Jacdac.Transports.WebSockets.WebSocketTransport();
+            Transport transport;
+            switch (args.Length > 0 ? args[0] : "ws")
+            {
+                case "spi": transport = Jacdac.Transports.Spi.SpiTransport.CreateRaspberryPiJacdapterTransport(); break;
+                default:
+                    transport = new Jacdac.Transports.WebSockets.WebSocketTransport();
+                    break;
+            }
             transport.ConnectionChanged += (sender, newState) =>
             {
-                Console.WriteLine($"usb: ${newState}");
+                Console.WriteLine($"{sender.Kind}: {newState}");
             };
 
             var bus = new JDBus(transport);
             bus.DeviceConnected += (sender, conn) =>
             {
                 var device = conn.Device;
-                Console.WriteLine($"device connected ${device}");
+                Console.WriteLine($"device connected {device}");
 
                 device.Announced += (sender, an) =>
                 {

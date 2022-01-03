@@ -49,7 +49,7 @@ namespace Jacdac.Transports.Usb
         private UsbHF2Transport transport;
 
         public UsbTransport()
-            : base()
+            : base("usb")
         {
         }
 

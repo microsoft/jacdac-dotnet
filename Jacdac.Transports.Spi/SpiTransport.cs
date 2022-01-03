@@ -35,6 +35,7 @@ namespace Jacdac.Transports.Spi
         }
 
         public SpiTransport(GpioController controller, int txReadyPin, int rxReadyPin, int brigeResetPin, int spiBusId)
+            : base("spi")
         {
             this.controller = controller;
             this.txReadyPin = txReadyPin;
@@ -43,6 +44,11 @@ namespace Jacdac.Transports.Spi
             this.spiBusId = spiBusId;
             this.sendQueue = new ConcurrentQueue<byte[]>();
             this.receiveQueue = new ConcurrentQueue<byte[]>();
+        }
+
+        public override string ToString()
+        {
+            return "spi bridge";
         }
 
         public override event FrameReceivedEvent FrameReceived;

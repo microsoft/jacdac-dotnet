@@ -68,11 +68,17 @@ namespace Jacdac
 
     public abstract class Transport : JDNode, IDisposable
     {
+        public readonly string Kind;
         private ConnectionState _connectionState = ConnectionState.Disconnected;
 
-        protected Transport()
+        protected Transport(string kind)
         {
+            this.Kind = kind;
+        }
 
+        public override string ToString()
+        {
+            return this.Kind;
         }
 
         protected void SetConnectionState(ConnectionState connectionState)
