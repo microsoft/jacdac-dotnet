@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Jacdac.NET
+namespace Jacdac.Transports.Hf2
 {
-    public interface IHF2Transport
+    public interface IHf2Transport
     {
         Task SendData(byte[] buffer);
     }

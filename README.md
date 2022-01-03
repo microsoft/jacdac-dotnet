@@ -4,7 +4,7 @@
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
-This repository contains a **.NET 6** or **TinyCLR** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
+This repository contains a **.NET 5** or **TinyCLR** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
 
 * **[Jacdac Documentation](https://aka.ms/jacdac/)**
 * Discussions at https://github.com/microsoft/jacdac/discussions
@@ -12,19 +12,24 @@ This repository contains a **.NET 6** or **TinyCLR** client library for the [Jac
 
 The rest of this page is for developers of the jacdac-dotnet library.
 
+This layer is still under construction.
+
 ## Assemblies
 
 This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
 
-  - `Jacdac`, core Jacdac library, .NET6
-  - `Jacdac.NET`, HF2 protocol layer and .NET famework specific platform, .NET6
-  - `Jacdac.NET.Playground`, .NET6 test application using jacdac development server
-  - `Jacdac.Transports.Usb`, Usb transport, .NET6, under construction
-  - `Jacdac.Transports.WebSockets`, WebSocket transport, .NET6
+  - `Jacdac`, core Jacdac library, .NET5
+  - `Jacdac.NET`, HF2 protocol layer and .NET famework specific platform, .NET5
+  - `Jacdac.NET.Playground`, .NET5 test application using jacdac development server
+  - `Jacdac.Transports.WebSockets`, WebSocket transport, .NET5
   - `Jacdac.TinyCLR`, mirror of `Jacdac` library, TinyCLR
   - `Jacdac.TinyCLR.Playground`, TinyCLR test application
   - `Jacdac.Tests`, unit tests, .NET6
+
+  - `Jacdac.Transports.Hf2`, HF2 protocol layer, .NET6, under construction
+  - `Jacdac.Transports.Usb`, Usb transport, .NET6, under construction
+  - `Jacdac.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT, .NET5, under construction
 
 ## Developer setup
 
