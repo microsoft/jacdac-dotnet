@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace Jacdac.Transports.Spi
 {
+    /**
+     * A transport that communicates with a SPI bridge.
+     */
     public sealed class SpiTransport : Transport
     {
         const uint XFER_SIZE = 256;
@@ -115,15 +118,12 @@ namespace Jacdac.Transports.Spi
                     transfer = this.transferFrame();
                 }
 
-                lock (this.receiveQueue)
+                byte[] recv;
+                while (this.receiveQueue.TryDequeue(out recv))
                 {
-                    byte[] recv;
-                    while (this.receiveQueue.TryDequeue(out recv))
-                    {
-                        var ev = this.FrameReceived;
-                        if (ev != null)
-                            ev(this, recv);
-                    }
+                    var ev = this.FrameReceived;
+                    if (ev != null)
+                        ev(this, recv);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace Jacdac.Transports.Spi
             }
 
             // consume received frame if any
-            if (rxReady && this.FrameReceived != null)
+            if (rxReady)
                 this.receiveQueue.Enqueue(rxqueue);
             return true;
         }
