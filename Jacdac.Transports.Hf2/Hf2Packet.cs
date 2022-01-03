@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Linq;
 
-namespace Jacdac.NET
+namespace Jacdac.Transports.Hf2
 {
-    internal enum HF2PacketType
+    internal enum Hf2PacketType
     {
         InnerCommandPacket = 0,
         FinalCommandPacket = 1,
         SerialStdout = 2,
         SerialStderr = 3
     }
-    internal struct HF2Packet
+    internal sealed class Hf2Packet
     {
-        public HF2PacketType PacketType { get; private set; }
+        public Hf2PacketType PacketType { get; private set; }
 
         public byte PayloadLength => (byte)Payload.Length;
 
         public byte[] Payload { get; private set; }
 
-        public HF2Packet(HF2PacketType type, byte[] payload)
+        public Hf2Packet(Hf2PacketType type, byte[] payload)
         {
             if (payload.Length > 63)
                 throw new ArgumentException("Payload cannot be longer than 63 bytes");
@@ -26,16 +26,16 @@ namespace Jacdac.NET
             Payload = payload;
         }
 
-        public static HF2Packet Parse(byte[] data)
+        public static Hf2Packet Parse(byte[] data)
         {
             if (data.Length == 0)
                 throw new ArgumentException("No data supplied");
 
-            HF2PacketType type = (HF2PacketType)(data[0] >> 6);
+            Hf2PacketType type = (Hf2PacketType)(data[0] >> 6);
             byte payloadLength = (byte)(data[0] & 0x3F);
             byte[] payload = data.Skip(1).Take(payloadLength).ToArray();
 
-            return new HF2Packet(type, payload);
+            return new Hf2Packet(type, payload);
         }
 
         public byte[] ToByteArray()

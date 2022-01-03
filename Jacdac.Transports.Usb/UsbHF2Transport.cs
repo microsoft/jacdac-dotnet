@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Jacdac;
-using Jacdac.NET;
+using Jacdac.Transports.Hf2;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
 
 namespace Jacdac.Transports.Usb
 {
-    internal class UsbHF2Transport : IHF2Transport
+    internal class UsbHF2Transport : IHf2Transport
     {
         private USBDeviceDescription deviceDescription;
         private UsbDevice usbDevice;
@@ -76,7 +75,7 @@ namespace Jacdac.Transports.Usb
             usbDevice.Close();
         }
 
-        async Task IHF2Transport.SendData(byte[] buffer)
+        async Task IHf2Transport.SendData(byte[] buffer)
         {
             await sendSemaphore.WaitAsync();
             int bytesWritten;

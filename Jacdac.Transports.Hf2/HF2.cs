@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jacdac.NET
+namespace Jacdac.Transports.Hf2
 {
     public sealed class HF2
     {
@@ -17,12 +17,12 @@ namespace Jacdac.NET
         }
 
         private short sequentialNumber = 0;
-        private ConcurrentQueue<HF2Response> responses = new ConcurrentQueue<HF2Response>();
-        private IHF2Transport transport;
+        private ConcurrentQueue<Hf2Response> responses = new ConcurrentQueue<Hf2Response>();
+        private IHf2Transport transport;
         private bool inMultiPartResponse = false;
-        private HF2Response currentResponse;
+        private Hf2Response currentResponse;
 
-        public HF2(IHF2Transport transport)
+        public HF2(IHf2Transport transport)
         {
             this.transport = transport ?? throw new ArgumentNullException(nameof(transport));
         }
@@ -48,14 +48,14 @@ namespace Jacdac.NET
             bw.Dispose();
             ms.Dispose();
 
-            var packet = new HF2Packet(HF2PacketType.FinalCommandPacket, commandPayload);
+            var packet = new Hf2Packet(Hf2PacketType.FinalCommandPacket, commandPayload);
             var packetData = packet.ToByteArray();
             await transport.SendData(packetData);
 
             if (!waitForResponse)
                 return Array.Empty<byte>();
 
-            HF2Response response;
+            Hf2Response response;
             do
             {
                 var dequeueSuccess = responses.TryDequeue(out response);
@@ -67,7 +67,7 @@ namespace Jacdac.NET
                 await Task.Delay(10);
             } while (true);
 
-            if (response.Status != HF2Response.HF2CommandResponseStatus.Success)
+            if (response.Status != Hf2Response.Hf2CommandResponseStatus.Success)
                 throw new Exception($"Command failed with status {response.Status}");
 
             return response.Payload;
@@ -111,28 +111,28 @@ namespace Jacdac.NET
 
         public void ProcessPacket(byte[] data)
         {
-            var packet = HF2Packet.Parse(data);
+            var packet = Hf2Packet.Parse(data);
 
-            if (packet.PacketType == HF2PacketType.SerialStdout || packet.PacketType == HF2PacketType.SerialStderr)
+            if (packet.PacketType == Hf2PacketType.SerialStdout || packet.PacketType == Hf2PacketType.SerialStderr)
             {
                 Debug.WriteLine($"SERIAL> {Encoding.Default.GetString(packet.Payload)}");
                 return;
             }
 
-            if (packet.PacketType == HF2PacketType.FinalCommandPacket && (HF2Response.HF2CommandResponseStatus)packet.Payload[2] == HF2Response.HF2CommandResponseStatus.Event)
+            if (packet.PacketType == Hf2PacketType.FinalCommandPacket && (Hf2Response.Hf2CommandResponseStatus)packet.Payload[2] == Hf2Response.Hf2CommandResponseStatus.Event)
             {
                 HandleEventPacket(packet.Payload[0] | packet.Payload[1] << 8, packet.Payload.Skip(4).ToArray());
                 return;
             }
 
             if (!inMultiPartResponse)
-                currentResponse = HF2Response.Parse(packet.Payload);
+                currentResponse = Hf2Response.Parse(packet.Payload);
             else
                 currentResponse.AppendPayload(packet.Payload);
 
             inMultiPartResponse = true;
 
-            if (packet.PacketType == HF2PacketType.FinalCommandPacket)
+            if (packet.PacketType == Hf2PacketType.FinalCommandPacket)
             {
                 currentResponse.Complete();
                 inMultiPartResponse = false;
