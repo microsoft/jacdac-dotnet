@@ -1,15 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Copyright>Microsoft Corporation</Copyright>
+		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
+		<PackageIcon>jacdac.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
+		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Device.Gpio" Version="1.5.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\jacdac.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Jacdac\Jacdac.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Device.Gpio" Version="1.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Jacdac\Jacdac.csproj" />
+	</ItemGroup>
 
 </Project>
