@@ -38,26 +38,29 @@ namespace Jacdac_RgbLed
 
             var sdStorage = new SdCardKeyStorage();
             var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
-            var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
-            var settingsStorage = sdStorage.MountKeyStorage("settings.json");
-            // this.serviceTwins = new ServiceTwins(serviceStorage);
 
-            var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
             var wifiServer = new WifiServer(ssidStorage);
+            wifiServer.ScanStarted += WifiServer_ScanStarted;
+            wifiServer.ScanCompleted += WifiServer_ScanCompleted;
+            wifiServer.Ssid.Changed += this.Ssid_Changed;
+            wifiServer.Start();
+
+            //var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
+            var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
+            var settingsStorage = sdStorage.MountKeyStorage("settings.json");
             var settingsServer = new SettingsServer(settingsStorage);
             var protoTest = new ProtoTestServer();
             var bus = new JDBus(transport, new JDBusOptions
             {
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
-                Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer }
+                Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer },
+                SpecificationCatalog = new ServiceSpecificationCatalog()
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
             bus.SelfAnnounced += Bus_SelfAnnounced;
-            wifiServer.ScanStarted += WifiServer_ScanStarted;
-            wifiServer.ScanCompleted += WifiServer_ScanCompleted;
-            wifiServer.Ssid.Changed += this.Ssid_Changed;
+
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {
                 //  Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
@@ -65,7 +68,6 @@ namespace Jacdac_RgbLed
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
-            //wifiServer.Start();
 
             //Blink(transport);
             while (true)
@@ -134,17 +136,22 @@ namespace Jacdac_RgbLed
 
                 foreach (var service in device.GetServices())
                 {
+                    service.ResolveSpecification();
                     if (service.ServiceIndex == 0) continue;
-                    Display.WriteLine($" {service.ServiceIndex}: x{service.ServiceClass.ToString("x2")}");
+                    Display.WriteLine(service.ToString());
 
                     // attach to reading
                     var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
-                    reading.Changed += (reg, er) =>
+                    if (reading != null)
                     {
-                        var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
-                        var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-                        // Display.WriteLine($"get {reading.Service.Device.ShortId}[{reading.Service.ServiceIndex}] {HexEncoding.ToString(reading.Data)} {usedRam / 1000} / {freeRam / 1000}kb");
-                    };
+                        Display.WriteLine("  " + reading.ToString());
+                        reading.Changed += (reg, er) =>
+                        {
+                            var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
+                            var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
+                            // Display.WriteLine($"get {reading.Service.Device.ShortId}[{reading.Service.ServiceIndex}] {HexEncoding.ToString(reading.Data)} {usedRam / 1000} / {freeRam / 1000}kb");
+                        };
+                    }
 
                     // attach to active/inactive
                     var active = service.GetEvent((ushort)Jacdac.SystemEvent.Active, true);

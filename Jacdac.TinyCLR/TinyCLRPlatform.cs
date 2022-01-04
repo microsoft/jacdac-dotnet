@@ -1,10 +1,12 @@
 ﻿using GHIElectronics.TinyCLR.Data.Json;
 using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 using GHIElectronics.TinyCLR.Native;
+using Jacdac.TinyCLR.Properties;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Jacdac
 {
@@ -68,7 +70,8 @@ namespace Jacdac
 
         static byte[] WebGet(string url)
         {
-            //var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
+            var certificates = Resources.GetBytes(Resources.BinaryResources.GitHubCertificate);
+            var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
             using (var req = HttpWebRequest.Create(url) as HttpWebRequest)
             {
                 req.KeepAlive = false;

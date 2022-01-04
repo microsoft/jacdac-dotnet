@@ -15,6 +15,7 @@ namespace Jacdac
         public JDServiceServer[] Services;
         public ControlAnnounceFlags StatusLight = Platform.StatusLight;
         public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
+        public ServiceSpecificationCatalog SpecificationCatalog;
     }
 
     public sealed partial class JDBus : JDNode
@@ -43,6 +44,7 @@ namespace Jacdac
             this.clock = Platform.CreateClock();
             this.IsClient = options.IsClient;
             this.IsPassive = options.IsPassive;
+            this.SpecificationCatalog = options.SpecificationCatalog;
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
 
             this.devices = new JDDevice[] { new JDDevice(this, this.SelfDeviceServer.DeviceId) };
