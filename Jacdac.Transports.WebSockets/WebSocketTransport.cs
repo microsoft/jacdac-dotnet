@@ -58,7 +58,6 @@ namespace Jacdac.Transports.WebSockets
 
         protected override void InternalConnect()
         {
-            Console.WriteLine("alloc socket");
             Debug.Assert(this.socket == null);
             this.socket = new ClientWebSocket();
             this.socket.ConnectAsync(this.Uri, CancellationToken.None)
@@ -109,11 +108,9 @@ namespace Jacdac.Transports.WebSockets
 
         protected override void InternalDisconnect()
         {
-            Console.WriteLine("disconnect");
             var socket = this.socket;
             if (socket != null)
             {
-                Console.WriteLine("clear socket");
                 this.socket = null;
                 if (socket.State != WebSocketState.Closed)
                     socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None)
