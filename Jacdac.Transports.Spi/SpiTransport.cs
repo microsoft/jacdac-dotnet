@@ -105,14 +105,6 @@ namespace Jacdac.Transports.Spi
 
         public override void SendFrame(byte[] data)
         {
-            var len = data.Length;
-            if (len < 12)
-                throw new ArgumentOutOfRangeException("invalid frame size");
-            ushort crc = Platform.Crc16(data, 2, len - 2);
-            if ((data[0] | (data[1] << 8)) != crc)
-                throw new ArgumentOutOfRangeException("invalid CRC");
-
-
             Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
             this.sendQueue.Enqueue(data);
 

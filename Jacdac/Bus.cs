@@ -64,20 +64,20 @@ namespace Jacdac
             transport.ErrorReceived += Transport_ErrorReceived;
         }
 
-        public void SendFrame(byte[] frame)
+        public void SendFrame(byte[] frame, Transport excluded = null)
         {
+            if (!Packet.CheckFrame(frame))
+                return;
             var transports = this.transports;
             foreach (var transport in transports)
-                if (transport.ConnectionState == ConnectionState.Connected)
+                if (transport != excluded && transport.ConnectionState == ConnectionState.Connected)
                     transport.SendFrame(frame);
         }
 
         public void Start()
         {
             if (this.announceTimer == null)
-            {
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
-            }
 
             var transports = this.transports;
             foreach (var transport in transports)
@@ -116,12 +116,7 @@ namespace Jacdac
 
             // broadcast to other transports
             if (packets.Length > 0 && this.transports.Length > 1)
-            {
-                var transports = this.transports;
-                foreach (var transport in transports)
-                    if (transport != sender && transport.ConnectionState == ConnectionState.Connected)
-                        transport.SendFrame(frame);
-            }
+                this.SendFrame(frame, sender);
         }
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)

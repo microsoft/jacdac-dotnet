@@ -51,6 +51,16 @@ namespace Jacdac
             return p;
         }
 
+        public static bool CheckFrame(byte[] frame)
+        {
+            var len = frame.Length;
+            if (len < 12)
+                return false;
+
+            ushort crc = Platform.Crc16(frame, 2, len - 2);
+            return (frame[0] | (frame[1] << 8)) == crc;
+        }
+
         public static Packet[] FromFrame(byte[] frame)
         {
             var size = frame.Length < 12 ? 0 : frame[2];
