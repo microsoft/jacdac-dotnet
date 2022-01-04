@@ -32,7 +32,7 @@ namespace Jacdac
         public override string ToString()
         {
             var device = this.Device;
-            return device == null ? "?" : $"{device}[{this.ServiceIndex}]";
+            return device == null ? "?" : $"{device}[{this.ServiceIndex}x{this.ServiceClass.ToString("x8")}]";
         }
 
         internal void ProcessPacket(Packet pkt)

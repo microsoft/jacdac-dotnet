@@ -57,7 +57,7 @@ namespace Jacdac.Transports.Spi
 
         protected override void InternalConnect()
         {
-            Debug.WriteLine($"connecting to jacdapter...");
+            Console.WriteLine($"connecting to jacdapter...");
             this.controller.OpenPin(txReadyPin, PinMode.Input); // pull down
             this.controller.OpenPin(rxReadyPin, PinMode.Input); // pull down
 
@@ -79,7 +79,7 @@ namespace Jacdac.Transports.Spi
             this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
             this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
-            Debug.WriteLine($"jacdapter ready...");
+            Console.WriteLine($"jacdapter ready...");
             // initiate
             this.transfer();
         }
@@ -111,7 +111,7 @@ namespace Jacdac.Transports.Spi
                 throw new ArgumentOutOfRangeException("invalid CRC");
 
 
-            Debug.WriteLine($"send frame {HexEncoding.ToString(data)}");
+            Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
             this.sendQueue.Enqueue(data);
 
             this.transfer();
@@ -119,13 +119,13 @@ namespace Jacdac.Transports.Spi
 
         private void handleRxPinRising(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
-            //Debug.WriteLine($"rx rise");
+            //Console.WriteLine($"rx rise");
             this.transfer();
         }
 
         private void handleTxPinRising(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
-            //Debug.WriteLine($"tx rise");
+            //Console.WriteLine($"tx rise");
             this.transfer();
         }
 
@@ -176,7 +176,7 @@ namespace Jacdac.Transports.Spi
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
             if (!ok)
             {
-                Debug.WriteLine("transfer failed");
+                Console.WriteLine("transfer failed");
                 this.raiseError(TransportError.Frame, pkt);
                 return false;
             }
@@ -190,15 +190,15 @@ namespace Jacdac.Transports.Spi
                     var frame2 = rxqueue[framep + 2];
                     if (framep == 0 && frame2 > 0)
                     {
-                        Debug.WriteLine($"tx {txReady}, rx {rxReady}, send {this.sendQueue.Count}, recv {this.receiveQueue.Count}");
-                        Debug.WriteLine($"rx {HexEncoding.ToString(rxqueue)}");
+                        Console.WriteLine($"tx {txReady}, rx {rxReady}, send {this.sendQueue.Count}, recv {this.receiveQueue.Count}");
+                        Console.WriteLine($"rx {HexEncoding.ToString(rxqueue)}");
                     }
                     if (frame2 == 0)
                         break;
                     int sz = frame2 + 12;
                     if (framep + sz > XFER_SIZE)
                     {
-                        Debug.WriteLine($"packet overflow {framep} + {sz} > {XFER_SIZE}");
+                        Console.WriteLine($"packet overflow {framep} + {sz} > {XFER_SIZE}");
                         break;
                     }
                     var frame0 = rxqueue[framep];
@@ -208,13 +208,13 @@ namespace Jacdac.Transports.Spi
                     if (frame0 == 0xff && frame1 == 0xff && frame3 == 0xff)
                     {
                         // skip bogus packet
-                        Debug.WriteLine("bogus packet");
+                        Console.WriteLine("bogus packet");
                     }
                     else
                     {
                         var frame = new byte[sz];
                         Array.Copy(rxqueue, framep, frame, 0, sz);
-                        Debug.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
+                        Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
                         this.receiveQueue.Enqueue(frame);
                     }
                     sz = (sz + 3) & ~3;
@@ -236,7 +236,7 @@ namespace Jacdac.Transports.Spi
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex);
+                    Console.WriteLine(ex);
                     Thread.Sleep(1);
                 }
             }

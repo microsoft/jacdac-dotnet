@@ -9,7 +9,7 @@ namespace Jacdac.NET.Playground
         static void Main(string[] args)
         {
             NETPlatform.Init();
-            Debug.WriteLine("jacdac: connecting...");
+            Console.WriteLine("jacdac: connecting...");
             Transport transport;
             switch (args.Length > 0 ? args[0] : "ws")
             {
@@ -27,7 +27,8 @@ namespace Jacdac.NET.Playground
             bus.DeviceConnected += (sender, conn) =>
             {
                 var device = conn.Device;
-                Console.WriteLine($"device connected {device}");
+                var selfMsg = bus.SelfDeviceServer.DeviceId == device.DeviceId ? "(self)" : "";
+                Console.WriteLine($"device connected {device} {selfMsg}");
 
                 device.Announced += (sender, an) =>
                 {
