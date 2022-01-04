@@ -14,6 +14,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Include="..\Jacdac\*.cs">
+			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+		<Compile Include="..\Jacdac\Servers\*.cs">
+			<Link>Servers\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+		<Compile Include="..\Jacdac\Constants\*.cs">
+			<Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
 		<None Include="..\jacdac.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -26,10 +35,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="DeviceId.Windows" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Jacdac\Jacdac.csproj" />
+		<PackageReference Include="System.Text.Json" Version="6.0.1" />
 	</ItemGroup>
 
 </Project>

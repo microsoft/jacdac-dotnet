@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Jacdac
 {
-    public sealed class JDService : JDNode
+    public sealed partial class JDService : JDNode
     {
         JDDevice _device;
         public readonly byte ServiceIndex;

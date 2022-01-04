@@ -9,7 +9,6 @@
     <ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
     <ProjectReference Include="..\Jacdac.Transports.Spi\Jacdac.Transports.Spi.csproj" />
     <ProjectReference Include="..\Jacdac.Transports.WebSockets\Jacdac.Transports.WebSockets.csproj" />
-    <ProjectReference Include="..\Jacdac\Jacdac.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Jacdac
 {
-    public sealed class JDDevice : JDNode
+    public sealed partial class JDDevice : JDNode
     {
         private JDBus bus;
         public readonly string DeviceId;

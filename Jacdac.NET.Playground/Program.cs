@@ -9,8 +9,8 @@ namespace Jacdac.NET.Playground
     {
         static void Main(string[] args)
         {
-            NETPlatform.Init();
             Console.WriteLine("jacdac: connecting...");
+            ServiceTwins twins = null;
             var bus = new JDBus(null);
             for (int i = 0; i < args.Length; i++)
             {
@@ -24,6 +24,10 @@ namespace Jacdac.NET.Playground
                     case "devtools":
                         Console.WriteLine("adding devtools connection");
                         bus.AddTransport(new WebSocketTransport());
+                        break;
+                    case "twins":
+                        Console.WriteLine("tracking twins");
+                        twins = new ServiceTwins();
                         break;
                 }
             }
@@ -46,6 +50,12 @@ namespace Jacdac.NET.Playground
                     foreach (var service in services)
                     {
                         Console.WriteLine(service);
+                        if (twins != null)
+                        {
+                            var spec = twins.ResolveSpecification(service.ServiceClass);
+                            if (spec != null)
+                                Console.WriteLine(spec);
+                        }
                     }
                 };
             };

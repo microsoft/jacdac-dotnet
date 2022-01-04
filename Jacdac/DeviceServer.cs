@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Jacdac
 {
-    public sealed class JDDeviceServer
+    public sealed partial class JDDeviceServer
     {
         public readonly JDBus Bus;
         public readonly string DeviceId;

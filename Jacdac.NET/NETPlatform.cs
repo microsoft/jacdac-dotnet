@@ -1,13 +1,16 @@
 ﻿using DeviceId;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Net;
+using System.Text.Json;
 
-namespace Jacdac.NET
+namespace Jacdac
 {
-    public static class NETPlatform
+    public partial class Platform
     {
-        public static void Init()
+        static Platform()
         {
             var deviceId = new DeviceIdBuilder()
                 .AddMachineName()
@@ -23,6 +26,61 @@ namespace Jacdac.NET
                 var start = DateTime.Now;
                 return () => DateTime.Now - start;
             };
+        }
+    }
+
+    public partial class ServiceTwins
+    {
+        static ServiceTwins()
+        {
+            SpecificationReader = ServiceTwinReader;
+            SpecificationResolver = WebGet;
+        }
+
+        static ServiceTwinSpec ServiceTwinReader(byte[] buffer)
+        {
+            try
+            {
+                var s = System.Text.UTF8Encoding.UTF8.GetString(buffer);
+                return JsonSerializer.Deserialize<ServiceTwinSpec>(buffer, new JsonSerializerOptions
+                {
+                    AllowTrailingCommas = true,
+                    IncludeFields = true
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        static byte[] WebGet(string url)
+        {
+            var req = HttpWebRequest.Create(url) as HttpWebRequest;
+            {
+                req.KeepAlive = false;
+                req.ReadWriteTimeout = 2000;
+                req.Headers[HttpRequestHeader.Accept] = "application/json";
+                //req.HttpsAuthentCerts = certx509;
+                using (var res = req.GetResponse() as HttpWebResponse)
+                {
+                    if (res.StatusCode == HttpStatusCode.OK)
+                        using (var stream = res.GetResponseStream())
+                        {
+                            var mem = new MemoryStream();
+                            var read = 0;
+                            var buf = new byte[512];
+                            do
+                            {
+                                read = stream.Read(buf, 0, buf.Length);
+                                mem.Write(buf, 0, read);
+                            } while (read > 0);
+                            return mem.ToArray();
+                        }
+                }
+            }
+            return null;
         }
     }
 }

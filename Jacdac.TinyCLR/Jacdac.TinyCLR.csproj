@@ -45,7 +45,8 @@
       <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UartTransport.cs" />
+    <Compile Include="TinyCLRPlatform.cs" />
+    <Compile Include="Transports\UartTransport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

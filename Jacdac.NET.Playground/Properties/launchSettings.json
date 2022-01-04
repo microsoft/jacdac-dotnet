@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Jacdac.NET.Playground": {
+      "commandName": "Project",
+      "commandLineArgs": "devtools twins",
+      "hotReloadEnabled": false
+    }
+  }
+}

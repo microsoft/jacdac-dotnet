@@ -7,6 +7,7 @@ using Jacdac;
 using System;
 using Jacdac.Servers;
 using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
+using Jacdac.Transports;
 
 namespace Jacdac_RgbLed
 {
@@ -17,7 +18,7 @@ namespace Jacdac_RgbLed
             new Program().Start();
         }
 
-        ServiceTwins serviceTwins;
+        // ServiceTwins serviceTwins;
         public void Start()
         {
             // Display enable
@@ -39,7 +40,7 @@ namespace Jacdac_RgbLed
             var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
             var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
             var settingsStorage = sdStorage.MountKeyStorage("settings.json");
-            this.serviceTwins = new ServiceTwins(serviceStorage);
+            // this.serviceTwins = new ServiceTwins(serviceStorage);
 
             var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
             var wifiServer = new WifiServer(ssidStorage);

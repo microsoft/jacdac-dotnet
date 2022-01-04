@@ -17,7 +17,7 @@ namespace Jacdac
         public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
     }
 
-    public sealed class JDBus : JDNode
+    public sealed partial class JDBus : JDNode
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;

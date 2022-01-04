@@ -31,7 +31,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
 		<ProjectReference Include="..\Jacdac.Transports.Hf2\Jacdac.Transports.Hf2.csproj" />
-		<ProjectReference Include="..\Jacdac\Jacdac.csproj" />
 	</ItemGroup>
 
 </Project>

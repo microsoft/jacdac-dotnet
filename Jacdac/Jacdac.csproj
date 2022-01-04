@@ -5,7 +5,7 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<ApplicationIcon />
 		<StartupObject />
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Description>Jacdac runtime for .NET</Description>
 		<Copyright>Microsoft Corporation</Copyright>
 		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>

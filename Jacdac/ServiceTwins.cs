@@ -20,6 +20,12 @@ namespace Jacdac
         public ServiceTwinRegisterFlag flags;
         public string packf;
         public string[] fields;
+
+        public override string ToString()
+        {
+            var c = this.code.ToString("x2");
+            return $"{this.name} ({c})";
+        }
     }
 
     [Serializable]
@@ -28,49 +34,79 @@ namespace Jacdac
         public uint serviceClass;
         public string name;
         public ServiceTwinRegisterSpec[] registers;
+
+        public override string ToString()
+        {
+            var sc = this.serviceClass.ToString("x8");
+            return $"{this.name} (0x{sc})";
+        }
     }
 
     public delegate ServiceTwinSpec ServiceTwinSpecReader(byte[] buffer);
+    public delegate byte[] ServiceTwinSpecResolver(string url);
 
-    public sealed class ServiceTwins
+    public sealed partial class ServiceTwins : JDNode
     {
         public string Root = "https://microsoft.github.io/jacdac-docs/";
         public readonly IKeyStorage Storage;
-        public readonly ServiceTwinSpecReader SpecificationReader;
+        public static ServiceTwinSpecReader SpecificationReader;
+        public static ServiceTwinSpecResolver SpecificationResolver;
+        private ServiceTwinSpec[] specifications;
 
-        public ServiceTwins(IKeyStorage storage)
+        public ServiceTwins(IKeyStorage storage = null)
         {
+            Debug.Assert(SpecificationReader != null);
+            Debug.Assert(SpecificationResolver != null);
+
             this.Storage = storage;
-            this.SpecificationReader = Platform.ServiceTwinReader;
+            this.specifications = new ServiceTwinSpec[0];
         }
 
         public ServiceTwinSpec ResolveSpecification(uint serviceClass)
         {
-            var spec = this.ReadFromStorage(serviceClass);
-            if (spec == null)
-                spec = this.DownloadSpecification(serviceClass);
-            return spec;
+            lock (this)
+            {
+                // in memory cache, need limit?
+                var specifications = this.specifications;
+                foreach (var specification in specifications)
+                    if (specification.serviceClass == serviceClass)
+                        return specification;
+
+                // look cached spec
+                var spec = this.ReadFromStorage(serviceClass);
+                if (spec == null)
+                    spec = this.DownloadSpecification(serviceClass);
+                if (spec != null)
+                {
+                    var newSpecs = new ServiceTwinSpec[specifications.Length + 1];
+                    specifications.CopyTo(newSpecs, 0);
+                    newSpecs[newSpecs.Length - 1] = spec;
+                    this.specifications = newSpecs;
+                }
+                return spec;
+            }
         }
 
         private ServiceTwinSpec ReadFromStorage(uint serviceClass)
         {
+            Debug.WriteLine($"twins: read {serviceClass} from storage");
             var key = serviceClass.ToString("x8");
             var buffer = this.Storage?.Read(key);
             if (buffer == null) return null;
-            else return this.SpecificationReader(buffer);
+            else return SpecificationReader(buffer);
         }
 
         private ServiceTwinSpec DownloadSpecification(uint serviceClass)
         {
             var key = serviceClass.ToString("x8");
-            var url = $"http://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x8")}.json";
+            var url = $"http://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x")}.json";
             Debug.WriteLine($"fetch {url}");
             try
             {
-                var buffer = Platform.WebGet(url);
+                var buffer = SpecificationResolver(url);
                 if (buffer != null)
                 {
-                    var spec = this.SpecificationReader(buffer);
+                    var spec = SpecificationReader(buffer);
                     this.Storage?.Write(key, buffer);
                     return spec;
                 }

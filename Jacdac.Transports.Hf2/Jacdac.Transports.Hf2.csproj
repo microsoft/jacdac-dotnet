@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jacdac\Jacdac.csproj" />
+    <ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
   </ItemGroup>
 
 </Project>

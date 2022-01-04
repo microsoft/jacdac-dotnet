@@ -9,7 +9,7 @@ namespace Jacdac
     public delegate short McuTemperatureCalculator();
     public delegate void SetStatusLightHandler(byte red, byte green, byte blue, byte speed);
 
-    public static class Platform
+    public static partial class Platform
     {
         public static byte[] DeviceId;
         public static string FirmwareVersion;
@@ -30,8 +30,6 @@ namespace Jacdac
             return crc;
         };
         public static McuTemperatureCalculator McuTemperature;
-        public static ServiceTwinSpecReader ServiceTwinReader;
-        public static HttpWebRequestGet WebGet;
 
         public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
         public static SetStatusLightHandler SetStatusLight = null;
@@ -45,6 +43,4 @@ namespace Jacdac
         void Delete(string key);
         void Clear();
     }
-
-    public delegate byte[] HttpWebRequestGet(string url);
 }

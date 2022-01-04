@@ -2,7 +2,7 @@
 
 namespace Jacdac
 {
-    public sealed class ControlServer : JDServiceServer
+    public sealed partial class ControlServer : JDServiceServer
     {
         private SetStatusLightHandler setStatusLight;
 

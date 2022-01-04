@@ -1,6 +1,6 @@
 ﻿namespace Jacdac
 {
-    public sealed class JDEvent : JDServiceNode
+    public sealed partial class JDEvent : JDServiceNode
     {
         private Packet _lastReportPkt;
         public uint Count = 0;
