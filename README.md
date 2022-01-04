@@ -58,6 +58,20 @@ jacdac devtools
 
 * start running or debugging Jacdac.NET.Playground. The webdashboard will serve as a connector to the hardware.
 
+### .NET IoT Raspberry Pi
+
+* Open bash
+
+```
+sh ./publish.sh
+```
+
+* From a SSH session
+```
+cd dotnet
+dotnet Jacdac.NET.Playground spi
+```
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

@@ -8,8 +8,8 @@ namespace Jacdac.NET.Playground
     {
         static void Main(string[] args)
         {
-            Debug.WriteLine("connecting usb");
             NETPlatform.Init();
+            Debug.WriteLine("jacdac: connecting...");
             Transport transport;
             switch (args.Length > 0 ? args[0] : "ws")
             {

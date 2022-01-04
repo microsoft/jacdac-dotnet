@@ -75,9 +75,9 @@ namespace Jacdac
                     return Packet.EmptyFrame;
                 }
 
-                if (frame.Length != 12 + size)
+                if (frame.Length < 12 + size) // ignore extra size
                 {
-                    Debug.WriteLine($"unexpected packet len: ${frame.Length}");
+                    Debug.WriteLine($"unexpected packet len: {frame.Length}");
                     return Packet.EmptyFrame;
                 }
 

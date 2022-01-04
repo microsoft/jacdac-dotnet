@@ -14,14 +14,14 @@ namespace Jacdac.Transports.Spi
         const uint XFER_SIZE = 256;
         const uint SPI_TRANSFER_ATTEMPT_COUNT = 10;
 
-        const int RPI_PIN_TX_READY = 24;   // RST; G0 is ready for data from Pi
-        const int RPI_PIN_RX_READY = 25;// AN; G0 has data for Pi
-        const int RPI_PIN_BRIDGE_RST = 22;// nRST of the bridge G0 MCU
-        const int RPI_PIN_SPI_BUS_ID = 0; // "/dev/spidev0.0"
+        const int RPI_PIN_TX_READY = 24;
+        const int RPI_PIN_RX_READY = 25;
+        const int RPI_PIN_RST = 22;
+        const int RPI_SPI_BUS_ID = 0;
 
         readonly int txReadyPin;
         readonly int rxReadyPin;
-        readonly int brigeResetPin;
+        readonly int resetPin;
         readonly int spiBusId;
         readonly GpioController controller;
         SpiDevice spi;
@@ -31,16 +31,16 @@ namespace Jacdac.Transports.Spi
         public static SpiTransport CreateRaspberryPiJacdapterTransport()
         {
             return new SpiTransport(new GpioController(PinNumberingScheme.Logical),
-                RPI_PIN_TX_READY, RPI_PIN_RX_READY, RPI_PIN_BRIDGE_RST, RPI_PIN_SPI_BUS_ID);
+                RPI_PIN_TX_READY, RPI_PIN_RX_READY, RPI_PIN_RST, RPI_SPI_BUS_ID);
         }
 
-        public SpiTransport(GpioController controller, int txReadyPin, int rxReadyPin, int brigeResetPin, int spiBusId)
+        public SpiTransport(GpioController controller, int txReadyPin, int rxReadyPin, int resetPin, int spiBusId)
             : base("spi")
         {
             this.controller = controller;
             this.txReadyPin = txReadyPin;
             this.rxReadyPin = rxReadyPin;
-            this.brigeResetPin = brigeResetPin;
+            this.resetPin = resetPin;
             this.spiBusId = spiBusId;
             this.sendQueue = new ConcurrentQueue<byte[]>();
             this.receiveQueue = new ConcurrentQueue<byte[]>();
@@ -56,14 +56,16 @@ namespace Jacdac.Transports.Spi
 
         protected override void InternalConnect()
         {
-            this.controller.OpenPin(txReadyPin, PinMode.InputPullDown);
-            this.controller.OpenPin(rxReadyPin, PinMode.InputPullDown);
-            this.controller.OpenPin(brigeResetPin, PinMode.Output);
+            Console.WriteLine($"connecting to jacdapter...");
+            this.controller.OpenPin(txReadyPin, PinMode.Input); // pull down
+            this.controller.OpenPin(rxReadyPin, PinMode.Input); // pull down
 
-            this.controller.Write(brigeResetPin, 0);
+            this.controller.OpenPin(resetPin, PinMode.Output);
+            this.controller.Write(resetPin, 0);
             Thread.Sleep(10);
-            this.controller.Write(brigeResetPin, 1);
-            this.controller.SetPinMode(brigeResetPin, PinMode.Input);
+            this.controller.Write(resetPin, 1);
+
+            this.controller.SetPinMode(resetPin, PinMode.Input);
 
             this.spi = SpiDevice.Create(new SpiConnectionSettings(spiBusId)
             {
@@ -73,21 +75,22 @@ namespace Jacdac.Transports.Spi
 
             });
 
-            this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handlePinRising);
-            this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handlePinRising);
+            this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
+            this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
+            Console.WriteLine($"jacdapter ready...");
             // initiate
             this.transfer();
         }
 
         protected override void InternalDisconnect()
         {
-            this.controller.UnregisterCallbackForPinValueChangedEvent(rxReadyPin, this.handlePinRising);
-            this.controller.UnregisterCallbackForPinValueChangedEvent(txReadyPin, this.handlePinRising);
+            this.controller.UnregisterCallbackForPinValueChangedEvent(rxReadyPin, this.handleRxPinRising);
+            this.controller.UnregisterCallbackForPinValueChangedEvent(txReadyPin, this.handleTxPinRising);
 
             this.controller.ClosePin(txReadyPin);
             this.controller.ClosePin(rxReadyPin);
-            this.controller.ClosePin(brigeResetPin);
+            this.controller.ClosePin(resetPin);
 
             var spi = this.spi;
             if (spi != null)
@@ -105,12 +108,23 @@ namespace Jacdac.Transports.Spi
             ushort crc = Platform.Crc16(data, 2, len - 2);
             if ((data[0] | (data[1] << 8)) != crc)
                 throw new ArgumentOutOfRangeException("invalid CRC");
+
+
+            Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
             this.sendQueue.Enqueue(data);
+
             this.transfer();
         }
 
-        private void handlePinRising(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
+        private void handleRxPinRising(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
         {
+            //Console.WriteLine($"rx rise");
+            this.transfer();
+        }
+
+        private void handleTxPinRising(object sender, PinValueChangedEventArgs pinValueChangedEventArgs)
+        {
+            //Console.WriteLine($"tx rise");
             this.transfer();
         }
 
@@ -123,7 +137,6 @@ namespace Jacdac.Transports.Spi
                 {
                     transfer = this.transferFrame();
                 }
-
                 byte[] recv;
                 while (this.receiveQueue.TryDequeue(out recv))
                 {
@@ -138,19 +151,20 @@ namespace Jacdac.Transports.Spi
         {
             // much be in a locked context
             bool txReady = this.controller.Read(this.txReadyPin) == PinValue.High;
-            bool sendtx = this.sendQueue.Count > 0 && txReady;
             bool rxReady = this.controller.Read(this.rxReadyPin) == PinValue.High;
+            bool sendtx = this.sendQueue.Count > 0 && txReady;
+
             if (!sendtx && !rxReady)
                 return false;
 
             // allocate transfer buffers
             byte[] txqueue = new byte[XFER_SIZE + 4];
-            byte[] rxqueue = new byte[XFER_SIZE];
+            byte[] rxqueue = new byte[txqueue.Length]; // .net requires same length buffers
 
             // assemble packets into send buffer
             int txq_ptr = 0;
             byte[] pkt;
-            while (this.sendQueue.TryPeek(out pkt) && txq_ptr + pkt.Length > txqueue.Length)
+            while (this.sendQueue.TryPeek(out pkt) && txq_ptr + pkt.Length < XFER_SIZE)
             {
                 this.sendQueue.TryDequeue(out pkt);
                 Array.Copy(pkt, 0, txqueue, txq_ptr, pkt.Length);
@@ -161,13 +175,51 @@ namespace Jacdac.Transports.Spi
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
             if (!ok)
             {
+                Console.WriteLine("transfer failed");
                 this.raiseError(TransportError.Frame, pkt);
                 return false;
             }
 
-            // consume received frame if any
             if (rxReady)
-                this.receiveQueue.Enqueue(rxqueue);
+            {
+                // consume received frame if any
+                int framep = 0;
+                while (framep < XFER_SIZE)
+                {
+                    var frame2 = rxqueue[framep + 2];
+                    if (framep == 0 && frame2 > 0)
+                    {
+                        Console.WriteLine($"tx {txReady}, rx {rxReady}, send {this.sendQueue.Count}, recv {this.receiveQueue.Count}");
+                        Console.WriteLine($"rx {HexEncoding.ToString(rxqueue)}");
+                    }
+                    if (frame2 == 0)
+                        break;
+                    int sz = frame2 + 12;
+                    if (framep + sz > XFER_SIZE)
+                    {
+                        Console.WriteLine($"packet overflow {framep} + {sz} > {XFER_SIZE}");
+                        break;
+                    }
+                    var frame0 = rxqueue[framep];
+                    var frame1 = rxqueue[framep + 1];
+                    var frame3 = rxqueue[framep + 3];
+
+                    if (frame0 == 0xff && frame1 == 0xff && frame3 == 0xff)
+                    {
+                        // skip bogus packet
+                        Console.WriteLine("bogus packet");
+                    }
+                    else
+                    {
+                        var frame = new byte[sz];
+                        Array.Copy(rxqueue, framep, frame, 0, sz);
+                        Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
+                        this.receiveQueue.Enqueue(frame);
+                    }
+                    sz = (sz + 3) & ~3;
+                    framep += sz;
+                }
+            }
             return true;
         }
 
@@ -181,8 +233,9 @@ namespace Jacdac.Transports.Spi
                     this.spi.TransferFullDuplex(txqueue, rxqueue);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     Thread.Sleep(1);
                 }
             }
