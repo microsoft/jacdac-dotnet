@@ -23,7 +23,6 @@ namespace Jacdac.Transports.WebSockets
             : base("ws")
         {
             this.Uri = uri ?? new Uri("ws://localhost:8081/");
-            this.socket = new ClientWebSocket();
             this.sendSemaphore = new SemaphoreSlim(1);
 
             this.reconnectTimer = new Timer(this.handleReconnectTimer, null, RECONNECT_TIMEOUT, RECONNECT_TIMEOUT);
@@ -33,7 +32,7 @@ namespace Jacdac.Transports.WebSockets
         {
             if (this.ConnectionState == ConnectionState.Disconnected)
             {
-                Console.WriteLine("reconnect websocket");
+                Console.WriteLine($"reconnect websocket {this.socket}");
                 this.Connect();
             }
         }
@@ -45,21 +44,30 @@ namespace Jacdac.Transports.WebSockets
             this.sendSemaphore.WaitAsync()
                 .ContinueWith(t =>
                 {
-                    if (!t.IsFaulted)
-                        this.socket.SendAsync(data, WebSocketMessageType.Binary, true, CancellationToken.None);
-                    this.sendSemaphore.Release();
+                    try
+                    {
+                        if (!t.IsFaulted && this.socket != null)
+                            this.socket.SendAsync(data, WebSocketMessageType.Binary, true, CancellationToken.None);
+                    }
+                    finally
+                    {
+                        this.sendSemaphore.Release();
+                    }
                 });
         }
 
         protected override void InternalConnect()
         {
+            Console.WriteLine("alloc socket");
+            Debug.Assert(this.socket == null);
+            this.socket = new ClientWebSocket();
             this.socket.ConnectAsync(this.Uri, CancellationToken.None)
                 .ContinueWith(prev =>
                 {
                     if (prev.IsFaulted)
                     {
                         Debug.WriteLine("websocket: connection failed");
-                        this.SetConnectionState(ConnectionState.Disconnected);
+                        this.Disconnect();
                     }
                     else
                     {
@@ -75,7 +83,8 @@ namespace Jacdac.Transports.WebSockets
             try
             {
                 while (this.socket.State == WebSocketState.Open
-                    && this.ConnectionState == ConnectionState.Connected)
+                    && this.ConnectionState == ConnectionState.Connected
+                    && this.socket != null)
                 {
                     var buffer = new byte[0xff];
                     var res = await this.socket.ReceiveAsync(buffer, CancellationToken.None);
@@ -87,10 +96,12 @@ namespace Jacdac.Transports.WebSockets
                             this.FrameReceived.Invoke(this, frame);
                     }
                 }
-                if (this.ConnectionState == ConnectionState.Connected)
-                    this.SetConnectionState(ConnectionState.Disconnected);
             }
-            catch (Exception)
+            catch (WebSocketException)
+            {
+
+            }
+            finally
             {
                 this.Disconnect();
             }
@@ -98,23 +109,36 @@ namespace Jacdac.Transports.WebSockets
 
         protected override void InternalDisconnect()
         {
-            this.socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "user cancelled", CancellationToken.None);
+            Console.WriteLine("disconnect");
+            var socket = this.socket;
+            if (socket != null)
+            {
+                Console.WriteLine("clear socket");
+                this.socket = null;
+                if (socket.State != WebSocketState.Closed)
+                    socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None)
+                        .ContinueWith(t => socket.Dispose());
+                else socket.Dispose();
+            }
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            var s = this.socket;
             var t = this.reconnectTimer;
-            if (s != null)
-            {
-                this.socket = null;
-                s.Dispose();
-            }
             if (t != null)
             {
                 this.reconnectTimer = null;
                 t.Dispose();
+            }
+            var socket = this.socket;
+            if (socket != null)
+            {
+                this.socket = null;
+                if (socket.State != WebSocketState.Closed)
+                    socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None)
+                        .ContinueWith(t => socket.Dispose());
+                else socket.Dispose();
             }
         }
     }

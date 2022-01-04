@@ -105,7 +105,7 @@ namespace Jacdac.Transports.Spi
 
         public override void SendFrame(byte[] data)
         {
-            Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
+            //Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
             this.sendQueue.Enqueue(data);
 
             this.transfer();
@@ -153,7 +153,7 @@ namespace Jacdac.Transports.Spi
                 return false;
 
             // allocate transfer buffers
-            byte[] txqueue = new byte[XFER_SIZE + 4];
+            byte[] txqueue = new byte[XFER_SIZE];
             byte[] rxqueue = new byte[txqueue.Length]; // .net requires same length buffers
 
             // assemble packets into send buffer
@@ -182,11 +182,13 @@ namespace Jacdac.Transports.Spi
                 while (framep < XFER_SIZE)
                 {
                     var frame2 = rxqueue[framep + 2];
+                    /*
                     if (framep == 0 && frame2 > 0)
                     {
                         Console.WriteLine($"tx {txReady}, rx {rxReady}, send {this.sendQueue.Count}, recv {this.receiveQueue.Count}");
                         Console.WriteLine($"rx {HexEncoding.ToString(rxqueue)}");
                     }
+                    */
                     if (frame2 == 0)
                         break;
                     int sz = frame2 + 12;
@@ -202,13 +204,12 @@ namespace Jacdac.Transports.Spi
                     if (frame0 == 0xff && frame1 == 0xff && frame3 == 0xff)
                     {
                         // skip bogus packet
-                        Console.WriteLine("bogus packet");
                     }
                     else
                     {
                         var frame = new byte[sz];
                         Array.Copy(rxqueue, framep, frame, 0, sz);
-                        Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
+                        //Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
                         this.receiveQueue.Enqueue(frame);
                     }
                     sz = (sz + 3) & ~3;
