@@ -72,21 +72,28 @@ namespace Jacdac.Transports.WebSockets
 
         private async void ReadLoop()
         {
-            while (this.socket.State == WebSocketState.Open
-                && this.ConnectionState == ConnectionState.Connected)
+            try
             {
-                var buffer = new byte[0xff];
-                var res = await this.socket.ReceiveAsync(buffer, CancellationToken.None);
-                if (res.Count > 0)
+                while (this.socket.State == WebSocketState.Open
+                    && this.ConnectionState == ConnectionState.Connected)
                 {
-                    var frame = new byte[res.Count];
-                    Array.Copy(buffer, 0, frame, 0, res.Count);
-                    if (this.FrameReceived != null)
-                        this.FrameReceived.Invoke(this, frame);
+                    var buffer = new byte[0xff];
+                    var res = await this.socket.ReceiveAsync(buffer, CancellationToken.None);
+                    if (res.Count > 0)
+                    {
+                        var frame = new byte[res.Count];
+                        Array.Copy(buffer, 0, frame, 0, res.Count);
+                        if (this.FrameReceived != null)
+                            this.FrameReceived.Invoke(this, frame);
+                    }
                 }
+                if (this.ConnectionState == ConnectionState.Connected)
+                    this.SetConnectionState(ConnectionState.Disconnected);
             }
-            if (this.ConnectionState == ConnectionState.Connected)
-                this.SetConnectionState(ConnectionState.Disconnected);
+            catch (Exception)
+            {
+                this.Disconnect();
+            }
         }
 
         protected override void InternalDisconnect()
