@@ -51,6 +51,7 @@ namespace Jacdac
         public readonly IKeyStorage Storage;
         public static ServiceSpecReader SpecificationReader;
         public static ServiceSpecResolver SpecificationResolver;
+
         private ServiceSpec[] specifications;
 
         public ServiceSpecificationCatalog(IKeyStorage storage = null)
@@ -70,21 +71,21 @@ namespace Jacdac
                 var specifications = this.specifications;
                 foreach (var specification in specifications)
                     if (specification.serviceClass == serviceClass)
-                        return specification;
+                        return specification.registers != null ? specification : null;
 
                 // look cached spec
                 var spec = this.ReadFromStorage(serviceClass);
                 if (spec == null)
                     spec = this.DownloadSpecification(serviceClass);
-                if (spec != null)
-                {
-                    var newSpecs = new ServiceSpec[specifications.Length + 1];
-                    specifications.CopyTo(newSpecs, 0);
-                    newSpecs[newSpecs.Length - 1] = spec;
-                    this.specifications = newSpecs;
+                if (spec == null)
+                    spec = new ServiceSpec { serviceClass = serviceClass };
 
-                    this.RaiseChanged();
-                }
+                var newSpecs = new ServiceSpec[specifications.Length + 1];
+                specifications.CopyTo(newSpecs, 0);
+                newSpecs[newSpecs.Length - 1] = spec;
+                this.specifications = newSpecs;
+
+                this.RaiseChanged();
                 return spec;
             }
         }

@@ -29,6 +29,8 @@ namespace Jacdac
         public bool IsClient;
         public bool IsPassive;
 
+        public ServiceSpecificationCatalog SpecificationCatalog { get; set; }
+
         public TimeSpan LastResetInTime;
         private Timer announceTimer;
 

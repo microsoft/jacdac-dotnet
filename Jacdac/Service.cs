@@ -6,6 +6,7 @@ namespace Jacdac
     public sealed partial class JDService : JDNode
     {
         JDDevice _device;
+        private ServiceSpec _specification;
         public readonly byte ServiceIndex;
         public readonly uint ServiceClass;
         JDRegister[] registers;
@@ -32,7 +33,18 @@ namespace Jacdac
         public override string ToString()
         {
             var device = this.Device;
-            return device == null ? "?" : $"{device}[{this.ServiceIndex}x{this.ServiceClass.ToString("x8")}]";
+            var spec = this._specification;
+            return device == null ? "?" : $"{device}[{this.ServiceIndex}x{this.ServiceClass.ToString("x8")}:{spec?.name ?? "???"}]";
+        }
+
+        /**
+         * Attempts to resolve the service specification; may trigger a download in a resolver
+         */
+        public ServiceSpec ResolveSpecification()
+        {
+            if (this._specification == null)
+                this._specification = this.Device?.Bus?.SpecificationCatalog?.ResolveSpecification(this.ServiceClass);
+            return this._specification;
         }
 
         internal void ProcessPacket(Packet pkt)

@@ -10,7 +10,6 @@ namespace Jacdac.NET.Playground
         static void Main(string[] args)
         {
             Console.WriteLine("jacdac: connecting...");
-            ServiceSpecificationCatalog twins = null;
             var bus = new JDBus(null);
             for (int i = 0; i < args.Length; i++)
             {
@@ -27,7 +26,7 @@ namespace Jacdac.NET.Playground
                         break;
                     case "twins":
                         Console.WriteLine("tracking twins");
-                        twins = new ServiceSpecificationCatalog();
+                        bus.SpecificationCatalog = new ServiceSpecificationCatalog();
                         break;
                 }
             }
@@ -49,13 +48,8 @@ namespace Jacdac.NET.Playground
                     var services = device.GetServices();
                     foreach (var service in services)
                     {
+                        service.ResolveSpecification();
                         Console.WriteLine(service);
-                        if (twins != null)
-                        {
-                            var spec = twins.ResolveSpecification(service.ServiceClass);
-                            if (spec != null)
-                                Console.WriteLine(spec);
-                        }
                     }
                 };
             };
