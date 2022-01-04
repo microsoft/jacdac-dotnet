@@ -68,7 +68,8 @@ namespace Jacdac
         {
             var transports = this.transports;
             foreach (var transport in transports)
-                transport.SendFrame(frame);
+                if (transport.ConnectionState == ConnectionState.Connected)
+                    transport.SendFrame(frame);
         }
 
         public void Start()
@@ -95,6 +96,11 @@ namespace Jacdac
                 transport.Disconnect();
         }
 
+        public Transport[] Transports
+        {
+            get { return this.transports; }
+        }
+
         private void Transport_FrameReceived(Transport sender, byte[] frame)
         {
             TransportStats.FrameReceived++;
@@ -113,7 +119,7 @@ namespace Jacdac
             {
                 var transports = this.transports;
                 foreach (var transport in transports)
-                    if (transport != sender)
+                    if (transport != sender && transport.ConnectionState == ConnectionState.Connected)
                         transport.SendFrame(frame);
             }
         }

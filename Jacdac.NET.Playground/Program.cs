@@ -11,30 +11,28 @@ namespace Jacdac.NET.Playground
         {
             NETPlatform.Init();
             Console.WriteLine("jacdac: connecting...");
-            Transport transport;
-
-            switch (args.Length > 0 ? args[0] : "ws")
+            var bus = new JDBus(null);
+            for (int i = 0; i < args.Length; i++)
             {
-                case "spi": transport = Jacdac.Transports.Spi.SpiTransport.CreateRaspberryPiJacdapterTransport(); break;
-                default:
-                    transport = new Jacdac.Transports.WebSockets.WebSocketTransport();
-                    break;
-            }
-            transport.ConnectionChanged += (sender, newState) =>
-            {
-                Console.WriteLine($"{sender.Kind}: {newState}");
-            };
-
-            var bus = new JDBus(transport);
-            foreach (var arg in args)
-            {
-                if (arg == "devtools")
+                var arg = args[i];
+                switch (arg)
                 {
-                    Console.WriteLine("adding devtools connection");
-                    bus.AddTransport(new WebSocketTransport());
+                    case "spi":
+                        Console.WriteLine("adding spi connection");
+                        bus.AddTransport(Jacdac.Transports.Spi.SpiTransport.CreateRaspberryPiJacdapterTransport());
+                        break;
+                    case "devtools":
+                        Console.WriteLine("adding devtools connection");
+                        bus.AddTransport(new WebSocketTransport());
+                        break;
                 }
             }
 
+            foreach (var transport in bus.Transports)
+                transport.ConnectionChanged += (sender, newState) =>
+                {
+                    Console.WriteLine($"{sender.Kind}: {newState}");
+                };
             bus.DeviceConnected += (sender, conn) =>
             {
                 var device = conn.Device;
