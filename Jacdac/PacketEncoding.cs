@@ -23,6 +23,8 @@ namespace Jacdac
 
     public static class PacketEncoding
     {
+        public static readonly object[] Empty = new object[0];
+
         const char ch_0 = (char)0;
         const int ch_b = 98;
         const int ch_i = 105;

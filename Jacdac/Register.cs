@@ -32,7 +32,7 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return $"{this.Service.ToString()}[{this.Code.ToString("x2")}]";
+            return $"{this.Service.ToString()}[0x{this.Code.ToString("x2")}]";
         }
 
         internal void ProcessPacket(Packet pkt)
@@ -149,6 +149,21 @@ namespace Jacdac
                 return BitConverter.ToUInt32(preferredIntervalReg.Data, 0);
 
             return Jacdac.Constants.REGISTER_POLL_STREAMING_INTERVAL;
+        }
+
+        public object[] DeserializeValues()
+        {
+            var data = this.Data;
+            if (data == null)
+                return PacketEncoding.Empty;
+            var serviceSpec = this.Service.ResolveSpecification();
+            if (serviceSpec == null)
+                return PacketEncoding.Empty;
+            var registerSpec = Array.Find(serviceSpec.registers, reg => reg.code == this.Code);
+            if (registerSpec == null)
+                return PacketEncoding.Empty;
+            var values = PacketEncoding.UnPack(registerSpec.packf, data);
+            return values;
         }
     }
 }

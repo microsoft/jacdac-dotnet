@@ -54,7 +54,11 @@ namespace Jacdac.NET.Playground
                         if (reading != null)
                             reading.Changed += (sender, rargs) =>
                             {
-                                Console.WriteLine($"  {reading}={HexEncoding.ToString(reading.Data)}");
+                                Console.Write($"  {reading}: ");
+                                var values = reading.DeserializeValues();
+                                foreach (var value in values)
+                                    Console.Write($"{value}, ");
+                                Console.WriteLine();
                             };
                     }
                 };
