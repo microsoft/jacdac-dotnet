@@ -21,11 +21,11 @@ namespace Jacdac
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;
+        private Transport[] transports;
 
         public readonly JDDeviceServer SelfDeviceServer;
         private readonly Clock clock;
 
-        public readonly Transport Transport;
         public bool IsClient;
         public bool IsPassive;
 
@@ -43,23 +43,32 @@ namespace Jacdac
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
 
             this.devices = new JDDevice[] { new JDDevice(this, this.SelfDeviceServer.DeviceId) };
-
-            this.Transport = transport;
-            this.Transport.FrameReceived += Transport_FrameReceived;
-            this.Transport.ErrorReceived += Transport_ErrorReceived;
-            this.Transport.Connect();
+            this.transports = new Transport[0];
+            if (transport != null)
+                this.AddTransport(transport);
         }
 
-        private void Transport_FrameReceived(Transport sender, byte[] frame)
+        public void AddTransport(Transport transport)
         {
-            TransportStats.FrameReceived++;
-            var packets = Packet.FromFrame(frame);
-            var timestamp = this.Timestamp;
-            foreach (var packet in packets)
-            {
-                packet.Timestamp = timestamp;
-                this.ProcessPacket(packet);
-            }
+            if (transport == null)
+                throw new ArgumentNullException("transport");
+
+            var transports = this.transports;
+            var newTransports = new Transport[transports.Length + 1];
+            transports.CopyTo(newTransports, 0);
+            newTransports[newTransports.Length - 1] = transport;
+
+            this.transports = newTransports;
+
+            transport.FrameReceived += Transport_FrameReceived;
+            transport.ErrorReceived += Transport_ErrorReceived;
+        }
+
+        public void SendFrame(byte[] frame)
+        {
+            var transports = this.transports;
+            foreach (var transport in transports)
+                transport.SendFrame(frame);
         }
 
         public void Start()
@@ -68,6 +77,10 @@ namespace Jacdac
             {
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
             }
+
+            var transports = this.transports;
+            foreach (var transport in transports)
+                transport.Connect();
         }
 
         public void Stop()
@@ -76,6 +89,32 @@ namespace Jacdac
             {
                 this.announceTimer.Dispose();
                 this.announceTimer = null;
+            }
+            var transports = this.transports;
+            foreach (var transport in transports)
+                transport.Disconnect();
+        }
+
+        private void Transport_FrameReceived(Transport sender, byte[] frame)
+        {
+            TransportStats.FrameReceived++;
+
+            // process packet
+            var packets = Packet.FromFrame(frame);
+            var timestamp = this.Timestamp;
+            foreach (var packet in packets)
+            {
+                packet.Timestamp = timestamp;
+                this.ProcessPacket(packet);
+            }
+
+            // broadcast to other transports
+            if (this.transports.Length > 1)
+            {
+                var transports = this.transports;
+                foreach (var transport in transports)
+                    if (transport != sender)
+                        transport.SendFrame(frame);
             }
         }
 

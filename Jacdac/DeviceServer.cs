@@ -73,7 +73,7 @@ namespace Jacdac
         {
             this.packetCount++;
             var frame = Packet.ToFrame(new Packet[] { pkt });
-            this.Bus.Transport.SendFrame(frame);
+            this.Bus.SendFrame(frame);
         }
 
         public void SendAnnounce()
