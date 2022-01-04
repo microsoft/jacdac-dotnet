@@ -63,6 +63,21 @@ namespace Jacdac
             this.specifications = new ServiceSpec[0];
         }
 
+        public bool TryGetSpecification(uint serviceClass, out ServiceSpec spec)
+        {
+            // in memory cache, need limit?
+            var specifications = this.specifications;
+            foreach (var specification in specifications)
+                if (specification.serviceClass == serviceClass)
+                {
+                    spec = specification.registers != null ? specification : null;
+                    return spec != null;
+                }
+
+            spec = null;
+            return false;
+        }
+
         public ServiceSpec ResolveSpecification(uint serviceClass)
         {
             lock (this)

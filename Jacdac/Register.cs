@@ -32,7 +32,8 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return $"{this.Service.ToString()}[0x{this.Code.ToString("x2")}]";
+            var spec = this.Specification;
+            return $"{this.Service.ToString()}[0x{this.Code.ToString("x2")}:{spec?.name ?? "??"}]";
         }
 
         internal void ProcessPacket(Packet pkt)
@@ -151,32 +152,36 @@ namespace Jacdac
             return Jacdac.Constants.REGISTER_POLL_STREAMING_INTERVAL;
         }
 
+        public ServiceRegisterSpec Specification
+        {
+            get
+            {
+                // find service spec
+                var serviceSpec = this.Service.Specification;
+                if (serviceSpec == null)
+                    return null;
+                // find register spec
+                var registerSpecs = serviceSpec.registers;
+                for (var i = 0; i < registerSpecs.Length; ++i)
+                {
+                    if (registerSpecs[i].code == this.Code)
+                        return registerSpecs[i];
+                }
+                return null;
+            }
+        }
+
         public object[] DeserializeValues()
         {
             var data = this.Data;
             if (data == null)
                 return PacketEncoding.Empty;
-            // find service spec
-            var serviceSpec = this.Service.ResolveSpecification();
-            if (serviceSpec == null)
-                return PacketEncoding.Empty;
 
-            // find register spec
-            var registerSpecs = serviceSpec.registers;
-            ServiceRegisterSpec registerSpec = null;
-            for (var i = 0; i < registerSpecs.Length; ++i)
-            {
-                if (registerSpecs[i].code == this.Code)
-                {
-                    registerSpec = registerSpecs[i];
-                    break;
-                }
-            }
-            if (registerSpec == null)
+            var spec = this.Specification;
+            if (spec == null)
                 return PacketEncoding.Empty;
-
             // deserialize
-            var values = PacketEncoding.UnPack(registerSpec.packf, data);
+            var values = PacketEncoding.UnPack(spec.packf, data);
             return values;
         }
     }

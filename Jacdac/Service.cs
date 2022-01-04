@@ -33,8 +33,29 @@ namespace Jacdac
         public override string ToString()
         {
             var device = this.Device;
-            var spec = this._specification;
+            var spec = this.Specification;
             return device == null ? "?" : $"{device}[{this.ServiceIndex}x{this.ServiceClass.ToString("x8")}:{spec?.name ?? "???"}]";
+        }
+
+        /**
+         * Gets the cached specification, call ResolveSpecification to make sure that it gets downloaded.
+         */
+        public ServiceSpec Specification
+        {
+            get
+            {
+                if (this._specification == null)
+                {
+                    var catalog = this.Device?.Bus?.SpecificationCatalog;
+                    if (catalog != null)
+                    {
+                        ServiceSpec spec;
+                        if (catalog.TryGetSpecification(this.ServiceClass, out spec))
+                            this._specification = spec;
+                    }
+                }
+                return this._specification;
+            }
         }
 
         /**
