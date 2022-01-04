@@ -1,7 +1,6 @@
 ﻿using Jacdac.Transports;
 using Jacdac.Transports.WebSockets;
 using System;
-using System.Diagnostics;
 
 namespace Jacdac.NET.Playground
 {
@@ -11,6 +10,7 @@ namespace Jacdac.NET.Playground
         {
             Console.WriteLine("jacdac: connecting...");
             var bus = new JDBus(null);
+            bus.IsStreaming = true;
             for (int i = 0; i < args.Length; i++)
             {
                 var arg = args[i];
@@ -50,6 +50,12 @@ namespace Jacdac.NET.Playground
                     {
                         service.ResolveSpecification();
                         Console.WriteLine(service);
+                        var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
+                        if (reading != null)
+                            reading.Changed += (sender, rargs) =>
+                            {
+                                Console.WriteLine($"  {reading}={HexEncoding.ToString(reading.Data)}");
+                            };
                     }
                 };
             };

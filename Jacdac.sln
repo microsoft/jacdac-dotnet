@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Spi", "Ja
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Hf2", "Jacdac.Transports.Hf2\Jacdac.Transports.Hf2.csproj", "{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Uploader", "Jacdac.Uploader\Jacdac.Uploader.csproj", "{2009994C-3AF6-41DF-8E03-D5A886EC2248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

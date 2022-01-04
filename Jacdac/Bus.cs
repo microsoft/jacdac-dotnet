@@ -28,6 +28,7 @@ namespace Jacdac
 
         public bool IsClient;
         public bool IsPassive;
+        public bool IsStreaming;
 
         public ServiceSpecificationCatalog SpecificationCatalog { get; set; }
 
@@ -141,7 +142,7 @@ namespace Jacdac
                 case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            //  Debug.WriteLine($"transport error {name}");
+            Debug.WriteLine($"transport error {name}");
             // if (args.Data != null)
             // {
             //    Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
@@ -333,10 +334,11 @@ namespace Jacdac
                     foreach (var register in registers)
                     {
                         if (!register.NotImplemented
-                            || register.Stream
+                            || register.IsStreaming
                             || register.NeedsRefresh
                             || register.HasChangedListeners()
-                            || register.Data == null)
+                            || register.Data == null
+                            || this.IsStreaming)
                             register.RefreshMaybe();
                     }
                 }

@@ -10,7 +10,7 @@ namespace Jacdac
         public bool NeedsRefresh = false;
         public byte[] Data;
         public int LastGetAttempts = 0;
-        public bool Stream = false;
+        public bool IsStreaming = false;
 
         internal JDRegister(JDService service, ushort code)
             : base(service, code)
