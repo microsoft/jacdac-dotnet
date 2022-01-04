@@ -79,7 +79,9 @@ namespace Jacdac.Transports.Spi
             this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
             this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
-            Console.WriteLine($"jacdapter ready...");
+            Console.WriteLine($"jacdapter ready.");
+            this.SetConnectionState(ConnectionState.Connected);
+
             // initiate
             this.transfer();
         }

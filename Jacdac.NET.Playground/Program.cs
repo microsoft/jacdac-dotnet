@@ -27,12 +27,13 @@ namespace Jacdac.NET.Playground
                         break;
                 }
             }
-
             foreach (var transport in bus.Transports)
+            {
                 transport.ConnectionChanged += (sender, newState) =>
                 {
                     Console.WriteLine($"{sender.Kind}: {newState}");
                 };
+            }
             bus.DeviceConnected += (sender, conn) =>
             {
                 var device = conn.Device;
