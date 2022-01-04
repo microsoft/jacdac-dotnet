@@ -156,12 +156,26 @@ namespace Jacdac
             var data = this.Data;
             if (data == null)
                 return PacketEncoding.Empty;
+            // find service spec
             var serviceSpec = this.Service.ResolveSpecification();
             if (serviceSpec == null)
                 return PacketEncoding.Empty;
-            var registerSpec = Array.Find(serviceSpec.registers, reg => reg.code == this.Code);
+
+            // find register spec
+            var registerSpecs = serviceSpec.registers;
+            ServiceRegisterSpec registerSpec = null;
+            for (var i = 0; i < registerSpecs.Length; ++i)
+            {
+                if (registerSpecs[i].code == this.Code)
+                {
+                    registerSpec = registerSpecs[i];
+                    break;
+                }
+            }
             if (registerSpec == null)
                 return PacketEncoding.Empty;
+
+            // deserialize
             var values = PacketEncoding.UnPack(registerSpec.packf, data);
             return values;
         }
