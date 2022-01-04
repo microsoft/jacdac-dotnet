@@ -29,20 +29,20 @@ namespace Jacdac
         }
     }
 
-    public partial class ServiceTwins
+    public partial class ServiceSpecificationCatalog
     {
-        static ServiceTwins()
+        static ServiceSpecificationCatalog()
         {
             SpecificationReader = ServiceTwinReader;
             SpecificationResolver = WebGet;
         }
 
-        static ServiceTwinSpec ServiceTwinReader(byte[] buffer)
+        static ServiceSpec ServiceTwinReader(byte[] buffer)
         {
             try
             {
                 var s = System.Text.UTF8Encoding.UTF8.GetString(buffer);
-                return JsonSerializer.Deserialize<ServiceTwinSpec>(buffer, new JsonSerializerOptions
+                return JsonSerializer.Deserialize<ServiceSpec>(buffer, new JsonSerializerOptions
                 {
                     AllowTrailingCommas = true,
                     IncludeFields = true

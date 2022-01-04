@@ -38,24 +38,24 @@ namespace Jacdac
         }
     }
 
-    public partial class ServiceTwins
+    public partial class ServiceSpecificationCatalog
     {
-        static ServiceTwins()
+        static ServiceSpecificationCatalog()
         {
             SpecificationReader = ServiceTwinReader;
             SpecificationResolver = WebGet;
         }
 
-        static ServiceTwinSpec ServiceTwinReader(byte[] buffer)
+        static ServiceSpec ServiceTwinReader(byte[] buffer)
         {
             try
             {
                 var text = System.Text.UTF8Encoding.UTF8.GetString(buffer);
-                return (ServiceTwinSpec)JsonConverter.DeserializeObject(text, typeof(ServiceTwinSpec),
+                return (ServiceSpec)JsonConverter.DeserializeObject(text, typeof(ServiceSpec),
                     (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
                     {
                         if (instancePath == "/")
-                            return new ServiceTwinSpec();
+                            return new ServiceSpec();
                         return null;
                     });
             }

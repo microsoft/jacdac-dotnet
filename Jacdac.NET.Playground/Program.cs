@@ -10,7 +10,7 @@ namespace Jacdac.NET.Playground
         static void Main(string[] args)
         {
             Console.WriteLine("jacdac: connecting...");
-            ServiceTwins twins = null;
+            ServiceSpecificationCatalog twins = null;
             var bus = new JDBus(null);
             for (int i = 0; i < args.Length; i++)
             {
@@ -27,7 +27,7 @@ namespace Jacdac.NET.Playground
                         break;
                     case "twins":
                         Console.WriteLine("tracking twins");
-                        twins = new ServiceTwins();
+                        twins = new ServiceSpecificationCatalog();
                         break;
                 }
             }
