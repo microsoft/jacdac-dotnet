@@ -118,7 +118,6 @@ namespace Jacdac
             catch (Exception)
             {
                 this.SetConnectionState(ConnectionState.Disconnected);
-                throw;
             }
         }
 

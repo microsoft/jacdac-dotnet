@@ -9,12 +9,15 @@ namespace Jacdac.Transports.WebSockets
 {
     public class WebSocketTransport : Transport
     {
+        const int RECONNECT_TIMEOUT = 5000;
+
         public readonly Uri Uri;
         public override event FrameReceivedEvent FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
 
         private ClientWebSocket socket;
         private SemaphoreSlim sendSemaphore;
+        private Timer reconnectTimer;
 
         public WebSocketTransport(Uri uri = null)
             : base("ws")
@@ -22,6 +25,17 @@ namespace Jacdac.Transports.WebSockets
             this.Uri = uri ?? new Uri("ws://localhost:8081/");
             this.socket = new ClientWebSocket();
             this.sendSemaphore = new SemaphoreSlim(1);
+
+            this.reconnectTimer = new Timer(this.handleReconnectTimer, null, RECONNECT_TIMEOUT, RECONNECT_TIMEOUT);
+        }
+
+        private void handleReconnectTimer(object sender)
+        {
+            if (this.ConnectionState == ConnectionState.Disconnected)
+            {
+                Console.WriteLine("reconnect websocket");
+                this.Connect();
+            }
         }
 
         public override void SendFrame(byte[] data)
@@ -78,6 +92,23 @@ namespace Jacdac.Transports.WebSockets
         protected override void InternalDisconnect()
         {
             this.socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "user cancelled", CancellationToken.None);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            var s = this.socket;
+            var t = this.reconnectTimer;
+            if (s != null)
+            {
+                this.socket = null;
+                s.Dispose();
+            }
+            if (t != null)
+            {
+                this.reconnectTimer = null;
+                t.Dispose();
+            }
         }
     }
 }
