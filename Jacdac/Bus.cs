@@ -109,7 +109,7 @@ namespace Jacdac
             }
 
             // broadcast to other transports
-            if (this.transports.Length > 1)
+            if (packets.Length > 0 && this.transports.Length > 1)
             {
                 var transports = this.transports;
                 foreach (var transport in transports)
