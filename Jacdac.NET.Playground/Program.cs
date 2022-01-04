@@ -52,7 +52,7 @@ namespace Jacdac.NET.Playground
                         Console.WriteLine(service);
                         var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
                         if (reading != null)
-                            reading.Changed += (sender, rargs) =>
+                            reading.ReportReceived += (sender, rargs) =>
                             {
                                 Console.Write($"  {reading}: ");
                                 var values = reading.DeserializeValues();

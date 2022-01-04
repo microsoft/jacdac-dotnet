@@ -23,10 +23,7 @@ namespace Jacdac
             set
             {
                 if (value != this.notImplemented)
-                {
                     this.notImplemented = value;
-                    this.RaiseChanged();
-                }
             }
         }
 
@@ -60,13 +57,15 @@ namespace Jacdac
             this.LastGetTimestamp = pkt.Timestamp;
             this.NeedsRefresh = false;
 
-            //this.emit(REPORT_RECEIVE, this)
+            this.ReportReceived?.Invoke(this, EventArgs.Empty);
             if (updated)
-            {
-                //this.emitPropagated(REPORT_UPDATE, this)                
                 this.RaiseChanged();
-            }
         }
+
+        /**
+         * Raised when a GET report is received
+         */
+        public event NodeEventHandler ReportReceived;
 
         public void SendSet(byte[] data, bool ack = false)
         {
