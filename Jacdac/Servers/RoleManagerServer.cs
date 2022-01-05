@@ -18,7 +18,6 @@ namespace Jacdac.Servers
         {
             this.AddRegister(this.AutoBind = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
             this.AddRegister(this.AllRolesAllocated = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.GetRole, this.handleGetRole);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRoles, this.handleListRoles);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
@@ -63,27 +62,10 @@ namespace Jacdac.Servers
             });
         }
 
-        private void handleGetRole(JDNode sensor, PacketEventArgs args)
-        {
-            var pkt = args.Packet;
-            var values = PacketEncoding.UnPack(Jacdac.RoleManagerCmdPack.GetRole, pkt.Data);
-            var did = (byte[])values[0];
-            var deviceId = HexEncoding.ToString(did);
-            var serviceIndex = (uint)values[1];
-            RoleBinding binding;
-            string role;
-            if (this.TryGetBinding(deviceId, serviceIndex, out binding))
-                role = binding.Role;
-            else
-                role = "";
-            var payload = PacketEncoding.Pack(Jacdac.RoleManagerCmdPack.GetRoleReport, new object[] { did, serviceIndex, role });
-            this.SendPacket(Packet.From((ushort)Jacdac.RoleManagerCmd.GetRole, payload));
-        }
-
         private void handleSetRole(JDNode sensor, PacketEventArgs args)
         {
             var pkt = args.Packet;
-            var values = PacketEncoding.UnPack(Jacdac.RoleManagerCmdPack.GetRole, pkt.Data);
+            var values = PacketEncoding.UnPack(Jacdac.RoleManagerCmdPack.SetRole, pkt.Data);
             var did = (byte[])values[0];
             var deviceId = HexEncoding.ToString(did);
             var serviceIndex = (uint)values[1];
@@ -97,19 +79,6 @@ namespace Jacdac.Servers
 
             binding.Select(deviceId, serviceIndex);
             this.RaiseChanged();
-        }
-
-        private bool TryGetBinding(string deviceId, uint serviceIndex, out RoleBinding binding)
-        {
-            var bindings = this.bindings;
-            foreach (var b in bindings)
-                if (b.BoundToServiceIndex == serviceIndex && b.BoundToDevice == deviceId)
-                {
-                    binding = b;
-                    return true;
-                }
-            binding = null;
-            return false;
         }
 
         private bool TryGetBinding(string role, out RoleBinding binding)
