@@ -11,6 +11,7 @@ namespace Jacdac
         public byte[] Data;
         public int LastGetAttempts = 0;
         public bool IsStreaming = false;
+        private string _packFormat;
 
         internal JDRegister(JDService service, ushort code)
             : base(service, code)
@@ -171,23 +172,49 @@ namespace Jacdac
             }
         }
 
-        public object[] DeserializeValues()
+        public string PackFormat
         {
+            get
+            {
+                if (this._packFormat == null)
+                {
+                    var spec = this.Specification;
+                    if (spec != null)
+                        this._packFormat = spec.packf;
+                }
+                return this._packFormat;
+            }
+            set
+            {
+                if (this._packFormat != value)
+                {
+                    if (this._packFormat != null && this._packFormat != value)
+                        throw new InvalidOperationException("attempting to change pack format");
+                    this._packFormat = value;
+                }
+            }
+        }
+
+        public object[] DeserializeValues(string packFormat = null)
+        {
+            if (packFormat != null)
+                this.PackFormat = packFormat;
+
             var data = this.Data;
             if (data == null)
                 return PacketEncoding.Empty;
 
-            var spec = this.Specification;
-            if (spec == null)
+            var packf = this.PackFormat;
+            if (packf == null)
                 return PacketEncoding.Empty;
             // deserialize
-            var values = PacketEncoding.UnPack(spec.packf, data);
+            var values = PacketEncoding.UnPack(packf, data);
             return values;
         }
 
-        public object Value()
+        public object Value(string packFormat = null)
         {
-            var values = this.DeserializeValues();
+            var values = this.DeserializeValues(packFormat);
             if (values == null || values.Length != 1)
                 return null;
             return values[0];

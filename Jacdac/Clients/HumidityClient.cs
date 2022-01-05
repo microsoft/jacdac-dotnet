@@ -2,12 +2,12 @@
 {
     public sealed partial class HumidityClient : SensorClient
     {
-        readonly float missingHumidityValue;
+        readonly float defaultHumidity;
 
-        public HumidityClient(JDBus bus, string name, float missingHumidityValue = -1)
+        public HumidityClient(JDBus bus, string name, float defaultHumidity = -1)
             : base(bus, name, Jacdac.HumidityConstants.ServiceClass)
         {
-            this.missingHumidityValue = missingHumidityValue;
+            this.defaultHumidity = defaultHumidity;
         }
 
         /// <summary>
@@ -17,28 +17,19 @@
         {
             get
             {
-                var reg = this.GetRegister((ushort)Jacdac.HumidityReg.Humidity);
-                reg?.RefreshMaybe();
-                var value = reg?.Value();
-                return value == null ? this.missingHumidityValue : (float)value;
+                return (float)this.GetRegisterValue((ushort)HumidityReg.Humidity, HumidityRegPack.Humidity, this.defaultHumidity);
             }
         }
 
         /// <summary>
         /// (Optional) The real humidity is between `humidity - humidity_error` and `humidity + humidity_error`., _: %RH
         /// </summary>
-        public bool TryGetHumidityError(out float value)
+        /// <returns>a float, or null if not available.</returns>
+        public object HumidityError
         {
-            var v = this.GetRegister((ushort)Jacdac.HumidityReg.HumidityError)?.Value();
-            if (v == null)
+            get
             {
-                value = default(float);
-                return false;
-            }
-            else
-            {
-                value = (float)v;
-                return true;
+                return this.GetRegisterValue((ushort)HumidityReg.Humidity, HumidityRegPack.Humidity);
             }
         }
     }

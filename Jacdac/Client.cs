@@ -56,7 +56,9 @@ namespace Jacdac
 
         protected JDRegister GetRegister(ushort code)
         {
-            return this.BoundService?.GetRegister(code);
+            var reg = this.BoundService?.GetRegister(code);
+            reg?.RefreshMaybe();
+            return reg;
         }
 
         public event NodeEventHandler Connected;
@@ -65,6 +67,13 @@ namespace Jacdac
         public override string ToString()
         {
             return $"{this.Name}<{this.BoundService?.ToString() ?? "?"}";
+        }
+
+        protected object GetRegisterValue(ushort code, string packFormat, object defaultValue = null)
+        {
+            var reg = this.GetRegister(code);
+            var value = reg?.Value(packFormat);
+            return value != null ? value : defaultValue;
         }
     }
 
