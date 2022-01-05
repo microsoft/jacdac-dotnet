@@ -73,22 +73,13 @@ namespace Jacdac {
         ClearAllRoles = 0x84,
 
         /**
-         * Argument: stored_roles pipe (bytes). Return all roles stored internally.
+         * Argument: roles pipe (bytes). List all roles and bindings required by the current program. `device_id` and `service_idx` are `0` if role is unbound.
          *
          * ```
-         * const [storedRoles] = jdunpack<[Uint8Array]>(buf, "b[12]")
+         * const [roles] = jdunpack<[Uint8Array]>(buf, "b[12]")
          * ```
          */
-        ListStoredRoles = 0x82,
-
-        /**
-         * Argument: required_roles pipe (bytes). List all roles required by the current program. `device_id` and `service_idx` are `0` if role is unbound.
-         *
-         * ```
-         * const [requiredRoles] = jdunpack<[Uint8Array]>(buf, "b[12]")
-         * ```
-         */
-        ListRequiredRoles = 0x83,
+        ListRoles = 0x83,
     }
 
     public static class RoleManagerCmdPack {
@@ -108,26 +99,14 @@ namespace Jacdac {
         public const string SetRole = "b[8] u8 s";
 
         /**
-         * Pack format for 'list_stored_roles' register data.
+         * Pack format for 'list_roles' register data.
          */
-        public const string ListStoredRoles = "b[12]";
-
-        /**
-         * Pack format for 'list_required_roles' register data.
-         */
-        public const string ListRequiredRoles = "b[12]";
+        public const string ListRoles = "b[12]";
     }
 
 
     /**
-     * pipe_report StoredRoles
-     * ```
-     * const [deviceId, serviceIdx, role] = jdunpack<[Uint8Array, number, string]>(buf, "b[8] u8 s")
-     * ```
-     */
-
-    /**
-     * pipe_report RequiredRoles
+     * pipe_report Roles
      * ```
      * const [deviceId, serviceClass, serviceIdx, role] = jdunpack<[Uint8Array, number, number, string]>(buf, "b[8] u32 u8 s")
      * ```
@@ -136,14 +115,9 @@ namespace Jacdac {
 
     public static class RoleManagerinfoPack {
         /**
-         * Pack format for 'stored_roles' register data.
+         * Pack format for 'roles' register data.
          */
-        public const string StoredRoles = "b[8] u8 s";
-
-        /**
-         * Pack format for 'required_roles' register data.
-         */
-        public const string RequiredRoles = "b[8] u32 u8 s";
+        public const string Roles = "b[8] u32 u8 s";
     }
 
     public enum RoleManagerEvent {
