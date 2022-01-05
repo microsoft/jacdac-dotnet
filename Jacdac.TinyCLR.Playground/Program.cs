@@ -23,6 +23,20 @@ namespace Jacdac_RgbLed
         {
             // Display enable
             Display.Enable();
+
+            var sdStorage = new SdCardKeyStorage();
+            var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
+
+            // start wifi
+            Display.WriteLine("Start wifi....");
+            var wifiServer = new WifiServer(ssidStorage);
+            wifiServer.ScanStarted += WifiServer_ScanStarted;
+            wifiServer.ScanCompleted += WifiServer_ScanCompleted;
+            wifiServer.Ssid.Changed += this.Ssid_Changed;
+            wifiServer.Start();
+
+            Thread.Sleep(5000);
+
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
 
@@ -35,15 +49,6 @@ namespace Jacdac_RgbLed
             };
 
             var transport = new UartTransport(new JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
-
-            var sdStorage = new SdCardKeyStorage();
-            var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
-
-            var wifiServer = new WifiServer(ssidStorage);
-            wifiServer.ScanStarted += WifiServer_ScanStarted;
-            wifiServer.ScanCompleted += WifiServer_ScanCompleted;
-            wifiServer.Ssid.Changed += this.Ssid_Changed;
-            wifiServer.Start();
 
             //var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
             var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
@@ -101,8 +106,8 @@ namespace Jacdac_RgbLed
             var bus = (JDBus)sender;
             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;
             var usedRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.UsedBytes;
-            Display.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
-            Debug.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
+            //  Display.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} {freeRam / 1000}kb");
+            //  Debug.WriteLine($"d{bus.GetDevices().Length} s{TransportStats.FrameSent} r{TransportStats.FrameReceived} e{TransportStats.FrameError} A{TransportStats.FrameA} B{TransportStats.FrameB} C{TransportStats.FrameC} D{TransportStats.FrameD} E{TransportStats.FrameE} F{TransportStats.FrameF} Busy{TransportStats.FrameBusy} Full{TransportStats.BufferFull}");
         }
 
         private static void Bus_DeviceDisconnected(JDNode node, DeviceEventArgs e)
@@ -144,7 +149,7 @@ namespace Jacdac_RgbLed
                     var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
                     if (reading != null)
                     {
-                        Display.WriteLine("  " + reading.ToString());
+                        Display.WriteLine(reading.ToString());
                         reading.Changed += (reg, er) =>
                         {
                             var freeRam = GHIElectronics.TinyCLR.Native.Memory.ManagedMemory.FreeBytes;

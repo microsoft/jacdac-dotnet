@@ -34,7 +34,8 @@ namespace Jacdac
         {
             var device = this.Device;
             var spec = this.Specification;
-            return device == null ? "?" : $"{device}[{this.ServiceIndex}x{this.ServiceClass.ToString("x8")}:{spec?.name ?? "???"}]";
+            var descr = spec == null ? $"0x{this.ServiceClass.ToString("x8")}" : spec.name;
+            return device == null ? "?" : $"{device}[{ this.ServiceIndex}:{descr}]";
         }
 
         /**

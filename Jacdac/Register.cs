@@ -30,7 +30,8 @@ namespace Jacdac
         public override string ToString()
         {
             var spec = this.Specification;
-            return $"{this.Service.ToString()}[0x{this.Code.ToString("x2")}:{spec?.name ?? "??"}]";
+            var descr = spec == null ? $"0x{this.Code.ToString("x2")}" : spec.name;
+            return $"{this.Service.ToString()}[{descr}]";
         }
 
         internal void ProcessPacket(Packet pkt)

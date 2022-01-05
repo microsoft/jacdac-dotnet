@@ -44,22 +44,44 @@ namespace Jacdac
     {
         static ServiceSpecificationCatalog()
         {
-            SpecificationReader = ServiceTwinReader;
-            SpecificationResolver = WebGet;
+            SpecificationReader = ServiceReader;
+            SpecificationResolver = ServiceResolver;
         }
 
-        static ServiceSpec ServiceTwinReader(byte[] buffer)
+        static ServiceSpec ServiceReader(byte[] buffer)
         {
             try
             {
                 var text = System.Text.UTF8Encoding.UTF8.GetString(buffer);
-                return (ServiceSpec)JsonConverter.DeserializeObject(text, typeof(ServiceSpec),
-                    (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
+                Debug.WriteLine($"parse\n{text}");
+
+                var jobject = JsonConverter.Deserialize(text) as JObject;
+                var res = new ServiceSpec();
+                var sc = jobject["serviceClass"].Value as JValue;
+                res.serviceClass = (uint)(ulong)sc.Value;
+                res.name = (jobject["name"].Value as JValue).Value.ToString();
+                var regs = jobject["registers"].Value as JArray;
+                res.registers = new ServiceRegisterSpec[regs.Length];
+                for (var i = 0; i < regs.Length; i++)
+                {
+                    var jreg = regs.Items[i] as JObject;
+                    var reg = res.registers[i] = new ServiceRegisterSpec();
+                    reg.code = (ushort)(ulong)(jreg["code"].Value as JValue).Value;
+                    reg.name = (jreg["name"].Value as JValue).Value.ToString();
+                    reg.flags = (ServiceRegisterFlag)(ulong)(jreg["flags"].Value as JValue).Value;
+                    reg.packf = (jreg["packf"].Value as JValue).Value.ToString();
+                    var jfields = jreg["fields"]?.Value as JArray;
+                    if (jfields != null)
                     {
-                        if (instancePath == "/")
-                            return new ServiceSpec();
-                        return null;
-                    });
+                        var fields = reg.fields = new string[jfields.Length];
+                        for (var j = 0; j < fields.Length; j++)
+                        {
+                            var jfield = jfields.Items[j] as JValue;
+                            fields[j] = jfield.Value.ToString();
+                        }
+                    }
+                }
+                return res;
             }
             catch (Exception ex)
             {
@@ -68,29 +90,30 @@ namespace Jacdac
             }
         }
 
-        static byte[] WebGet(string url)
+        static byte[] ServiceResolver(string url)
         {
             var certificates = Resources.GetBytes(Resources.BinaryResources.GitHubCertificate);
             var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
             using (var req = HttpWebRequest.Create(url) as HttpWebRequest)
             {
                 req.KeepAlive = false;
-                req.ReadWriteTimeout = 2000;
-                req.Headers.Add("Accept", "application/json");
-                //req.HttpsAuthentCerts = certx509;
+                req.Accept = "application/json";
+                req.ReadWriteTimeout = 5000;
+                req.HttpsAuthentCerts = certx509;
                 using (var res = req.GetResponse() as HttpWebResponse)
                 {
+                    Debug.WriteLine($"{url} -> {res.StatusCode}");
                     if (res.StatusCode == HttpStatusCode.OK)
                         using (var stream = res.GetResponseStream())
                         {
                             var mem = new MemoryStream();
                             var read = 0;
-                            var buf = new byte[512];
+                            var buf = new byte[1024];
                             do
                             {
                                 read = stream.Read(buf, 0, buf.Length);
-                                mem.Write(buf, 0, buf.Length);
-                            } while (read != 0);
+                                mem.Write(buf, 0, read);
+                            } while (read > 0);
                             return mem.ToArray();
                         }
                 }

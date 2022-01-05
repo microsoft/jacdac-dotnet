@@ -24,7 +24,7 @@ namespace Jacdac
         public override string ToString()
         {
             var c = this.code.ToString("x2");
-            return $"{this.name} ({c})";
+            return $"{this.name} (0x{c})";
         }
     }
 
@@ -80,27 +80,27 @@ namespace Jacdac
 
         public ServiceSpec ResolveSpecification(uint serviceClass)
         {
+            ServiceSpec spec;
+            if (this.TryGetSpecification(serviceClass, out spec))
+                return spec;
+
             lock (this)
             {
-                // in memory cache, need limit?
-                var specifications = this.specifications;
-                foreach (var specification in specifications)
-                    if (specification.serviceClass == serviceClass)
-                        return specification.registers != null ? specification : null;
-
                 // look cached spec
-                var spec = this.ReadFromStorage(serviceClass);
+                spec = this.ReadFromStorage(serviceClass);
                 if (spec == null)
                     spec = this.DownloadSpecification(serviceClass);
-                if (spec == null)
-                    spec = new ServiceSpec { serviceClass = serviceClass };
 
-                var newSpecs = new ServiceSpec[specifications.Length + 1];
-                specifications.CopyTo(newSpecs, 0);
-                newSpecs[newSpecs.Length - 1] = spec;
-                this.specifications = newSpecs;
+                ServiceSpec existingSpec;
+                if (spec != null && !this.TryGetSpecification(serviceClass, out existingSpec))
+                {
+                    var newSpecs = new ServiceSpec[specifications.Length + 1];
+                    specifications.CopyTo(newSpecs, 0);
+                    newSpecs[newSpecs.Length - 1] = spec;
+                    this.specifications = newSpecs;
+                    this.RaiseChanged();
+                }
 
-                this.RaiseChanged();
                 return spec;
             }
         }
@@ -116,7 +116,7 @@ namespace Jacdac
         private ServiceSpec DownloadSpecification(uint serviceClass)
         {
             var key = serviceClass.ToString("x8");
-            var url = $"http://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x")}.json";
+            var url = $"https://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x1")}.json";
             Debug.WriteLine($"fetch {url}");
             try
             {

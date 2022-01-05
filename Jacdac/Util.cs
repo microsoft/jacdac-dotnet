@@ -214,6 +214,7 @@ namespace Jacdac
             // try for enums
             return (uint)value;
         }
+
         public static int UnboxInt(object value)
         {
             if (value is int) return (int)value;

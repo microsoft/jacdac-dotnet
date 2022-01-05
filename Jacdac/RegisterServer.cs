@@ -77,7 +77,7 @@ namespace Jacdac
         {
             var values = this.GetValues();
             if (values == null || values.Length == 0) return false;
-            var b = (byte)values[0] != 0;
+            var b = Util.UnboxInt(values[0]) != 0;
             return b;
         }
 
