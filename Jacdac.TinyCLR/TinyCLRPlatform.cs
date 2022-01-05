@@ -1,4 +1,5 @@
 ﻿using GHIElectronics.TinyCLR.Data.Json;
+using GHIElectronics.TinyCLR.Devices.Gpio;
 using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 using GHIElectronics.TinyCLR.Native;
 using Jacdac.TinyCLR.Properties;
@@ -37,7 +38,21 @@ namespace Jacdac
                 var start = DateTime.Now;
                 return () => DateTime.Now - start;
             };
+
+            Platform.StatusLight = ControlAnnounceFlags.StatusLightMono;
+            Platform.SetStatusLight = (red, green, blue, speed) =>
+            {
+                if (LedPin < 0) return;
+
+                var on = red > 0 || green > 0 || blue > 0;
+                var gpio = GpioController.GetDefault();
+                var led = gpio.OpenPin(LedPin);
+                led.SetDriveMode(GpioPinDriveMode.Output);
+                led.Write(on ? GpioPinValue.High : GpioPinValue.Low);
+            };
         }
+
+        public static int LedPin = -1;
     }
 
     public partial class ServiceSpecificationCatalog

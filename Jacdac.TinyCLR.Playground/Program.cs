@@ -10,6 +10,7 @@ using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 using Jacdac.Transports;
 using Jacdac.Storage;
 using GHIElectronics.TinyCLR.Devices.Storage;
+using GHIElectronics.TinyCLR.Devices.Gpio;
 
 namespace Jacdac_RgbLed
 {
@@ -42,15 +43,7 @@ namespace Jacdac_RgbLed
 
             // jacdac
             Display.WriteLine("Configuration Jacdac....");
-
-            // configure FEZbit status light with 1 LED
-            Jacdac.Platform.StatusLight = ControlAnnounceFlags.StatusLightMono;
-            Jacdac.Platform.SetStatusLight = (red, green, blue, speed) =>
-            {
-                var on = red > 0;
-                // TODO: handle light
-            };
-
+            Platform.LedPin = FEZBit.GpioPin.Led;
             var transport = new UartTransport(new JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             //var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
