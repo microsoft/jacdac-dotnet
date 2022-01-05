@@ -204,7 +204,7 @@ namespace Jacdac
             return this._services == null ? JDService.EmptyServices : this._services;
         }
 
-        public JDService GetService(byte serviceIndex)
+        public JDService GetService(uint serviceIndex)
         {
             return this._services != null && serviceIndex < this._services.Length ? this._services[serviceIndex] : null;
         }

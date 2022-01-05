@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using Jacdac.Servers;
+using System;
 
 namespace Jacdac
 {
@@ -7,6 +7,8 @@ namespace Jacdac
     {
         public readonly JDBus Bus;
         public readonly string DeviceId;
+        public readonly ControlServer Control;
+        public readonly RoleManagerServer RoleManager;
         private readonly ControlAnnounceFlags statusLight;
         private byte restartCounter = 0;
         private byte packetCount = 0;
@@ -20,10 +22,13 @@ namespace Jacdac
             this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
-            this.services = new JDServiceServer[1 + (options.Services != null ? options.Services.Length : 0)];
-            this.services[0] = new ControlServer(options);
+            this.services = new JDServiceServer[1 + (options.RoleManager ? 1 : 0) + (options.Services != null ? options.Services.Length : 0)];
+            var k = 0;
+            this.services[k++] = this.Control = new ControlServer(options);
+            if (options.RoleManager)
+                this.services[k++] = this.RoleManager = new RoleManagerServer();
             if (options.Services != null)
-                options.Services.CopyTo(this.services, 1);
+                options.Services.CopyTo(this.services, k);
             for (byte i = 0; i < services.Length; i++)
             {
                 var server = this.services[i];

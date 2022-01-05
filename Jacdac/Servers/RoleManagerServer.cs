@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jacdac.Servers
 {
@@ -11,7 +7,7 @@ namespace Jacdac.Servers
         public JDStaticRegisterServer AutoBind;
         public JDStaticRegisterServer AllRolesAllocated;
 
-        private RoleBinding[] bindings = new RoleBinding[0];
+        private Role[] roles = new Role[0];
 
         public RoleManagerServer()
             : base(Jacdac.RoleManagerConstants.ServiceClass, null)
@@ -25,13 +21,30 @@ namespace Jacdac.Servers
             this.Changed += this.handleChanged;
         }
 
+        public Role[] Roles
+        {
+            get { return this.Roles; }
+        }
+
+        public void AddRole(Role role)
+        {
+            Role binding;
+            if (this.TryGetRole(role.Name, out binding))
+                throw new ArgumentException("role already allocated");
+
+            var bindings = this.roles;
+            var newBindings = new Role[bindings.Length + 1];
+            bindings.CopyTo(newBindings, 0);
+            newBindings[bindings.Length] = role;
+        }
+
         private void handleChanged(JDNode sender, EventArgs e)
         {
             // recompute all roles allocated
             var allRolesAllocated = true;
-            var bindings = this.bindings;
+            var bindings = this.roles;
             foreach (var binding in bindings)
-                if (binding.BoundToDevice == null)
+                if (binding.BoundService == null)
                 {
                     allRolesAllocated = false;
                     break;
@@ -42,9 +55,9 @@ namespace Jacdac.Servers
 
         private void handleClearAllRoles(JDNode sensor, PacketEventArgs args)
         {
-            var bindings = this.bindings;
+            var bindings = this.roles;
             foreach (var binding in bindings)
-                binding.Clear();
+                binding.BoundService = null;
             this.RaiseChanged();
         }
 
@@ -52,13 +65,15 @@ namespace Jacdac.Servers
         {
             var pkt = args.Packet;
             var pipe = OutPipe.From(this.Device.Bus, pkt);
-            var bindings = this.bindings;
-            pipe?.RespondForEach(bindings, k =>
+            var roles = this.roles;
+            pipe?.RespondForEach(roles, k =>
             {
-                var binding = (RoleBinding)k;
-                var did = binding.BoundToDevice == null ? new byte[0] : HexEncoding.ToBuffer(binding.BoundToDevice);
-                var role = binding.Role;
-                return PacketEncoding.Pack("b[8] u32 u8 s", new object[] { did, binding.ServiceClass, binding.BoundToServiceIndex, role });
+                var binding = (Role)k;
+                var service = binding.BoundService;
+                var serviceIndex = service == null ? 0 : service.ServiceIndex;
+                var device = service?.Device;
+                var did = device == null ? new byte[0] : HexEncoding.ToBuffer(device.DeviceId);
+                return PacketEncoding.Pack("b[8] u32 u8 s", new object[] { did, binding.ServiceClass, serviceIndex, binding.Name });
             });
         }
 
@@ -69,70 +84,34 @@ namespace Jacdac.Servers
             var did = (byte[])values[0];
             var deviceId = HexEncoding.ToString(did);
             var serviceIndex = (uint)values[1];
-            var role = (string)values[2];
+            var name = (string)values[2];
 
-            RoleBinding binding;
-            if (!this.TryGetBinding(role, out binding))
+            Role role;
+            if (!this.TryGetRole(name, out role))
                 return; // role does not exist
-            if (binding.BoundToDevice == deviceId && binding.BoundToServiceIndex == serviceIndex)
+
+            if (role.BoundService != null && role.BoundService.Device.DeviceId == deviceId && role.BoundService.ServiceIndex == serviceIndex)
                 return; // already bound
 
-            binding.Select(deviceId, serviceIndex);
+            JDDevice device;
+            if (!this.Device.Bus.TryGetDevice(deviceId, out device))
+                return; // device does not exist
+
+            role.BoundService = device.GetService(serviceIndex);
             this.RaiseChanged();
         }
 
-        private bool TryGetBinding(string role, out RoleBinding binding)
+        private bool TryGetRole(string role, out Role binding)
         {
-            var bindings = this.bindings;
+            var bindings = this.roles;
             foreach (var b in bindings)
-                if (b.Role == role)
+                if (b.Name == role)
                 {
                     binding = b;
                     return true;
                 }
             binding = null;
             return false;
-        }
-
-        class RoleBinding
-        {
-            public readonly string Role;
-            public readonly uint ServiceClass;
-            public string BoundToDevice;
-            public uint BoundToServiceIndex = 0;
-
-            public RoleBinding(string role, uint serviceClass)
-            {
-                this.Role = role;
-                this.ServiceClass = serviceClass;
-            }
-
-            public string Host
-            {
-                get
-                {
-                    var i = this.Role.IndexOf("/");
-                    if (i == -1)
-                        return this.Role;
-                    else
-                        return this.Role.Substring(0, i);
-                }
-            }
-
-            public void Clear()
-            {
-                this.BoundToDevice = null;
-                this.BoundToServiceIndex = 0;
-            }
-
-            public void Select(string device, uint serviceIndex)
-            {
-                if (device == this.BoundToDevice && serviceIndex == this.BoundToServiceIndex)
-                    return;
-
-                this.BoundToDevice = device;
-                this.BoundToServiceIndex = serviceIndex;
-            }
         }
     }
 }

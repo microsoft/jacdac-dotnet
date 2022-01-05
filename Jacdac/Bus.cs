@@ -12,6 +12,7 @@ namespace Jacdac
         public uint ProductIdentifier;
         public bool IsClient = true;
         public bool IsPassive = false;
+        public bool RoleManager = true;
         public JDServiceServer[] Services;
         public ControlAnnounceFlags StatusLight = Platform.StatusLight;
         public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
