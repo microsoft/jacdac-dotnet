@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacdac.Servers
 {
@@ -32,10 +33,12 @@ namespace Jacdac.Servers
             if (this.TryGetClient(role.Name, out binding))
                 throw new ArgumentException("role already allocated");
 
-            var bindings = this.roles;
-            var newBindings = new Client[bindings.Length + 1];
-            bindings.CopyTo(newBindings, 0);
-            newBindings[bindings.Length] = role;
+            var roles = this.roles;
+            var newRoles = new Client[roles.Length + 1];
+            roles.CopyTo(newRoles, 0);
+            newRoles[roles.Length] = role;
+
+            this.roles = newRoles;
         }
 
         private void handleChanged(JDNode sender, EventArgs e)
@@ -112,6 +115,83 @@ namespace Jacdac.Servers
                 }
             binding = null;
             return false;
+        }
+
+        private string ComputeHash()
+        {
+            string s = "";
+            var roles = this.roles;
+            foreach (var role in roles)
+                s += ";" + role.ToString();
+            return s;
+        }
+
+        private bool TryGetClient(JDService service, out Client client)
+        {
+            var roles = this.roles;
+            foreach (var role in roles)
+            {
+                if (role.BoundService == service)
+                {
+                    client = role;
+                    return true;
+                }
+            }
+            client = null;
+            return false;
+        }
+
+        public void BindRoles()
+        {
+            var hash = this.ComputeHash();
+            var bus = this.Device.Bus;
+            var devices = bus.GetDevices();
+            var roles = this.roles;
+            var bound = 0;
+            // check that services are still current
+            foreach (var role in roles)
+            {
+                if (role.BoundService != null && role.BoundService.Device.Bus == null)
+                    role.BoundService = null;
+                if (role.BoundService != null)
+                    bound++;
+            }
+
+            // nothing to do here
+            if (bound == roles.Length)
+                return;
+
+            // eager allocation strategy
+            Debug.WriteLine($"roles: binding {bound}/{roles.Length}");
+            foreach (var role in roles)
+            {
+                // already bound?
+                if (role.BoundService != null) continue;
+
+                // find candidates
+                foreach (var device in devices)
+                {
+                    var services = device.GetServices();
+                    foreach (var service in services)
+                    {
+                        Client client;
+                        // serice class match
+                        if (service.ServiceClass == role.ServiceClass
+                            // not bound yet
+                            && !this.TryGetClient(service, out client))
+                        {
+                            role.BoundService = service;
+                            break;
+                        }
+                    }
+                    // found a bound
+                    if (role.BoundService != null)
+                        break;
+                }
+            }
+
+            if (hash != this.ComputeHash())
+                this.RaiseChanged();
         }
     }
 }

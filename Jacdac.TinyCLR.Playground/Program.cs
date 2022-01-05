@@ -11,6 +11,7 @@ using Jacdac.Transports;
 using Jacdac.Storage;
 using GHIElectronics.TinyCLR.Devices.Storage;
 using GHIElectronics.TinyCLR.Devices.Gpio;
+using Jacdac.Clients;
 
 namespace Jacdac_RgbLed
 {
@@ -74,11 +75,14 @@ namespace Jacdac_RgbLed
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
             bus.Start();
 
+            var humidity = new HumidityClient(bus, "humidity");
+
             //Blink(transport);
             while (true)
             {
+                Display.WriteLine($"humidity: {humidity.Humidity}");
                 //Display.WriteLine($".");
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
             }
         }
 

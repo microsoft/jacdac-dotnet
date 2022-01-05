@@ -4,7 +4,7 @@
     {
         readonly float missingHumidityValue;
 
-        public HumidityClient(JDBus bus, string name, float missingHumidityValue = 0)
+        public HumidityClient(JDBus bus, string name, float missingHumidityValue = -1)
             : base(bus, name, Jacdac.HumidityConstants.ServiceClass)
         {
             this.missingHumidityValue = missingHumidityValue;
@@ -18,8 +18,8 @@
             get
             {
                 this.RefreshReading();
-                var value = this.GetRegister((ushort)Jacdac.HumidityReg.Humidity)?.Value(this.missingHumidityValue);
-                return (float)value;
+                var value = this.GetRegister((ushort)Jacdac.HumidityReg.Humidity)?.Value();
+                return value == null ? this.missingHumidityValue : (float)value;
             }
         }
 

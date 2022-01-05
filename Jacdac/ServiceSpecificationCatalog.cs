@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace Jacdac
 {
@@ -84,6 +85,14 @@ namespace Jacdac
 
             spec = null;
             return false;
+        }
+
+        public void BeginResolveSpecification(uint serviceClass)
+        {
+            new Thread(() =>
+            {
+                this.ResolveSpecification(serviceClass);
+            }).Start();
         }
 
         public ServiceSpec ResolveSpecification(uint serviceClass)

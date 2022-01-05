@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jacdac
+namespace Jacdac.Servers
 {
     public sealed partial class ControlServer : JDServiceServer
     {

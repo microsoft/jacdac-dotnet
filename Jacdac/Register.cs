@@ -185,11 +185,11 @@ namespace Jacdac
             return values;
         }
 
-        public object Value(object missingValue = null)
+        public object Value()
         {
             var values = this.DeserializeValues();
             if (values == null || values.Length != 1)
-                return missingValue;
+                return null;
             return values[0];
         }
     }
