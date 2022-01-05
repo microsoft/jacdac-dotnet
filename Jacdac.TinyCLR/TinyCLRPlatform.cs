@@ -69,16 +69,6 @@ namespace Jacdac
                     reg.name = (jreg["name"].Value as JValue).Value.ToString();
                     reg.flags = (ServiceRegisterFlag)(ulong)(jreg["flags"].Value as JValue).Value;
                     reg.packf = (jreg["packf"].Value as JValue).Value.ToString();
-                    var jfields = jreg["fields"]?.Value as JArray;
-                    if (jfields != null)
-                    {
-                        var fields = reg.fields = new string[jfields.Length];
-                        for (var j = 0; j < fields.Length; j++)
-                        {
-                            var jfield = jfields.Items[j] as JValue;
-                            fields[j] = jfield.Value.ToString();
-                        }
-                    }
                 }
                 return res;
             }

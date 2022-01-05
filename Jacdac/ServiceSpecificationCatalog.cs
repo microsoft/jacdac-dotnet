@@ -19,7 +19,6 @@ namespace Jacdac
         public string name;
         public ServiceRegisterFlag flags;
         public string packf;
-        public string[] fields;
 
         public override string ToString()
         {
