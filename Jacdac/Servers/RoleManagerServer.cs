@@ -20,7 +20,7 @@ namespace Jacdac.Servers
             this.AddRegister(this.AllRolesAllocated = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.GetRole, this.handleGetRole);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRequiredRoles, this.handleListRequiredRoles);
+            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRoles, this.handleListRoles);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
 
             this.Changed += this.handleChanged;
@@ -49,7 +49,7 @@ namespace Jacdac.Servers
             this.RaiseChanged();
         }
 
-        private void handleListRequiredRoles(JDNode sensor, PacketEventArgs args)
+        private void handleListRoles(JDNode sensor, PacketEventArgs args)
         {
             var pkt = args.Packet;
             var pipe = OutPipe.From(this.Device.Bus, pkt);
