@@ -8,6 +8,8 @@ using System;
 using Jacdac.Servers;
 using GHIElectronics.TinyCLR.Devices.Jacdac.Transport;
 using Jacdac.Transports;
+using Jacdac.Storage;
+using GHIElectronics.TinyCLR.Devices.Storage;
 
 namespace Jacdac_RgbLed
 {
@@ -24,8 +26,9 @@ namespace Jacdac_RgbLed
             // Display enable
             Display.Enable();
 
-            var sdStorage = new SdCardKeyStorage();
-            var ssidStorage = sdStorage.MountKeyStorage("wifi.json");
+            var sdStorage = new StorageManager(StorageController.FromName(SC20100.StorageController.SdCard));
+            var ssidStorage = sdStorage.MountSettingsStorage("wifi.json");
+            var specStorage = sdStorage.MountSpecificationStorage("services");
 
             // start wifi
             Display.WriteLine("Start wifi....");
@@ -52,7 +55,7 @@ namespace Jacdac_RgbLed
 
             //var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
             var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
-            var settingsStorage = sdStorage.MountKeyStorage("settings.json");
+            var settingsStorage = sdStorage.MountSettingsStorage("settings.json");
             var settingsServer = new SettingsServer(settingsStorage);
             var protoTest = new ProtoTestServer();
             var bus = new JDBus(transport, new JDBusOptions
@@ -60,11 +63,15 @@ namespace Jacdac_RgbLed
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
                 Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer },
-                SpecificationCatalog = new ServiceSpecificationCatalog()
+                SpecificationCatalog = new ServiceSpecificationCatalog(specStorage)
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;
             bus.SelfAnnounced += Bus_SelfAnnounced;
+
+            Display.WriteLine("cached specs:");
+            foreach (var sc in bus.SpecificationCatalog.Storage.GetServiceClasses())
+                Display.WriteLine("  0x" + sc.ToString("x1"));
 
             transport.FrameReceived += (Transport sender, byte[] frame) =>
             {

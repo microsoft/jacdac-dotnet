@@ -15,7 +15,7 @@ namespace Jacdac.Servers
 {
     public sealed class WifiServer : JDServiceServer
     {
-        public readonly IKeyStorage KeyStorage;
+        public readonly ISettingsStorage KeyStorage;
         public readonly JDStaticRegisterServer Enabled;
         public readonly JDStaticRegisterServer IpAddress;
         public readonly JDStaticRegisterServer Eui48;
@@ -25,7 +25,7 @@ namespace Jacdac.Servers
         private bool scanning = false;
         private string[] lastScanResults = null;
 
-        public WifiServer(IKeyStorage keyStorage, JDServiceServerOptions options = null)
+        public WifiServer(ISettingsStorage keyStorage, JDServiceServerOptions options = null)
             : base(Jacdac.WifiConstants.ServiceClass, options)
         {
             this.KeyStorage = keyStorage;

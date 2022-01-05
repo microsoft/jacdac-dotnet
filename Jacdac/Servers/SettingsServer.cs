@@ -1,9 +1,18 @@
 ﻿namespace Jacdac.Servers
 {
+    public interface ISettingsStorage
+    {
+        string[] GetKeys();
+        byte[] Read(string key);
+        void Write(string key, byte[] buffer);
+        void Delete(string key);
+        void Clear();
+    }
+
     public sealed class SettingsServer : JDServiceServer
     {
-        public readonly IKeyStorage Storage;
-        public SettingsServer(IKeyStorage storage, JDServiceServerOptions options = null)
+        public readonly ISettingsStorage Storage;
+        public SettingsServer(ISettingsStorage storage, JDServiceServerOptions options = null)
             : base(SettingsConstants.ServiceClass, options)
         {
             this.Storage = storage;

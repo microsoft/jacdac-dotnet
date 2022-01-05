@@ -2,13 +2,13 @@
 
 namespace Jacdac
 {
-    public sealed class Role : JDNode
+    public abstract class Client : JDNode
     {
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
 
-        public Role(JDBus bus, string name, uint serviceClass)
+        protected Client(JDBus bus, string name, uint serviceClass)
         {
             this.Name = name;
             this.ServiceClass = serviceClass;
@@ -18,7 +18,7 @@ namespace Jacdac
             if (roleMgr == null)
                 throw new InvalidOperationException("role manager not enabled");
 
-            roleMgr.AddRole(this);
+            roleMgr.AddClient(this);
         }
 
         public string Host
@@ -54,7 +54,29 @@ namespace Jacdac
             }
         }
 
+        protected JDRegister GetRegister(ushort code)
+        {
+            return this.BoundService?.GetRegister(code);
+        }
+
         public event NodeEventHandler Connected;
         public event NodeEventHandler Disconnected;
+
+        public override string ToString()
+        {
+            return $"{this.Name}<{this.BoundService?.ToString() ?? "?"}";
+        }
+    }
+
+    public abstract class SensorClient : Client
+    {
+        protected SensorClient(JDBus bus, string name, uint serviceClass)
+            : base(bus, name, serviceClass)
+        { }
+
+        protected void RefreshReading()
+        {
+
+        }
     }
 }

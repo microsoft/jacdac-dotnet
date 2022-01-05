@@ -20,6 +20,9 @@
 		<Compile Include="..\Jacdac\Servers\*.cs">
 			<Link>Servers\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>
+		<Compile Include="..\Jacdac\Clients\*.cs">
+			<Link>Clients\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
 		<Compile Include="..\Jacdac\Constants\*.cs">
 			<Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>

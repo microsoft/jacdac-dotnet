@@ -34,13 +34,4 @@ namespace Jacdac
         public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
         public static SetStatusLightHandler SetStatusLight = null;
     }
-
-    public interface IKeyStorage
-    {
-        string[] GetKeys();
-        byte[] Read(string key);
-        void Write(string key, byte[] buffer);
-        void Delete(string key);
-        void Clear();
-    }
 }

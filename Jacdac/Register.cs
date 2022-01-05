@@ -184,5 +184,13 @@ namespace Jacdac
             var values = PacketEncoding.UnPack(spec.packf, data);
             return values;
         }
+
+        public object Value(object missingValue = null)
+        {
+            var values = this.DeserializeValues();
+            if (values == null || values.Length != 1)
+                return missingValue;
+            return values[0];
+        }
     }
 }

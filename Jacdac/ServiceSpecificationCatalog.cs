@@ -42,19 +42,28 @@ namespace Jacdac
         }
     }
 
-    public delegate ServiceSpec ServiceSpecReader(byte[] buffer);
-    public delegate byte[] ServiceSpecResolver(string url);
+    public delegate ServiceSpec ServiceSpecReader(string source);
+    public delegate string ServiceSpecResolver(string url);
+
+    public interface ISpecificationStorage
+    {
+        uint[] GetServiceClasses();
+        string Read(uint serviceClass);
+        void Write(uint serviceClass, string spec);
+
+        void Clear();
+    }
 
     public sealed partial class ServiceSpecificationCatalog : JDNode
     {
         public string Root = "https://microsoft.github.io/jacdac-docs/";
-        public readonly IKeyStorage Storage;
+        public readonly ISpecificationStorage Storage;
         public static ServiceSpecReader SpecificationReader;
         public static ServiceSpecResolver SpecificationResolver;
 
         private ServiceSpec[] specifications;
 
-        public ServiceSpecificationCatalog(IKeyStorage storage = null)
+        public ServiceSpecificationCatalog(ISpecificationStorage storage = null)
         {
             Debug.Assert(SpecificationReader != null);
             Debug.Assert(SpecificationResolver != null);
@@ -107,24 +116,22 @@ namespace Jacdac
 
         private ServiceSpec ReadFromStorage(uint serviceClass)
         {
-            var key = serviceClass.ToString("x8");
-            var buffer = this.Storage?.Read(key);
+            var buffer = this.Storage?.Read(serviceClass);
             if (buffer == null) return null;
             else return SpecificationReader(buffer);
         }
 
         private ServiceSpec DownloadSpecification(uint serviceClass)
         {
-            var key = serviceClass.ToString("x8");
             var url = $"https://microsoft.github.io/jacdac-docs/services/twin/x{serviceClass.ToString("x1")}.json";
             Debug.WriteLine($"fetch {url}");
             try
             {
-                var buffer = SpecificationResolver(url);
-                if (buffer != null)
+                var source = SpecificationResolver(url);
+                if (source != null)
                 {
-                    var spec = SpecificationReader(buffer);
-                    this.Storage?.Write(key, buffer);
+                    var spec = SpecificationReader(source);
+                    this.Storage?.Write(serviceClass, source);
                     return spec;
                 }
             }

@@ -48,11 +48,10 @@ namespace Jacdac
             SpecificationResolver = ServiceResolver;
         }
 
-        static ServiceSpec ServiceReader(byte[] buffer)
+        static ServiceSpec ServiceReader(string text)
         {
             try
             {
-                var text = System.Text.UTF8Encoding.UTF8.GetString(buffer);
                 Debug.WriteLine($"parse\n{text}");
 
                 var jobject = JsonConverter.Deserialize(text) as JObject;
@@ -90,7 +89,7 @@ namespace Jacdac
             }
         }
 
-        static byte[] ServiceResolver(string url)
+        static string ServiceResolver(string url)
         {
             var certificates = Resources.GetBytes(Resources.BinaryResources.GitHubCertificate);
             var certx509 = new X509Certificate[] { new X509Certificate(certificates) };
@@ -114,7 +113,8 @@ namespace Jacdac
                                 read = stream.Read(buf, 0, buf.Length);
                                 mem.Write(buf, 0, read);
                             } while (read > 0);
-                            return mem.ToArray();
+                            var bytes = mem.ToArray();
+                            return System.Text.UTF8Encoding.UTF8.GetString(bytes);
                         }
                 }
             }

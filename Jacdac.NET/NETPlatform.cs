@@ -37,12 +37,11 @@ namespace Jacdac
             SpecificationResolver = WebGet;
         }
 
-        static ServiceSpec ServiceTwinReader(byte[] buffer)
+        static ServiceSpec ServiceTwinReader(string s)
         {
             try
             {
-                var s = System.Text.UTF8Encoding.UTF8.GetString(buffer);
-                return JsonSerializer.Deserialize<ServiceSpec>(buffer, new JsonSerializerOptions
+                return JsonSerializer.Deserialize<ServiceSpec>(s, new JsonSerializerOptions
                 {
                     AllowTrailingCommas = true,
                     IncludeFields = true
@@ -55,7 +54,7 @@ namespace Jacdac
             }
         }
 
-        static byte[] WebGet(string url)
+        static string WebGet(string url)
         {
             var req = HttpWebRequest.Create(url) as HttpWebRequest;
             {
@@ -76,7 +75,8 @@ namespace Jacdac
                                 read = stream.Read(buf, 0, buf.Length);
                                 mem.Write(buf, 0, read);
                             } while (read > 0);
-                            return mem.ToArray();
+                            var bytes = mem.ToArray();
+                            return System.Text.UTF8Encoding.UTF8.GetString(bytes);
                         }
                 }
             }

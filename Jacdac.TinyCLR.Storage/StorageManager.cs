@@ -1,15 +1,13 @@
 ﻿using GHIElectronics.TinyCLR.Data.Json;
 using GHIElectronics.TinyCLR.Devices.Storage;
 using GHIElectronics.TinyCLR.IO;
-using GHIElectronics.TinyCLR.Pins;
+using Jacdac.Servers;
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Threading;
 
-namespace Jacdac
+namespace Jacdac.Storage
 {
     [Serializable]
     public sealed class StorageEntry
@@ -18,14 +16,14 @@ namespace Jacdac
         public string Data;
     }
 
-    internal class SdCardKeyStorage : IDisposable
+    public sealed class StorageManager : IDisposable
     {
         private StorageController sd;
         private IDriveProvider drive;
 
-        public SdCardKeyStorage()
+        public StorageManager(StorageController sd)
         {
-            this.sd = StorageController.FromName(SC20100.StorageController.SdCard);
+            this.sd = sd;
             this.drive = FileSystem.Mount(sd.Hdc);
         }
 
@@ -44,17 +42,120 @@ namespace Jacdac
             }
         }
 
-        public IKeyStorage MountKeyStorage(string fileName)
+        public ISpecificationStorage MountSpecificationStorage(string dirName)
         {
-            return new KeyStorage(this, fileName);
+            return new SpecificationStorage(this, dirName);
         }
 
-        class KeyStorage : IKeyStorage
+        class SpecificationStorage : ISpecificationStorage
         {
-            readonly SdCardKeyStorage Parent;
+            readonly StorageManager Parent;
+            readonly string DirName;
+
+            public SpecificationStorage(StorageManager parent, string dirName)
+            {
+                this.Parent = parent;
+                this.DirName = dirName;
+            }
+
+            public uint[] GetServiceClasses()
+            {
+                var drive = this.Parent.drive;
+                var info = new DirectoryInfo(Path.Combine(drive.Name, this.DirName));
+                if (!info.Exists)
+                    return new uint[0];
+
+                var files = info.GetFiles();
+                var serviceClasses = new uint[files.Length];
+                var k = 0;
+                foreach (var file in files)
+                {
+                    var name = file.Name;
+                    if (file.Length < "0x.json".Length || file.Extension != ".json" || name.Substring(0, 2) != "0x")
+                        continue;
+                    var text = name.Substring(2, name.Length - "0x.json".Length);
+                    uint serviceClass = (uint)System.Convert.ToInt32(text, 16);
+                    serviceClasses[k++] = serviceClass;
+                }
+                if (k == serviceClasses.Length) return serviceClasses;
+                else
+                {
+                    var res = new uint[k];
+                    Array.Copy(serviceClasses, 0, res, 0, k);
+                    return res;
+                }
+            }
+            public string Read(uint serviceClass)
+            {
+                var n = $"0x{serviceClass.ToString("x1")}.json";
+                var drive = this.Parent.drive;
+                var path = Path.Combine(drive.Name, Path.Combine(this.DirName, n));
+                var info = new FileInfo(path);
+                if (!info.Exists)
+                    return null;
+
+                Debug.WriteLine($"storage: read {path}");
+                var bytes = System.IO.File.ReadAllBytes(path);
+                var text = System.Text.UTF8Encoding.UTF8.GetString(bytes);
+                return text;
+            }
+
+            public void Write(uint serviceClass, string spec)
+            {
+                try
+                {
+                    var n = $"0x{serviceClass.ToString("x1")}.json";
+                    var drive = this.Parent.drive;
+                    var dpath = Path.Combine(drive.Name, this.DirName);
+                    var dinfo = new DirectoryInfo(dpath);
+                    if (!dinfo.Exists)
+                    {
+                        Debug.WriteLine($"storage: create directory {dpath}");
+                        dinfo.Create();
+                    }
+
+                    var path = Path.Combine(dpath, n);
+                    Debug.WriteLine($"storage: write {path}");
+                    var bytes = System.Text.UTF8Encoding.UTF8.GetBytes(spec);
+                    System.IO.File.WriteAllBytes(path, bytes);
+                }
+                finally
+                {
+                    this.Parent.Flush();
+                }
+            }
+
+            public void Clear()
+            {
+                try
+                {
+                    var drive = this.Parent.drive;
+                    var path = Path.Combine(drive.Name, this.DirName);
+                    var info = new DirectoryInfo(path);
+                    if (info.Exists)
+                    {
+                        Debug.WriteLine($"storage: clear {path}");
+                        info.Delete(true);
+                    }
+                }
+                finally
+                {
+                    this.Parent.Flush();
+                }
+            }
+        }
+
+        public ISettingsStorage MountSettingsStorage(string fileName)
+        {
+            return new SettingsStorage(this, fileName);
+        }
+
+        class SettingsStorage : ISettingsStorage
+        {
+            readonly StorageManager Parent;
             readonly string FileName;
 
-            public KeyStorage(SdCardKeyStorage parent, string fileName)
+            public SettingsStorage(StorageManager parent, string fileName)
             {
                 this.Parent = parent;
                 this.FileName = fileName;

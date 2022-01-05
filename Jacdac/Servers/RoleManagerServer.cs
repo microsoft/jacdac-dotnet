@@ -7,7 +7,7 @@ namespace Jacdac.Servers
         public JDStaticRegisterServer AutoBind;
         public JDStaticRegisterServer AllRolesAllocated;
 
-        private Role[] roles = new Role[0];
+        private Client[] roles = new Client[0];
 
         public RoleManagerServer()
             : base(Jacdac.RoleManagerConstants.ServiceClass, null)
@@ -21,19 +21,19 @@ namespace Jacdac.Servers
             this.Changed += this.handleChanged;
         }
 
-        public Role[] Roles
+        public Client[] Roles
         {
             get { return this.Roles; }
         }
 
-        public void AddRole(Role role)
+        public void AddClient(Client role)
         {
-            Role binding;
-            if (this.TryGetRole(role.Name, out binding))
+            Client binding;
+            if (this.TryGetClient(role.Name, out binding))
                 throw new ArgumentException("role already allocated");
 
             var bindings = this.roles;
-            var newBindings = new Role[bindings.Length + 1];
+            var newBindings = new Client[bindings.Length + 1];
             bindings.CopyTo(newBindings, 0);
             newBindings[bindings.Length] = role;
         }
@@ -68,7 +68,7 @@ namespace Jacdac.Servers
             var roles = this.roles;
             pipe?.RespondForEach(roles, k =>
             {
-                var binding = (Role)k;
+                var binding = (Client)k;
                 var service = binding.BoundService;
                 var serviceIndex = service == null ? 0 : service.ServiceIndex;
                 var device = service?.Device;
@@ -86,8 +86,8 @@ namespace Jacdac.Servers
             var serviceIndex = (uint)values[1];
             var name = (string)values[2];
 
-            Role role;
-            if (!this.TryGetRole(name, out role))
+            Client role;
+            if (!this.TryGetClient(name, out role))
                 return; // role does not exist
 
             if (role.BoundService != null && role.BoundService.Device.DeviceId == deviceId && role.BoundService.ServiceIndex == serviceIndex)
@@ -101,7 +101,7 @@ namespace Jacdac.Servers
             this.RaiseChanged();
         }
 
-        private bool TryGetRole(string role, out Role binding)
+        private bool TryGetClient(string role, out Client binding)
         {
             var bindings = this.roles;
             foreach (var b in bindings)
