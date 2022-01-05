@@ -17,8 +17,9 @@
         {
             get
             {
-                this.RefreshReading();
-                var value = this.GetRegister((ushort)Jacdac.HumidityReg.Humidity)?.Value();
+                var reg = this.GetRegister((ushort)Jacdac.HumidityReg.Humidity);
+                reg?.RefreshMaybe();
+                var value = reg?.Value();
                 return value == null ? this.missingHumidityValue : (float)value;
             }
         }

@@ -73,11 +73,5 @@ namespace Jacdac
         protected SensorClient(JDBus bus, string name, uint serviceClass)
             : base(bus, name, serviceClass)
         { }
-
-        protected void RefreshReading()
-        {
-            var reg = this.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples);
-            reg?.SendSet(PacketEncoding.Pack("u8", new object[] { 0xff }));
-        }
     }
 }
