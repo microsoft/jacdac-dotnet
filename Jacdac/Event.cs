@@ -27,6 +27,8 @@
         public void ProcessPacket(Packet pkt)
         {
             var device = this.Service.Device;
+            if (device?.Bus == null) return;
+
             var ec = device.EventCounter + 1;
             // how many packets ahead and behind current are we?
             var ahead = (pkt.EventCounter - ec) & Jacdac.Constants.CMD_EVENT_COUNTER_MASK;

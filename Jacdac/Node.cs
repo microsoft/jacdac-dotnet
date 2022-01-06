@@ -34,5 +34,10 @@ namespace Jacdac
             this.Service = service;
             this.Code = code;
         }
+
+        protected JDBus Bus
+        {
+            get { return this.Service.Device?.Bus; }
+        }
     }
 }

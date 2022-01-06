@@ -72,19 +72,21 @@ namespace Jacdac
 
         public void SendSet(byte[] data, bool ack = false)
         {
-            if (this.NotImplemented) return;
+            var bus = this.Bus;
+            if (this.NotImplemented || bus == null) return;
 
             ushort cmd = (ushort)(Jacdac.Constants.CMD_SET_REG | this.Code);
             var pkt = Packet.FromCmd(cmd, data);
             if (ack)
                 pkt.RequiresAck = true;
-            this.LastSetTimestamp = this.Service.Device.Bus.Timestamp;
+            this.LastSetTimestamp = bus.Timestamp;
             this.Service.SendPacket(pkt);
         }
 
         public void SendGet(bool ack = false)
         {
-            if (this.NotImplemented) return;
+            var bus = this.Bus;
+            if (this.NotImplemented || bus == null) return;
 
             this.LastGetAttempts++;
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
@@ -96,9 +98,10 @@ namespace Jacdac
 
         public void RefreshMaybe()
         {
-            if (this.NotImplemented) return;
+            var bus = this.Bus;
+            if (this.NotImplemented || bus == null) return;
 
-            var now = this.Service.Device.Bus.Timestamp;
+            var now = bus.Timestamp;
             var age = (now - this.LastGetTimestamp).TotalMilliseconds;
             var noDataYet = this.Data == null;
             var backoff = this.LastGetAttempts;
@@ -134,11 +137,14 @@ namespace Jacdac
 
         private TimeSpan ResolveStreamingSamplesAge()
         {
+            var bus = this.Bus;
+            if (bus == null) return TimeSpan.MaxValue;
+
             var samplesReg = this.Service.GetRegister((ushort)Jacdac.SensorReg.StreamingSamples);
             if (samplesReg.Data == null)
                 return TimeSpan.MaxValue;
 
-            return this.Service.Device.Bus.Timestamp - samplesReg.LastSetTimestamp;
+            return bus.Timestamp - samplesReg.LastSetTimestamp;
         }
 
         private uint ResolveStreamingInterval()
@@ -231,6 +237,9 @@ namespace Jacdac
                 var wait = new AutoResetEvent(false);
                 signal = (JDNode node, EventArgs pkt) =>
                 {
+                    if (this.Values.Length == 0)
+                        // keep waiting
+                        return;
                     this.ReportReceived -= signal;
                     wait.Set();
                 };

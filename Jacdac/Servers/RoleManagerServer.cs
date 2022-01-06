@@ -29,16 +29,20 @@ namespace Jacdac.Servers
 
         public void AddClient(Client role)
         {
-            Client binding;
-            if (this.TryGetClient(role.Name, out binding))
-                throw new ArgumentException("role already allocated");
+            lock (this.roles)
+            {
+                Client binding;
+                if (this.TryGetClient(role.Name, out binding) && binding != role)
+                    throw new ArgumentException("role already allocated");
 
-            var roles = this.roles;
-            var newRoles = new Client[roles.Length + 1];
-            roles.CopyTo(newRoles, 0);
-            newRoles[roles.Length] = role;
+                var roles = this.roles;
+                var newRoles = new Client[roles.Length + 1];
+                roles.CopyTo(newRoles, 0);
+                newRoles[roles.Length] = role;
 
-            this.roles = newRoles;
+                this.roles = newRoles;
+            }
+            this.RaiseChanged();
         }
 
         private void handleChanged(JDNode sender, EventArgs e)
@@ -89,18 +93,22 @@ namespace Jacdac.Servers
             var serviceIndex = (uint)values[1];
             var name = (string)values[2];
 
-            Client role;
-            if (!this.TryGetClient(name, out role))
-                return; // role does not exist
+            lock (this.roles)
+            {
+                Client role;
+                if (!this.TryGetClient(name, out role))
+                    return; // role does not exist
 
-            if (role.BoundService != null && role.BoundService.Device.DeviceId == deviceId && role.BoundService.ServiceIndex == serviceIndex)
-                return; // already bound
+                var service = role.BoundService;
+                if (service != null && service.Device?.DeviceId == deviceId && service.ServiceIndex == serviceIndex)
+                    return; // already bound
 
-            JDDevice device;
-            if (!this.Device.Bus.TryGetDevice(deviceId, out device))
-                return; // device does not exist
+                JDDevice device;
+                if (!this.Device.Bus.TryGetDevice(deviceId, out device))
+                    return; // device does not exist
 
-            role.BoundService = device.GetService(serviceIndex);
+                role.BoundService = device.GetService(serviceIndex);
+            }
             this.RaiseChanged();
         }
 
@@ -143,6 +151,13 @@ namespace Jacdac.Servers
 
         public void BindRoles()
         {
+            lock (this.roles)
+            {
+                this.SyncBindRoles();
+            }
+        }
+        private void SyncBindRoles()
+        {
             var hash = this.ComputeHash();
             var bus = this.Device.Bus;
             var devices = bus.GetDevices();
@@ -151,7 +166,8 @@ namespace Jacdac.Servers
             // check that services are still current
             foreach (var role in roles)
             {
-                if (role.BoundService != null && role.BoundService.Device.Bus == null)
+                var service = role.BoundService;
+                if (service?.Device?.Bus == null)
                     role.BoundService = null;
                 if (role.BoundService != null)
                     bound++;
@@ -195,3 +211,4 @@ namespace Jacdac.Servers
         }
     }
 }
+
