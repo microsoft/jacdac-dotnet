@@ -80,7 +80,15 @@ namespace Jacdac_RgbLed
             //Blink(transport);
             while (true)
             {
-                Display.WriteLine($"humidity: {humidity.Humidity}");
+                try
+                {
+
+                    Display.WriteLine($"humidity: {humidity.Humidity}");
+                }
+                catch (ClientDisconnectedException)
+                {
+                    Display.WriteLine("connect humidity");
+                }
                 //Display.WriteLine($".");
                 Thread.Sleep(1000);
             }

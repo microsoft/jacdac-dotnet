@@ -221,9 +221,9 @@ namespace Jacdac
             this.Data = PacketEncoding.Pack(packf, values);
         }
 
-        public void WaitForData(int timeout = 1000)
+        public void WaitForValues(int timeout = 1000)
         {
-            if (this.Data != null) return;
+            if (this.Values.Length > 0) return;
 
             try
             {
@@ -236,9 +236,9 @@ namespace Jacdac
                 };
                 this.ReportReceived += signal;
                 this.RefreshMaybe();
-                wait.WaitOne(timeout, false);
+                wait.WaitOne(timeout, true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ClientDisconnectedException();
             }

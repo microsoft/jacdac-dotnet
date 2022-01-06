@@ -83,7 +83,7 @@ namespace Jacdac
                     wait.Set();
                 };
                 this.Connected += signal;
-                wait.WaitOne(timeout, false);
+                wait.WaitOne(timeout, true);
 
                 s = this.BoundService;
                 if (s == null)
@@ -106,10 +106,11 @@ namespace Jacdac
         protected object GetRegisterValue(ushort code, string packFormat, object defaultValue = null)
         {
             var reg = this.WaitForRegister(code);
-            reg.WaitForData(2000);
             reg.PackFormat = packFormat;
+            reg.WaitForValues(2000);
             var values = reg.Values;
-            return values.Length == 1 ? values[0] : defaultValue;
+            var value = values.Length == 1 ? values[0] : defaultValue;
+            return value;
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)
