@@ -77,6 +77,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler FingerprintTemplateChange;
 
 
+        
         /// <summary>
         /// This command will clear the template fingerprint of a sensor and collect a new template fingerprint of the attached sensor.
         /// </summary>
@@ -85,6 +86,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)VerifiedTelemetryCmd.ResetFingerprintTemplate);
         }
 
+        
         /// <summary>
         /// This command will append a new template fingerprint to the `fingerprintTemplate`. Appending more fingerprints will increase the accuracy in detecting the telemetry status.
         /// </summary>

@@ -34,6 +34,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Request to calibrate the capactive. When calibration is requested, the device expects that no object is touching the button. 
         /// The report indicates the calibration is done.

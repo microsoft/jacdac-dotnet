@@ -22,6 +22,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler Change;
 
 
+        
         /// <summary>
         /// Get the value of given setting. If no such entry exists, the value returned is empty.
         /// </summary>

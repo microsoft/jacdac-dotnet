@@ -60,6 +60,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler MessageSent;
 
 
+        
         /// <summary>
         /// Starts a connection to the IoT hub service
         /// </summary>
@@ -68,6 +69,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)AzureIotHubHealthCmd.Connect);
         }
 
+        
         /// <summary>
         /// Starts disconnecting from the IoT hub service
         /// </summary>

@@ -131,6 +131,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Sets the update window for subsequent `set_pixels` commands.
         /// </summary>
@@ -139,6 +140,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)IndexedScreenCmd.StartUpdate, IndexedScreenCmdPack.StartUpdate, new object[] { x, y, width, height });
         }
 
+        
         /// <summary>
         /// Set pixels in current window, according to current palette.
         /// Each "line" of data is aligned to a byte.

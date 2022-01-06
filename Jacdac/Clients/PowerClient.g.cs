@@ -154,6 +154,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler PowerStatusChanged;
 
 
+        
         /// <summary>
         /// Sent by the power service periodically, as broadcast.
         /// </summary>

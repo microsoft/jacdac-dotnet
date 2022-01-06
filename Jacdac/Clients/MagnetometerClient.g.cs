@@ -40,6 +40,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Forces a calibration sequence where the user/device
         /// might have to rotate to be calibrated.

@@ -102,6 +102,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.
         /// </summary>
@@ -110,6 +111,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)SpeechSynthesisCmd.Speak, SpeechSynthesisCmdPack.Speak, new object[] { text });
         }
 
+        
         /// <summary>
         /// Cancels current utterance and all utterances from the utterance queue.
         /// </summary>

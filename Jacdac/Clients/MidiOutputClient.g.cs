@@ -34,6 +34,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Clears any pending send data that has not yet been sent from the MIDIOutput's queue.
         /// </summary>
@@ -42,6 +43,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)MidiOutputCmd.Clear);
         }
 
+        
         /// <summary>
         /// Enqueues the message to be sent to the corresponding MIDI port
         /// </summary>

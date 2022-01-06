@@ -118,6 +118,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler ConnectionFailed;
 
 
+        
         /// <summary>
         /// Automatically connect to named network if available. Also set password if network is not open.
         /// </summary>
@@ -126,6 +127,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)WifiCmd.AddNetwork, WifiCmdPack.AddNetwork, new object[] { ssid, password });
         }
 
+        
         /// <summary>
         /// Enable the WiFi (if disabled), initiate a scan, wait for results, disconnect from current WiFi network if any,
         /// and then reconnect (using regular algorithm, see `set_network_priority`).
@@ -135,6 +137,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)WifiCmd.Reconnect);
         }
 
+        
         /// <summary>
         /// Prevent from automatically connecting to named network in future.
         /// Forgetting a network resets its priority to `0`.
@@ -144,6 +147,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)WifiCmd.ForgetNetwork, WifiCmdPack.ForgetNetwork, new object[] { ssid });
         }
 
+        
         /// <summary>
         /// Clear the list of known networks.
         /// </summary>
@@ -152,6 +156,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)WifiCmd.ForgetAllNetworks);
         }
 
+        
         /// <summary>
         /// Set connection priority for a network.
         /// By default, all known networks have priority of `0`.
@@ -161,6 +166,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)WifiCmd.SetNetworkPriority, WifiCmdPack.SetNetworkPriority, new object[] { priority, ssid });
         }
 
+        
         /// <summary>
         /// Initiate search for WiFi networks. Generates `scan_complete` event.
         /// </summary>

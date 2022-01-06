@@ -34,6 +34,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Starts playing a sound.
         /// </summary>
@@ -42,6 +43,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)SoundPlayerCmd.Play, SoundPlayerCmdPack.Play, new object[] { name });
         }
 
+        
         /// <summary>
         /// Cancel any sound playing.
         /// </summary>

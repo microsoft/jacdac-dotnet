@@ -118,6 +118,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Call this command when there is nothing on the scale. If supported, the module should save the calibration data.
         /// </summary>
@@ -126,6 +127,7 @@ namespace Jacdac.Clients {
             this.SendCmd((ushort)WeightScaleCmd.CalibrateZeroOffset);
         }
 
+        
         /// <summary>
         /// Call this command with the weight of the thing on the scale.
         /// </summary>

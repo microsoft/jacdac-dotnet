@@ -122,6 +122,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Open pipe for streaming in the model. The size of the model has to be declared upfront.
         /// The model is streamed over regular pipe data packets.

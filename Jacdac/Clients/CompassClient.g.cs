@@ -56,6 +56,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Starts a calibration sequence for the compass.
         /// </summary>

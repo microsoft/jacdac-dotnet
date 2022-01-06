@@ -89,6 +89,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// This has the same semantics as `set_status_light` in the control service.
         /// </summary>

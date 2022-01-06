@@ -64,6 +64,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Sets the current time and resets the error.
         /// </summary>

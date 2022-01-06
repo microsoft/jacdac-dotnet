@@ -104,23 +104,23 @@ namespace Jacdac.Clients {
         }
 
 
+        /* client command
         /// <summary>
         /// Shows the number on the screen using the decimal dot if available.
         /// </summary>
         public void SetNumber(float value)
         {
-            // TODO: implement client command
-            throw new NotSupportedException("client command not implemented");
-        }
+            this.SendCmdPacked((ushort)SevenSegmentDisplayCmd.SetNumber, SevenSegmentDisplayCmdPack.SetNumber, new object[] { value });
+        }*/
 
+        /* client command
         /// <summary>
         /// Shows the text on the screen. The client may decide to scroll the text if too long.
         /// </summary>
         public void SetText(string text)
         {
-            // TODO: implement client command
-            throw new NotSupportedException("client command not implemented");
-        }
+            this.SendCmdPacked((ushort)SevenSegmentDisplayCmd.SetText, SevenSegmentDisplayCmdPack.SetText, new object[] { text });
+        }*/
 
     }
 }

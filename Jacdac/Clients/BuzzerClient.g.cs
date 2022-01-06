@@ -34,6 +34,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Play a PWM tone with given period and duty for given duration.
         /// The duty is scaled down with `volume` register.
@@ -45,14 +46,14 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)BuzzerCmd.PlayTone, BuzzerCmdPack.PlayTone, new object[] { period, duty, duration });
         }
 
+        /* client command
         /// <summary>
         /// Play a note at the given frequency and volume.
         /// </summary>
         public void PlayNote(uint frequency, float volume, uint duration)
         {
-            // TODO: implement client command
-            throw new NotSupportedException("client command not implemented");
-        }
+            this.SendCmdPacked((ushort)BuzzerCmd.PlayNote, BuzzerCmdPack.PlayNote, new object[] { frequency, volume, duration });
+        }*/
 
     }
 }

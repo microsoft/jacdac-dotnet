@@ -249,6 +249,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler EU8String;
 
 
+        
         /// <summary>
         /// A command to set rw_bool.
         /// </summary>
@@ -257,6 +258,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CBool, ProtoTestCmdPack.CBool, new object[] { bo });
         }
 
+        
         /// <summary>
         /// A command to set rw_u32.
         /// </summary>
@@ -265,6 +267,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CU32, ProtoTestCmdPack.CU32, new object[] { u32 });
         }
 
+        
         /// <summary>
         /// A command to set rw_i32.
         /// </summary>
@@ -273,6 +276,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CI32, ProtoTestCmdPack.CI32, new object[] { i32 });
         }
 
+        
         /// <summary>
         /// A command to set rw_string.
         /// </summary>
@@ -281,6 +285,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CString, ProtoTestCmdPack.CString, new object[] { str });
         }
 
+        
         /// <summary>
         /// A command to set rw_string.
         /// </summary>
@@ -289,6 +294,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CBytes, ProtoTestCmdPack.CBytes, new object[] { bytes });
         }
 
+        
         /// <summary>
         /// A command to set rw_bytes.
         /// </summary>
@@ -297,6 +303,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)ProtoTestCmd.CI8U8U16I32, ProtoTestCmdPack.CI8U8U16I32, new object[] { i8, u8, u16, i32 });
         }
 
+        
         /// <summary>
         /// A command to set rw_u8_string.
         /// </summary>

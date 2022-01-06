@@ -34,6 +34,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Send a DMX packet, up to 236bytes long, including the start code.
         /// </summary>

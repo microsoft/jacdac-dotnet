@@ -25,6 +25,7 @@ namespace Jacdac.Clients {
         public event NodeEventHandler Message;
 
 
+        
         /// <summary>
         /// Send a message on the CODAL bus. If `source` is `0`, it is treated as wildcard.
         /// </summary>

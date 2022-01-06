@@ -85,6 +85,7 @@ namespace Jacdac.Clients {
         }
 
 
+        
         /// <summary>
         /// Sends a string payload as a radio message, maximum 18 characters.
         /// </summary>
@@ -93,6 +94,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)BitRadioCmd.SendString, BitRadioCmdPack.SendString, new object[] { message });
         }
 
+        
         /// <summary>
         /// Sends a double precision number payload as a radio message
         /// </summary>
@@ -101,6 +103,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)BitRadioCmd.SendNumber, BitRadioCmdPack.SendNumber, new object[] { value });
         }
 
+        
         /// <summary>
         /// Sends a double precision number and a name payload as a radio message
         /// </summary>
@@ -109,6 +112,7 @@ namespace Jacdac.Clients {
             this.SendCmdPacked((ushort)BitRadioCmd.SendValue, BitRadioCmdPack.SendValue, new object[] { value, name });
         }
 
+        
         /// <summary>
         /// Sends a payload of bytes as a radio message
         /// </summary>
