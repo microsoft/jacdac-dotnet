@@ -73,10 +73,10 @@ namespace Jacdac
             if (timeout < 0)
                 throw new ClientDisconnectedException();
 
+            NodeEventHandler signal = null;
             try
             {
                 var wait = new AutoResetEvent(false);
-                NodeEventHandler signal = null;
                 signal = (JDNode node, EventArgs pkt) =>
                 {
                     this.Connected -= signal;
@@ -93,6 +93,11 @@ namespace Jacdac
             catch (Exception)
             {
                 throw new ClientDisconnectedException();
+            }
+            finally
+            {
+                if (signal != null)
+                    this.Connected -= signal;
             }
         }
 
