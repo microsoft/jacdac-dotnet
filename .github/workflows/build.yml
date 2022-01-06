@@ -17,6 +17,6 @@ jobs:
       - name: Semantic release
         run: npx semantic-release
         if: ${{ github.ref == 'refs/heads/main' }}
-        with:
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
