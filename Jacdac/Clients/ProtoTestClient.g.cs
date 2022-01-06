@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// This is test service to validate the protocol packet transmissions between the browser and a MCU.

@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// The UV Index is a measure of the intensity of ultraviolet (UV) rays from the Sun.

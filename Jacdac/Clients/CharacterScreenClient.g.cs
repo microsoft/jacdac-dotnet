@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// A screen that displays characters, typically a LCD/OLED character screen.

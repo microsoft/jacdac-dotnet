@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// A push-button, which returns to inactive position when not operated anymore.

@@ -26,7 +26,7 @@ namespace Jacdac.Servers
         private string[] lastScanResults = null;
 
         public WifiServer(ISettingsStorage keyStorage, JDServiceServerOptions options = null)
-            : base(Jacdac.WifiConstants.ServiceClass, options)
+            : base(ServiceClasses.Wifi, options)
         {
             this.KeyStorage = keyStorage;
             this.AddRegister(this.Enabled = new JDStaticRegisterServer(

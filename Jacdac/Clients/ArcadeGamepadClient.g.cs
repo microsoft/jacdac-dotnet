@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// This service is deprecated in favor or `joystick`; it is currently used by the micro:bit Arcade smart shield though.

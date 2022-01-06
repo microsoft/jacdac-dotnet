@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// Discovery and connection to WiFi networks. Separate TCP service can be used for data transfer.

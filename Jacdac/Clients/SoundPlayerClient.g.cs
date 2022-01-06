@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac {
+namespace Jacdac.Clients {
 
     /// <summary>
     /// A device that can play various sounds stored locally. This service is typically paired with a ``storage`` service for storing sounds.
