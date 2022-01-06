@@ -64,7 +64,6 @@ namespace Jacdac.NET.Playground
                     }
                 };
             };
-            bus.Start();
             var humidity = new HumidityClient(bus, "humidity");
 
             while (true)

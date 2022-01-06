@@ -73,7 +73,6 @@ namespace Jacdac_RgbLed
             };
 
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
-            bus.Start();
 
             var humidity = new HumidityClient(bus, "humidity");
 

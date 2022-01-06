@@ -52,6 +52,7 @@ namespace Jacdac
             this.transports = new Transport[0];
             if (transport != null)
                 this.AddTransport(transport);
+            this.Start();
         }
 
         public void AddTransport(Transport transport)
@@ -68,6 +69,9 @@ namespace Jacdac
 
             transport.FrameReceived += Transport_FrameReceived;
             transport.ErrorReceived += Transport_ErrorReceived;
+
+            if (this.Running)
+                transport.Connect();
         }
 
         public void SendFrame(byte[] frame, Transport excluded = null)
@@ -88,6 +92,11 @@ namespace Jacdac
             var transports = this.transports;
             foreach (var transport in transports)
                 transport.Connect();
+        }
+
+        public bool Running
+        {
+            get { return this.announceTimer != null; }
         }
 
         public void Stop()
