@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
 		README.md = README.md
+		release.config.js = release.config.js
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Tests", "Jacdac.Tests\Jacdac.Tests.csproj", "{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}"
@@ -39,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Storage", "J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Clients", "Jacdac.TinyCLR.Clients\Jacdac.TinyCLR.Clients.csproj", "{B450BA62-EF67-4ABE-8239-5343A0A72922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.NET.Clients", "Jacdac.NET.Clients\Jacdac.NET.Clients.csproj", "{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Clients", "Jacdac.NET.Clients\Jacdac.NET.Clients.csproj", "{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
