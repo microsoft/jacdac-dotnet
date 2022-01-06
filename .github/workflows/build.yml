@@ -15,7 +15,7 @@ jobs:
       - name: Run tests
         run: dotnet test .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Semantic release
-        run: npx semantic-release
+        run: npx semantic-release -p=@semantic-release/git -p=@semantic-release/github -p=@semantic-release/exec
         if: ${{ github.ref == 'refs/heads/main' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
