@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MatrixKeypadClient : Client
     {
         public MatrixKeypadClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.MatrixKeypad, name)
+            : base(bus, name, ServiceClasses.MatrixKeypad)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)MatrixKeypadReg.Rows, MatrixKeypadRegPack.Rows, 1);
+                return (uint)this.GetRegisterValue((ushort)MatrixKeypadReg.Rows, MatrixKeypadRegPack.Rows);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)MatrixKeypadReg.Columns, MatrixKeypadRegPack.Columns, 1);
+                return (uint)this.GetRegisterValue((ushort)MatrixKeypadReg.Columns, MatrixKeypadRegPack.Columns);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Jacdac {
         {
             get
             {
-                return (MatrixKeypadVariant)this.GetRegisterValue((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant, 1);
+                return (MatrixKeypadVariant)this.GetRegisterValue((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant);
             }
         }
 

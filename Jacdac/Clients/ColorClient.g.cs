@@ -12,18 +12,18 @@ namespace Jacdac {
     public partial class ColorClient : SensorClient
     {
         public ColorClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Color, name)
+            : base(bus, name, ServiceClasses.Color)
         {
         }
 
         /// <summary>
         /// Detected color in the RGB color space., red: /,green: /,blue: /
         /// </summary>
-        public (float, float, float) Color
+        public object[] /*(float, float, float)*/ Color
         {
             get
             {
-                return ((float, float, float))this.GetRegisterValue((ushort)ColorReg.Color, ColorRegPack.Color, 1);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)ColorReg.Color, ColorRegPack.Color);
             }
         }
 

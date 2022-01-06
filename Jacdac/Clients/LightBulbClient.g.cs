@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LightBulbClient : Client
     {
         public LightBulbClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.LightBulb, name)
+            : base(bus, name, ServiceClasses.LightBulb)
         {
         }
 
@@ -24,12 +24,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LightBulbReg.Brightness, LightBulbRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)LightBulbReg.Brightness, LightBulbRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LightBulbReg.Brightness, LightBulbRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)LightBulbReg.Brightness, LightBulbRegPack.Brightness, value);
             }
 
         }
@@ -41,7 +41,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)LightBulbReg.Dimmable, LightBulbRegPack.Dimmable, 1);
+                return (bool)this.GetRegisterValue((ushort)LightBulbReg.Dimmable, LightBulbRegPack.Dimmable);
             }
         }
 

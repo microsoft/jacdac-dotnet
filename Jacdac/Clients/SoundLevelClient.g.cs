@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoundLevelClient : SensorClient
     {
         public SoundLevelClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SoundLevel, name)
+            : base(bus, name, ServiceClasses.SoundLevel)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoundLevelReg.SoundLevel, SoundLevelRegPack.SoundLevel, 100);
+                return (float)this.GetRegisterValue((ushort)SoundLevelReg.SoundLevel, SoundLevelRegPack.SoundLevel);
             }
         }
 
@@ -34,12 +34,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SoundLevelReg.Enabled, SoundLevelRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)SoundLevelReg.Enabled, SoundLevelRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundLevelReg.Enabled, SoundLevelRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)SoundLevelReg.Enabled, SoundLevelRegPack.Enabled, value);
             }
 
         }
@@ -51,12 +51,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, 100);
+                return (float)this.GetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, 100, value);
+                this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, value);
             }
 
         }
@@ -68,12 +68,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold, 100);
+                return (float)this.GetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold, 100, value);
+                this.SetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold, value);
             }
 
         }

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MidiOutputClient : Client
     {
         public MidiOutputClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.MidiOutput, name)
+            : base(bus, name, ServiceClasses.MidiOutput)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled, value);
             }
 
         }
@@ -39,7 +39,7 @@ namespace Jacdac {
         /// </summary>
         public void Clear()
         {
-            this.SendCmdPacked((ushort)MidiOutputCmd.Clear, MidiOutputCmdPack.Clear, new object[] {  });
+            this.SendCmd((ushort)MidiOutputCmd.Clear);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BuzzerClient : Client
     {
         public BuzzerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Buzzer, name)
+            : base(bus, name, ServiceClasses.Buzzer)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)BuzzerReg.Volume, BuzzerRegPack.Volume, 100);
+                return (float)this.GetRegisterValue((ushort)BuzzerReg.Volume, BuzzerRegPack.Volume);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BuzzerReg.Volume, BuzzerRegPack.Volume, 100, value);
+                this.SetRegisterValue((ushort)BuzzerReg.Volume, BuzzerRegPack.Volume, value);
             }
 
         }
@@ -51,7 +51,7 @@ namespace Jacdac {
         public void PlayNote(uint frequency, float volume, uint duration)
         {
             // TODO: implement client command
-            throw new NotImplementException("client command not implemented");
+            throw new NotSupportedException("client command not implemented");
         }
 
     }

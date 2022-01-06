@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TrafficLightClient : Client
     {
         public TrafficLightClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.TrafficLight, name)
+            : base(bus, name, ServiceClasses.TrafficLight)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red, 1);
+                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red, 1, value);
+                this.SetRegisterValue((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red, value);
             }
 
         }
@@ -40,12 +40,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange, 1);
+                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange, 1, value);
+                this.SetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange, value);
             }
 
         }
@@ -57,12 +57,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green, 1);
+                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green, 1, value);
+                this.SetRegisterValue((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green, value);
             }
 
         }

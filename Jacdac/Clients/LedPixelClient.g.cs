@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LedPixelClient : Client
     {
         public LedPixelClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.LedPixel, name)
+            : base(bus, name, ServiceClasses.LedPixel)
         {
         }
 
@@ -24,12 +24,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness, value);
             }
 
         }
@@ -43,7 +43,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LedPixelReg.ActualBrightness, LedPixelRegPack.ActualBrightness, 100);
+                return (float)this.GetRegisterValue((ushort)LedPixelReg.ActualBrightness, LedPixelRegPack.ActualBrightness);
             }
         }
 
@@ -56,12 +56,12 @@ namespace Jacdac {
         {
             get
             {
-                return (LedPixelLightType)this.GetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType, 1);
+                return (LedPixelLightType)this.GetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType, 1, value);
+                this.SetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType, value);
             }
 
         }
@@ -75,12 +75,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels, 1);
+                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels, 1, value);
+                this.SetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels, value);
             }
 
         }
@@ -93,12 +93,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, 1);
+                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, 1, value);
+                this.SetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, value);
             }
 
         }
@@ -110,12 +110,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower, 1);
+                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower, 1, value);
+                this.SetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower, value);
             }
 
         }
@@ -128,7 +128,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPixels, LedPixelRegPack.MaxPixels, 1);
+                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPixels, LedPixelRegPack.MaxPixels);
             }
         }
 
@@ -141,12 +141,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats, 1);
+                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats, 1, value);
+                this.SetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats, value);
             }
 
         }
@@ -158,7 +158,7 @@ namespace Jacdac {
         {
             get
             {
-                return (LedPixelVariant)this.GetRegisterValue((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant, 1);
+                return (LedPixelVariant)this.GetRegisterValue((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant);
             }
         }
 

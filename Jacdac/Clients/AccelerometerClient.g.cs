@@ -12,18 +12,18 @@ namespace Jacdac {
     public partial class AccelerometerClient : SensorClient
     {
         public AccelerometerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Accelerometer, name)
+            : base(bus, name, ServiceClasses.Accelerometer)
         {
         }
 
         /// <summary>
         /// Indicates the current forces acting on accelerometer., x: g,y: g,z: g
         /// </summary>
-        public (float, float, float) Forces
+        public object[] /*(float, float, float)*/ Forces
         {
             get
             {
-                return ((float, float, float))this.GetRegisterValue((ushort)AccelerometerReg.Forces, AccelerometerRegPack.Forces, 1);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)AccelerometerReg.Forces, AccelerometerRegPack.Forces);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)AccelerometerReg.ForcesError, AccelerometerRegPack.ForcesError, 1);
+                return (float)this.GetRegisterValue((ushort)AccelerometerReg.ForcesError, AccelerometerRegPack.ForcesError);
             }
         }
 
@@ -46,12 +46,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, 1);
+                return (float)this.GetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, 1, value);
+                this.SetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, value);
             }
 
         }

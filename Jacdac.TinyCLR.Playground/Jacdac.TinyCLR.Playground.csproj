@@ -53,11 +53,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\small.tinyfnt" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Jacdac.TinyCLR.Clients\Jacdac.TinyCLR.Clients.csproj">
+      <Project>{B450BA62-EF67-4ABE-8239-5343A0A72922}</Project>
+      <Name>Jacdac.TinyCLR.Clients</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jacdac.TinyCLR.Storage\Jacdac.TinyCLR.Storage.csproj">
       <Project>{C81F0D29-5AF9-44B3-B50B-CB8126236510}</Project>
       <Name>Jacdac.TinyCLR.Storage</Name>

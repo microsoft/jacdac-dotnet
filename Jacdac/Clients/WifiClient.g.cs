@@ -22,7 +22,7 @@ namespace Jacdac {
     public partial class WifiClient : Client
     {
         public WifiClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Wifi, name)
+            : base(bus, name, ServiceClasses.Wifi)
         {
         }
 
@@ -33,12 +33,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)WifiReg.Enabled, WifiRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)WifiReg.Enabled, WifiRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)WifiReg.Enabled, WifiRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)WifiReg.Enabled, WifiRegPack.Enabled, value);
             }
 
         }
@@ -50,7 +50,7 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)WifiReg.IpAddress, WifiRegPack.IpAddress, 1);
+                return (byte[])this.GetRegisterValue((ushort)WifiReg.IpAddress, WifiRegPack.IpAddress);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)WifiReg.Eui48, WifiRegPack.Eui48, 1);
+                return (byte[])this.GetRegisterValue((ushort)WifiReg.Eui48, WifiRegPack.Eui48);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)WifiReg.Ssid, WifiRegPack.Ssid, 1);
+                return (string)this.GetRegisterValue((ushort)WifiReg.Ssid, WifiRegPack.Ssid);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)WifiReg.Rssi, WifiRegPack.Rssi, 1);
+                return (int)this.GetRegisterValue((ushort)WifiReg.Rssi, WifiRegPack.Rssi);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Jacdac {
         /// </summary>
         public void Reconnect()
         {
-            this.SendCmdPacked((ushort)WifiCmd.Reconnect, WifiCmdPack.Reconnect, new object[] {  });
+            this.SendCmd((ushort)WifiCmd.Reconnect);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Jacdac {
         /// </summary>
         public void ForgetAllNetworks()
         {
-            this.SendCmdPacked((ushort)WifiCmd.ForgetAllNetworks, WifiCmdPack.ForgetAllNetworks, new object[] {  });
+            this.SendCmd((ushort)WifiCmd.ForgetAllNetworks);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Jacdac {
         /// </summary>
         public void Scan()
         {
-            this.SendCmdPacked((ushort)WifiCmd.Scan, WifiCmdPack.Scan, new object[] {  });
+            this.SendCmd((ushort)WifiCmd.Scan);
         }
 
     }

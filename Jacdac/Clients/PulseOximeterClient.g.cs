@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class PulseOximeterClient : SensorClient
     {
         public PulseOximeterClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.PulseOximeter, name)
+            : base(bus, name, ServiceClasses.PulseOximeter)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)PulseOximeterReg.Oxygen, PulseOximeterRegPack.Oxygen, 1);
+                return (float)this.GetRegisterValue((ushort)PulseOximeterReg.Oxygen, PulseOximeterRegPack.Oxygen);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)PulseOximeterReg.OxygenError, PulseOximeterRegPack.OxygenError, 1);
+                return (float)this.GetRegisterValue((ushort)PulseOximeterReg.OxygenError, PulseOximeterRegPack.OxygenError);
             }
         }
 

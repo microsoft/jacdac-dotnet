@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ButtonClient : SensorClient
     {
         public ButtonClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Button, name)
+            : base(bus, name, ServiceClasses.Button)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ButtonReg.Pressure, ButtonRegPack.Pressure, 100);
+                return (float)this.GetRegisterValue((ushort)ButtonReg.Pressure, ButtonRegPack.Pressure);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ButtonReg.Analog, ButtonRegPack.Analog, 1);
+                return (bool)this.GetRegisterValue((ushort)ButtonReg.Analog, ButtonRegPack.Analog);
             }
         }
 

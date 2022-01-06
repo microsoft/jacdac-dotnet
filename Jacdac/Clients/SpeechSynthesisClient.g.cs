@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SpeechSynthesisClient : Client
     {
         public SpeechSynthesisClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SpeechSynthesis, name)
+            : base(bus, name, ServiceClasses.SpeechSynthesis)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled, value);
             }
 
         }
@@ -40,12 +40,12 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, 1);
+                return (string)this.GetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, 1, value);
+                this.SetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, value);
             }
 
         }
@@ -57,12 +57,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, 100);
+                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, 100, value);
+                this.SetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, value);
             }
 
         }
@@ -74,12 +74,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, 1);
+                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, 1, value);
+                this.SetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, value);
             }
 
         }
@@ -91,12 +91,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, 1);
+                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, 1, value);
+                this.SetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, value);
             }
 
         }
@@ -115,7 +115,7 @@ namespace Jacdac {
         /// </summary>
         public void Cancel()
         {
-            this.SendCmdPacked((ushort)SpeechSynthesisCmd.Cancel, SpeechSynthesisCmdPack.Cancel, new object[] {  });
+            this.SendCmd((ushort)SpeechSynthesisCmd.Cancel);
         }
 
     }

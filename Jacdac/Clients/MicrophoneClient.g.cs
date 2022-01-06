@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MicrophoneClient : Client
     {
         public MicrophoneClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Microphone, name)
+            : base(bus, name, ServiceClasses.Microphone)
         {
         }
 
@@ -24,12 +24,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)MicrophoneReg.SamplingPeriod, MicrophoneRegPack.SamplingPeriod, 1);
+                return (uint)this.GetRegisterValue((ushort)MicrophoneReg.SamplingPeriod, MicrophoneRegPack.SamplingPeriod);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)MicrophoneReg.SamplingPeriod, MicrophoneRegPack.SamplingPeriod, 1, value);
+                this.SetRegisterValue((ushort)MicrophoneReg.SamplingPeriod, MicrophoneRegPack.SamplingPeriod, value);
             }
 
         }

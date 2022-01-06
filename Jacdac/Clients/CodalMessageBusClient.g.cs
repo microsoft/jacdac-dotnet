@@ -15,7 +15,7 @@ namespace Jacdac {
     public partial class CodalMessageBusClient : Client
     {
         public CodalMessageBusClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.CodalMessageBus, name)
+            : base(bus, name, ServiceClasses.CodalMessageBus)
         {
         }
 

@@ -5,7 +5,7 @@
         private JDStaticRegisterServer rwBytes;
 
         public ProtoTestServer(JDServiceServerOptions options = null)
-            : base(ProtoTestConstants.ServiceClass, options)
+            : base(ServiceClasses.ProtoTest, options)
         {
             this.init(
                 ProtoTestRegPack.RwBool,

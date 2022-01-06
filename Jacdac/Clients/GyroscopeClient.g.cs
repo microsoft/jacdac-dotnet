@@ -12,18 +12,18 @@ namespace Jacdac {
     public partial class GyroscopeClient : SensorClient
     {
         public GyroscopeClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Gyroscope, name)
+            : base(bus, name, ServiceClasses.Gyroscope)
         {
         }
 
         /// <summary>
         /// Indicates the current rates acting on gyroscope., x: °/s,y: °/s,z: °/s
         /// </summary>
-        public (float, float, float) RotationRates
+        public object[] /*(float, float, float)*/ RotationRates
         {
             get
             {
-                return ((float, float, float))this.GetRegisterValue((ushort)GyroscopeReg.RotationRates, GyroscopeRegPack.RotationRates, 1);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)GyroscopeReg.RotationRates, GyroscopeRegPack.RotationRates);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError, 1);
+                return (float)this.GetRegisterValue((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError);
             }
         }
 
@@ -46,12 +46,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, 1);
+                return (float)this.GetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, 1, value);
+                this.SetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, value);
             }
 
         }

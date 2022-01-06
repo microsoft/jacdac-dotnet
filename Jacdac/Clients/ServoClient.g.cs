@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class ServoClient : SensorClient
     {
         public ServoClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Servo, name)
+            : base(bus, name, ServiceClasses.Servo)
         {
         }
 
@@ -25,13 +25,13 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.Angle, ServoRegPack.Angle, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.Angle, ServoRegPack.Angle);
             }
             set
             {
                 
                 this.Enabled = true;
-                this.SetRegisterValue((ushort)ServoReg.Angle, ServoRegPack.Angle, 1, value);
+                this.SetRegisterValue((ushort)ServoReg.Angle, ServoRegPack.Angle, value);
             }
 
         }
@@ -43,12 +43,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ServoReg.Enabled, ServoRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)ServoReg.Enabled, ServoRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ServoReg.Enabled, ServoRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)ServoReg.Enabled, ServoRegPack.Enabled, value);
             }
 
         }
@@ -60,12 +60,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.Offset, ServoRegPack.Offset, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.Offset, ServoRegPack.Offset);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ServoReg.Offset, ServoRegPack.Offset, 1, value);
+                this.SetRegisterValue((ushort)ServoReg.Offset, ServoRegPack.Offset, value);
             }
 
         }
@@ -77,7 +77,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.MinAngle, ServoRegPack.MinAngle, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.MinAngle, ServoRegPack.MinAngle);
             }
         }
 
@@ -88,12 +88,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, 1);
+                return (uint)this.GetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, 1, value);
+                this.SetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, value);
             }
 
         }
@@ -105,7 +105,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.MaxAngle, ServoRegPack.MaxAngle, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.MaxAngle, ServoRegPack.MaxAngle);
             }
         }
 
@@ -116,12 +116,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, 1);
+                return (uint)this.GetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, 1, value);
+                this.SetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, value);
             }
 
         }
@@ -133,7 +133,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed);
             }
         }
 
@@ -155,7 +155,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle, 1);
+                return (float)this.GetRegisterValue((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle);
             }
         }
 

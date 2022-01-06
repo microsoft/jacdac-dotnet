@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WindSpeedClient : SensorClient
     {
         public WindSpeedClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.WindSpeed, name)
+            : base(bus, name, ServiceClasses.WindSpeed)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WindSpeedReg.WindSpeed, WindSpeedRegPack.WindSpeed, 1);
+                return (float)this.GetRegisterValue((ushort)WindSpeedReg.WindSpeed, WindSpeedRegPack.WindSpeed);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WindSpeedReg.WindSpeedError, WindSpeedRegPack.WindSpeedError, 1);
+                return (float)this.GetRegisterValue((ushort)WindSpeedReg.WindSpeedError, WindSpeedRegPack.WindSpeedError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WindSpeedReg.MaxWindSpeed, WindSpeedRegPack.MaxWindSpeed, 1);
+                return (float)this.GetRegisterValue((ushort)WindSpeedReg.MaxWindSpeed, WindSpeedRegPack.MaxWindSpeed);
             }
         }
 

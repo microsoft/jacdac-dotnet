@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CharacterScreenClient : Client
     {
         public CharacterScreenClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.CharacterScreen, name)
+            : base(bus, name, ServiceClasses.CharacterScreen)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)CharacterScreenReg.Message, CharacterScreenRegPack.Message, 1);
+                return (string)this.GetRegisterValue((ushort)CharacterScreenReg.Message, CharacterScreenRegPack.Message);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)CharacterScreenReg.Message, CharacterScreenRegPack.Message, 1, value);
+                this.SetRegisterValue((ushort)CharacterScreenReg.Message, CharacterScreenRegPack.Message, value);
             }
 
         }
@@ -40,12 +40,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, value);
             }
 
         }
@@ -57,7 +57,7 @@ namespace Jacdac {
         {
             get
             {
-                return (CharacterScreenVariant)this.GetRegisterValue((ushort)CharacterScreenReg.Variant, CharacterScreenRegPack.Variant, 1);
+                return (CharacterScreenVariant)this.GetRegisterValue((ushort)CharacterScreenReg.Variant, CharacterScreenRegPack.Variant);
             }
         }
 
@@ -68,12 +68,12 @@ namespace Jacdac {
         {
             get
             {
-                return (CharacterScreenTextDirection)this.GetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, 1);
+                return (CharacterScreenTextDirection)this.GetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, 1, value);
+                this.SetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, value);
             }
 
         }
@@ -85,7 +85,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)CharacterScreenReg.Rows, CharacterScreenRegPack.Rows, 1);
+                return (uint)this.GetRegisterValue((ushort)CharacterScreenReg.Rows, CharacterScreenRegPack.Rows);
             }
         }
 
@@ -96,7 +96,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)CharacterScreenReg.Columns, CharacterScreenRegPack.Columns, 1);
+                return (uint)this.GetRegisterValue((ushort)CharacterScreenReg.Columns, CharacterScreenRegPack.Columns);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WeightScaleClient : SensorClient
     {
         public WeightScaleClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.WeightScale, name)
+            : base(bus, name, ServiceClasses.WeightScale)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.Weight, WeightScaleRegPack.Weight, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.Weight, WeightScaleRegPack.Weight);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightError, WeightScaleRegPack.WeightError, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightError, WeightScaleRegPack.WeightError);
             }
         }
 
@@ -46,12 +46,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, 1, value);
+                this.SetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, value);
             }
 
         }
@@ -63,12 +63,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, 1, value);
+                this.SetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, value);
             }
 
         }
@@ -80,7 +80,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MaxWeight, WeightScaleRegPack.MaxWeight, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MaxWeight, WeightScaleRegPack.MaxWeight);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MinWeight, WeightScaleRegPack.MinWeight, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MinWeight, WeightScaleRegPack.MinWeight);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightResolution, WeightScaleRegPack.WeightResolution, 1);
+                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightResolution, WeightScaleRegPack.WeightResolution);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Jacdac {
         {
             get
             {
-                return (WeightScaleVariant)this.GetRegisterValue((ushort)WeightScaleReg.Variant, WeightScaleRegPack.Variant, 1);
+                return (WeightScaleVariant)this.GetRegisterValue((ushort)WeightScaleReg.Variant, WeightScaleRegPack.Variant);
             }
         }
 
@@ -123,7 +123,7 @@ namespace Jacdac {
         /// </summary>
         public void CalibrateZeroOffset()
         {
-            this.SendCmdPacked((ushort)WeightScaleCmd.CalibrateZeroOffset, WeightScaleCmdPack.CalibrateZeroOffset, new object[] {  });
+            this.SendCmd((ushort)WeightScaleCmd.CalibrateZeroOffset);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoilMoistureClient : SensorClient
     {
         public SoilMoistureClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SoilMoisture, name)
+            : base(bus, name, ServiceClasses.SoilMoisture)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoilMoistureReg.Moisture, SoilMoistureRegPack.Moisture, 100);
+                return (float)this.GetRegisterValue((ushort)SoilMoistureReg.Moisture, SoilMoistureRegPack.Moisture);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoilMoistureReg.MoistureError, SoilMoistureRegPack.MoistureError, 100);
+                return (float)this.GetRegisterValue((ushort)SoilMoistureReg.MoistureError, SoilMoistureRegPack.MoistureError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (SoilMoistureVariant)this.GetRegisterValue((ushort)SoilMoistureReg.Variant, SoilMoistureRegPack.Variant, 1);
+                return (SoilMoistureVariant)this.GetRegisterValue((ushort)SoilMoistureReg.Variant, SoilMoistureRegPack.Variant);
             }
         }
 

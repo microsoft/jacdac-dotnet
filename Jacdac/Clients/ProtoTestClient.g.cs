@@ -13,7 +13,7 @@ namespace Jacdac {
     public partial class ProtoTestClient : Client
     {
         public ProtoTestClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.ProtoTest, name)
+            : base(bus, name, ServiceClasses.ProtoTest)
         {
         }
 
@@ -24,12 +24,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool, 1);
+                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool, value);
             }
 
         }
@@ -41,7 +41,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RoBool, ProtoTestRegPack.RoBool, 1);
+                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RoBool, ProtoTestRegPack.RoBool);
             }
         }
 
@@ -52,12 +52,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ProtoTestReg.RwU32, ProtoTestRegPack.RwU32, 1);
+                return (uint)this.GetRegisterValue((ushort)ProtoTestReg.RwU32, ProtoTestRegPack.RwU32);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwU32, ProtoTestRegPack.RwU32, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwU32, ProtoTestRegPack.RwU32, value);
             }
 
         }
@@ -69,7 +69,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ProtoTestReg.RoU32, ProtoTestRegPack.RoU32, 1);
+                return (uint)this.GetRegisterValue((ushort)ProtoTestReg.RoU32, ProtoTestRegPack.RoU32);
             }
         }
 
@@ -80,12 +80,12 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)ProtoTestReg.RwI32, ProtoTestRegPack.RwI32, 1);
+                return (int)this.GetRegisterValue((ushort)ProtoTestReg.RwI32, ProtoTestRegPack.RwI32);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwI32, ProtoTestRegPack.RwI32, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwI32, ProtoTestRegPack.RwI32, value);
             }
 
         }
@@ -97,7 +97,7 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)ProtoTestReg.RoI32, ProtoTestRegPack.RoI32, 1);
+                return (int)this.GetRegisterValue((ushort)ProtoTestReg.RoI32, ProtoTestRegPack.RoI32);
             }
         }
 
@@ -108,12 +108,12 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)ProtoTestReg.RwString, ProtoTestRegPack.RwString, 1);
+                return (string)this.GetRegisterValue((ushort)ProtoTestReg.RwString, ProtoTestRegPack.RwString);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwString, ProtoTestRegPack.RwString, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwString, ProtoTestRegPack.RwString, value);
             }
 
         }
@@ -125,7 +125,7 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)ProtoTestReg.RoString, ProtoTestRegPack.RoString, 1);
+                return (string)this.GetRegisterValue((ushort)ProtoTestReg.RoString, ProtoTestRegPack.RoString);
             }
         }
 
@@ -136,12 +136,12 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)ProtoTestReg.RwBytes, ProtoTestRegPack.RwBytes, 1);
+                return (byte[])this.GetRegisterValue((ushort)ProtoTestReg.RwBytes, ProtoTestRegPack.RwBytes);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwBytes, ProtoTestRegPack.RwBytes, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwBytes, ProtoTestRegPack.RwBytes, value);
             }
 
         }
@@ -153,23 +153,23 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)ProtoTestReg.RoBytes, ProtoTestRegPack.RoBytes, 1);
+                return (byte[])this.GetRegisterValue((ushort)ProtoTestReg.RoBytes, ProtoTestRegPack.RoBytes);
             }
         }
 
         /// <summary>
         /// A read write i8, u8, u16, i32 register., 
         /// </summary>
-        public (int, uint, uint, int) RwI8U8U16I32
+        public object[] /*(int, uint, uint, int)*/ RwI8U8U16I32
         {
             get
             {
-                return ((int, uint, uint, int))this.GetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32, 1);
+                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32, value);
             }
 
         }
@@ -177,27 +177,27 @@ namespace Jacdac {
         /// <summary>
         /// A read only i8, u8, u16, i32 register.. Mirrors rw_i8_u8_u16_i32., 
         /// </summary>
-        public (int, uint, uint, int) RoI8U8U16I32
+        public object[] /*(int, uint, uint, int)*/ RoI8U8U16I32
         {
             get
             {
-                return ((int, uint, uint, int))this.GetRegisterValue((ushort)ProtoTestReg.RoI8U8U16I32, ProtoTestRegPack.RoI8U8U16I32, 1);
+                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValue((ushort)ProtoTestReg.RoI8U8U16I32, ProtoTestRegPack.RoI8U8U16I32);
             }
         }
 
         /// <summary>
         /// A read write u8, string register., 
         /// </summary>
-        public (uint, string) RwU8String
+        public object[] /*(uint, string)*/ RwU8String
         {
             get
             {
-                return ((uint, string))this.GetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String, 1);
+                return (object[] /*(uint, string)*/)this.GetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String, 1, value);
+                this.SetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String, value);
             }
 
         }
@@ -205,11 +205,11 @@ namespace Jacdac {
         /// <summary>
         /// A read only u8, string register.. Mirrors rw_u8_string., 
         /// </summary>
-        public (uint, string) RoU8String
+        public object[] /*(uint, string)*/ RoU8String
         {
             get
             {
-                return ((uint, string))this.GetRegisterValue((ushort)ProtoTestReg.RoU8String, ProtoTestRegPack.RoU8String, 1);
+                return (object[] /*(uint, string)*/)this.GetRegisterValue((ushort)ProtoTestReg.RoU8String, ProtoTestRegPack.RoU8String);
             }
         }
 
@@ -252,9 +252,9 @@ namespace Jacdac {
         /// <summary>
         /// A command to set rw_bool.
         /// </summary>
-        public void CBool(bool bool)
+        public void CBool(bool bo)
         {
-            this.SendCmdPacked((ushort)ProtoTestCmd.CBool, ProtoTestCmdPack.CBool, new object[] { bool });
+            this.SendCmdPacked((ushort)ProtoTestCmd.CBool, ProtoTestCmdPack.CBool, new object[] { bo });
         }
 
         /// <summary>
@@ -276,9 +276,9 @@ namespace Jacdac {
         /// <summary>
         /// A command to set rw_string.
         /// </summary>
-        public void CString(string string)
+        public void CString(string str)
         {
-            this.SendCmdPacked((ushort)ProtoTestCmd.CString, ProtoTestCmdPack.CString, new object[] { string });
+            this.SendCmdPacked((ushort)ProtoTestCmd.CString, ProtoTestCmdPack.CString, new object[] { str });
         }
 
         /// <summary>
@@ -300,9 +300,9 @@ namespace Jacdac {
         /// <summary>
         /// A command to set rw_u8_string.
         /// </summary>
-        public void CU8String(uint u8, string string)
+        public void CU8String(uint u8, string str)
         {
-            this.SendCmdPacked((ushort)ProtoTestCmd.CU8String, ProtoTestCmdPack.CU8String, new object[] { u8, string });
+            this.SendCmdPacked((ushort)ProtoTestCmd.CU8String, ProtoTestCmdPack.CU8String, new object[] { u8, str });
         }
 
     }

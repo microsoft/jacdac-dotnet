@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PotentiometerClient : SensorClient
     {
         public PotentiometerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Potentiometer, name)
+            : base(bus, name, ServiceClasses.Potentiometer)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)PotentiometerReg.Position, PotentiometerRegPack.Position, 100);
+                return (float)this.GetRegisterValue((ushort)PotentiometerReg.Position, PotentiometerRegPack.Position);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (PotentiometerVariant)this.GetRegisterValue((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant, 1);
+                return (PotentiometerVariant)this.GetRegisterValue((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant);
             }
         }
 

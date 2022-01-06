@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MotionClient : SensorClient
     {
         public MotionClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Motion, name)
+            : base(bus, name, ServiceClasses.Motion)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MotionReg.Moving, MotionRegPack.Moving, 1);
+                return (bool)this.GetRegisterValue((ushort)MotionReg.Moving, MotionRegPack.Moving);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance, 1);
+                return (float)this.GetRegisterValue((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)MotionReg.Angle, MotionRegPack.Angle, 1);
+                return (uint)this.GetRegisterValue((ushort)MotionReg.Angle, MotionRegPack.Angle);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (MotionVariant)this.GetRegisterValue((ushort)MotionReg.Variant, MotionRegPack.Variant, 1);
+                return (MotionVariant)this.GetRegisterValue((ushort)MotionReg.Variant, MotionRegPack.Variant);
             }
         }
 

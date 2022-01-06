@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ECO2Client : SensorClient
     {
         public ECO2Client(JDBus bus, string name)
-            : base(bus, ServiceClasses.ECO2, name)
+            : base(bus, name, ServiceClasses.ECO2)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ECO2Reg.ECO2, ECO2RegPack.ECO2, 1);
+                return (float)this.GetRegisterValue((ushort)ECO2Reg.ECO2, ECO2RegPack.ECO2);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error, 1);
+                return (float)this.GetRegisterValue((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ECO2Reg.MinECO2, ECO2RegPack.MinECO2, 1);
+                return (float)this.GetRegisterValue((ushort)ECO2Reg.MinECO2, ECO2RegPack.MinECO2);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ECO2Reg.MaxECO2, ECO2RegPack.MaxECO2, 1);
+                return (float)this.GetRegisterValue((ushort)ECO2Reg.MaxECO2, ECO2RegPack.MaxECO2);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Jacdac {
         {
             get
             {
-                return (ECO2Variant)this.GetRegisterValue((ushort)ECO2Reg.Variant, ECO2RegPack.Variant, 1);
+                return (ECO2Variant)this.GetRegisterValue((ushort)ECO2Reg.Variant, ECO2RegPack.Variant);
             }
         }
 

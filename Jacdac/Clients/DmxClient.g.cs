@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DmxClient : Client
     {
         public DmxClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Dmx, name)
+            : base(bus, name, ServiceClasses.Dmx)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)DmxReg.Enabled, DmxRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)DmxReg.Enabled, DmxRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)DmxReg.Enabled, DmxRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)DmxReg.Enabled, DmxRegPack.Enabled, value);
             }
 
         }

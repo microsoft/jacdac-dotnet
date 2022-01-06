@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SolenoidClient : Client
     {
         public SolenoidClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Solenoid, name)
+            : base(bus, name, ServiceClasses.Solenoid)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled, 1);
+                return (bool)this.GetRegisterValue((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled, 1, value);
+                this.SetRegisterValue((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled, value);
             }
 
         }
@@ -40,7 +40,7 @@ namespace Jacdac {
         {
             get
             {
-                return (SolenoidVariant)this.GetRegisterValue((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant, 1);
+                return (SolenoidVariant)this.GetRegisterValue((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant);
             }
         }
 

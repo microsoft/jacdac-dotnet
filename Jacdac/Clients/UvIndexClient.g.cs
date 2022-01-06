@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class UvIndexClient : SensorClient
     {
         public UvIndexClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.UvIndex, name)
+            : base(bus, name, ServiceClasses.UvIndex)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)UvIndexReg.UvIndex, UvIndexRegPack.UvIndex, 1);
+                return (float)this.GetRegisterValue((ushort)UvIndexReg.UvIndex, UvIndexRegPack.UvIndex);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError, 1);
+                return (float)this.GetRegisterValue((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (UvIndexVariant)this.GetRegisterValue((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant, 1);
+                return (UvIndexVariant)this.GetRegisterValue((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant);
             }
         }
 

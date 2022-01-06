@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class AzureIotHubHealthClient : Client
     {
         public AzureIotHubHealthClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.AzureIotHubHealth, name)
+            : base(bus, name, ServiceClasses.AzureIotHubHealth)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName, 1);
+                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId, 1);
+                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (AzureIotHubHealthConnectionStatus)this.GetRegisterValue((ushort)AzureIotHubHealthReg.ConnectionStatus, AzureIotHubHealthRegPack.ConnectionStatus, 1);
+                return (AzureIotHubHealthConnectionStatus)this.GetRegisterValue((ushort)AzureIotHubHealthReg.ConnectionStatus, AzureIotHubHealthRegPack.ConnectionStatus);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Jacdac {
         /// </summary>
         public void Connect()
         {
-            this.SendCmdPacked((ushort)AzureIotHubHealthCmd.Connect, AzureIotHubHealthCmdPack.Connect, new object[] {  });
+            this.SendCmd((ushort)AzureIotHubHealthCmd.Connect);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Jacdac {
         /// </summary>
         public void Disconnect()
         {
-            this.SendCmdPacked((ushort)AzureIotHubHealthCmd.Disconnect, AzureIotHubHealthCmdPack.Disconnect, new object[] {  });
+            this.SendCmd((ushort)AzureIotHubHealthCmd.Disconnect);
         }
 
     }

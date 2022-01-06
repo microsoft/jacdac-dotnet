@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TemperatureClient : SensorClient
     {
         public TemperatureClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Temperature, name)
+            : base(bus, name, ServiceClasses.Temperature)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TemperatureReg.Temperature, TemperatureRegPack.Temperature, 1);
+                return (float)this.GetRegisterValue((ushort)TemperatureReg.Temperature, TemperatureRegPack.Temperature);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TemperatureReg.MinTemperature, TemperatureRegPack.MinTemperature, 1);
+                return (float)this.GetRegisterValue((ushort)TemperatureReg.MinTemperature, TemperatureRegPack.MinTemperature);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TemperatureReg.MaxTemperature, TemperatureRegPack.MaxTemperature, 1);
+                return (float)this.GetRegisterValue((ushort)TemperatureReg.MaxTemperature, TemperatureRegPack.MaxTemperature);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TemperatureReg.TemperatureError, TemperatureRegPack.TemperatureError, 1);
+                return (float)this.GetRegisterValue((ushort)TemperatureReg.TemperatureError, TemperatureRegPack.TemperatureError);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Jacdac {
         {
             get
             {
-                return (TemperatureVariant)this.GetRegisterValue((ushort)TemperatureReg.Variant, TemperatureRegPack.Variant, 1);
+                return (TemperatureVariant)this.GetRegisterValue((ushort)TemperatureReg.Variant, TemperatureRegPack.Variant);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RainGaugeClient : SensorClient
     {
         public RainGaugeClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.RainGauge, name)
+            : base(bus, name, ServiceClasses.RainGauge)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)RainGaugeReg.Precipitation, RainGaugeRegPack.Precipitation, 1);
+                return (float)this.GetRegisterValue((ushort)RainGaugeReg.Precipitation, RainGaugeRegPack.Precipitation);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)RainGaugeReg.PrecipitationPrecision, RainGaugeRegPack.PrecipitationPrecision, 1);
+                return (float)this.GetRegisterValue((ushort)RainGaugeReg.PrecipitationPrecision, RainGaugeRegPack.PrecipitationPrecision);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CapacitiveButtonClient : Client
     {
         public CapacitiveButtonClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.CapacitiveButton, name)
+            : base(bus, name, ServiceClasses.CapacitiveButton)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)CapacitiveButtonReg.Threshold, CapacitiveButtonRegPack.Threshold, 100);
+                return (float)this.GetRegisterValue((ushort)CapacitiveButtonReg.Threshold, CapacitiveButtonRegPack.Threshold);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)CapacitiveButtonReg.Threshold, CapacitiveButtonRegPack.Threshold, 100, value);
+                this.SetRegisterValue((ushort)CapacitiveButtonReg.Threshold, CapacitiveButtonRegPack.Threshold, value);
             }
 
         }
@@ -40,7 +40,7 @@ namespace Jacdac {
         /// </summary>
         public void Calibrate()
         {
-            this.SendCmdPacked((ushort)CapacitiveButtonCmd.Calibrate, CapacitiveButtonCmdPack.Calibrate, new object[] {  });
+            this.SendCmd((ushort)CapacitiveButtonCmd.Calibrate);
         }
 
     }

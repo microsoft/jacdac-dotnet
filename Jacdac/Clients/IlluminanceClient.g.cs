@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class IlluminanceClient : SensorClient
     {
         public IlluminanceClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Illuminance, name)
+            : base(bus, name, ServiceClasses.Illuminance)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)IlluminanceReg.Illuminance, IlluminanceRegPack.Illuminance, 1);
+                return (float)this.GetRegisterValue((ushort)IlluminanceReg.Illuminance, IlluminanceRegPack.Illuminance);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError, 1);
+                return (float)this.GetRegisterValue((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError);
             }
         }
 

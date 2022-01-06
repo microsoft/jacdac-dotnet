@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class GamepadClient : SensorClient
     {
         public GamepadClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Gamepad, name)
+            : base(bus, name, ServiceClasses.Gamepad)
         {
         }
 
@@ -22,11 +22,11 @@ namespace Jacdac {
         /// If the joystick is digital, then each direction will read as either `-1`, `0`, or `1` (in fixed representation).
         /// The primary button on the joystick is `A`., x: /,y: /
         /// </summary>
-        public (GamepadButtons, float, float) Direction
+        public object[] /*(GamepadButtons, float, float)*/ Direction
         {
             get
             {
-                return ((GamepadButtons, float, float))this.GetRegisterValue((ushort)GamepadReg.Direction, GamepadRegPack.Direction, 1);
+                return (object[] /*(GamepadButtons, float, float)*/)this.GetRegisterValue((ushort)GamepadReg.Direction, GamepadRegPack.Direction);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Jacdac {
         {
             get
             {
-                return (GamepadVariant)this.GetRegisterValue((ushort)GamepadReg.Variant, GamepadRegPack.Variant, 1);
+                return (GamepadVariant)this.GetRegisterValue((ushort)GamepadReg.Variant, GamepadRegPack.Variant);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Jacdac {
         {
             get
             {
-                return (GamepadButtons)this.GetRegisterValue((ushort)GamepadReg.ButtonsAvailable, GamepadRegPack.ButtonsAvailable, 1);
+                return (GamepadButtons)this.GetRegisterValue((ushort)GamepadReg.ButtonsAvailable, GamepadRegPack.ButtonsAvailable);
             }
         }
 

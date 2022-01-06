@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TcpClient : Client
     {
         public TcpClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Tcp, name)
+            : base(bus, name, ServiceClasses.Tcp)
         {
         }
 

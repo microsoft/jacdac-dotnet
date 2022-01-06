@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DistanceClient : SensorClient
     {
         public DistanceClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Distance, name)
+            : base(bus, name, ServiceClasses.Distance)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.Distance, DistanceRegPack.Distance, 1);
+                return (float)this.GetRegisterValue((ushort)DistanceReg.Distance, DistanceRegPack.Distance);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError, 1);
+                return (float)this.GetRegisterValue((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange, 1);
+                return (float)this.GetRegisterValue((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange, 1);
+                return (float)this.GetRegisterValue((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Jacdac {
         {
             get
             {
-                return (DistanceVariant)this.GetRegisterValue((ushort)DistanceReg.Variant, DistanceRegPack.Variant, 1);
+                return (DistanceVariant)this.GetRegisterValue((ushort)DistanceReg.Variant, DistanceRegPack.Variant);
             }
         }
 

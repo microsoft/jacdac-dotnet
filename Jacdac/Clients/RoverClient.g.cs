@@ -12,18 +12,18 @@ namespace Jacdac {
     public partial class RoverClient : SensorClient
     {
         public RoverClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Rover, name)
+            : base(bus, name, ServiceClasses.Rover)
         {
         }
 
         /// <summary>
         /// The current position and orientation of the robot., x: cm,y: cm,vx: cm/s,vy: cm/s,heading: °
         /// </summary>
-        public (float, float, float, float, float) Kinematics
+        public object[] /*(float, float, float, float, float)*/ Kinematics
         {
             get
             {
-                return ((float, float, float, float, float))this.GetRegisterValue((ushort)RoverReg.Kinematics, RoverRegPack.Kinematics, 1);
+                return (object[] /*(float, float, float, float, float)*/)this.GetRegisterValue((ushort)RoverReg.Kinematics, RoverRegPack.Kinematics);
             }
         }
 

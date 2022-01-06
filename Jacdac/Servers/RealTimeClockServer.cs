@@ -17,7 +17,7 @@ namespace Jacdac.Servers
         private readonly SetTimeHandler setTime;
 
         public RealTimeClockServer(RealTimeClockLocalTime localTime, RealTimeClockServerOptions options)
-            : base(Jacdac.RealTimeClockConstants.ServiceClass, options)
+            : base(ServiceClasses.RealTimeClock, options)
         {
             this.localTime = localTime;
             this.setTime = options.SetTime;

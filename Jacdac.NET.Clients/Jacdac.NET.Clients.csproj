@@ -2,8 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>disable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Copyright>Microsoft Corporation</Copyright>
 		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
@@ -14,15 +12,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="..\Jacdac\*.cs">
-			<Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+		<ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Jacdac\Clients\*.cs">
+			<Link>Clients\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>
-		<Compile Include="..\Jacdac\Servers\*.cs">
-			<Link>Servers\%(RecursiveDir)%(FileName)%(Extension)</Link>
-		</Compile>
-		<Compile Include="..\Jacdac\Constants\*.cs">
-			<Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
-		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\jacdac.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
@@ -33,9 +32,5 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="DeviceId.Windows" Version="6.0.0" />
-		<PackageReference Include="System.Text.Json" Version="6.0.1" />
-	</ItemGroup>
 
 </Project>

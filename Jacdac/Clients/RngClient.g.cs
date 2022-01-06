@@ -15,7 +15,7 @@ namespace Jacdac {
     public partial class RngClient : Client
     {
         public RngClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Rng, name)
+            : base(bus, name, ServiceClasses.Rng)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)RngReg.Random, RngRegPack.Random, 1);
+                return (byte[])this.GetRegisterValue((ushort)RngReg.Random, RngRegPack.Random);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Jacdac {
         {
             get
             {
-                return (RngVariant)this.GetRegisterValue((ushort)RngReg.Variant, RngRegPack.Variant, 1);
+                return (RngVariant)this.GetRegisterValue((ushort)RngReg.Variant, RngRegPack.Variant);
             }
         }
 

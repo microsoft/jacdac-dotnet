@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BitRadioClient : Client
     {
         public BitRadioClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.BitRadio, name)
+            : base(bus, name, ServiceClasses.BitRadio)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled, value);
             }
 
         }
@@ -40,12 +40,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)BitRadioReg.Group, BitRadioRegPack.Group, 1);
+                return (uint)this.GetRegisterValue((ushort)BitRadioReg.Group, BitRadioRegPack.Group);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BitRadioReg.Group, BitRadioRegPack.Group, 1, value);
+                this.SetRegisterValue((ushort)BitRadioReg.Group, BitRadioRegPack.Group, value);
             }
 
         }
@@ -57,12 +57,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)BitRadioReg.TransmissionPower, BitRadioRegPack.TransmissionPower, 1);
+                return (uint)this.GetRegisterValue((ushort)BitRadioReg.TransmissionPower, BitRadioRegPack.TransmissionPower);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BitRadioReg.TransmissionPower, BitRadioRegPack.TransmissionPower, 1, value);
+                this.SetRegisterValue((ushort)BitRadioReg.TransmissionPower, BitRadioRegPack.TransmissionPower, value);
             }
 
         }
@@ -74,12 +74,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)BitRadioReg.FrequencyBand, BitRadioRegPack.FrequencyBand, 1);
+                return (uint)this.GetRegisterValue((ushort)BitRadioReg.FrequencyBand, BitRadioRegPack.FrequencyBand);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BitRadioReg.FrequencyBand, BitRadioRegPack.FrequencyBand, 1, value);
+                this.SetRegisterValue((ushort)BitRadioReg.FrequencyBand, BitRadioRegPack.FrequencyBand, value);
             }
 
         }

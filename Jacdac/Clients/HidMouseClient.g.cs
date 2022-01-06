@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class HidMouseClient : Client
     {
         public HidMouseClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.HidMouse, name)
+            : base(bus, name, ServiceClasses.HidMouse)
         {
         }
 
@@ -22,9 +22,9 @@ namespace Jacdac {
         /// A `Click` is the same as `Down` followed by `Up` after 100ms.
         /// A `DoubleClick` is two clicks with `150ms` gap between them (that is, `100ms` first click, `150ms` gap, `100ms` second click).
         /// </summary>
-        public void SetButton(HidMouseButton buttons, HidMouseButtonEvent event)
+        public void SetButton(HidMouseButton buttons, HidMouseButtonEvent ev)
         {
-            this.SendCmdPacked((ushort)HidMouseCmd.SetButton, HidMouseCmdPack.SetButton, new object[] { buttons, event });
+            this.SendCmdPacked((ushort)HidMouseCmd.SetButton, HidMouseCmdPack.SetButton, new object[] { buttons, ev });
         }
 
         /// <summary>

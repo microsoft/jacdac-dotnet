@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CompassClient : SensorClient
     {
         public CompassClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Compass, name)
+            : base(bus, name, ServiceClasses.Compass)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)CompassReg.Heading, CompassRegPack.Heading, 1);
+                return (float)this.GetRegisterValue((ushort)CompassReg.Heading, CompassRegPack.Heading);
             }
         }
 
@@ -34,12 +34,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)CompassReg.Enabled, CompassRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)CompassReg.Enabled, CompassRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)CompassReg.Enabled, CompassRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)CompassReg.Enabled, CompassRegPack.Enabled, value);
             }
 
         }
@@ -51,7 +51,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError, 1);
+                return (float)this.GetRegisterValue((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Jacdac {
         /// </summary>
         public void Calibrate()
         {
-            this.SendCmdPacked((ushort)CompassCmd.Calibrate, CompassCmdPack.Calibrate, new object[] {  });
+            this.SendCmd((ushort)CompassCmd.Calibrate);
         }
 
     }

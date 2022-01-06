@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MagnetometerClient : SensorClient
     {
         public MagnetometerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Magnetometer, name)
+            : base(bus, name, ServiceClasses.Magnetometer)
         {
         }
 
@@ -20,11 +20,11 @@ namespace Jacdac {
         /// Indicates the current magnetic field on magnetometer.
         /// For reference: `1 mgauss` is `100 nT` (and `1 gauss` is `100 000 nT`)., x: nT,y: nT,z: nT
         /// </summary>
-        public (int, int, int) Forces
+        public object[] /*(int, int, int)*/ Forces
         {
             get
             {
-                return ((int, int, int))this.GetRegisterValue((ushort)MagnetometerReg.Forces, MagnetometerRegPack.Forces, 1);
+                return (object[] /*(int, int, int)*/)this.GetRegisterValue((ushort)MagnetometerReg.Forces, MagnetometerRegPack.Forces);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError, 1);
+                return (int)this.GetRegisterValue((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Jacdac {
         /// </summary>
         public void Calibrate()
         {
-            this.SendCmdPacked((ushort)MagnetometerCmd.Calibrate, MagnetometerCmdPack.Calibrate, new object[] {  });
+            this.SendCmd((ushort)MagnetometerCmd.Calibrate);
         }
 
     }

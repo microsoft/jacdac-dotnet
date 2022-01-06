@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RelayClient : Client
     {
         public RelayClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Relay, name)
+            : base(bus, name, ServiceClasses.Relay)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed, 1);
+                return (bool)this.GetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed, 1, value);
+                this.SetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed, value);
             }
 
         }
@@ -40,7 +40,7 @@ namespace Jacdac {
         {
             get
             {
-                return (RelayVariant)this.GetRegisterValue((ushort)RelayReg.Variant, RelayRegPack.Variant, 1);
+                return (RelayVariant)this.GetRegisterValue((ushort)RelayReg.Variant, RelayRegPack.Variant);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent, 1);
+                return (uint)this.GetRegisterValue((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent);
             }
         }
 

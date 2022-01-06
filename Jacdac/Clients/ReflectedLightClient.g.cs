@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ReflectedLightClient : SensorClient
     {
         public ReflectedLightClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.ReflectedLight, name)
+            : base(bus, name, ServiceClasses.ReflectedLight)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ReflectedLightReg.Brightness, ReflectedLightRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)ReflectedLightReg.Brightness, ReflectedLightRegPack.Brightness);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (ReflectedLightVariant)this.GetRegisterValue((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant, 1);
+                return (ReflectedLightVariant)this.GetRegisterValue((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoundPlayerClient : Client
     {
         public SoundPlayerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SoundPlayer, name)
+            : base(bus, name, ServiceClasses.SoundPlayer)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, 100);
+                return (float)this.GetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, 100, value);
+                this.SetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, value);
             }
 
         }
@@ -47,7 +47,7 @@ namespace Jacdac {
         /// </summary>
         public void Cancel()
         {
-            this.SendCmdPacked((ushort)SoundPlayerCmd.Cancel, SoundPlayerCmdPack.Cancel, new object[] {  });
+            this.SendCmd((ushort)SoundPlayerCmd.Cancel);
         }
 
     }

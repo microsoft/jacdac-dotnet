@@ -15,7 +15,7 @@ namespace Jacdac {
     public partial class HeartRateClient : SensorClient
     {
         public HeartRateClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.HeartRate, name)
+            : base(bus, name, ServiceClasses.HeartRate)
         {
         }
 
@@ -26,7 +26,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HeartRateReg.HeartRate, HeartRateRegPack.HeartRate, 1);
+                return (float)this.GetRegisterValue((ushort)HeartRateReg.HeartRate, HeartRateRegPack.HeartRate);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HeartRateReg.HeartRateError, HeartRateRegPack.HeartRateError, 1);
+                return (float)this.GetRegisterValue((ushort)HeartRateReg.HeartRateError, HeartRateRegPack.HeartRateError);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Jacdac {
         {
             get
             {
-                return (HeartRateVariant)this.GetRegisterValue((ushort)HeartRateReg.Variant, HeartRateRegPack.Variant, 1);
+                return (HeartRateVariant)this.GetRegisterValue((ushort)HeartRateReg.Variant, HeartRateRegPack.Variant);
             }
         }
 

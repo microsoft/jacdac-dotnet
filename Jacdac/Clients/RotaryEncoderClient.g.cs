@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RotaryEncoderClient : SensorClient
     {
         public RotaryEncoderClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.RotaryEncoder, name)
+            : base(bus, name, ServiceClasses.RotaryEncoder)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)RotaryEncoderReg.Position, RotaryEncoderRegPack.Position, 1);
+                return (int)this.GetRegisterValue((ushort)RotaryEncoderReg.Position, RotaryEncoderRegPack.Position);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)RotaryEncoderReg.ClicksPerTurn, RotaryEncoderRegPack.ClicksPerTurn, 1);
+                return (uint)this.GetRegisterValue((ushort)RotaryEncoderReg.ClicksPerTurn, RotaryEncoderRegPack.ClicksPerTurn);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)RotaryEncoderReg.Clicker, RotaryEncoderRegPack.Clicker, 1);
+                return (bool)this.GetRegisterValue((ushort)RotaryEncoderReg.Clicker, RotaryEncoderRegPack.Clicker);
             }
         }
 

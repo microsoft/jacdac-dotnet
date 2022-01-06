@@ -7,7 +7,7 @@ namespace Jacdac.Servers
         private SetStatusLightHandler setStatusLight;
 
         internal ControlServer(JDBusOptions options)
-            : base(Jacdac.ControlConstants.ServiceClass, null)
+            : base(ServiceClasses.Control, null)
         {
             this.AddRegister(new JDDynamicRegisterServer(
                 (ushort)Jacdac.ControlReg.Uptime, Jacdac.ControlRegPack.Uptime,

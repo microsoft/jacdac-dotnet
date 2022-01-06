@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PowerClient : SensorClient
     {
         public PowerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Power, name)
+            : base(bus, name, ServiceClasses.Power)
         {
         }
 
@@ -25,12 +25,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)PowerReg.Allowed, PowerRegPack.Allowed, 1);
+                return (bool)this.GetRegisterValue((ushort)PowerReg.Allowed, PowerRegPack.Allowed);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)PowerReg.Allowed, PowerRegPack.Allowed, 1, value);
+                this.SetRegisterValue((ushort)PowerReg.Allowed, PowerRegPack.Allowed, value);
             }
 
         }
@@ -43,12 +43,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, 1, value);
+                this.SetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, value);
             }
 
         }
@@ -61,7 +61,7 @@ namespace Jacdac {
         {
             get
             {
-                return (PowerPowerStatus)this.GetRegisterValue((ushort)PowerReg.PowerStatus, PowerRegPack.PowerStatus, 1);
+                return (PowerPowerStatus)this.GetRegisterValue((ushort)PowerReg.PowerStatus, PowerRegPack.PowerStatus);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge, 100);
+                return (float)this.GetRegisterValue((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity);
             }
         }
 
@@ -119,12 +119,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, 1, value);
+                this.SetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, value);
             }
 
         }
@@ -138,12 +138,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, 1);
+                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, 1, value);
+                this.SetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, value);
             }
 
         }
@@ -159,7 +159,7 @@ namespace Jacdac {
         /// </summary>
         public void Shutdown()
         {
-            this.SendCmdPacked((ushort)PowerCmd.Shutdown, PowerCmdPack.Shutdown, new object[] {  });
+            this.SendCmd((ushort)PowerCmd.Shutdown);
         }
 
     }

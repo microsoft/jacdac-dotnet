@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WindDirectionClient : SensorClient
     {
         public WindDirectionClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.WindDirection, name)
+            : base(bus, name, ServiceClasses.WindDirection)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)WindDirectionReg.WindDirection, WindDirectionRegPack.WindDirection, 1);
+                return (uint)this.GetRegisterValue((ushort)WindDirectionReg.WindDirection, WindDirectionRegPack.WindDirection);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)WindDirectionReg.WindDirectionError, WindDirectionRegPack.WindDirectionError, 1);
+                return (uint)this.GetRegisterValue((ushort)WindDirectionReg.WindDirectionError, WindDirectionRegPack.WindDirectionError);
             }
         }
 

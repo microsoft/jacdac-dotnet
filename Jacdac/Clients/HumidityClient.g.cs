@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class HumidityClient : SensorClient
     {
         public HumidityClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Humidity, name)
+            : base(bus, name, ServiceClasses.Humidity)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HumidityReg.Humidity, HumidityRegPack.Humidity, 1);
+                return (float)this.GetRegisterValue((ushort)HumidityReg.Humidity, HumidityRegPack.Humidity);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HumidityReg.HumidityError, HumidityRegPack.HumidityError, 1);
+                return (float)this.GetRegisterValue((ushort)HumidityReg.HumidityError, HumidityRegPack.HumidityError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HumidityReg.MinHumidity, HumidityRegPack.MinHumidity, 1);
+                return (float)this.GetRegisterValue((ushort)HumidityReg.MinHumidity, HumidityRegPack.MinHumidity);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)HumidityReg.MaxHumidity, HumidityRegPack.MaxHumidity, 1);
+                return (float)this.GetRegisterValue((ushort)HumidityReg.MaxHumidity, HumidityRegPack.MaxHumidity);
             }
         }
 

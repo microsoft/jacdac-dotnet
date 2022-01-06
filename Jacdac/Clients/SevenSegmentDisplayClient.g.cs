@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SevenSegmentDisplayClient : Client
     {
         public SevenSegmentDisplayClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SevenSegmentDisplay, name)
+            : base(bus, name, ServiceClasses.SevenSegmentDisplay)
         {
         }
 
@@ -36,12 +36,12 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)SevenSegmentDisplayReg.Digits, SevenSegmentDisplayRegPack.Digits, 1);
+                return (byte[])this.GetRegisterValue((ushort)SevenSegmentDisplayReg.Digits, SevenSegmentDisplayRegPack.Digits);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Digits, SevenSegmentDisplayRegPack.Digits, 1, value);
+                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Digits, SevenSegmentDisplayRegPack.Digits, value);
             }
 
         }
@@ -53,12 +53,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, value);
             }
 
         }
@@ -71,12 +71,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, 1);
+                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, 1, value);
+                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, value);
             }
 
         }
@@ -88,7 +88,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DigitCount, SevenSegmentDisplayRegPack.DigitCount, 1);
+                return (uint)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DigitCount, SevenSegmentDisplayRegPack.DigitCount);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint, 1);
+                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint);
             }
         }
 
@@ -110,7 +110,7 @@ namespace Jacdac {
         public void SetNumber(float value)
         {
             // TODO: implement client command
-            throw new NotImplementException("client command not implemented");
+            throw new NotSupportedException("client command not implemented");
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Jacdac {
         public void SetText(string text)
         {
             // TODO: implement client command
-            throw new NotImplementException("client command not implemented");
+            throw new NotSupportedException("client command not implemented");
         }
 
     }

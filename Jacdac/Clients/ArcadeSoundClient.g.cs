@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class ArcadeSoundClient : Client
     {
         public ArcadeSoundClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.ArcadeSound, name)
+            : base(bus, name, ServiceClasses.ArcadeSound)
         {
         }
 
@@ -26,12 +26,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)ArcadeSoundReg.SampleRate, ArcadeSoundRegPack.SampleRate, 1);
+                return (float)this.GetRegisterValue((ushort)ArcadeSoundReg.SampleRate, ArcadeSoundRegPack.SampleRate);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ArcadeSoundReg.SampleRate, ArcadeSoundRegPack.SampleRate, 1, value);
+                this.SetRegisterValue((ushort)ArcadeSoundReg.SampleRate, ArcadeSoundRegPack.SampleRate, value);
             }
 
         }
@@ -43,7 +43,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ArcadeSoundReg.BufferSize, ArcadeSoundRegPack.BufferSize, 1);
+                return (uint)this.GetRegisterValue((ushort)ArcadeSoundReg.BufferSize, ArcadeSoundRegPack.BufferSize);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ArcadeSoundReg.BufferPending, ArcadeSoundRegPack.BufferPending, 1);
+                return (uint)this.GetRegisterValue((ushort)ArcadeSoundReg.BufferPending, ArcadeSoundRegPack.BufferPending);
             }
         }
 

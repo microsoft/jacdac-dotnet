@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BarcodeReaderClient : Client
     {
         public BarcodeReaderClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.BarcodeReader, name)
+            : base(bus, name, ServiceClasses.BarcodeReader)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled, value);
             }
 
         }

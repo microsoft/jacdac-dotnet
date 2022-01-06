@@ -11,7 +11,7 @@ namespace Jacdac.Servers
         private Client[] roles = new Client[0];
 
         public RoleManagerServer()
-            : base(Jacdac.RoleManagerConstants.ServiceClass, null)
+            : base(ServiceClasses.RoleManager, null)
         {
             this.AddRegister(this.AutoBind = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
             this.AddRegister(this.AllRolesAllocated = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));

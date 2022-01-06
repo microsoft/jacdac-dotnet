@@ -75,6 +75,32 @@ namespace Jacdac
             var value = reg?.Value(packFormat);
             return value != null ? value : defaultValue;
         }
+
+        protected void SetRegisterValue(ushort code, string packetFormat, object value)
+        {
+            var reg = this.GetRegister(code);
+            // TODO
+        }
+
+        protected void SendCmd(ushort code, byte[] data = null)
+        {
+            var service = this.BoundService;
+            if (service == null)
+                throw new ClientDisconnectedException();
+            service.SendPacket(Packet.FromCmd(code));
+        }
+
+        protected void SendCmdPacked(ushort code, string packFormat, object[] values)
+        {
+            var payload = PacketEncoding.Pack(packFormat, values);
+            this.SendCmd(code, payload);
+        }
+    }
+
+    [Serializable]
+    public sealed class ClientDisconnectedException : Exception
+    {
+        public ClientDisconnectedException() { }
     }
 
     public abstract class SensorClient : Client

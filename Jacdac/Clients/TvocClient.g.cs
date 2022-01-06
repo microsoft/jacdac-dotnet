@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TvocClient : SensorClient
     {
         public TvocClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Tvoc, name)
+            : base(bus, name, ServiceClasses.Tvoc)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TvocReg.TVOC, TvocRegPack.TVOC, 1);
+                return (float)this.GetRegisterValue((ushort)TvocReg.TVOC, TvocRegPack.TVOC);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError, 1);
+                return (float)this.GetRegisterValue((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TvocReg.MinTVOC, TvocRegPack.MinTVOC, 1);
+                return (float)this.GetRegisterValue((ushort)TvocReg.MinTVOC, TvocRegPack.MinTVOC);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)TvocReg.MaxTVOC, TvocRegPack.MaxTVOC, 1);
+                return (float)this.GetRegisterValue((ushort)TvocReg.MaxTVOC, TvocRegPack.MaxTVOC);
             }
         }
 

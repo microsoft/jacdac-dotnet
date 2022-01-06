@@ -33,9 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Spi", "Ja
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Hf2", "Jacdac.Transports.Hf2\Jacdac.Transports.Hf2.csproj", "{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.Uploader", "Jacdac.Uploader\Jacdac.Uploader.csproj", "{2009994C-3AF6-41DF-8E03-D5A886EC2248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Uploader", "Jacdac.Uploader\Jacdac.Uploader.csproj", "{2009994C-3AF6-41DF-8E03-D5A886EC2248}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Storage", "Jacdac.TinyCLR.Storage\Jacdac.TinyCLR.Storage.csproj", "{C81F0D29-5AF9-44B3-B50B-CB8126236510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Clients", "Jacdac.TinyCLR.Clients\Jacdac.TinyCLR.Clients.csproj", "{B450BA62-EF67-4ABE-8239-5343A0A72922}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.NET.Clients", "Jacdac.NET.Clients\Jacdac.NET.Clients.csproj", "{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +107,14 @@ Global
 		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LightLevelClient : SensorClient
     {
         public LightLevelClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.LightLevel, name)
+            : base(bus, name, ServiceClasses.LightLevel)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LightLevelReg.LightLevel, LightLevelRegPack.LightLevel, 100);
+                return (float)this.GetRegisterValue((ushort)LightLevelReg.LightLevel, LightLevelRegPack.LightLevel);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LightLevelReg.LightLevelError, LightLevelRegPack.LightLevelError, 100);
+                return (float)this.GetRegisterValue((ushort)LightLevelReg.LightLevelError, LightLevelRegPack.LightLevelError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (LightLevelVariant)this.GetRegisterValue((ushort)LightLevelReg.Variant, LightLevelRegPack.Variant, 1);
+                return (LightLevelVariant)this.GetRegisterValue((ushort)LightLevelReg.Variant, LightLevelRegPack.Variant);
             }
         }
 

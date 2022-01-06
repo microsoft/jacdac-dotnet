@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BarometerClient : SensorClient
     {
         public BarometerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Barometer, name)
+            : base(bus, name, ServiceClasses.Barometer)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)BarometerReg.Pressure, BarometerRegPack.Pressure, 1);
+                return (float)this.GetRegisterValue((ushort)BarometerReg.Pressure, BarometerRegPack.Pressure);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)BarometerReg.PressureError, BarometerRegPack.PressureError, 1);
+                return (float)this.GetRegisterValue((ushort)BarometerReg.PressureError, BarometerRegPack.PressureError);
             }
         }
 

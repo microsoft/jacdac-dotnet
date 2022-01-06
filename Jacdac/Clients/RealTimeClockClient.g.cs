@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RealTimeClockClient : SensorClient
     {
         public RealTimeClockClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.RealTimeClock, name)
+            : base(bus, name, ServiceClasses.RealTimeClock)
         {
         }
 
@@ -22,11 +22,11 @@ namespace Jacdac {
         /// -   `day_of_month` is day of the month, starting at `1`
         /// -   `day_of_week` is day of the week, starting at `1` as monday. Default streaming period is 1 second., 
         /// </summary>
-        public (uint, uint, uint, uint, uint, uint, uint) LocalTime
+        public object[] /*(uint, uint, uint, uint, uint, uint, uint)*/ LocalTime
         {
             get
             {
-                return ((uint, uint, uint, uint, uint, uint, uint))this.GetRegisterValue((ushort)RealTimeClockReg.LocalTime, RealTimeClockRegPack.LocalTime, 1);
+                return (object[] /*(uint, uint, uint, uint, uint, uint, uint)*/)this.GetRegisterValue((ushort)RealTimeClockReg.LocalTime, RealTimeClockRegPack.LocalTime);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Drift, RealTimeClockRegPack.Drift, 1);
+                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Drift, RealTimeClockRegPack.Drift);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Precision, RealTimeClockRegPack.Precision, 1);
+                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Precision, RealTimeClockRegPack.Precision);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Jacdac {
         {
             get
             {
-                return (RealTimeClockVariant)this.GetRegisterValue((ushort)RealTimeClockReg.Variant, RealTimeClockRegPack.Variant, 1);
+                return (RealTimeClockVariant)this.GetRegisterValue((ushort)RealTimeClockReg.Variant, RealTimeClockRegPack.Variant);
             }
         }
 

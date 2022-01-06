@@ -18,7 +18,7 @@ namespace Jacdac {
     public partial class HidKeyboardClient : Client
     {
         public HidKeyboardClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.HidKeyboard, name)
+            : base(bus, name, ServiceClasses.HidKeyboard)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Jacdac {
         /// </summary>
         public void Clear()
         {
-            this.SendCmdPacked((ushort)HidKeyboardCmd.Clear, HidKeyboardCmdPack.Clear, new object[] {  });
+            this.SendCmd((ushort)HidKeyboardCmd.Clear);
         }
 
     }

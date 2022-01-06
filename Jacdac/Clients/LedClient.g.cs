@@ -12,18 +12,18 @@ namespace Jacdac {
     public partial class LedClient : Client
     {
         public LedClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Led, name)
+            : base(bus, name, ServiceClasses.Led)
         {
         }
 
         /// <summary>
         /// The current color of the LED., 
         /// </summary>
-        public (uint, uint, uint) Color
+        public object[] /*(uint, uint, uint)*/ Color
         {
             get
             {
-                return ((uint, uint, uint))this.GetRegisterValue((ushort)LedReg.Color, LedRegPack.Color, 1);
+                return (object[] /*(uint, uint, uint)*/)this.GetRegisterValue((ushort)LedReg.Color, LedRegPack.Color);
             }
         }
 
@@ -34,12 +34,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower, 1);
+                return (uint)this.GetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower, 1, value);
+                this.SetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower, value);
             }
 
         }
@@ -51,7 +51,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.LedCount, LedRegPack.LedCount, 1);
+                return (uint)this.GetRegisterValue((ushort)LedReg.LedCount, LedRegPack.LedCount);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.WaveLength, LedRegPack.WaveLength, 1);
+                return (uint)this.GetRegisterValue((ushort)LedReg.WaveLength, LedRegPack.WaveLength);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity, 1);
+                return (uint)this.GetRegisterValue((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Jacdac {
         {
             get
             {
-                return (LedVariant)this.GetRegisterValue((ushort)LedReg.Variant, LedRegPack.Variant, 1);
+                return (LedVariant)this.GetRegisterValue((ushort)LedReg.Variant, LedRegPack.Variant);
             }
         }
 

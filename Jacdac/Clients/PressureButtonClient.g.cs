@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PressureButtonClient : Client
     {
         public PressureButtonClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.PressureButton, name)
+            : base(bus, name, ServiceClasses.PressureButton)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)PressureButtonReg.Threshold, PressureButtonRegPack.Threshold, 100);
+                return (float)this.GetRegisterValue((ushort)PressureButtonReg.Threshold, PressureButtonRegPack.Threshold);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)PressureButtonReg.Threshold, PressureButtonRegPack.Threshold, 100, value);
+                this.SetRegisterValue((ushort)PressureButtonReg.Threshold, PressureButtonRegPack.Threshold, value);
             }
 
         }

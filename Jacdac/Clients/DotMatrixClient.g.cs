@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DotMatrixClient : Client
     {
         public DotMatrixClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.DotMatrix, name)
+            : base(bus, name, ServiceClasses.DotMatrix)
         {
         }
 
@@ -24,12 +24,12 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)DotMatrixReg.Dots, DotMatrixRegPack.Dots, 1);
+                return (byte[])this.GetRegisterValue((ushort)DotMatrixReg.Dots, DotMatrixRegPack.Dots);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)DotMatrixReg.Dots, DotMatrixRegPack.Dots, 1, value);
+                this.SetRegisterValue((ushort)DotMatrixReg.Dots, DotMatrixRegPack.Dots, value);
             }
 
         }
@@ -41,12 +41,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, value);
             }
 
         }
@@ -58,7 +58,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)DotMatrixReg.Rows, DotMatrixRegPack.Rows, 1);
+                return (uint)this.GetRegisterValue((ushort)DotMatrixReg.Rows, DotMatrixRegPack.Rows);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)DotMatrixReg.Columns, DotMatrixRegPack.Columns, 1);
+                return (uint)this.GetRegisterValue((ushort)DotMatrixReg.Columns, DotMatrixRegPack.Columns);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Jacdac {
         {
             get
             {
-                return (DotMatrixVariant)this.GetRegisterValue((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant, 1);
+                return (DotMatrixVariant)this.GetRegisterValue((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant);
             }
         }
 

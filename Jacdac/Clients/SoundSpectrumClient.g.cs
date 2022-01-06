@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoundSpectrumClient : SensorClient
     {
         public SoundSpectrumClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SoundSpectrum, name)
+            : base(bus, name, ServiceClasses.SoundSpectrum)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)SoundSpectrumReg.FrequencyBins, SoundSpectrumRegPack.FrequencyBins, 1);
+                return (byte[])this.GetRegisterValue((ushort)SoundSpectrumReg.FrequencyBins, SoundSpectrumRegPack.FrequencyBins);
             }
         }
 
@@ -34,12 +34,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled, value);
             }
 
         }
@@ -51,12 +51,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)SoundSpectrumReg.FftPow2Size, SoundSpectrumRegPack.FftPow2Size, 1);
+                return (uint)this.GetRegisterValue((ushort)SoundSpectrumReg.FftPow2Size, SoundSpectrumRegPack.FftPow2Size);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundSpectrumReg.FftPow2Size, SoundSpectrumRegPack.FftPow2Size, 1, value);
+                this.SetRegisterValue((ushort)SoundSpectrumReg.FftPow2Size, SoundSpectrumRegPack.FftPow2Size, value);
             }
 
         }
@@ -68,12 +68,12 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)SoundSpectrumReg.MinDecibels, SoundSpectrumRegPack.MinDecibels, 1);
+                return (int)this.GetRegisterValue((ushort)SoundSpectrumReg.MinDecibels, SoundSpectrumRegPack.MinDecibels);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundSpectrumReg.MinDecibels, SoundSpectrumRegPack.MinDecibels, 1, value);
+                this.SetRegisterValue((ushort)SoundSpectrumReg.MinDecibels, SoundSpectrumRegPack.MinDecibels, value);
             }
 
         }
@@ -85,12 +85,12 @@ namespace Jacdac {
         {
             get
             {
-                return (int)this.GetRegisterValue((ushort)SoundSpectrumReg.MaxDecibels, SoundSpectrumRegPack.MaxDecibels, 1);
+                return (int)this.GetRegisterValue((ushort)SoundSpectrumReg.MaxDecibels, SoundSpectrumRegPack.MaxDecibels);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundSpectrumReg.MaxDecibels, SoundSpectrumRegPack.MaxDecibels, 1, value);
+                this.SetRegisterValue((ushort)SoundSpectrumReg.MaxDecibels, SoundSpectrumRegPack.MaxDecibels, value);
             }
 
         }
@@ -103,12 +103,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SoundSpectrumReg.SmoothingTimeConstant, SoundSpectrumRegPack.SmoothingTimeConstant, 100);
+                return (float)this.GetRegisterValue((ushort)SoundSpectrumReg.SmoothingTimeConstant, SoundSpectrumRegPack.SmoothingTimeConstant);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SoundSpectrumReg.SmoothingTimeConstant, SoundSpectrumRegPack.SmoothingTimeConstant, 100, value);
+                this.SetRegisterValue((ushort)SoundSpectrumReg.SmoothingTimeConstant, SoundSpectrumRegPack.SmoothingTimeConstant, value);
             }
 
         }

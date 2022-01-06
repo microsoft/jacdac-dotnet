@@ -280,7 +280,7 @@ namespace Jacdac
                 (ushort)((ushort)Jacdac.Constants.CMD_SET_REG | (ushort)Jacdac.ControlReg.ResetIn),
                 PacketEncoding.Pack((uint)Jacdac.Constants.RESET_IN_TIME_US)
                 );
-            rst.SetMultiCommand(Jacdac.ControlConstants.ServiceClass);
+            rst.SetMultiCommand(ServiceClasses.Control);
             this.SelfDeviceServer.SendPacket(rst);
         }
 
@@ -328,7 +328,7 @@ namespace Jacdac
             var devices = this.GetDevices();
             foreach (var device in devices)
             {
-                if (device.HasService(Jacdac.ProxyConstants.ServiceClass)) continue;
+                if (device.HasService(ServiceClasses.Proxy)) continue;
 
                 var services = device.GetServices();
                 foreach (var service in services)

@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class IndexedScreenClient : Client
     {
         public IndexedScreenClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.IndexedScreen, name)
+            : base(bus, name, ServiceClasses.IndexedScreen)
         {
         }
 
@@ -26,12 +26,12 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)IndexedScreenReg.Brightness, IndexedScreenRegPack.Brightness, 100);
+                return (float)this.GetRegisterValue((ushort)IndexedScreenReg.Brightness, IndexedScreenRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)IndexedScreenReg.Brightness, IndexedScreenRegPack.Brightness, 100, value);
+                this.SetRegisterValue((ushort)IndexedScreenReg.Brightness, IndexedScreenRegPack.Brightness, value);
             }
 
         }
@@ -44,7 +44,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.BitsPerPixel, IndexedScreenRegPack.BitsPerPixel, 1);
+                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.BitsPerPixel, IndexedScreenRegPack.BitsPerPixel);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Width, IndexedScreenRegPack.Width, 1);
+                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Width, IndexedScreenRegPack.Width);
             }
         }
 
@@ -66,7 +66,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Height, IndexedScreenRegPack.Height, 1);
+                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Height, IndexedScreenRegPack.Height);
             }
         }
 
@@ -82,12 +82,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, 1);
+                return (bool)this.GetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, 1, value);
+                this.SetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, value);
             }
 
         }
@@ -101,12 +101,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, 1);
+                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, 1, value);
+                this.SetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, value);
             }
 
         }
@@ -120,12 +120,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, 1);
+                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, 1, value);
+                this.SetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, value);
             }
 
         }

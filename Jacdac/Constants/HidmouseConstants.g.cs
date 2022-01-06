@@ -26,7 +26,7 @@ namespace Jacdac {
         /// A `DoubleClick` is two clicks with `150ms` gap between them (that is, `100ms` first click, `150ms` gap, `100ms` second click).
         ///
         /// ```
-        /// const [buttons, event] = jdunpack<[HidMouseButton, HidMouseButtonEvent]>(buf, "u16 u8")
+        /// const [buttons, ev] = jdunpack<[HidMouseButton, HidMouseButtonEvent]>(buf, "u16 u8")
         /// ```
         /// </summary>
         SetButton = 0x80,

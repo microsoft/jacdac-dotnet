@@ -16,7 +16,7 @@ namespace Jacdac {
     public partial class ModelRunnerClient : Client
     {
         public ModelRunnerClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.ModelRunner, name)
+            : base(bus, name, ServiceClasses.ModelRunner)
         {
         }
 
@@ -30,12 +30,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.AutoInvokeEvery, ModelRunnerRegPack.AutoInvokeEvery, 1);
+                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.AutoInvokeEvery, ModelRunnerRegPack.AutoInvokeEvery);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ModelRunnerReg.AutoInvokeEvery, ModelRunnerRegPack.AutoInvokeEvery, 1, value);
+                this.SetRegisterValue((ushort)ModelRunnerReg.AutoInvokeEvery, ModelRunnerRegPack.AutoInvokeEvery, value);
             }
 
         }
@@ -47,7 +47,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.LastRunTime, ModelRunnerRegPack.LastRunTime, 1);
+                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.LastRunTime, ModelRunnerRegPack.LastRunTime);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.AllocatedArenaSize, ModelRunnerRegPack.AllocatedArenaSize, 1);
+                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.AllocatedArenaSize, ModelRunnerRegPack.AllocatedArenaSize);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.ModelSize, ModelRunnerRegPack.ModelSize, 1);
+                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.ModelSize, ModelRunnerRegPack.ModelSize);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)ModelRunnerReg.LastError, ModelRunnerRegPack.LastError, 1);
+                return (string)this.GetRegisterValue((ushort)ModelRunnerReg.LastError, ModelRunnerRegPack.LastError);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Jacdac {
         {
             get
             {
-                return (ModelRunnerModelFormat)this.GetRegisterValue((ushort)ModelRunnerReg.Format, ModelRunnerRegPack.Format, 1);
+                return (ModelRunnerModelFormat)this.GetRegisterValue((ushort)ModelRunnerReg.Format, ModelRunnerRegPack.Format);
             }
         }
 
@@ -105,7 +105,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.FormatVersion, ModelRunnerRegPack.FormatVersion, 1);
+                return (uint)this.GetRegisterValue((ushort)ModelRunnerReg.FormatVersion, ModelRunnerRegPack.FormatVersion);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel, 1);
+                return (bool)this.GetRegisterValue((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel);
             }
         }
 

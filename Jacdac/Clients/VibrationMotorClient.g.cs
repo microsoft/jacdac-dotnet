@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class VibrationMotorClient : Client
     {
         public VibrationMotorClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.VibrationMotor, name)
+            : base(bus, name, ServiceClasses.VibrationMotor)
         {
         }
 

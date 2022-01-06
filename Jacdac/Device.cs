@@ -365,21 +365,21 @@ namespace Jacdac
 
         public bool IsUniqueBrain
         {
-            get { return this.HasService(Jacdac.UniqueBrainConstants.ServiceClass); }
+            get { return this.HasService(Jacdac.ServiceClasses.UniqueBrain); }
         }
         public bool IsBridge
         {
-            get { return this.HasService(Jacdac.BridgeConstants.ServiceClass); }
+            get { return this.HasService(Jacdac.ServiceClasses.Bridge); }
         }
 
         public bool IsProxy
         {
-            get { return this.HasService(Jacdac.ProxyConstants.ServiceClass); }
+            get { return this.HasService(Jacdac.ServiceClasses.Proxy); }
         }
 
         public bool IsDashboard
         {
-            get { return this.HasService(Jacdac.DashboardConstants.ServiceClass); }
+            get { return this.HasService(Jacdac.ServiceClasses.Dashboard); }
         }
 
         public event NodeEventHandler Restarted;

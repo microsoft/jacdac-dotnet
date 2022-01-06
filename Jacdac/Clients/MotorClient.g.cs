@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MotorClient : Client
     {
         public MotorClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Motor, name)
+            : base(bus, name, ServiceClasses.Motor)
         {
         }
 
@@ -25,13 +25,13 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty, 100);
+                return (float)this.GetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty);
             }
             set
             {
                 
                 this.Enabled = true;
-                this.SetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty, 100, value);
+                this.SetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty, value);
             }
 
         }
@@ -43,12 +43,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MotorReg.Enabled, MotorRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)MotorReg.Enabled, MotorRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)MotorReg.Enabled, MotorRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)MotorReg.Enabled, MotorRegPack.Enabled, value);
             }
 
         }
@@ -60,7 +60,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.LoadTorque, MotorRegPack.LoadTorque, 1);
+                return (float)this.GetRegisterValue((ushort)MotorReg.LoadTorque, MotorRegPack.LoadTorque);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed, 1);
+                return (float)this.GetRegisterValue((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MotorReg.Reversible, MotorRegPack.Reversible, 1);
+                return (bool)this.GetRegisterValue((ushort)MotorReg.Reversible, MotorRegPack.Reversible);
             }
         }
 

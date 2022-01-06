@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class FlexClient : SensorClient
     {
         public FlexClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Flex, name)
+            : base(bus, name, ServiceClasses.Flex)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)FlexReg.Bending, FlexRegPack.Bending, 100);
+                return (float)this.GetRegisterValue((ushort)FlexReg.Bending, FlexRegPack.Bending);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)FlexReg.Length, FlexRegPack.Length, 1);
+                return (uint)this.GetRegisterValue((ushort)FlexReg.Length, FlexRegPack.Length);
             }
         }
 

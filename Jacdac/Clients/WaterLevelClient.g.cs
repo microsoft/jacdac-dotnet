@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WaterLevelClient : SensorClient
     {
         public WaterLevelClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.WaterLevel, name)
+            : base(bus, name, ServiceClasses.WaterLevel)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WaterLevelReg.Level, WaterLevelRegPack.Level, 100);
+                return (float)this.GetRegisterValue((ushort)WaterLevelReg.Level, WaterLevelRegPack.Level);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError, 100);
+                return (float)this.GetRegisterValue((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Jacdac {
         {
             get
             {
-                return (WaterLevelVariant)this.GetRegisterValue((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant, 1);
+                return (WaterLevelVariant)this.GetRegisterValue((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant);
             }
         }
 

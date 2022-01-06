@@ -13,7 +13,7 @@
     {
         public readonly ISettingsStorage Storage;
         public SettingsServer(ISettingsStorage storage, JDServiceServerOptions options = null)
-            : base(SettingsConstants.ServiceClass, options)
+            : base(ServiceClasses.Settings, options)
         {
             this.Storage = storage;
 

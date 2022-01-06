@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SwitchClient : SensorClient
     {
         public SwitchClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.Switch, name)
+            : base(bus, name, ServiceClasses.Switch)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SwitchReg.Active, SwitchRegPack.Active, 1);
+                return (bool)this.GetRegisterValue((ushort)SwitchReg.Active, SwitchRegPack.Active);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Jacdac {
         {
             get
             {
-                return (SwitchVariant)this.GetRegisterValue((ushort)SwitchReg.Variant, SwitchRegPack.Variant, 1);
+                return (SwitchVariant)this.GetRegisterValue((ushort)SwitchReg.Variant, SwitchRegPack.Variant);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Jacdac {
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay, 1);
+                return (float)this.GetRegisterValue((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay);
             }
         }
 

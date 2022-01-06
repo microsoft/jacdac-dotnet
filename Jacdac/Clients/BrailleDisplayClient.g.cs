@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BrailleDisplayClient : Client
     {
         public BrailleDisplayClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.BrailleDisplay, name)
+            : base(bus, name, ServiceClasses.BrailleDisplay)
         {
         }
 
@@ -23,12 +23,12 @@ namespace Jacdac {
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled, 1);
+                return (bool)this.GetRegisterValue((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled, 1, value);
+                this.SetRegisterValue((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled, value);
             }
 
         }
@@ -40,13 +40,13 @@ namespace Jacdac {
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)BrailleDisplayReg.Patterns, BrailleDisplayRegPack.Patterns, 1);
+                return (string)this.GetRegisterValue((ushort)BrailleDisplayReg.Patterns, BrailleDisplayRegPack.Patterns);
             }
             set
             {
                 
                 this.Enabled = true;
-                this.SetRegisterValue((ushort)BrailleDisplayReg.Patterns, BrailleDisplayRegPack.Patterns, 1, value);
+                this.SetRegisterValue((ushort)BrailleDisplayReg.Patterns, BrailleDisplayRegPack.Patterns, value);
             }
 
         }
@@ -58,7 +58,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)BrailleDisplayReg.Length, BrailleDisplayRegPack.Length, 1);
+                return (uint)this.GetRegisterValue((ushort)BrailleDisplayReg.Length, BrailleDisplayRegPack.Length);
             }
         }
 

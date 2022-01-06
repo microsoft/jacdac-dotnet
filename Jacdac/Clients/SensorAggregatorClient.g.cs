@@ -13,7 +13,7 @@ namespace Jacdac {
     public partial class SensorAggregatorClient : SensorClient
     {
         public SensorAggregatorClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.SensorAggregator, name)
+            : base(bus, name, ServiceClasses.SensorAggregator)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.NumSamples, SensorAggregatorRegPack.NumSamples, 1);
+                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.NumSamples, SensorAggregatorRegPack.NumSamples);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.SampleSize, SensorAggregatorRegPack.SampleSize, 1);
+                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.SampleSize, SensorAggregatorRegPack.SampleSize);
             }
         }
 
@@ -46,12 +46,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.StreamingSamples, SensorAggregatorRegPack.StreamingSamples, 1);
+                return (uint)this.GetRegisterValue((ushort)SensorAggregatorReg.StreamingSamples, SensorAggregatorRegPack.StreamingSamples);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)SensorAggregatorReg.StreamingSamples, SensorAggregatorRegPack.StreamingSamples, 1, value);
+                this.SetRegisterValue((ushort)SensorAggregatorReg.StreamingSamples, SensorAggregatorRegPack.StreamingSamples, value);
             }
 
         }
@@ -63,7 +63,7 @@ namespace Jacdac {
         {
             get
             {
-                return (byte[])this.GetRegisterValue((ushort)SensorAggregatorReg.CurrentSample, SensorAggregatorRegPack.CurrentSample, 1);
+                return (byte[])this.GetRegisterValue((ushort)SensorAggregatorReg.CurrentSample, SensorAggregatorRegPack.CurrentSample);
             }
         }
 

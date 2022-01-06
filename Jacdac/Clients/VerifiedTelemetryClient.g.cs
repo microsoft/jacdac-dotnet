@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class VerifiedTelemetryClient : Client
     {
         public VerifiedTelemetryClient(JDBus bus, string name)
-            : base(bus, ServiceClasses.VerifiedTelemetry, name)
+            : base(bus, name, ServiceClasses.VerifiedTelemetry)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Jacdac {
         {
             get
             {
-                return (VerifiedTelemetryStatus)this.GetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatus, VerifiedTelemetryRegPack.TelemetryStatus, 1);
+                return (VerifiedTelemetryStatus)this.GetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatus, VerifiedTelemetryRegPack.TelemetryStatus);
             }
         }
 
@@ -34,12 +34,12 @@ namespace Jacdac {
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, 1);
+                return (uint)this.GetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, 1, value);
+                this.SetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, value);
             }
 
         }
@@ -51,18 +51,18 @@ namespace Jacdac {
         {
             get
             {
-                return (VerifiedTelemetryFingerprintType)this.GetRegisterValue((ushort)VerifiedTelemetryReg.FingerprintType, VerifiedTelemetryRegPack.FingerprintType, 1);
+                return (VerifiedTelemetryFingerprintType)this.GetRegisterValue((ushort)VerifiedTelemetryReg.FingerprintType, VerifiedTelemetryRegPack.FingerprintType);
             }
         }
 
         /// <summary>
         /// Template Fingerprint information of a working sensor., confidence: %
         /// </summary>
-        public (uint, byte[]) FingerprintTemplate
+        public object[] /*(uint, byte[])*/ FingerprintTemplate
         {
             get
             {
-                return ((uint, byte[]))this.GetRegisterValue((ushort)VerifiedTelemetryReg.FingerprintTemplate, VerifiedTelemetryRegPack.FingerprintTemplate, 1);
+                return (object[] /*(uint, byte[])*/)this.GetRegisterValue((ushort)VerifiedTelemetryReg.FingerprintTemplate, VerifiedTelemetryRegPack.FingerprintTemplate);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Jacdac {
         /// </summary>
         public void ResetFingerprintTemplate()
         {
-            this.SendCmdPacked((ushort)VerifiedTelemetryCmd.ResetFingerprintTemplate, VerifiedTelemetryCmdPack.ResetFingerprintTemplate, new object[] {  });
+            this.SendCmd((ushort)VerifiedTelemetryCmd.ResetFingerprintTemplate);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Jacdac {
         /// </summary>
         public void RetrainFingerprintTemplate()
         {
-            this.SendCmdPacked((ushort)VerifiedTelemetryCmd.RetrainFingerprintTemplate, VerifiedTelemetryCmdPack.RetrainFingerprintTemplate, new object[] {  });
+            this.SendCmd((ushort)VerifiedTelemetryCmd.RetrainFingerprintTemplate);
         }
 
     }
