@@ -5,7 +5,7 @@ module.exports = {
         '@semantic-release/release-notes-generator',
         '@semantic-release/github',
         ["@semantic-release/exec", {
-            "publishCmd": "./dotnet nuget publish"
+            "publishCmd": "./dotnet nuget publish ./Jacdac.NET/bin/Release/Jacdac.NET."
         }],
     ],
 }
