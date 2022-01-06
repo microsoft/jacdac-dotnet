@@ -1,4 +1,5 @@
-﻿using Jacdac.Transports;
+﻿using Jacdac.Clients;
+using Jacdac.Transports;
 using Jacdac.Transports.WebSockets;
 using System;
 
@@ -64,9 +65,19 @@ namespace Jacdac.NET.Playground
                 };
             };
             bus.Start();
+            var humidity = new HumidityClient(bus, "humidity");
 
             while (true)
             {
+                try
+                {
+                    var h = humidity.Humidity;
+                    Console.WriteLine($"humidity: {h}");
+                }
+                catch (ClientDisconnectedException)
+                {
+                    Console.WriteLine("connect humidity sensor");
+                }
                 System.Threading.Thread.Sleep(1000);
             }
         }
