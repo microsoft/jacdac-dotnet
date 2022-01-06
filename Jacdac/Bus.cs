@@ -52,6 +52,8 @@ namespace Jacdac
             this.transports = new Transport[0];
             if (transport != null)
                 this.AddTransport(transport);
+
+            this.Start();
         }
 
         public void AddTransport(Transport transport)
