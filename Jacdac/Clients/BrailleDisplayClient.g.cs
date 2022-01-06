@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BrailleDisplayClient : Client
     {
         public BrailleDisplayClient(JDBus bus, string name)
-            : base(bus, (ushort)BrailleDisplayConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.BrailleDisplay, name)
         {
         }
 

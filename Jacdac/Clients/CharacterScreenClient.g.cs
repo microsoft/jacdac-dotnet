@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CharacterScreenClient : Client
     {
         public CharacterScreenClient(JDBus bus, string name)
-            : base(bus, (ushort)CharacterScreenConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.CharacterScreen, name)
         {
         }
 

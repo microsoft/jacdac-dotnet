@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LedPixelClient : Client
     {
         public LedPixelClient(JDBus bus, string name)
-            : base(bus, (ushort)LedPixelConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.LedPixel, name)
         {
         }
 

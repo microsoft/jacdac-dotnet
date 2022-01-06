@@ -22,7 +22,7 @@ namespace Jacdac {
     public partial class WifiClient : Client
     {
         public WifiClient(JDBus bus, string name)
-            : base(bus, (ushort)WifiConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Wifi, name)
         {
         }
 

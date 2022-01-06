@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class AzureIotHubHealthClient : Client
     {
         public AzureIotHubHealthClient(JDBus bus, string name)
-            : base(bus, (ushort)AzureIotHubHealthConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.AzureIotHubHealth, name)
         {
         }
 

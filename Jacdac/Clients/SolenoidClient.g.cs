@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SolenoidClient : Client
     {
         public SolenoidClient(JDBus bus, string name)
-            : base(bus, (ushort)SolenoidConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Solenoid, name)
         {
         }
 

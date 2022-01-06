@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ColorClient : SensorClient
     {
         public ColorClient(JDBus bus, string name)
-            : base(bus, (ushort)ColorConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Color, name)
         {
         }
 

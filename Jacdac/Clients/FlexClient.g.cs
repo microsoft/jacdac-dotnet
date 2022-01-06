@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class FlexClient : SensorClient
     {
         public FlexClient(JDBus bus, string name)
-            : base(bus, (ushort)FlexConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Flex, name)
         {
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WeightScaleClient : SensorClient
     {
         public WeightScaleClient(JDBus bus, string name)
-            : base(bus, (ushort)WeightScaleConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.WeightScale, name)
         {
         }
 

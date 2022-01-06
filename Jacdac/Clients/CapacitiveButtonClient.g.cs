@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CapacitiveButtonClient : Client
     {
         public CapacitiveButtonClient(JDBus bus, string name)
-            : base(bus, (ushort)CapacitiveButtonConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.CapacitiveButton, name)
         {
         }
 

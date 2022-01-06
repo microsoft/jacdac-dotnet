@@ -15,7 +15,7 @@ namespace Jacdac {
     public partial class RngClient : Client
     {
         public RngClient(JDBus bus, string name)
-            : base(bus, (ushort)RngConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Rng, name)
         {
         }
 

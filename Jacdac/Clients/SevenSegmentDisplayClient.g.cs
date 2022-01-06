@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SevenSegmentDisplayClient : Client
     {
         public SevenSegmentDisplayClient(JDBus bus, string name)
-            : base(bus, (ushort)SevenSegmentDisplayConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SevenSegmentDisplay, name)
         {
         }
 

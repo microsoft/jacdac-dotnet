@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SettingsClient : Client
     {
         public SettingsClient(JDBus bus, string name)
-            : base(bus, (ushort)SettingsConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Settings, name)
         {
         }
 

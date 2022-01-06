@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RealTimeClockClient : SensorClient
     {
         public RealTimeClockClient(JDBus bus, string name)
-            : base(bus, (ushort)RealTimeClockConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.RealTimeClock, name)
         {
         }
 

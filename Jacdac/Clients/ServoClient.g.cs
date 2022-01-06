@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class ServoClient : SensorClient
     {
         public ServoClient(JDBus bus, string name)
-            : base(bus, (ushort)ServoConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Servo, name)
         {
         }
 

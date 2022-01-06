@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class VerifiedTelemetryClient : Client
     {
         public VerifiedTelemetryClient(JDBus bus, string name)
-            : base(bus, (ushort)VerifiedTelemetryConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.VerifiedTelemetry, name)
         {
         }
 

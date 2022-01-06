@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RelayClient : Client
     {
         public RelayClient(JDBus bus, string name)
-            : base(bus, (ushort)RelayConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Relay, name)
         {
         }
 

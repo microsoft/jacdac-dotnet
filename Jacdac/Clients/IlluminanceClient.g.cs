@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class IlluminanceClient : SensorClient
     {
         public IlluminanceClient(JDBus bus, string name)
-            : base(bus, (ushort)IlluminanceConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Illuminance, name)
         {
         }
 

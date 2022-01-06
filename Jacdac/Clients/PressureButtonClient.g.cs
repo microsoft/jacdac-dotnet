@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PressureButtonClient : Client
     {
         public PressureButtonClient(JDBus bus, string name)
-            : base(bus, (ushort)PressureButtonConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.PressureButton, name)
         {
         }
 

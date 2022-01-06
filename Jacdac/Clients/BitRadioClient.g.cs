@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BitRadioClient : Client
     {
         public BitRadioClient(JDBus bus, string name)
-            : base(bus, (ushort)BitRadioConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.BitRadio, name)
         {
         }
 

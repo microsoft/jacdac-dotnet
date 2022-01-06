@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ECO2Client : SensorClient
     {
         public ECO2Client(JDBus bus, string name)
-            : base(bus, (ushort)ECO2Constants.ServiceClass, name)
+            : base(bus, ServiceClasses.ECO2, name)
         {
         }
 

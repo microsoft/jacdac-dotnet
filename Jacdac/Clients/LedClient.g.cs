@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LedClient : Client
     {
         public LedClient(JDBus bus, string name)
-            : base(bus, (ushort)LedConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Led, name)
         {
         }
 

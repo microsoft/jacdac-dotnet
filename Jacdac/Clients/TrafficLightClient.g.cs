@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TrafficLightClient : Client
     {
         public TrafficLightClient(JDBus bus, string name)
-            : base(bus, (ushort)TrafficLightConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.TrafficLight, name)
         {
         }
 

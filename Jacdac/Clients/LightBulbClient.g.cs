@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LightBulbClient : Client
     {
         public LightBulbClient(JDBus bus, string name)
-            : base(bus, (ushort)LightBulbConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.LightBulb, name)
         {
         }
 

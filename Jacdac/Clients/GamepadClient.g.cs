@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class GamepadClient : SensorClient
     {
         public GamepadClient(JDBus bus, string name)
-            : base(bus, (ushort)GamepadConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Gamepad, name)
         {
         }
 

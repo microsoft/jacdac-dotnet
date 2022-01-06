@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoundLevelClient : SensorClient
     {
         public SoundLevelClient(JDBus bus, string name)
-            : base(bus, (ushort)SoundLevelConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SoundLevel, name)
         {
         }
 

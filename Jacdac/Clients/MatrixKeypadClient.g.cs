@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MatrixKeypadClient : Client
     {
         public MatrixKeypadClient(JDBus bus, string name)
-            : base(bus, (ushort)MatrixKeypadConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.MatrixKeypad, name)
         {
         }
 

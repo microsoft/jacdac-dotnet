@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MotorClient : Client
     {
         public MotorClient(JDBus bus, string name)
-            : base(bus, (ushort)MotorConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Motor, name)
         {
         }
 

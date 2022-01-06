@@ -16,7 +16,7 @@ namespace Jacdac {
     public partial class ModelRunnerClient : Client
     {
         public ModelRunnerClient(JDBus bus, string name)
-            : base(bus, (ushort)ModelRunnerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.ModelRunner, name)
         {
         }
 

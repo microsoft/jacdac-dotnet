@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RotaryEncoderClient : SensorClient
     {
         public RotaryEncoderClient(JDBus bus, string name)
-            : base(bus, (ushort)RotaryEncoderConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.RotaryEncoder, name)
         {
         }
 

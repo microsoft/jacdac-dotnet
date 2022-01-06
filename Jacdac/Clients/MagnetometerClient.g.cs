@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MagnetometerClient : SensorClient
     {
         public MagnetometerClient(JDBus bus, string name)
-            : base(bus, (ushort)MagnetometerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Magnetometer, name)
         {
         }
 

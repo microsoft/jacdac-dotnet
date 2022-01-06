@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ButtonClient : SensorClient
     {
         public ButtonClient(JDBus bus, string name)
-            : base(bus, (ushort)ButtonConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Button, name)
         {
         }
 

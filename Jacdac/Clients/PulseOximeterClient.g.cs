@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class PulseOximeterClient : SensorClient
     {
         public PulseOximeterClient(JDBus bus, string name)
-            : base(bus, (ushort)PulseOximeterConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.PulseOximeter, name)
         {
         }
 

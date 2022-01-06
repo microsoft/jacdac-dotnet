@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PotentiometerClient : SensorClient
     {
         public PotentiometerClient(JDBus bus, string name)
-            : base(bus, (ushort)PotentiometerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Potentiometer, name)
         {
         }
 

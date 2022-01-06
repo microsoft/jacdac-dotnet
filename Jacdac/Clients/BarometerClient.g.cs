@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BarometerClient : SensorClient
     {
         public BarometerClient(JDBus bus, string name)
-            : base(bus, (ushort)BarometerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Barometer, name)
         {
         }
 

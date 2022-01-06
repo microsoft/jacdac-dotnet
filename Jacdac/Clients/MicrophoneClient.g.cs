@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MicrophoneClient : Client
     {
         public MicrophoneClient(JDBus bus, string name)
-            : base(bus, (ushort)MicrophoneConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Microphone, name)
         {
         }
 

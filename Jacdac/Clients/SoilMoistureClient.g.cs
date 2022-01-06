@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoilMoistureClient : SensorClient
     {
         public SoilMoistureClient(JDBus bus, string name)
-            : base(bus, (ushort)SoilMoistureConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SoilMoisture, name)
         {
         }
 

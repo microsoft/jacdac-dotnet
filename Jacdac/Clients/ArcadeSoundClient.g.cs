@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class ArcadeSoundClient : Client
     {
         public ArcadeSoundClient(JDBus bus, string name)
-            : base(bus, (ushort)ArcadeSoundConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.ArcadeSound, name)
         {
         }
 

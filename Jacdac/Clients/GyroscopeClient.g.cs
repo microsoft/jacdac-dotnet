@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class GyroscopeClient : SensorClient
     {
         public GyroscopeClient(JDBus bus, string name)
-            : base(bus, (ushort)GyroscopeConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Gyroscope, name)
         {
         }
 

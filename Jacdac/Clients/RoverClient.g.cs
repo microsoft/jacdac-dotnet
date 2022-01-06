@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RoverClient : SensorClient
     {
         public RoverClient(JDBus bus, string name)
-            : base(bus, (ushort)RoverConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Rover, name)
         {
         }
 

@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class ReflectedLightClient : SensorClient
     {
         public ReflectedLightClient(JDBus bus, string name)
-            : base(bus, (ushort)ReflectedLightConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.ReflectedLight, name)
         {
         }
 

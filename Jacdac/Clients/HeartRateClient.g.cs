@@ -15,7 +15,7 @@ namespace Jacdac {
     public partial class HeartRateClient : SensorClient
     {
         public HeartRateClient(JDBus bus, string name)
-            : base(bus, (ushort)HeartRateConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.HeartRate, name)
         {
         }
 

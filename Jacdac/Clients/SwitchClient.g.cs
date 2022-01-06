@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SwitchClient : SensorClient
     {
         public SwitchClient(JDBus bus, string name)
-            : base(bus, (ushort)SwitchConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Switch, name)
         {
         }
 

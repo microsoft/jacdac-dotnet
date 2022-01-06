@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DistanceClient : SensorClient
     {
         public DistanceClient(JDBus bus, string name)
-            : base(bus, (ushort)DistanceConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Distance, name)
         {
         }
 

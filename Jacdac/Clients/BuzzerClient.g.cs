@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BuzzerClient : Client
     {
         public BuzzerClient(JDBus bus, string name)
-            : base(bus, (ushort)BuzzerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Buzzer, name)
         {
         }
 

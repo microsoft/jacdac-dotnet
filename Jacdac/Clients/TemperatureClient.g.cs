@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TemperatureClient : SensorClient
     {
         public TemperatureClient(JDBus bus, string name)
-            : base(bus, (ushort)TemperatureConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Temperature, name)
         {
         }
 

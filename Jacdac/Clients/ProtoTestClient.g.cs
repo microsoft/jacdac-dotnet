@@ -13,7 +13,7 @@ namespace Jacdac {
     public partial class ProtoTestClient : Client
     {
         public ProtoTestClient(JDBus bus, string name)
-            : base(bus, (ushort)ProtoTestConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.ProtoTest, name)
         {
         }
 

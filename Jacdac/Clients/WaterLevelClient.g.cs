@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WaterLevelClient : SensorClient
     {
         public WaterLevelClient(JDBus bus, string name)
-            : base(bus, (ushort)WaterLevelConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.WaterLevel, name)
         {
         }
 

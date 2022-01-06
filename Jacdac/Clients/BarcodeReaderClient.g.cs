@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class BarcodeReaderClient : Client
     {
         public BarcodeReaderClient(JDBus bus, string name)
-            : base(bus, (ushort)BarcodeReaderConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.BarcodeReader, name)
         {
         }
 

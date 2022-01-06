@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class UvIndexClient : SensorClient
     {
         public UvIndexClient(JDBus bus, string name)
-            : base(bus, (ushort)UvIndexConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.UvIndex, name)
         {
         }
 

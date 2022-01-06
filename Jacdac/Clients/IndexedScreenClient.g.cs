@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class IndexedScreenClient : Client
     {
         public IndexedScreenClient(JDBus bus, string name)
-            : base(bus, (ushort)IndexedScreenConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.IndexedScreen, name)
         {
         }
 

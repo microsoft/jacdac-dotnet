@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class RainGaugeClient : SensorClient
     {
         public RainGaugeClient(JDBus bus, string name)
-            : base(bus, (ushort)RainGaugeConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.RainGauge, name)
         {
         }
 

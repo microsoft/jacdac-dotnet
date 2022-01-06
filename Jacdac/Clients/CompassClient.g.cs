@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class CompassClient : SensorClient
     {
         public CompassClient(JDBus bus, string name)
-            : base(bus, (ushort)CompassConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Compass, name)
         {
         }
 

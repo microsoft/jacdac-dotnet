@@ -14,7 +14,7 @@ namespace Jacdac {
     public partial class ArcadeGamepadClient : Client
     {
         public ArcadeGamepadClient(JDBus bus, string name)
-            : base(bus, (ushort)ArcadeGamepadConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.ArcadeGamepad, name)
         {
         }
 

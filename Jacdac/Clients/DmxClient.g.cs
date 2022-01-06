@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DmxClient : Client
     {
         public DmxClient(JDBus bus, string name)
-            : base(bus, (ushort)DmxConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Dmx, name)
         {
         }
 

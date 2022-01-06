@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class AccelerometerClient : SensorClient
     {
         public AccelerometerClient(JDBus bus, string name)
-            : base(bus, (ushort)AccelerometerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Accelerometer, name)
         {
         }
 

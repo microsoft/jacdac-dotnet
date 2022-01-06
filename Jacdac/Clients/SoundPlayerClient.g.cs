@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SoundPlayerClient : Client
     {
         public SoundPlayerClient(JDBus bus, string name)
-            : base(bus, (ushort)SoundPlayerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SoundPlayer, name)
         {
         }
 

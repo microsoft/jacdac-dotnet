@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class DotMatrixClient : Client
     {
         public DotMatrixClient(JDBus bus, string name)
-            : base(bus, (ushort)DotMatrixConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.DotMatrix, name)
         {
         }
 

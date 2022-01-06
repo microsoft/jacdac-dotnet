@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class TvocClient : SensorClient
     {
         public TvocClient(JDBus bus, string name)
-            : base(bus, (ushort)TvocConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Tvoc, name)
         {
         }
 

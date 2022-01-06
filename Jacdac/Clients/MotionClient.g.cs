@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MotionClient : SensorClient
     {
         public MotionClient(JDBus bus, string name)
-            : base(bus, (ushort)MotionConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Motion, name)
         {
         }
 

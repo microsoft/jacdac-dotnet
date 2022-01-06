@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class PowerClient : SensorClient
     {
         public PowerClient(JDBus bus, string name)
-            : base(bus, (ushort)PowerConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.Power, name)
         {
         }
 

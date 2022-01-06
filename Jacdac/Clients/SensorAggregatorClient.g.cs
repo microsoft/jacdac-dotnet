@@ -13,7 +13,7 @@ namespace Jacdac {
     public partial class SensorAggregatorClient : SensorClient
     {
         public SensorAggregatorClient(JDBus bus, string name)
-            : base(bus, (ushort)SensorAggregatorConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SensorAggregator, name)
         {
         }
 

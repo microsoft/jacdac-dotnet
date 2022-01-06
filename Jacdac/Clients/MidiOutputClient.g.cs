@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class MidiOutputClient : Client
     {
         public MidiOutputClient(JDBus bus, string name)
-            : base(bus, (ushort)MidiOutputConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.MidiOutput, name)
         {
         }
 

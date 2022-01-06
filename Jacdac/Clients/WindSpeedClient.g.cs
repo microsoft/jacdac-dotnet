@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class WindSpeedClient : SensorClient
     {
         public WindSpeedClient(JDBus bus, string name)
-            : base(bus, (ushort)WindSpeedConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.WindSpeed, name)
         {
         }
 

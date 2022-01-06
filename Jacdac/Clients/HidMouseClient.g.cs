@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class HidMouseClient : Client
     {
         public HidMouseClient(JDBus bus, string name)
-            : base(bus, (ushort)HidMouseConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.HidMouse, name)
         {
         }
 

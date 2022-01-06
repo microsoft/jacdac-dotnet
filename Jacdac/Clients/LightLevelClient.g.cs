@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class LightLevelClient : SensorClient
     {
         public LightLevelClient(JDBus bus, string name)
-            : base(bus, (ushort)LightLevelConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.LightLevel, name)
         {
         }
 

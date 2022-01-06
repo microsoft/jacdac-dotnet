@@ -12,7 +12,7 @@ namespace Jacdac {
     public partial class SpeechSynthesisClient : Client
     {
         public SpeechSynthesisClient(JDBus bus, string name)
-            : base(bus, (ushort)SpeechSynthesisConstants.ServiceClass, name)
+            : base(bus, ServiceClasses.SpeechSynthesis, name)
         {
         }
 
