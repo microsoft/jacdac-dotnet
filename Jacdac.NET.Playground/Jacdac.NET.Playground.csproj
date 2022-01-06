@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj" />
+    <ProjectReference Include="..\Jacdac.NET.Transports.Spi\Jacdac.NET.Transports.Spi.csproj" />
+    <ProjectReference Include="..\Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj" />
     <ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
-    <ProjectReference Include="..\Jacdac.Transports.Spi\Jacdac.Transports.Spi.csproj" />
-    <ProjectReference Include="..\Jacdac.Transports.WebSockets\Jacdac.Transports.WebSockets.csproj" />
   </ItemGroup>
 
 </Project>

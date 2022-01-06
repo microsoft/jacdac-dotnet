@@ -26,14 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Playground", "Ja
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Playground", "Jacdac.TinyCLR.Playground\Jacdac.TinyCLR.Playground.csproj", "{0233B41E-369B-483A-975C-9DAA6C00DEC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Usb", "Jacdac.Transports.Usb\Jacdac.Transports.Usb.csproj", "{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.WebSockets", "Jacdac.Transports.WebSockets\Jacdac.Transports.WebSockets.csproj", "{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Spi", "Jacdac.Transports.Spi\Jacdac.Transports.Spi.csproj", "{C83A22CA-62E1-4B0F-9B27-D82DEEBAB787}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Transports.Hf2", "Jacdac.Transports.Hf2\Jacdac.Transports.Hf2.csproj", "{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Uploader", "Jacdac.Uploader\Jacdac.Uploader.csproj", "{2009994C-3AF6-41DF-8E03-D5A886EC2248}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Storage", "Jacdac.TinyCLR.Storage\Jacdac.TinyCLR.Storage.csproj", "{C81F0D29-5AF9-44B3-B50B-CB8126236510}"
@@ -41,6 +33,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Clients", "Jacdac.TinyCLR.Clients\Jacdac.TinyCLR.Clients.csproj", "{B450BA62-EF67-4ABE-8239-5343A0A72922}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Clients", "Jacdac.NET.Clients\Jacdac.NET.Clients.csproj", "{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Hf2", "Jacdac.NET.Transports.Hf2\Jacdac.NET.Transports.Hf2.csproj", "{011900B5-E962-46A2-A348-92A9444E85D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Spi", "Jacdac.NET.Transports.Spi\Jacdac.NET.Transports.Spi.csproj", "{65B1F0CB-C6D1-4AA8-8AA6-32921C5F1270}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Usb", "Jacdac.NET.Transports.Usb\Jacdac.NET.Transports.Usb.csproj", "{9E18A042-8ED3-404A-A271-BB04F0A7D4FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.WebSockets", "Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj", "{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,22 +84,6 @@ Global
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0233B41E-369B-483A-975C-9DAA6C00DEC7}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED1C8F93-4FCC-45C6-8889-810361AC5F7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC57E464-B97E-4AEE-BBD0-2F22E4D5658B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C83A22CA-62E1-4B0F-9B27-D82DEEBAB787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C83A22CA-62E1-4B0F-9B27-D82DEEBAB787}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C83A22CA-62E1-4B0F-9B27-D82DEEBAB787}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C83A22CA-62E1-4B0F-9B27-D82DEEBAB787}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDE063A6-68FB-4A7B-9C60-7AC034B7F3A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2009994C-3AF6-41DF-8E03-D5A886EC2248}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,6 +100,22 @@ Global
 		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF31D9D9-EABE-4FEE-A9F0-C0C03B56F427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{011900B5-E962-46A2-A348-92A9444E85D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{011900B5-E962-46A2-A348-92A9444E85D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{011900B5-E962-46A2-A348-92A9444E85D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{011900B5-E962-46A2-A348-92A9444E85D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B1F0CB-C6D1-4AA8-8AA6-32921C5F1270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B1F0CB-C6D1-4AA8-8AA6-32921C5F1270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B1F0CB-C6D1-4AA8-8AA6-32921C5F1270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B1F0CB-C6D1-4AA8-8AA6-32921C5F1270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E18A042-8ED3-404A-A271-BB04F0A7D4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E18A042-8ED3-404A-A271-BB04F0A7D4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E18A042-8ED3-404A-A271-BB04F0A7D4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E18A042-8ED3-404A-A271-BB04F0A7D4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
