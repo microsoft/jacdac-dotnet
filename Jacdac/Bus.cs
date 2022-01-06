@@ -325,6 +325,10 @@ namespace Jacdac
                 Debug.Assert(d == disconnected);
                 Debug.Assert(k == newDevices.Length);
                 this.devices = newDevices;
+
+                var roleMgr = this.SelfDeviceServer.RoleManager;
+                if (roleMgr != null)
+                    roleMgr.BindRoles();
                 var ev = this.DeviceDisconnected;
                 if (ev != null)
                     for (var i = 0; i < disco.Length; i++)
