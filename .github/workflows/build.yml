@@ -9,11 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
       - name: Build Jacdac
-        run: |
-        | dotnet build .\Jacdac\Jacdac.csproj -c Debug
-        | dotnet build .\Jacdac.NET\Jacdac.NET.csproj -c Release
-        | dotnet build .\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj -c Release
-        | dotnet build .\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj -c Release
+        run: sh mk.sh
       - name: Build Tests
         run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Run tests
