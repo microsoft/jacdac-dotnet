@@ -55,7 +55,7 @@ namespace Jacdac.NET.Playground
                             reading.ReportReceived += (sender, rargs) =>
                             {
                                 Console.Write($"  {reading}: ");
-                                var values = reading.DeserializeValues();
+                                var values = reading.Values;
                                 foreach (var value in values)
                                     Console.Write($"{value}, ");
                                 Console.WriteLine();

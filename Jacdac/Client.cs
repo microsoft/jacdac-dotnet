@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Jacdac
 {
@@ -7,6 +8,8 @@ namespace Jacdac
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
+
+        public const int TIMEOUT = 2000;
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
@@ -54,13 +57,6 @@ namespace Jacdac
             }
         }
 
-        protected JDRegister GetRegister(ushort code)
-        {
-            var reg = this.BoundService?.GetRegister(code);
-            reg?.RefreshMaybe();
-            return reg;
-        }
-
         public event NodeEventHandler Connected;
         public event NodeEventHandler Disconnected;
 
@@ -69,17 +65,57 @@ namespace Jacdac
             return $"{this.Name}<{this.BoundService?.ToString() ?? "?"}";
         }
 
+        public JDService WaitForService(int timeout)
+        {
+            var s = this.BoundService;
+            if (s != null)
+                return s;
+            if (timeout < 0)
+                throw new ClientDisconnectedException();
+
+            try
+            {
+                var wait = new AutoResetEvent(false);
+                NodeEventHandler signal = null;
+                signal = (JDNode node, EventArgs pkt) =>
+                {
+                    this.Connected -= signal;
+                    wait.Set();
+                };
+                this.Connected += signal;
+                wait.WaitOne(timeout, false);
+
+                s = this.BoundService;
+                if (s == null)
+                    throw new ClientDisconnectedException();
+                return s;
+            }
+            catch (Exception)
+            {
+                throw new ClientDisconnectedException();
+            }
+        }
+
+        protected JDRegister WaitForRegister(ushort code, int timeout = TIMEOUT)
+        {
+            var service = this.WaitForService(timeout);
+            var reg = service.GetRegister(code);
+            return reg;
+        }
+
         protected object GetRegisterValue(ushort code, string packFormat, object defaultValue = null)
         {
-            var reg = this.GetRegister(code);
-            var value = reg?.Value(packFormat);
-            return value != null ? value : defaultValue;
+            var reg = this.WaitForRegister(code);
+            reg.WaitForData(2000);
+            reg.PackFormat = packFormat;
+            var values = reg.Values;
+            return values.Length == 1 ? values[0] : defaultValue;
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)
         {
-            var reg = this.GetRegister(code);
-            // TODO
+            var reg = this.WaitForRegister(code);
+            reg.SendValues(new object[] { value });
         }
 
         protected void SendCmd(ushort code, byte[] data = null)

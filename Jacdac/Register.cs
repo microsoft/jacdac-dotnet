@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Jacdac
 {
@@ -195,29 +196,52 @@ namespace Jacdac
             }
         }
 
-        public object[] DeserializeValues(string packFormat = null)
+        public object[] Values
         {
-            if (packFormat != null)
-                this.PackFormat = packFormat;
+            get
+            {
+                var data = this.Data;
+                if (data == null)
+                    return PacketEncoding.Empty;
 
-            var data = this.Data;
-            if (data == null)
-                return PacketEncoding.Empty;
-
-            var packf = this.PackFormat;
-            if (packf == null)
-                return PacketEncoding.Empty;
-            // deserialize
-            var values = PacketEncoding.UnPack(packf, data);
-            return values;
+                var packf = this.PackFormat;
+                if (packf == null)
+                    return PacketEncoding.Empty;
+                // deserialize
+                var values = PacketEncoding.UnPack(packf, data);
+                return values;
+            }
         }
 
-        public object Value(string packFormat = null)
+        public void SendValues(object[] values)
         {
-            var values = this.DeserializeValues(packFormat);
-            if (values == null || values.Length != 1)
-                return null;
-            return values[0];
+            var packf = this.PackFormat;
+            if (packf == null)
+                throw new InvalidOperationException("register format unknown");
+            this.Data = PacketEncoding.Pack(packf, values);
+        }
+
+        public void WaitForData(int timeout = 1000)
+        {
+            if (this.Data != null) return;
+
+            try
+            {
+                var wait = new AutoResetEvent(false);
+                NodeEventHandler signal = null;
+                signal = (JDNode node, EventArgs pkt) =>
+                {
+                    this.ReportReceived -= signal;
+                    wait.Set();
+                };
+                this.ReportReceived += signal;
+                this.RefreshMaybe();
+                wait.WaitOne(timeout, false);
+            }
+            catch (Exception e)
+            {
+                throw new ClientDisconnectedException();
+            }
         }
     }
 }
