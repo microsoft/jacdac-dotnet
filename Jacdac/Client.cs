@@ -137,6 +137,15 @@ namespace Jacdac
             var payload = PacketEncoding.Pack(packFormat, values);
             this.SendCmd(code, payload);
         }
+
+        protected void AddEvent(ushort code, NodeEventHandler handler)
+        {
+
+        }
+        protected void RemoveEvent(ushort code, NodeEventHandler handler)
+        {
+
+        }
     }
 
     [Serializable]
