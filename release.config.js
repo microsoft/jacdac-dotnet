@@ -9,10 +9,6 @@ module.exports = {
                 )
             }
         },
-        // Verifies the conditions for the plugins used below
-        // For example verifying a GITHUB_TOKEN environment variable has been provided
-        '@semantic-release/git',
-        '@semantic-release/github',
     ],
     publish: [
     ],
