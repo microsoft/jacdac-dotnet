@@ -5,7 +5,7 @@
         readonly float defaultHumidity;
 
         public HumidityClient(JDBus bus, string name, float defaultHumidity = -1)
-            : base(bus, name, Jacdac.HumidityConstants.ServiceClass)
+            : base(bus, name, HumidityConstants.ServiceClass)
         {
             this.defaultHumidity = defaultHumidity;
         }
