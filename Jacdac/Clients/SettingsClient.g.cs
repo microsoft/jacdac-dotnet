@@ -19,7 +19,17 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Notifies that some setting have been modified.
         /// </summary>
-        public event NodeEventHandler Change;
+        public event ClientEventHandler Change
+        {
+            add
+            {
+                this.AddEvent((ushort)SettingsEvent.Change, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SettingsEvent.Change, value);
+            }
+        }
 
 
         

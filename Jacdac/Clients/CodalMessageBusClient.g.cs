@@ -22,7 +22,17 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Raised by the server is triggered by the server. The filtering logic of which event to send over Jacdac is up to the server implementation.
         /// </summary>
-        public event NodeEventHandler Message;
+        public event ClientEventHandler Message
+        {
+            add
+            {
+                this.AddEvent((ushort)CodalMessageBusEvent.Message, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)CodalMessageBusEvent.Message, value);
+            }
+        }
 
 
         

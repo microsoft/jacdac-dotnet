@@ -54,22 +54,62 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted when a key, at the given index, goes from inactive (`pressed == 0`) to active.
         /// </summary>
-        public event NodeEventHandler Down;
+        public event ClientEventHandler Down
+        {
+            add
+            {
+                this.AddEvent((ushort)MatrixKeypadEvent.Down, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)MatrixKeypadEvent.Down, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when a key, at the given index, goes from active (`pressed == 1`) to inactive.
         /// </summary>
-        public event NodeEventHandler Up;
+        public event ClientEventHandler Up
+        {
+            add
+            {
+                this.AddEvent((ushort)MatrixKeypadEvent.Up, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)MatrixKeypadEvent.Up, value);
+            }
+        }
 
         /// <summary>
         /// Emitted together with `up` when the press time was not longer than 500ms.
         /// </summary>
-        public event NodeEventHandler Click;
+        public event ClientEventHandler Click
+        {
+            add
+            {
+                this.AddEvent((ushort)MatrixKeypadEvent.Click, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)MatrixKeypadEvent.Click, value);
+            }
+        }
 
         /// <summary>
         /// Emitted together with `up` when the press time was more than 500ms.
         /// </summary>
-        public event NodeEventHandler LongClick;
+        public event ClientEventHandler LongClick
+        {
+            add
+            {
+                this.AddEvent((ushort)MatrixKeypadEvent.LongClick, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)MatrixKeypadEvent.LongClick, value);
+            }
+        }
 
 
     }

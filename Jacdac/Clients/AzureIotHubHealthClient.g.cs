@@ -52,12 +52,32 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Raised when the connection status changes
         /// </summary>
-        public event NodeEventHandler ConnectionStatusChange;
+        public event ClientEventHandler ConnectionStatusChange
+        {
+            add
+            {
+                this.AddEvent((ushort)AzureIotHubHealthEvent.ConnectionStatusChange, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AzureIotHubHealthEvent.ConnectionStatusChange, value);
+            }
+        }
 
         /// <summary>
         /// Raised when a message has been sent to the hub.
         /// </summary>
-        public event NodeEventHandler MessageSent;
+        public event ClientEventHandler MessageSent
+        {
+            add
+            {
+                this.AddEvent((ushort)AzureIotHubHealthEvent.MessageSent, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AzureIotHubHealthEvent.MessageSent, value);
+            }
+        }
 
 
         

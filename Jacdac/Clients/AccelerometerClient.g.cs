@@ -59,62 +59,182 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.
         /// </summary>
-        public event NodeEventHandler TiltUp;
+        public event ClientEventHandler TiltUp
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.TiltUp, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.TiltUp, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.
         /// </summary>
-        public event NodeEventHandler TiltDown;
+        public event ClientEventHandler TiltDown
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.TiltDown, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.TiltDown, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.
         /// </summary>
-        public event NodeEventHandler TiltLeft;
+        public event ClientEventHandler TiltLeft
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.TiltLeft, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.TiltLeft, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.
         /// </summary>
-        public event NodeEventHandler TiltRight;
+        public event ClientEventHandler TiltRight
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.TiltRight, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.TiltRight, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when accelerometer is laying flat in the given direction.
         /// </summary>
-        public event NodeEventHandler FaceUp;
+        public event ClientEventHandler FaceUp
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.FaceUp, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.FaceUp, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when accelerometer is laying flat in the given direction.
         /// </summary>
-        public event NodeEventHandler FaceDown;
+        public event ClientEventHandler FaceDown
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.FaceDown, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.FaceDown, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when total force acting on accelerometer is much less than 1g.
         /// </summary>
-        public event NodeEventHandler Freefall;
+        public event ClientEventHandler Freefall
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Freefall, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Freefall, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when forces change violently a few times.
         /// </summary>
-        public event NodeEventHandler Shake;
+        public event ClientEventHandler Shake
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Shake, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Shake, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when force in any direction exceeds given threshold.
         /// </summary>
-        public event NodeEventHandler Force2g;
+        public event ClientEventHandler Force2g
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Force2g, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Force2g, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when force in any direction exceeds given threshold.
         /// </summary>
-        public event NodeEventHandler Force3g;
+        public event ClientEventHandler Force3g
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Force3g, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Force3g, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when force in any direction exceeds given threshold.
         /// </summary>
-        public event NodeEventHandler Force6g;
+        public event ClientEventHandler Force6g
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Force6g, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Force6g, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when force in any direction exceeds given threshold.
         /// </summary>
-        public event NodeEventHandler Force8g;
+        public event ClientEventHandler Force8g
+        {
+            add
+            {
+                this.AddEvent((ushort)AccelerometerEvent.Force8g, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)AccelerometerEvent.Force8g, value);
+            }
+        }
 
 
     }

@@ -91,31 +91,81 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted upon successful join and IP address assignment.
         /// </summary>
-        public event NodeEventHandler GotIp;
+        public event ClientEventHandler GotIp
+        {
+            add
+            {
+                this.AddEvent((ushort)WifiEvent.GotIp, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)WifiEvent.GotIp, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when disconnected from network.
         /// </summary>
-        public event NodeEventHandler LostIp;
+        public event ClientEventHandler LostIp
+        {
+            add
+            {
+                this.AddEvent((ushort)WifiEvent.LostIp, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)WifiEvent.LostIp, value);
+            }
+        }
 
         /// <summary>
         /// A WiFi network scan has completed. Results can be read with the `last_scan_results` command.
         /// The event indicates how many networks where found, and how many are considered
         /// as candidates for connection.
         /// </summary>
-        public event NodeEventHandler ScanComplete;
+        public event ClientEventHandler ScanComplete
+        {
+            add
+            {
+                this.AddEvent((ushort)WifiEvent.ScanComplete, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)WifiEvent.ScanComplete, value);
+            }
+        }
 
         /// <summary>
         /// Emitted whenever the list of known networks is updated.
         /// </summary>
-        public event NodeEventHandler NetworksChanged;
+        public event ClientEventHandler NetworksChanged
+        {
+            add
+            {
+                this.AddEvent((ushort)WifiEvent.NetworksChanged, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)WifiEvent.NetworksChanged, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when when a network was detected in scan, the device tried to connect to it
         /// and failed.
         /// This may be because of wrong password or other random failure.
         /// </summary>
-        public event NodeEventHandler ConnectionFailed;
+        public event ClientEventHandler ConnectionFailed
+        {
+            add
+            {
+                this.AddEvent((ushort)WifiEvent.ConnectionFailed, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)WifiEvent.ConnectionFailed, value);
+            }
+        }
 
 
         

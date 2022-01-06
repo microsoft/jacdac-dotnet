@@ -21,12 +21,32 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted when button goes from inactive to active.
         /// </summary>
-        public event NodeEventHandler Down;
+        public event ClientEventHandler Down
+        {
+            add
+            {
+                this.AddEvent((ushort)ArcadeGamepadEvent.Down, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ArcadeGamepadEvent.Down, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when button goes from active to inactive.
         /// </summary>
-        public event NodeEventHandler Up;
+        public event ClientEventHandler Up
+        {
+            add
+            {
+                this.AddEvent((ushort)ArcadeGamepadEvent.Up, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ArcadeGamepadEvent.Up, value);
+            }
+        }
 
 
     }

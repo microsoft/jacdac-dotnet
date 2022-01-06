@@ -3,11 +3,23 @@ using System.Threading;
 
 namespace Jacdac
 {
+    [Serializable]
+    public sealed class ClientEventArgs : EventArgs
+    {
+        readonly object[] Values;
+        internal ClientEventArgs(object[] values)
+        {
+            this.Values = values;
+        }
+    }
+    public delegate void ClientEventHandler(Client sender, ClientEventArgs args);
+
     public abstract class Client : JDNode
     {
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
+        private EventBinding[] events = EventBinding.Empty;
 
         public const int TIMEOUT = 2000;
 
@@ -48,9 +60,15 @@ namespace Jacdac
             {
                 if (this._boundService != value)
                 {
+                    var s = this._boundService;
+                    if (s != null)
+                        s.EventRaised -= handleEventRaised;
                     this._boundService = value;
-                    if (this._boundService != null)
+                    if (value != null)
+                    {
+                        value.EventRaised += handleEventRaised;
                         this.Connected?.Invoke(this, EventArgs.Empty);
+                    }
                     else
                         this.Disconnected?.Invoke(this, EventArgs.Empty);
                 }
@@ -138,13 +156,72 @@ namespace Jacdac
             this.SendCmd(code, payload);
         }
 
-        protected void AddEvent(ushort code, NodeEventHandler handler)
+        private void handleEventRaised(JDService service, EventRaisedArgs args)
         {
-
+            var code = args.Event.Code;
+            var pkt = args.Packet;
+            var events = this.events;
+            ClientEventArgs eargs = null;
+            foreach (var ev in events)
+            {
+                if (ev.Code == code)
+                {
+                    if (eargs == null)
+                        eargs = new ClientEventArgs(args.Event.Values);
+                    ev.Handler(this, eargs);
+                }
+            }
         }
-        protected void RemoveEvent(ushort code, NodeEventHandler handler)
-        {
 
+        protected void AddEvent(ushort code, ClientEventHandler handler)
+        {
+            var events = this.events;
+            lock (events)
+            {
+                // don't double add
+                foreach (var ev in events)
+                    if (ev.Code == code && ev.Handler == handler)
+                        return;
+
+                var newEvents = new EventBinding[events.Length + 1];
+                events.CopyTo(newEvents, 0);
+                newEvents[events.Length] = new EventBinding(code, handler);
+                this.events = newEvents;
+            }
+        }
+        protected void RemoveEvent(ushort code, ClientEventHandler handler)
+        {
+            var events = this.events;
+            lock (events)
+            {
+                for (int i = 0; i < events.Length; i++)
+                {
+                    var ev = events[i];
+                    if (ev.Code == code && ev.Handler == handler)
+                    {
+                        // remove events
+                        var newEvents = new EventBinding[events.Length - 1];
+                        Array.Copy(events, 0, newEvents, 0, i);
+                        if (i + 1 < events.Length)
+                            Array.Copy(events, i + 1, newEvents, 0, events.Length - i - 1);
+                        this.events = newEvents;
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        struct EventBinding
+        {
+            public static EventBinding[] Empty = new EventBinding[0];
+            public readonly ushort Code;
+            public readonly ClientEventHandler Handler;
+            public EventBinding(ushort code, ClientEventHandler handler)
+            {
+                this.Code = code;
+                this.Handler = handler;
+            }
         }
     }
 

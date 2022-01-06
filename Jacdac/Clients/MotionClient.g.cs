@@ -63,7 +63,17 @@ namespace Jacdac.Clients {
         /// <summary>
         /// A movement was detected.
         /// </summary>
-        public event NodeEventHandler Movement;
+        public event ClientEventHandler Movement
+        {
+            add
+            {
+                this.AddEvent((ushort)MotionEvent.Movement, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)MotionEvent.Movement, value);
+            }
+        }
 
 
     }

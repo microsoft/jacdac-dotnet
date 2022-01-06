@@ -57,7 +57,17 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted whenever the state of buttons changes.
         /// </summary>
-        public event NodeEventHandler ButtonsChanged;
+        public event ClientEventHandler ButtonsChanged
+        {
+            add
+            {
+                this.AddEvent((ushort)GamepadEvent.ButtonsChanged, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)GamepadEvent.ButtonsChanged, value);
+            }
+        }
 
 
     }

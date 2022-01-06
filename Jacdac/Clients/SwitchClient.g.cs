@@ -53,12 +53,32 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted when switch goes from `off` to `on`.
         /// </summary>
-        public event NodeEventHandler On;
+        public event ClientEventHandler On
+        {
+            add
+            {
+                this.AddEvent((ushort)SwitchEvent.On, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SwitchEvent.On, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when switch goes from `on` to `off`.
         /// </summary>
-        public event NodeEventHandler Off;
+        public event ClientEventHandler Off
+        {
+            add
+            {
+                this.AddEvent((ushort)SwitchEvent.Off, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SwitchEvent.Off, value);
+            }
+        }
 
 
     }

@@ -81,12 +81,32 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Raised when a loud sound is detected
         /// </summary>
-        public event NodeEventHandler Loud;
+        public event ClientEventHandler Loud
+        {
+            add
+            {
+                this.AddEvent((ushort)SoundLevelEvent.Loud, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SoundLevelEvent.Loud, value);
+            }
+        }
 
         /// <summary>
         /// Raised when a period of quietness is detected
         /// </summary>
-        public event NodeEventHandler Quiet;
+        public event ClientEventHandler Quiet
+        {
+            add
+            {
+                this.AddEvent((ushort)SoundLevelEvent.Quiet, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SoundLevelEvent.Quiet, value);
+            }
+        }
 
 
     }

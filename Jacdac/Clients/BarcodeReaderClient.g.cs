@@ -37,7 +37,17 @@ namespace Jacdac.Clients {
         /// Raised when a bar code is detected and decoded. If the reader detects multiple codes, it will issue multiple events.
         /// In case of numeric barcodes, the `data` field should contain the ASCII (which is the same as UTF8 in that case) representation of the number.
         /// </summary>
-        public event NodeEventHandler Detect;
+        public event ClientEventHandler Detect
+        {
+            add
+            {
+                this.AddEvent((ushort)BarcodeReaderEvent.Detect, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)BarcodeReaderEvent.Detect, value);
+            }
+        }
 
 
     }

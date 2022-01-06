@@ -2,7 +2,7 @@
 {
     public sealed partial class JDEvent : JDServiceNode
     {
-        private Packet _lastReportPkt;
+        private byte[] data;
         public uint Count = 0;
 
         internal JDEvent(JDService service, ushort code)
@@ -15,19 +15,27 @@
         {
             get
             {
-                return this._lastReportPkt == null ? null : this._lastReportPkt.Data;
+                return this.data;
             }
         }
 
+        public object[] Values
+        {
+            get
+            {
+                // TODO: decode event data
+                return PacketEncoding.Empty;
+            }
+        }
         public override string ToString()
         {
             return this.Service.ToString() + "{" + this.Code.ToString("x2") + "}";
         }
 
-        public void ProcessPacket(Packet pkt)
+        internal bool ProcessPacket(Packet pkt)
         {
             var device = this.Service.Device;
-            if (device?.Bus == null) return;
+            if (device?.Bus == null) return false;
 
             var ec = device.EventCounter + 1;
             // how many packets ahead and behind current are we?
@@ -42,14 +50,16 @@
             // ahead < 5 means we missed at most 5 events,
             // so we ignore this one and rely on retransmission
             // of the missed events, and then eventually the current event
-            if (isahead && (old || missed5)) return;
+            if (isahead && (old || missed5)) return false;
 
-            this._lastReportPkt = pkt;
+            this.data = pkt.Data;
             this.Count++;
 
             // update device counter
             device.EventCounter = pkt.EventCounter;
             this.RaiseChanged();
+
+            return true;
         }
     }
 }

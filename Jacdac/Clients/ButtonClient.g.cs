@@ -41,20 +41,50 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted when button goes from inactive to active.
         /// </summary>
-        public event NodeEventHandler Down;
+        public event ClientEventHandler Down
+        {
+            add
+            {
+                this.AddEvent((ushort)ButtonEvent.Down, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ButtonEvent.Down, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when button goes from active to inactive. The 'time' parameter
         /// records the amount of time between the down and up events.
         /// </summary>
-        public event NodeEventHandler Up;
+        public event ClientEventHandler Up
+        {
+            add
+            {
+                this.AddEvent((ushort)ButtonEvent.Up, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ButtonEvent.Up, value);
+            }
+        }
 
         /// <summary>
         /// Emitted when the press time is greater than 500ms, and then at least every 500ms
         /// as long as the button remains pressed. The 'time' parameter records the the amount of time
         /// that the button has been held (since the down event).
         /// </summary>
-        public event NodeEventHandler Hold;
+        public event ClientEventHandler Hold
+        {
+            add
+            {
+                this.AddEvent((ushort)ButtonEvent.Hold, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ButtonEvent.Hold, value);
+            }
+        }
 
 
     }

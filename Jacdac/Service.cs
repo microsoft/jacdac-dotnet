@@ -83,7 +83,12 @@ namespace Jacdac
                 else if (pkt.IsEvent)
                 {
                     var ev = this.GetEvent(pkt.EventCode);
-                    if (null != ev) ev.ProcessPacket(pkt);
+                    if (null != ev)
+                    {
+                        var raised = ev.ProcessPacket(pkt);
+                        if (raised)
+                            this.EventRaised?.Invoke(this, new EventRaisedArgs(pkt, ev));
+                    }
                 }
                 else if (pkt.ServiceCommand == Jacdac.Constants.CMD_NOT_IMPLEMENTED)
                 {
@@ -208,6 +213,21 @@ namespace Jacdac
             return r;
         }
 
+        public event EventRaisedHandler EventRaised;
+
         public event PacketEventHandler CommandReceived;
     }
+
+    [Serializable]
+    public sealed class EventRaisedArgs : PacketEventArgs
+    {
+        public readonly JDEvent Event;
+        internal EventRaisedArgs(Packet pkt, JDEvent ev)
+            : base(pkt)
+        {
+            this.Event = ev;
+        }
+    }
+
+    public delegate void EventRaisedHandler(JDService service, EventRaisedArgs args);
 }

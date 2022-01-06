@@ -216,37 +216,107 @@ namespace Jacdac.Clients {
         /// <summary>
         /// An event raised when rw_bool is modified
         /// </summary>
-        public event NodeEventHandler EBool;
+        public event ClientEventHandler EBool
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EBool, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EBool, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_u32 is modified
         /// </summary>
-        public event NodeEventHandler EU32;
+        public event ClientEventHandler EU32
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EU32, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EU32, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_i32 is modified
         /// </summary>
-        public event NodeEventHandler EI32;
+        public event ClientEventHandler EI32
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EI32, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EI32, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_string is modified
         /// </summary>
-        public event NodeEventHandler EString;
+        public event ClientEventHandler EString
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EString, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EString, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_bytes is modified
         /// </summary>
-        public event NodeEventHandler EBytes;
+        public event ClientEventHandler EBytes
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EBytes, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EBytes, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_i8_u8_u16_i32 is modified
         /// </summary>
-        public event NodeEventHandler EI8U8U16I32;
+        public event ClientEventHandler EI8U8U16I32
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EI8U8U16I32, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EI8U8U16I32, value);
+            }
+        }
 
         /// <summary>
         /// An event raised when rw_u8_string is modified
         /// </summary>
-        public event NodeEventHandler EU8String;
+        public event ClientEventHandler EU8String
+        {
+            add
+            {
+                this.AddEvent((ushort)ProtoTestEvent.EU8String, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)ProtoTestEvent.EU8String, value);
+            }
+        }
 
 
         

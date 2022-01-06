@@ -151,7 +151,17 @@ namespace Jacdac.Clients {
         /// <summary>
         /// Emitted whenever `power_status` changes.
         /// </summary>
-        public event NodeEventHandler PowerStatusChanged;
+        public event ClientEventHandler PowerStatusChanged
+        {
+            add
+            {
+                this.AddEvent((ushort)PowerEvent.PowerStatusChanged, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)PowerEvent.PowerStatusChanged, value);
+            }
+        }
 
 
         

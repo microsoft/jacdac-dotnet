@@ -75,6 +75,11 @@ namespace Jacdac_RgbLed
             Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
 
             var humidity = new HumidityClient(bus, "humidity");
+            var button = new ButtonClient(bus, "btn");
+
+            button.Down += (sender, args) => Display.WriteLine("button down");
+            button.Up += (sender, args) => Display.WriteLine("button up");
+            button.Hold += (sender, args) => Display.WriteLine("button hold");
 
             //Blink(transport);
             while (true)

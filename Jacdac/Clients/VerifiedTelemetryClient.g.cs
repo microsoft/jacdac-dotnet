@@ -69,12 +69,32 @@ namespace Jacdac.Clients {
         /// <summary>
         /// The telemetry status of the device was updated.
         /// </summary>
-        public event NodeEventHandler TelemetryStatusChange;
+        public event ClientEventHandler TelemetryStatusChange
+        {
+            add
+            {
+                this.AddEvent((ushort)VerifiedTelemetryEvent.TelemetryStatusChange, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)VerifiedTelemetryEvent.TelemetryStatusChange, value);
+            }
+        }
 
         /// <summary>
         /// The fingerprint template was updated
         /// </summary>
-        public event NodeEventHandler FingerprintTemplateChange;
+        public event ClientEventHandler FingerprintTemplateChange
+        {
+            add
+            {
+                this.AddEvent((ushort)VerifiedTelemetryEvent.FingerprintTemplateChange, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)VerifiedTelemetryEvent.FingerprintTemplateChange, value);
+            }
+        }
 
 
         

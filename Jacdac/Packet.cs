@@ -355,7 +355,8 @@ namespace Jacdac
         public bool IsReport => !this.IsCommand;
     }
 
-    public sealed class PacketEventArgs : EventArgs
+    [Serializable]
+    public class PacketEventArgs : EventArgs
     {
         public readonly Packet Packet;
         internal PacketEventArgs(Packet packet)
