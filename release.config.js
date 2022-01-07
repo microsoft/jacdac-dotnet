@@ -8,8 +8,8 @@ module.exports = {
         [
             "semantic-release-dotnet",
             {
-                packArguments: ["Jacdac.sln", "--nologo", "-c", "Release"],
-                pushFiles: "bin/*.nupkg",
+                packArguments: ["Jacdac.sln", "--nologo", "-c", "Release", "-o", "packages"],
+                pushFiles: "packages/*.nupkg",
             },
         ],
     ],
