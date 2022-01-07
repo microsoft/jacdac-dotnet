@@ -21,3 +21,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+          NUGET_PUSH_URL: ${{ secrets.NUGET_PUSH_URL }}
