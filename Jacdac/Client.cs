@@ -21,7 +21,8 @@ namespace Jacdac
         private JDService _boundService;
         private EventBinding[] events = EventBinding.Empty;
 
-        public const int TIMEOUT = 2000;
+        public static int CONNECT_TIMEOUT = 3000;
+        public static int VALUES_TIMEOUT = 1000;
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
@@ -119,22 +120,26 @@ namespace Jacdac
             }
         }
 
-        protected JDRegister WaitForRegister(ushort code, int timeout = TIMEOUT)
+        protected JDRegister WaitForRegister(ushort code)
         {
-            var service = this.WaitForService(timeout);
+            var service = this.WaitForService(CONNECT_TIMEOUT);
             var reg = service.GetRegister(code);
             return reg;
         }
 
-        protected object GetRegisterValue(ushort code, string packFormat, object defaultValue = null)
+        protected object[] GetRegisterValues(ushort code, string packFormat)
         {
             var reg = this.WaitForRegister(code);
             reg.PackFormat = packFormat;
-            reg.WaitForValues(2000);
-            var values = reg.Values;
-            if (values.Length != 1)
+            var values = reg.WaitForValues(VALUES_TIMEOUT);
+            if (values.Length == 0)
                 throw new ClientDisconnectedException();
-            return values[0];
+            return values;
+        }
+
+        protected object GetRegisterValue(ushort code, string packFormat)
+        {
+            return this.GetRegisterValues(code, packFormat)[0];
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)

@@ -227,9 +227,10 @@ namespace Jacdac
             this.Data = PacketEncoding.Pack(packf, values);
         }
 
-        public void WaitForValues(int timeout = 1000)
+        public object[] WaitForValues(int timeout = 1000)
         {
-            if (this.Values.Length > 0) return;
+            var values = this.Values;
+            if (values.Length > 0) return values;
 
             NodeEventHandler signal = null;
             try
@@ -237,7 +238,8 @@ namespace Jacdac
                 var wait = new AutoResetEvent(false);
                 signal = (JDNode node, EventArgs pkt) =>
                 {
-                    if (this.Values.Length == 0)
+                    values = this.Values;
+                    if (values.Length == 0)
                         // keep waiting
                         return;
                     this.ReportReceived -= signal;
@@ -246,6 +248,8 @@ namespace Jacdac
                 this.ReportReceived += signal;
                 this.RefreshMaybe();
                 wait.WaitOne(timeout, true);
+
+                return values;
             }
             catch (Exception)
             {
