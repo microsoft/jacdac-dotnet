@@ -67,8 +67,6 @@ namespace Jacdac
         {
             try
             {
-                Debug.WriteLine($"parse\n{text}");
-
                 var jobject = JsonConverter.Deserialize(text) as JObject;
                 var res = new ServiceSpec();
                 var sc = jobject["serviceClass"].Value as JValue;

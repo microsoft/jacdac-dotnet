@@ -94,7 +94,7 @@ namespace Jacdac_RgbLed
                 }
                 catch (ClientDisconnectedException)
                 {
-                    Display.WriteLine("connect humidity");
+                    //Display.WriteLine("connect humidity");
                 }
                 //Display.WriteLine($".");
                 Thread.Sleep(1000);

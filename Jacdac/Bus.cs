@@ -25,7 +25,7 @@ namespace Jacdac
         public LoggerPriority DefaultMinLoggerPriority = LoggerPriority.Silent;
     }
 
-    public sealed partial class JDBus : JDNode
+    public sealed partial class JDBus : JDLoggerNode
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;
@@ -62,8 +62,7 @@ namespace Jacdac
                 this.AddTransport(transport);
             this.Start();
         }
-
-        public LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
+        public override LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
 
         public void AddTransport(Transport transport)
         {
@@ -97,7 +96,10 @@ namespace Jacdac
         public void Start()
         {
             if (this.announceTimer == null)
+            {
+                this.Debug($"bus: start ({this.SelfDeviceServer.ShortId})");
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
+            }
 
             var transports = this.transports;
             foreach (var transport in transports)
@@ -164,7 +166,7 @@ namespace Jacdac
                 case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            Debug.WriteLine($"transport error {name}");
+            System.Diagnostics.Debug.WriteLine($"transport error {name}");
             // if (args.Data != null)
             // {
             //    Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
@@ -319,7 +321,7 @@ namespace Jacdac
             }
             if (disconnected > 0)
             {
-                Debug.WriteLine($"cleaning out {disconnected} devices");
+                this.Debug($"cleaning out {disconnected} devices");
                 var disco = new JDDevice[disconnected];
                 var newDevices = new JDDevice[devices.Length - disconnected];
                 var k = 0;
@@ -332,8 +334,8 @@ namespace Jacdac
                     else
                         disco[d++] = device;
                 }
-                Debug.Assert(d == disconnected);
-                Debug.Assert(k == newDevices.Length);
+                System.Diagnostics.Debug.Assert(d == disconnected);
+                System.Diagnostics.Debug.Assert(k == newDevices.Length);
                 this.devices = newDevices;
 
                 var roleMgr = this.SelfDeviceServer.RoleManager;
