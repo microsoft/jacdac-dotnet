@@ -12,8 +12,6 @@ jobs:
         run: dotnet build Jacdac.sln -c Debug
       - name: Build Jacdac Release
         run: dotnet build Jacdac.sln -c Release
-      - name: Build Jacdac.Dev Debug
-        run: dotnet build Jacdac.Dev.sln -c Debug
       - name: Build Tests
         run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Run tests
