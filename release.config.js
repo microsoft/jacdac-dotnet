@@ -11,11 +11,10 @@ module.exports = {
             }
         ],
         [
-            "semantic-release-nuget",
+            "semantic-release/exec",
             {
-                packArguments: ["Jacdac.sln", "--nologo", "-c", "Release", "-o", "packages"],
-                pushFiles: "packages/*.nupkg",
-            },
-        ],
+                "publishCmd": "dotnet nuget push packages/*.nupkg -k $NUGET_TOKEN -s $NUGET_PUSH_URL",
+            }
+        ]
     ],
 }
