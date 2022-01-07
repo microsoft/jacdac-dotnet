@@ -19,7 +19,7 @@ namespace Jacdac
         public string InstanceName;
     }
 
-    public abstract partial class JDServiceServer : JDNode
+    public abstract partial class JDServiceServer : JDBusNode
     {
         public byte ServiceIndex;
         public JDDeviceServer Device;
@@ -40,6 +40,8 @@ namespace Jacdac
                 });
         }
 
+        public override JDBus Bus { get => this.Device?.Bus; }
+
         public virtual bool ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet || pkt.IsRegisterSet)
@@ -53,7 +55,16 @@ namespace Jacdac
                 PacketEventHandler handler;
                 if (this.TryGetCommand(pkt.ServiceCommand, out handler))
                 {
-                    handler(this, new PacketEventArgs(pkt));
+                    try
+                    {
+                        handler(this, new PacketEventArgs(pkt));
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = this.Device?.Bus?.Logger;
+                        if (logger != null)
+                            logger.SendReport(LoggerPriority.Error, $"cmd failed: ${ex.Message}, ${pkt}");
+                    }
                     return true;
                 }
             }
@@ -66,7 +77,7 @@ namespace Jacdac
 
         private void SendNotImplemented(Packet pkt)
         {
-            Debug.Assert(!pkt.IsMultiCommand);
+            System.Diagnostics.Debug.Assert(!pkt.IsMultiCommand);
             var data = new byte[4];
             // Jacdac.SystemCmdPack.CommandNotImplemented
             Util.Write16(data, 0, pkt.ServiceCommand);

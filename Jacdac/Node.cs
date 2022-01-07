@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jacdac.Servers;
+using System;
 
 namespace Jacdac
 {
@@ -24,7 +25,52 @@ namespace Jacdac
         }
     }
 
-    public abstract class JDServiceNode : JDNode
+    public abstract class JDLoggerNode : JDNode
+    {
+        public abstract LoggerServer Logger { get; }
+
+        protected JDLoggerNode() { }
+
+        protected void Debug(string msg)
+        {
+            System.Diagnostics.Debug.WriteLine(msg);
+            var logger = this.Logger;
+            logger?.SendReport(LoggerPriority.Debug, msg);
+        }
+
+        protected void Warn(string msg)
+        {
+            var logger = this.Logger;
+            logger?.SendReport(LoggerPriority.Warning, msg);
+        }
+
+        protected void Log(string msg)
+        {
+            var logger = this.Logger;
+            logger?.SendReport(LoggerPriority.Log, msg);
+        }
+
+        protected void Error(string msg)
+        {
+            var logger = this.Logger;
+            logger?.SendReport(LoggerPriority.Error, msg);
+        }
+    }
+
+    public abstract class JDBusNode : JDLoggerNode
+    {
+        protected JDBusNode()
+        {
+
+        }
+
+        public abstract JDBus Bus { get; }
+
+        public override LoggerServer Logger { get => this.Bus?.Logger; }
+    }
+
+
+    public abstract class JDServiceNode : JDBusNode
     {
         public readonly JDService Service;
         public readonly ushort Code;
@@ -35,7 +81,7 @@ namespace Jacdac
             this.Code = code;
         }
 
-        protected JDBus Bus
+        public override JDBus Bus
         {
             get { return this.Service.Device?.Bus; }
         }

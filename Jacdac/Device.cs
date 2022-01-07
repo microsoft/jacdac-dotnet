@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Jacdac
 {
-    public sealed partial class JDDevice : JDNode
+    public sealed partial class JDDevice : JDBusNode
     {
         private JDBus bus;
         public readonly string DeviceId;
@@ -25,8 +25,7 @@ namespace Jacdac
             this.LastSeen = bus.Timestamp;
             this._servicesData = Packet.EmptyData;
         }
-
-        public JDBus Bus
+        public override JDBus Bus
         {
             get { return bus; }
         }
@@ -221,7 +220,7 @@ namespace Jacdac
                     var ack = acks[i];
                     if (ack.Packet != null) newAcks[k] = ack;
                 }
-                Debug.Assert(k == newAcks.Length);
+                System.Diagnostics.Debug.Assert(k == newAcks.Length);
                 this._acks = newAcks;
             }
         }
@@ -237,7 +236,7 @@ namespace Jacdac
 
         private void ReceiveAck(Packet ackPkt)
         {
-            Debug.WriteLine($"{this}: receive ack {ackPkt.Crc}");
+            this.Debug($"{this}: receive ack {ackPkt.Crc}");
             var serviceCommand = ackPkt.ServiceCommand;
             Ack[] acks;
             var received = 0;
@@ -255,7 +254,7 @@ namespace Jacdac
                 }
                 if (received > 0)
                 {
-                    Debug.WriteLine($"{this}: ack received {received}");
+                    this.Debug($"{this}: ack received {received}");
                     this.RefreshAcks(acks, received);
                 }
             }
@@ -269,7 +268,7 @@ namespace Jacdac
             lock (this)
             {
                 acks = this._acks == null ? new Ack[0] : (Ack[])this._acks.Clone();
-                Debug.WriteLine($"{this}: resend acks {acks.Length}");
+                this.Debug($"{this}: resend acks {acks.Length}");
                 foreach (var ack in acks)
                 {
                     if (ack.Packet == null) continue; // already processed
@@ -289,7 +288,7 @@ namespace Jacdac
                 // filter out error packets
                 if (errors > 0)
                 {
-                    Debug.WriteLine($"{this}: ack errors {errors}");
+                    this.Debug($"{this}: ack errors {errors}");
                     this.RefreshAcks(acks, errors);
                 }
 
@@ -337,7 +336,7 @@ namespace Jacdac
         {
             if (this.Bus == null || this.Bus.IsPassive) return;
 
-            Debug.Assert(!pkt.IsMultiCommand);
+            System.Diagnostics.Debug.Assert(!pkt.IsMultiCommand);
             pkt.DeviceId = this.DeviceId;
             this.Bus.SelfDeviceServer.SendPacket(pkt);
             if (pkt.RequiresAck)

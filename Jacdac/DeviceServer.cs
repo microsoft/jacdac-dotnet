@@ -3,9 +3,9 @@ using System;
 
 namespace Jacdac
 {
-    public sealed partial class JDDeviceServer
+    public sealed partial class JDDeviceServer : JDBusNode
     {
-        public readonly JDBus Bus;
+        private readonly JDBus bus;
         public readonly string DeviceId;
         public readonly ControlServer Control;
         public readonly LoggerServer Logger;
@@ -19,8 +19,9 @@ namespace Jacdac
         private ushort eventCounter = 0;
 
         public JDDeviceServer(JDBus bus, string deviceId, JDBusOptions options)
+            : base()
         {
-            this.Bus = bus;
+            this.bus = bus;
             this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
@@ -50,6 +51,8 @@ namespace Jacdac
                 server.ServiceIndex = i;
             }
         }
+
+        public override JDBus Bus { get => this.bus; }
 
         public string ShortId
         {

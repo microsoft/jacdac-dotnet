@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Jacdac
 {
-    public sealed partial class JDService : JDNode
+    public sealed partial class JDService : JDBusNode
     {
         JDDevice _device;
         private ServiceSpec _specification;
@@ -29,6 +29,8 @@ namespace Jacdac
             get { return this._device; }
             internal set { this._device = value; }
         }
+
+        public override JDBus Bus { get => this.Device?.Bus; }
 
         public override string ToString()
         {

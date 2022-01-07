@@ -59,7 +59,8 @@ namespace Jacdac_RgbLed
                 FirmwareVersion = "0.0.0",
                 Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer },
                 SpecificationCatalog = new ServiceSpecificationCatalog(specStorage),
-                RoleStorage = rolesStorage
+                RoleStorage = rolesStorage,
+                DefaultMinLoggerPriority = LoggerPriority.Log,
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;

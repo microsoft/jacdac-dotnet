@@ -84,7 +84,7 @@ namespace Jacdac.Servers
                     });
                     if (!Util.BufferEquals(current, payload))
                     {
-                        Debug.WriteLine($"roles: save {role}");
+                        this.Debug($"roles: save {role}");
                         this.Storage.Write(role.Name, payload);
                     }
                 }
@@ -133,7 +133,7 @@ namespace Jacdac.Servers
 
         private void handleClearAllRoles(JDNode sensor, PacketEventArgs args)
         {
-            Debug.WriteLine($"roles: clear");
+            this.Debug($"roles: clear");
             if (this.Storage != null)
                 this.Storage.Clear();
             var bindings = this.roles;
@@ -251,7 +251,7 @@ namespace Jacdac.Servers
                 return;
 
 
-            Debug.WriteLine($"roles: binding {bound}/{roles.Length}");
+            this.Debug($"roles: binding {bound}/{roles.Length}");
             // try to load bindings from storage
             if (this.Storage != null)
             {
@@ -263,7 +263,7 @@ namespace Jacdac.Servers
                     // try get binding from storage
                     if (this.TryLoadBinding(devices, role))
                     {
-                        Debug.WriteLine($"roles: storage bind {role}");
+                        this.Debug($"roles: storage bind {role}");
                         continue;
                     }
                 }
@@ -290,7 +290,7 @@ namespace Jacdac.Servers
                                 && !this.TryGetClient(service, out client))
                             {
                                 role.BoundService = service;
-                                Debug.WriteLine($"roles: auto bind {role}");
+                                this.Debug($"roles: auto bind {role}");
                                 break;
                             }
                         }

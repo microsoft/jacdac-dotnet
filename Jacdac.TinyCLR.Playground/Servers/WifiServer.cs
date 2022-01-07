@@ -211,7 +211,7 @@ namespace Jacdac.Servers
             {
                 try
                 {
-                    Debug.WriteLine("Wifi: scanning...");
+                    this.Debug("wifi: scanning...");
                     this.initController();
                     var ssids = Winc15x0Interface.Scan();
                     this.lastScanResults = ssids;
@@ -223,7 +223,7 @@ namespace Jacdac.Servers
                         if (Array.IndexOf(knownSsids, ssids[i]) != -1)
                             known++;
 
-                    Debug.WriteLine($"Wifi: found {total} ssids, {known} known");
+                    this.Debug($"Wifi: found {total} ssids, {known} known");
 
                     this.SendEvent(
                         (ushort)Jacdac.WifiEvent.ScanComplete,
@@ -284,7 +284,7 @@ namespace Jacdac.Servers
         {
             if (this.networkController.ActiveInterfaceSettings != null)
             {
-                Debug.WriteLine("Wifi: skip connect, already connecting");
+                this.Debug("wifi: skip connect, already connecting");
                 return;
             }
 
@@ -292,10 +292,10 @@ namespace Jacdac.Servers
             var secrets = this.FindAccessPoint();
             if (secrets == null)
             {
-                Debug.WriteLine("Wifi: no known ssid found");
+                this.Debug("wifi: no known ssid found");
                 return;
             }
-            Debug.WriteLine($"Wifi: connecting to {secrets[0]}");
+            this.Debug($"Wifi: connecting to {secrets[0]}");
 
             var networkInterfaceSetting = new WiFiNetworkInterfaceSettings()
             {
@@ -318,7 +318,7 @@ namespace Jacdac.Servers
                 {
                     this.Ssid.SetValues(new object[] { networkInterfaceSetting.Ssid });
                     this.IpAddress.SetValues(new object[] { address });
-                    Debug.WriteLine($"Wifi {networkInterfaceSetting.Ssid} connected");
+                    this.Debug($"Wifi {networkInterfaceSetting.Ssid} connected");
                 }
             };
             this.networkController.Enable();

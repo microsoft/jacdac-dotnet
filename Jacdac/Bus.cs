@@ -63,6 +63,8 @@ namespace Jacdac
             this.Start();
         }
 
+        public LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
+
         public void AddTransport(Transport transport)
         {
             if (transport == null)
