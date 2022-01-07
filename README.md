@@ -19,18 +19,29 @@ This layer is still under construction.
 This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
 
+All relevant packages are published in [NuGet Jacdac](https://www.nuget.org/profiles/Jacdac).
+
   - `Jacdac`, C# Jacdac library, .NET5. This package serves as a placeholder for C# files and
     and is not referenced anywhere.
-  - `Jacdac.NET`, .NET famework specific platform, .NET5
-  - `Jacdac.NET.Playground`, .NET5 test application using jacdac development server
-  - `Jacdac.Transports.WebSockets`, WebSocket transport, .NET5
-  - `Jacdac.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT, .NET5
-  - `Jacdac.TinyCLR`, mirror of `Jacdac` library, TinyCLR
-  - `Jacdac.TinyCLR.Playground`, TinyCLR test application
+
+### .NET 5.0
+
+  - `Jacdac.NET`, core runtime
+  - `Jacdac.NET.Clients`, service clients
+  - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
+  - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
   - `Jacdac.Tests`, unit tests, .NET6
 
-  - `Jacdac.Transports.Hf2`, HF2 protocol layer, .NET6, under construction
-  - `Jacdac.Transports.Usb`, Usb transport, .NET6, under construction
+Under construction:
+
+  - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET6, under construction
+  - `Jacdac.NET.Transports.Usb`, Usb transport, .NET6, under construction
+
+### TinyCLR
+
+  - `Jacdac.TinyCLR`, mirror of `Jacdac` library
+  - `Jacdac.TinyCLR.Clients`, service clients
+  - `Jacdac.TinyCLR.Storage`, storage support for various configurations
 
 ## Developer setup
 
