@@ -40,15 +40,6 @@ namespace Jacdac {
         SetRegister = 0x2000,
 
         /// <summary>
-        /// Event from sensor or a broadcast service.
-        ///
-        /// ```
-        /// const [eventId, eventArgument] = jdunpack<[number, number]>(buf, "u32 u32")
-        /// ```
-        /// </summary>
-        Event = 0x1,
-
-        /// <summary>
         /// No args. Request to calibrate a sensor. The report indicates the calibration is done.
         /// </summary>
         Calibrate = 0x2,
@@ -67,11 +58,6 @@ namespace Jacdac {
     }
 
     public static class SystemCmdPack {
-        /// <summary>
-        /// Pack format for 'event' register data.
-        /// </summary>
-        public const string Event = "u32 u32";
-
         /// <summary>
         /// Pack format for 'command_not_implemented' register data.
         /// </summary>

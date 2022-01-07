@@ -12,13 +12,13 @@ namespace Jacdac {
 
     public enum RelayReg {
         /// <summary>
-        /// Read-write bool (uint8_t). Indicates whether the relay circuit is currently energized (closed) or not.
+        /// Read-write bool (uint8_t). Indicates whether the relay circuit is currently energized or not.
         ///
         /// ```
-        /// const [closed] = jdunpack<[number]>(buf, "u8")
+        /// const [active] = jdunpack<[number]>(buf, "u8")
         /// ```
         /// </summary>
-        Closed = 0x1,
+        Active = 0x1,
 
         /// <summary>
         /// Constant Variant (uint8_t). Describes the type of relay used.
@@ -41,9 +41,9 @@ namespace Jacdac {
 
     public static class RelayRegPack {
         /// <summary>
-        /// Pack format for 'closed' register data.
+        /// Pack format for 'active' register data.
         /// </summary>
-        public const string Closed = "u8";
+        public const string Active = "u8";
 
         /// <summary>
         /// Pack format for 'variant' register data.
