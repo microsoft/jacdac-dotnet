@@ -357,18 +357,18 @@ namespace Jacdac
                     else
                     {
                         byte[] buf;
-                        if (v is string)
+                        if (v != null && v is byte[])
+                        {
+                            // assume buffer
+                            if (c0 == ch_b) buf = (byte[])v;
+                            else throw new ArgumentException("unexpected buffer");
+                        }
+                        else if (v != null && v is string)
                         {
                             var s = (string)v;
                             if (c0 == ch_z) buf = System.Text.UTF8Encoding.UTF8.GetBytes(s + "\u0000");
                             else if (c0 == ch_s) buf = System.Text.UTF8Encoding.UTF8.GetBytes(s);
                             else throw new ArgumentException("unexpected string");
-                        }
-                        else if (v != null && v is byte[])
-                        {
-                            // assume buffer
-                            if (c0 == ch_b) buf = (byte[])v;
-                            else throw new ArgumentException("unexpected buffer");
                         }
                         else
                         {

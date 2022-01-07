@@ -172,7 +172,9 @@ namespace Jacdac.Storage
                 try
                 {
                     var fn = this.FullFileName();
-                    this.Parent.drive.Delete(fn);
+                    var info = new FileInfo(fn);
+                    if (info.Exists)
+                        this.Parent.drive.Delete(fn);
                 }
                 finally
                 {
@@ -186,16 +188,22 @@ namespace Jacdac.Storage
                 StorageEntry[] entries = null;
                 try
                 {
-                    var bytes = System.IO.File.ReadAllBytes(fn);
-                    var text = UTF8Encoding.UTF8.GetString(bytes);
-                    entries = (StorageEntry[])JsonConverter.DeserializeObject(text, typeof(StorageEntry[]),
-                        (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
-                        {
-                            if (instancePath == "/")
-                                return new StorageEntry();
+                    var info = new FileInfo(fn);
+                    if (!info.Exists)
+                        entries = new StorageEntry[0];
+                    else
+                    {
+                        var bytes = System.IO.File.ReadAllBytes(fn);
+                        var text = UTF8Encoding.UTF8.GetString(bytes);
+                        entries = (StorageEntry[])JsonConverter.DeserializeObject(text, typeof(StorageEntry[]),
+                            (string instancePath, JToken token, Type baseType, string fieldName, int length) =>
+                            {
+                                if (instancePath == "/")
+                                    return new StorageEntry();
 
-                            return null;
-                        });
+                                return null;
+                            });
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -73,7 +73,8 @@ namespace Jacdac
                     || value is long
                     || value is ulong
                     || value is float
-                    || value is double;
+                    || value is double
+                    || value is byte;
         }
 
         public static byte[] Slice(byte[] source, int start, int end = 0)

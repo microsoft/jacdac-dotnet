@@ -31,6 +31,7 @@ namespace Jacdac_RgbLed
             var sdStorage = new StorageManager(StorageController.FromName(SC20100.StorageController.SdCard));
             var ssidStorage = sdStorage.MountSettingsStorage("wifi.json");
             var specStorage = sdStorage.MountSpecificationStorage("services");
+            var rolesStorage = sdStorage.MountSettingsStorage("roles.json");
 
             // start wifi
             Display.WriteLine("Start wifi....");
@@ -57,7 +58,8 @@ namespace Jacdac_RgbLed
                 Description = "TinyCLR Demo",
                 FirmwareVersion = "0.0.0",
                 Services = new JDServiceServer[] { rtc, protoTest, wifiServer, settingsServer },
-                SpecificationCatalog = new ServiceSpecificationCatalog(specStorage)
+                SpecificationCatalog = new ServiceSpecificationCatalog(specStorage),
+                RoleStorage = rolesStorage
             });
             bus.DeviceConnected += Bus_DeviceConnected;
             bus.DeviceDisconnected += Bus_DeviceDisconnected;

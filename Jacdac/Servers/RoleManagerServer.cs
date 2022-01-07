@@ -67,7 +67,7 @@ namespace Jacdac.Servers
         private void SaveBindings()
         {
             if (this.Storage == null) return;
-            
+
             var roles = this.roles;
             foreach (var role in roles)
             {
@@ -76,8 +76,9 @@ namespace Jacdac.Servers
                 if (device != null)
                 {
                     var current = this.Storage.Read(role.Name);
+                    var did = HexEncoding.ToBuffer(device.DeviceId);
                     var payload = PacketEncoding.Pack(PACK_FORMAT, new object[] {
-                        HexEncoding.ToBuffer(device.DeviceId),
+                        did,
                         role.ServiceClass,
                         service.ServiceIndex
                     });

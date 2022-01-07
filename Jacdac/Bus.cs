@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jacdac.Servers;
+using System;
 using System.Diagnostics;
 using System.Threading;
 
@@ -12,7 +13,8 @@ namespace Jacdac
         public uint ProductIdentifier;
         public bool IsClient = true;
         public bool IsPassive = false;
-        public bool RoleManager = true;
+        public bool DisableRoleManager = false;
+        public ISettingsStorage RoleStorage;
         public JDServiceServer[] Services;
         public ControlAnnounceFlags StatusLight = Platform.StatusLight;
         public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
