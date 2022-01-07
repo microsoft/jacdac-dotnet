@@ -13,7 +13,7 @@ module.exports = {
         [
             "@semantic-release/exec",
             {
-                "publishCmd": "dotnet nuget push packages/*.nupkg -k $NUGET_TOKEN -s $NUGET_PUSH_URL",
+                "publishCmd": "sh ./nuget.sh",
             }
         ]
     ],
