@@ -6,7 +6,7 @@ module.exports = {
         '@semantic-release/github',
         "semantic-release-dotnet",
         [
-            "semantic-release-dotnet",
+            "semantic-release-nuget",
             {
                 packArguments: ["Jacdac.sln", "--nologo", "-c", "Release", "-o", "packages"],
                 pushFiles: "packages/*.nupkg",
