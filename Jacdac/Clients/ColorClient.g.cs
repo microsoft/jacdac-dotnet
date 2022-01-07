@@ -23,7 +23,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)ColorReg.Color, ColorRegPack.Color);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValues((ushort)ColorReg.Color, ColorRegPack.Color);
             }
         }
 

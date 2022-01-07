@@ -62,7 +62,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(uint, byte[])*/)this.GetRegisterValue((ushort)VerifiedTelemetryReg.FingerprintTemplate, VerifiedTelemetryRegPack.FingerprintTemplate);
+                return (object[] /*(uint, byte[])*/)this.GetRegisterValues((ushort)VerifiedTelemetryReg.FingerprintTemplate, VerifiedTelemetryRegPack.FingerprintTemplate);
             }
         }
 

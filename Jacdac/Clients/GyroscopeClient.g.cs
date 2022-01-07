@@ -23,7 +23,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)GyroscopeReg.RotationRates, GyroscopeRegPack.RotationRates);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValues((ushort)GyroscopeReg.RotationRates, GyroscopeRegPack.RotationRates);
             }
         }
 

@@ -142,10 +142,15 @@ namespace Jacdac
             return this.GetRegisterValues(code, packFormat)[0];
         }
 
-        protected void SetRegisterValue(ushort code, string packetFormat, object value)
+        protected void SetRegisterValues(ushort code, string packetFormat, object[] values)
         {
             var reg = this.WaitForRegister(code);
-            reg.SendValues(new object[] { value });
+            reg.SendValues(values);
+        }
+
+        protected void SetRegisterValue(ushort code, string packetFormat, object value)
+        {
+            this.SetRegisterValues(code, packetFormat, new object[] { value });
         }
 
         protected void SendCmd(ushort code, byte[] data = null)

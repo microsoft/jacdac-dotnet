@@ -23,7 +23,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(float, float, float, float, float)*/)this.GetRegisterValue((ushort)RoverReg.Kinematics, RoverRegPack.Kinematics);
+                return (object[] /*(float, float, float, float, float)*/)this.GetRegisterValues((ushort)RoverReg.Kinematics, RoverRegPack.Kinematics);
             }
         }
 

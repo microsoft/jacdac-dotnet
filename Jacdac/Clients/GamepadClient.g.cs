@@ -26,7 +26,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(GamepadButtons, float, float)*/)this.GetRegisterValue((ushort)GamepadReg.Direction, GamepadRegPack.Direction);
+                return (object[] /*(GamepadButtons, float, float)*/)this.GetRegisterValues((ushort)GamepadReg.Direction, GamepadRegPack.Direction);
             }
         }
 

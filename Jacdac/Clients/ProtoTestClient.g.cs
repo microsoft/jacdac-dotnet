@@ -164,12 +164,12 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32);
+                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValues((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32, value);
+                this.SetRegisterValues((ushort)ProtoTestReg.RwI8U8U16I32, ProtoTestRegPack.RwI8U8U16I32, value);
             }
 
         }
@@ -181,7 +181,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValue((ushort)ProtoTestReg.RoI8U8U16I32, ProtoTestRegPack.RoI8U8U16I32);
+                return (object[] /*(int, uint, uint, int)*/)this.GetRegisterValues((ushort)ProtoTestReg.RoI8U8U16I32, ProtoTestRegPack.RoI8U8U16I32);
             }
         }
 
@@ -192,12 +192,12 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(uint, string)*/)this.GetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String);
+                return (object[] /*(uint, string)*/)this.GetRegisterValues((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String, value);
+                this.SetRegisterValues((ushort)ProtoTestReg.RwU8String, ProtoTestRegPack.RwU8String, value);
             }
 
         }
@@ -209,7 +209,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(uint, string)*/)this.GetRegisterValue((ushort)ProtoTestReg.RoU8String, ProtoTestRegPack.RoU8String);
+                return (object[] /*(uint, string)*/)this.GetRegisterValues((ushort)ProtoTestReg.RoU8String, ProtoTestRegPack.RoU8String);
             }
         }
 

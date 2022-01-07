@@ -26,7 +26,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(uint, uint, uint, uint, uint, uint, uint)*/)this.GetRegisterValue((ushort)RealTimeClockReg.LocalTime, RealTimeClockRegPack.LocalTime);
+                return (object[] /*(uint, uint, uint, uint, uint, uint, uint)*/)this.GetRegisterValues((ushort)RealTimeClockReg.LocalTime, RealTimeClockRegPack.LocalTime);
             }
         }
 

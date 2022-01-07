@@ -23,7 +23,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(float, float, float)*/)this.GetRegisterValue((ushort)AccelerometerReg.Forces, AccelerometerRegPack.Forces);
+                return (object[] /*(float, float, float)*/)this.GetRegisterValues((ushort)AccelerometerReg.Forces, AccelerometerRegPack.Forces);
             }
         }
 

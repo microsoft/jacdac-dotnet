@@ -24,7 +24,7 @@ namespace Jacdac.Clients {
         {
             get
             {
-                return (object[] /*(int, int, int)*/)this.GetRegisterValue((ushort)MagnetometerReg.Forces, MagnetometerRegPack.Forces);
+                return (object[] /*(int, int, int)*/)this.GetRegisterValues((ushort)MagnetometerReg.Forces, MagnetometerRegPack.Forces);
             }
         }
 
