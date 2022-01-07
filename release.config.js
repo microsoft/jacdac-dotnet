@@ -4,7 +4,12 @@ module.exports = {
         '@semantic-release/commit-analyzer',
         '@semantic-release/release-notes-generator',
         '@semantic-release/github',
-        "semantic-release-dotnet",
+        [
+            "semantic-release-dotnet",
+            {
+                paths: ["./Directory.Build.csproj"],
+            }
+        ],
         [
             "semantic-release-nuget",
             {
