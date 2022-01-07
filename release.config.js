@@ -7,7 +7,8 @@ module.exports = {
         [
             "semantic-release-dotnet",
             {
-                paths: ["./Directory.Build.csproj"],
+                paths: ["./Directory.Build.props"],
+                debug: true
             }
         ],
         [

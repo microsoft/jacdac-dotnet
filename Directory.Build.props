@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<Version>1.0.0</Version>
+		<Version>1.0.7</Version>
 		<Copyright>Microsoft Corporation</Copyright>
 		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
