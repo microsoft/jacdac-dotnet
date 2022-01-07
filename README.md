@@ -6,20 +6,16 @@ with applications to rapid prototyping, making, and physical computing.
 
 This repository contains a **.NET 5** or **TinyCLR** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
 
+* **[Jacdac .NET Documentation](https://microsoft.github.io/jacdac-docs/clients/dotnet)**
 * **[Jacdac Documentation](https://aka.ms/jacdac/)**
+* **[NuGet packages](https://www.nuget.org/profiles/Jacdac)**
 * Discussions at https://github.com/microsoft/jacdac/discussions
 * Issues are tracked on https://github.com/microsoft/jacdac/issues
-
-The rest of this page is for developers of the jacdac-dotnet library.
-
-This layer is still under construction.
 
 ## Assemblies
 
 This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
-
-All relevant packages are published in [NuGet Jacdac](https://www.nuget.org/profiles/Jacdac).
 
   - `Jacdac`, C# Jacdac library, .NET5. This package serves as a placeholder for C# files and
     and is not referenced anywhere.
@@ -44,6 +40,8 @@ Under construction:
   - `Jacdac.TinyCLR.Storage`, storage support for various configurations
 
 ## Developer setup
+
+The rest of this page is for developers of the jacdac-dotnet library.
 
 * clone this repository and pull all submodules
 ```
