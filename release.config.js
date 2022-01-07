@@ -4,8 +4,12 @@ module.exports = {
         '@semantic-release/commit-analyzer',
         '@semantic-release/release-notes-generator',
         '@semantic-release/github',
-        ["@semantic-release/exec", {
-            "publishCmd": "./dotnet nuget publish ./Jacdac.NET/bin/Release/Jacdac.NET."
-        }],
+        [
+            "semantic-release-dotnet",
+            {
+                packArguments: ["Jacdac.sln", "--nologo", "-c", "Release"],
+                pushFiles: "bin/*.nupkg",
+            },
+        ],
     ],
 }

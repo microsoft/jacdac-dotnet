@@ -8,14 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
-      - name: Build Jacdac
-        run: sh mk.sh
+      - name: Build Jacdac Debug
+        run: dotnet build Jacdac.sln -c Release
+      - name: Build Jacdac Release
+        run: dotnet build Jacdac.sln -c Release
       - name: Build Tests
         run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Run tests
         run: dotnet test .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Semantic release
-        run: npx -p=@semantic-release/git -p=@semantic-release/github -p=@semantic-release/exec semantic-release
+        run: npx -p=@semantic-release/git -p=@semantic-release/github -p=semantic-release-nuget semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
