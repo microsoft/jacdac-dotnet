@@ -5,14 +5,16 @@ namespace Jacdac.Servers
 {
     public sealed partial class RoleManagerServer : JDServiceServer
     {
+        public readonly ISettingsStorage Storage;
         public JDStaticRegisterServer AutoBind;
         public JDStaticRegisterServer AllRolesAllocated;
 
         private Client[] roles = new Client[0];
 
-        public RoleManagerServer()
+        public RoleManagerServer(ISettingsStorage storage = null)
             : base(ServiceClasses.RoleManager, null)
         {
+            this.Storage = storage;
             this.AddRegister(this.AutoBind = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
             this.AddRegister(this.AllRolesAllocated = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
@@ -57,11 +59,82 @@ namespace Jacdac.Servers
                     break;
                 }
             this.AllRolesAllocated.SetValues(new object[] { allRolesAllocated });
+            this.SaveBindings();
             this.SendEvent((ushort)Jacdac.RoleManagerEvent.Change);
+        }
+
+        const string PACK_FORMAT = "b[8] u32 u8";
+        private void SaveBindings()
+        {
+            if (this.Storage == null) return;
+            
+            var roles = this.roles;
+            foreach (var role in roles)
+            {
+                var service = role.BoundService;
+                var device = service?.Device;
+                if (device != null)
+                {
+                    var current = this.Storage.Read(role.Name);
+                    var payload = PacketEncoding.Pack(PACK_FORMAT, new object[] {
+                        HexEncoding.ToBuffer(device.DeviceId),
+                        role.ServiceClass,
+                        service.ServiceIndex
+                    });
+                    if (!Util.BufferEquals(current, payload))
+                    {
+                        Debug.WriteLine($"roles: save {role}");
+                        this.Storage.Write(role.Name, payload);
+                    }
+                }
+            }
+        }
+
+        private bool TryLoadBinding(JDDevice[] devices, Client role)
+        {
+            if (this.Storage == null)
+                return false;
+
+            try
+            {
+                var binding = this.Storage.Read(role.Name);
+                if (binding == null || binding.Length == 0)
+                    return false;
+                var data = PacketEncoding.UnPack(PACK_FORMAT, binding);
+                var did = (byte[])data[0];
+                var dids = HexEncoding.ToString(did);
+                var sid = (uint)data[1];
+                var idx = (uint)data[2];
+                if (sid != role.ServiceClass)
+                {
+                    // invalid binding
+                    this.Storage.Delete(role.Name);
+                    return false;
+                }
+
+                foreach (var device in devices)
+                {
+                    if (device.DeviceId == dids
+                    && idx < device.GetServices().Length)
+                    {
+                        role.BoundService = device.GetService(idx);
+                        break;
+                    }
+                }
+                return role.BoundService != null;
+            }
+            catch (Exception)
+            {
+                this.Storage.Delete(role.Name);
+                return false;
+            }
         }
 
         private void handleClearAllRoles(JDNode sensor, PacketEventArgs args)
         {
+            Debug.WriteLine($"roles: clear");
+            if (this.Storage != null)
+                this.Storage.Clear();
             var bindings = this.roles;
             foreach (var binding in bindings)
                 binding.BoundService = null;
@@ -152,10 +225,9 @@ namespace Jacdac.Servers
         public void BindRoles()
         {
             lock (this.roles)
-            {
                 this.SyncBindRoles();
-            }
         }
+
         private void SyncBindRoles()
         {
             var hash = this.ComputeHash();
@@ -177,32 +249,54 @@ namespace Jacdac.Servers
             if (bound == roles.Length)
                 return;
 
-            // eager allocation strategy
-            Debug.WriteLine($"roles: binding {bound}/{roles.Length}");
-            foreach (var role in roles)
-            {
-                // already bound?
-                if (role.BoundService != null) continue;
 
-                // find candidates
-                foreach (var device in devices)
+            Debug.WriteLine($"roles: binding {bound}/{roles.Length}");
+            // try to load bindings from storage
+            if (this.Storage != null)
+            {
+                foreach (var role in roles)
                 {
-                    var services = device.GetServices();
-                    foreach (var service in services)
+                    // already bound?
+                    if (role.BoundService != null) continue;
+
+                    // try get binding from storage
+                    if (this.TryLoadBinding(devices, role))
                     {
-                        Client client;
-                        // serice class match
-                        if (service.ServiceClass == role.ServiceClass
-                            // not bound yet
-                            && !this.TryGetClient(service, out client))
-                        {
-                            role.BoundService = service;
-                            break;
-                        }
+                        Debug.WriteLine($"roles: storage bind {role}");
+                        continue;
                     }
-                    // found a bound
-                    if (role.BoundService != null)
-                        break;
+                }
+            }
+
+            // dynamic allocation
+            if (this.AutoBind.GetValueAsBool())
+            {
+                foreach (var role in roles)
+                {
+                    // already bound?
+                    if (role.BoundService != null) continue;
+
+                    // find candidates
+                    foreach (var device in devices)
+                    {
+                        var services = device.GetServices();
+                        foreach (var service in services)
+                        {
+                            Client client;
+                            // serice class match
+                            if (service.ServiceClass == role.ServiceClass
+                                // not bound yet
+                                && !this.TryGetClient(service, out client))
+                            {
+                                role.BoundService = service;
+                                Debug.WriteLine($"roles: auto bind {role}");
+                                break;
+                            }
+                        }
+                        // found a bound
+                        if (role.BoundService != null)
+                            break;
+                    }
                 }
             }
 
