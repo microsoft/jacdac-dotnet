@@ -7,22 +7,5 @@
 		<StartupObject />
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Description>Jacdac runtime for .NET</Description>
-		<Copyright>Microsoft Corporation</Copyright>
-		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>jacdac.png</PackageIcon>
-		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
-		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\jacdac.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 </Project>

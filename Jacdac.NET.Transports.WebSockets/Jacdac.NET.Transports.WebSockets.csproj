@@ -5,24 +5,7 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Copyright>Microsoft Corporation</Copyright>
-		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
-		<PackageIcon>jacdac.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
-		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="..\jacdac.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />

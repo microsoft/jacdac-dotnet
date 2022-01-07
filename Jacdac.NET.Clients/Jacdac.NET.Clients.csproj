@@ -3,12 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Copyright>Microsoft Corporation</Copyright>
-		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
-		<PackageIcon>jacdac.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
-		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,17 +14,4 @@
 			<Link>Clients\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Compile>
 	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="..\jacdac.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
-
-
 </Project>
