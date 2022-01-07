@@ -14,7 +14,7 @@ namespace Jacdac
         public uint EventCounter;
 
         byte[] _servicesData;
-        JDService[] _services = null;
+        JDService[] _services = JDService.EmptyServices;
         LEDController _statusLight = null;
 
         public JDDevice(JDBus bus, string deviceId)
@@ -108,38 +108,24 @@ namespace Jacdac
                 ? 0
                 : BitConverter.ToUInt32(this._servicesData, 0);
             uint w1 = data.Length == 0 ? 0 : BitConverter.ToUInt32(data, 0);
+            var restarted = w1 != 0 &&
+            (w1 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK) <
+                (w0 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK);
+            var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
 
             // compare service data
-            var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
-            if (servicesChanged)
-                this._servicesData = pkt.Data;
-
-            // check for restart
-            if (
-            w1 != 0 &&
-            (w1 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK) <
-                (w0 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK)
-        )
-            {
-                this.InitServices(true);
-                this.Restarted?.Invoke(this, EventArgs.Empty);
-                changed = true;
-            }
-
-            // notify that services got updated
             if (servicesChanged)
             {
-                if (!changed) this.InitServices(true);
+                this.InitServices(pkt.Data);
                 this.Announced?.Invoke(this, EventArgs.Empty);
                 changed = true;
             }
 
-            // notify that we've received an announce packet
-            //this.bus.emit(DEVICE_PACKET_ANNOUNCE, this)
-            //this.emit(PACKET_ANNOUNCE)
 
             // notify of any changes
-            if (changed)
+            if (restarted)
+                this.Restarted?.Invoke(this, EventArgs.Empty);
+            if (changed || restarted)
                 this.RaiseChanged();
         }
 
@@ -147,6 +133,8 @@ namespace Jacdac
         {
             get
             {
+                if (this._servicesData == null) return new uint[0];
+
                 var data = this._servicesData;
                 var n = data == null ? 0 : data.Length >> 2;
                 var res = new uint[n];
@@ -172,41 +160,34 @@ namespace Jacdac
             return false;
         }
 
-        private void InitServices(bool force)
+        private void InitServices(byte[] serviceData)
         {
-            if (force)
+            var services = this._services;
+            foreach (var service in services)
+                service.Device = null;
+            this._services = JDService.EmptyServices;
+            this._servicesData = serviceData;
+            this._statusLight = null;
+            var serviceClasses = this.ServiceClasses;
+            if (serviceClasses.Length > 0)
             {
-                if (this._services != null)
-                {
-                    for (var i = 0; i < this._services.Length; i++)
-                        this._services[i].Device = null;
-                }
-                this._services = null;
-                this._statusLight = null;
-            }
-
-            if (null == this._services && null != this._servicesData)
-            {
-                var serviceClasses = this.ServiceClasses;
                 var s = new JDService[serviceClasses.Length];
                 for (byte i = 0; i < s.Length; ++i)
                 {
                     s[i] = new JDService(this, i, serviceClasses[i]);
                 }
                 this._services = s;
-                //this.lastServiceUpdate = this.bus.timestamp
-                this.RaiseChanged();
             }
         }
 
         public JDService[] GetServices()
         {
-            return this._services == null ? JDService.EmptyServices : this._services;
+            return this._services;
         }
 
         public JDService GetService(uint serviceIndex)
         {
-            return this._services != null && serviceIndex < this._services.Length ? this._services[serviceIndex] : null;
+            return serviceIndex < this._services.Length ? this._services[serviceIndex] : null;
         }
 
         sealed class Ack
