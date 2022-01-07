@@ -132,8 +132,9 @@ namespace Jacdac
             reg.PackFormat = packFormat;
             reg.WaitForValues(2000);
             var values = reg.Values;
-            var value = values.Length == 1 ? values[0] : defaultValue;
-            return value;
+            if (values.Length != 1)
+                throw new ClientDisconnectedException();
+            return values[0];
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)
