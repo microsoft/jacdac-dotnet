@@ -9,6 +9,9 @@
 		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\jacdac.png">
 			<Pack>True</Pack>
