@@ -9,7 +9,7 @@
         void Clear();
     }
 
-    public sealed class SettingsServer : JDServiceServer
+    public sealed partial class SettingsServer : JDServiceServer
     {
         public readonly ISettingsStorage Storage;
         public SettingsServer(ISettingsStorage storage, JDServiceServerOptions options = null)

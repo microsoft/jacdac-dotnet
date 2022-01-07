@@ -14,11 +14,15 @@ namespace Jacdac
         public bool IsClient = true;
         public bool IsPassive = false;
         public bool DisableRoleManager = false;
+        public bool DisableLogger = false;
+        public bool DisableBrain = false;
+        public ISettingsStorage SettingsStorage;
         public ISettingsStorage RoleStorage;
         public JDServiceServer[] Services;
         public ControlAnnounceFlags StatusLight = Platform.StatusLight;
         public SetStatusLightHandler SetStatusLight = Platform.SetStatusLight;
         public ServiceSpecificationCatalog SpecificationCatalog;
+        public LoggerPriority DefaultMinLoggerPriority = LoggerPriority.Silent;
     }
 
     public sealed partial class JDBus : JDNode
@@ -33,6 +37,7 @@ namespace Jacdac
         public bool IsClient;
         public bool IsPassive;
         public bool IsStreaming;
+        public LoggerPriority DefaultMinLoggerPriority;
 
         public ServiceSpecificationCatalog SpecificationCatalog { get; set; }
 
@@ -49,6 +54,7 @@ namespace Jacdac
             this.IsPassive = options.IsPassive;
             this.SpecificationCatalog = options.SpecificationCatalog;
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
+            this.DefaultMinLoggerPriority = options.DefaultMinLoggerPriority;
 
             this.devices = new JDDevice[] { new JDDevice(this, this.SelfDeviceServer.DeviceId) };
             this.transports = new Transport[0];

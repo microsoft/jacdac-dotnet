@@ -81,5 +81,7 @@
         public const uint REGISTER_POLL_REPORT_MAX_INTERVAL = 60000;
         public const uint REGISTER_POLL_FIRST_REPORT_INTERVAL = 400;
         public const uint REGISTER_POLL_REPORT_INTERVAL = 5001;
+
+        public const uint LOGGER_LISTENER_TIMEOUT = 3000;
     }
 }

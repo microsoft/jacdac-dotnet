@@ -8,7 +8,9 @@ namespace Jacdac
         public readonly JDBus Bus;
         public readonly string DeviceId;
         public readonly ControlServer Control;
+        public readonly LoggerServer Logger;
         public readonly RoleManagerServer RoleManager;
+        public readonly SettingsServer Settings;
         private readonly ControlAnnounceFlags statusLight;
         private byte restartCounter = 0;
         private byte packetCount = 0;
@@ -22,11 +24,23 @@ namespace Jacdac
             this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
-            this.services = new JDServiceServer[1 + (options.DisableRoleManager ? 0 : 1) + (options.Services != null ? options.Services.Length : 0)];
+            this.services = new JDServiceServer[
+                1 // control
+                + (options.DisableLogger ? 0 : 1)
+                + (options.DisableRoleManager ? 0 : 1)
+                + (options.SettingsStorage == null ? 0 : 1)
+                + (options.DisableBrain ? 0 : 1)
+                + (options.Services != null ? options.Services.Length : 0)];
             var k = 0;
             this.services[k++] = this.Control = new ControlServer(options);
+            if (!options.DisableLogger)
+                this.services[k++] = this.Logger = new LoggerServer(bus.DefaultMinLoggerPriority);
             if (!options.DisableRoleManager)
                 this.services[k++] = this.RoleManager = new RoleManagerServer(options.RoleStorage);
+            if (options.SettingsStorage != null)
+                this.services[k++] = this.Settings = new SettingsServer(options.SettingsStorage);
+            if (!options.DisableBrain)
+                this.services[k++] = new UniqueBrainServer();
             if (options.Services != null)
                 options.Services.CopyTo(this.services, k);
             for (byte i = 0; i < services.Length; i++)

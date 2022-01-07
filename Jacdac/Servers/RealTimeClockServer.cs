@@ -11,7 +11,7 @@ namespace Jacdac.Servers
         public SetTimeHandler SetTime;
     }
 
-    public sealed class RealTimeClockServer : JDServiceServer
+    public sealed partial class RealTimeClockServer : JDServiceServer
     {
         private readonly RealTimeClockLocalTime localTime;
         private readonly SetTimeHandler setTime;
