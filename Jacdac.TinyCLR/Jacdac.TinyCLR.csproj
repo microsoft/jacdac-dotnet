@@ -53,6 +53,7 @@
     <Compile Include="Transports\UartTransport.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\github.cer" />
   </ItemGroup>
   <ItemGroup>

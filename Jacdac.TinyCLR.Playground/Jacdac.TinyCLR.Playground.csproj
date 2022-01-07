@@ -52,6 +52,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\small.tinyfnt" />
   </ItemGroup>
   <ItemGroup>
