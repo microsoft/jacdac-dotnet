@@ -35,11 +35,11 @@ namespace Jacdac {
         Variant = 0x107,
 
         /// <summary>
-        /// Constant s u16.16 (uint32_t). Specifies the delay without activity to automatically turn off after turning on.
+        /// Constant s u22.10 (uint32_t). Specifies the delay without activity to automatically turn off after turning on.
         /// For example, some light switches in staircases have such a capability.
         ///
         /// ```
-        /// const [autoOffDelay] = jdunpack<[number]>(buf, "u16.16")
+        /// const [autoOffDelay] = jdunpack<[number]>(buf, "u22.10")
         /// ```
         /// </summary>
         AutoOffDelay = 0x180,
@@ -59,7 +59,7 @@ namespace Jacdac {
         /// <summary>
         /// Pack format for 'auto_off_delay' register data.
         /// </summary>
-        public const string AutoOffDelay = "u16.16";
+        public const string AutoOffDelay = "u22.10";
     }
 
     public enum SwitchEvent {

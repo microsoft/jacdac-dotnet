@@ -6,6 +6,12 @@ namespace Jacdac.Clients {
 
     /// <summary>
     /// A switching relay.
+     /// 
+     /// The contacts should be labelled `NO` (normally open), `COM` (common), and `NC` (normally closed).
+     /// When relay is energized it connects `NO` and `COM`.
+     /// When relay is not energized it connects `NC` and `COM`.
+     /// Some relays may be missing `NO` or `NC` contacts.
+     /// When relay module is not powered, or is in bootloader mode, it is not energized (connects `NC` and `COM`).
     /// Implements a client for the Relay service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/relay/" />
@@ -17,18 +23,18 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// Indicates whether the relay circuit is currently energized (closed) or not., 
+        /// Indicates whether the relay circuit is currently energized or not., 
         /// </summary>
-        public bool Closed
+        public bool Active
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed);
+                return (bool)this.GetRegisterValue((ushort)RelayReg.Active, RelayRegPack.Active);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)RelayReg.Closed, RelayRegPack.Closed, value);
+                this.SetRegisterValue((ushort)RelayReg.Active, RelayRegPack.Active, value);
             }
 
         }
