@@ -100,10 +100,7 @@ namespace Jacdac
                 this.Debug($"bus: start ({this.SelfDeviceServer.ShortId})");
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
             }
-
-            var transports = this.transports;
-            foreach (var transport in transports)
-                transport.Connect();
+            this.Connect();
         }
 
         public bool Running
@@ -118,6 +115,18 @@ namespace Jacdac
                 this.announceTimer.Dispose();
                 this.announceTimer = null;
             }
+            this.Disconnect();
+        }
+
+        public void Connect()
+        {
+            var transports = this.transports;
+            foreach (var transport in transports)
+                transport.Connect();
+        }
+
+        public void Disconnect()
+        {
             var transports = this.transports;
             foreach (var transport in transports)
                 transport.Disconnect();
