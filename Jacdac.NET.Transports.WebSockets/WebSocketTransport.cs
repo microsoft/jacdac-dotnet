@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Jacdac.Transports.WebSockets
 {
-    public class WebSocketTransport : Transport
+    public sealed class WebSocketTransport : Transport
     {
         const int RECONNECT_TIMEOUT = 5000;
 
@@ -19,7 +19,12 @@ namespace Jacdac.Transports.WebSockets
         private SemaphoreSlim sendSemaphore;
         private Timer reconnectTimer;
 
-        public WebSocketTransport(Uri uri = null)
+        public static WebSocketTransport Create(Uri uri = null)
+        {
+            return new WebSocketTransport(uri);
+        }
+
+        internal WebSocketTransport(Uri uri = null)
             : base("ws")
         {
             this.Uri = uri ?? new Uri("ws://localhost:8081/");

@@ -1,5 +1,7 @@
 ﻿using Jacdac.Clients;
 using Jacdac.Transports;
+using Jacdac.Transports.Spi;
+using Jacdac.Transports.Usb;
 using Jacdac.Transports.WebSockets;
 using System;
 
@@ -19,15 +21,15 @@ namespace Jacdac.NET.Playground
                 {
                     case "spi":
                         Console.WriteLine("adding spi connection");
-                        bus.AddTransport(Jacdac.Transports.Spi.SpiTransport.CreateRaspberryPiJacdapterTransport());
+                        bus.AddTransport(SpiTransport.Create());
                         break;
                     case "usb":
                         Console.WriteLine("adding usb connection");
-                        bus.AddTransport(new Jacdac.Transports.Usb.UsbTransport());
+                        bus.AddTransport(UsbTransport.Create());
                         break;
                     case "devtools":
                         Console.WriteLine("adding devtools connection");
-                        bus.AddTransport(new WebSocketTransport());
+                        bus.AddTransport(WebSocketTransport.Create());
                         break;
                     case "twins":
                         Console.WriteLine("tracking twins");

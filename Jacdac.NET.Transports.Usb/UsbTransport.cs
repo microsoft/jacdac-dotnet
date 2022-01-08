@@ -16,7 +16,7 @@ namespace Jacdac.Transports.Usb
         public int PID;
     }
 
-    public class UsbTransport : Transport
+    public sealed class UsbTransport : Transport
     {
         public static USBDeviceDescription[] GetDevices()
         {
@@ -48,7 +48,12 @@ namespace Jacdac.Transports.Usb
         private USBDeviceDescription usbDevice;
         private UsbHF2Transport transport;
 
-        public UsbTransport()
+        public static UsbTransport Create()
+        {
+            return new UsbTransport();
+        }
+
+        internal UsbTransport()
             : base("usb")
         {
         }

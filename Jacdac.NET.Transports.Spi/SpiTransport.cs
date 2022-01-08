@@ -29,13 +29,13 @@ namespace Jacdac.Transports.Spi
         readonly ConcurrentQueue<byte[]> sendQueue;
         readonly ConcurrentQueue<byte[]> receiveQueue;
 
-        public static SpiTransport CreateRaspberryPiJacdapterTransport()
+        public static SpiTransport Create()
         {
             return new SpiTransport(new GpioController(PinNumberingScheme.Logical),
                 RPI_PIN_TX_READY, RPI_PIN_RX_READY, RPI_PIN_RST, RPI_SPI_BUS_ID);
         }
 
-        public SpiTransport(GpioController controller, int txReadyPin, int rxReadyPin, int resetPin, int spiBusId)
+        internal SpiTransport(GpioController controller, int txReadyPin, int rxReadyPin, int resetPin, int spiBusId)
             : base("spi")
         {
             this.controller = controller;
