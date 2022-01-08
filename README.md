@@ -17,21 +17,15 @@ This repository contains a **.NET 5** or **TinyCLR** client library for the [Jac
 This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
 
-  - `Jacdac`, C# Jacdac library, .NET5. This package serves as a placeholder for C# files and
-    and is not referenced anywhere.
-
 ### .NET 5.0
 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
+  - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
   - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
   - `Jacdac.Tests`, unit tests, .NET6
-
-Under construction:
-
-  - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
 
 ### TinyCLR
 
@@ -39,9 +33,14 @@ Under construction:
   - `Jacdac.TinyCLR.Clients`, service clients
   - `Jacdac.TinyCLR.Storage`, storage support for various configurations
 
+### Misc:
+
+  - `Jacdac`, C# Jacdac sources. This package serves as a placeholder for C# files and
+    and is not referenced anywhere. **For development purposes only**.
+
 ## Developer setup
 
-The rest of this page is for developers of the jacdac-dotnet library.
+The rest of this page is for developers of the jacdac-dotnet library. For user documentation, go to https://microsoft.github.io/jacdac-docs/clients/dotnet.
 
 * clone this repository and pull all submodules
 ```
