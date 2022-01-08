@@ -25,17 +25,17 @@ To avoid mscorlib issues, each platform has a different set of assemblies where 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
-  - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
+  - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5
+  - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
   - `Jacdac.Tests`, unit tests, .NET6
 
 Under construction:
 
-  - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET6, under construction
-  - `Jacdac.NET.Transports.Usb`, Usb transport, .NET6, under construction
+  - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
 
 ### TinyCLR
 
-  - `Jacdac.TinyCLR`, mirror of `Jacdac` library
+  - `Jacdac.TinyCLR`, mirror of `Jacdac` library and UART transport
   - `Jacdac.TinyCLR.Clients`, service clients
   - `Jacdac.TinyCLR.Storage`, storage support for various configurations
 

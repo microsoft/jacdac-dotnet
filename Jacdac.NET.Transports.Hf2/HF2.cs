@@ -92,13 +92,13 @@ namespace Jacdac.Transports.Hf2
         public async Task<string> GetDeviceInfo()
         {
             var commandResponse = await SendCommand(2);
-            return Encoding.Default.GetString(commandResponse);
+            return System.Text.UTF8Encoding.UTF8.GetString(commandResponse);
         }
 
         public async Task<string> GetLogBuffer()
         {
             var commandResponse = await SendCommand(0x0010);
-            return Encoding.Default.GetString(commandResponse);
+            return System.Text.UTF8Encoding.UTF8.GetString(commandResponse);
         }
 
         private void HandleEventPacket(int eventId, byte[] payload)
@@ -115,7 +115,7 @@ namespace Jacdac.Transports.Hf2
 
             if (packet.PacketType == Hf2PacketType.SerialStdout || packet.PacketType == Hf2PacketType.SerialStderr)
             {
-                Debug.WriteLine($"SERIAL> {Encoding.Default.GetString(packet.Payload)}");
+                Debug.WriteLine($">> {UTF8Encoding.UTF8.GetString(packet.Payload)}");
                 return;
             }
 
@@ -127,7 +127,6 @@ namespace Jacdac.Transports.Hf2
 
             if (packet.Payload.Length == 0)
             {
-                Debug.WriteLine($"HF2: empty payload");
                 return;
             }
 

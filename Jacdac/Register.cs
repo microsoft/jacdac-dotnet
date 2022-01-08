@@ -105,11 +105,6 @@ namespace Jacdac
             var age = (now - this.LastGetTimestamp).TotalMilliseconds;
             var noDataYet = this.Data == null;
             var backoff = this.LastGetAttempts;
-            var service = this.Service;
-            var hasListeners = this.HasChangedListeners();
-
-            if (!this.NeedsRefresh && !hasListeners)
-                return;
 
             if (this.Code == (ushort)Jacdac.SystemReg.Reading)
             {

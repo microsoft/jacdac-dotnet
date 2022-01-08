@@ -70,11 +70,10 @@ namespace Jacdac.NET.Playground
                     }
                 };
             };
-            //var humidity = new HumidityClient(bus, "humidity");
 
+            var humidity = new HumidityClient(bus, "humidity");
             while (true)
             {
-                /*
                 try
                 {
                     var h = humidity.Humidity;
@@ -84,7 +83,6 @@ namespace Jacdac.NET.Playground
                 {
                     Console.WriteLine("connect humidity sensor");
                 }
-                */
                 System.Threading.Thread.Sleep(1000);
             }
         }
