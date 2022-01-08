@@ -59,6 +59,7 @@ namespace Jacdac.Servers
                 }
                 catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
         }

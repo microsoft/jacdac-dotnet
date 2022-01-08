@@ -8,7 +8,7 @@ namespace Jacdac
         private readonly JDBus bus;
         public readonly string DeviceId;
         public readonly ControlServer Control;
-        public readonly LoggerServer Logger;
+        readonly LoggerServer logger;
         public readonly RoleManagerServer RoleManager;
         public readonly SettingsServer Settings;
         private readonly ControlAnnounceFlags statusLight;
@@ -35,7 +35,7 @@ namespace Jacdac
             var k = 0;
             this.services[k++] = this.Control = new ControlServer(options);
             if (!options.DisableLogger)
-                this.services[k++] = this.Logger = new LoggerServer(bus.DefaultMinLoggerPriority);
+                this.services[k++] = this.logger = new LoggerServer(bus.DefaultMinLoggerPriority);
             if (!options.DisableRoleManager)
                 this.services[k++] = this.RoleManager = new RoleManagerServer(options.RoleStorage);
             if (options.SettingsStorage != null)
@@ -53,6 +53,8 @@ namespace Jacdac
         }
 
         public override JDBus Bus { get => this.bus; }
+
+        public override LoggerServer Logger => this.logger;
 
         public string ShortId
         {
