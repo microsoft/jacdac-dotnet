@@ -54,7 +54,7 @@ jacdac.devtools
 Add `spi` on Raspberry Pi to also connect to the JacHAT
 
 ```
-jacdac.devtools spi
+dotnet jacdac.devtools.dll spi
 ```
 
 ## Developer setup
