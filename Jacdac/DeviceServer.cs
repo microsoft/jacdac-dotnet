@@ -31,6 +31,8 @@ namespace Jacdac
                 + (options.DisableRoleManager ? 0 : 1)
                 + (options.SettingsStorage == null ? 0 : 1)
                 + (options.DisableBrain ? 0 : 1)
+                + (options.IsInfrastructure ? 1 : 0)
+                + (options.IsProxy ? 1 : 0)
                 + (options.Services != null ? options.Services.Length : 0)];
             var k = 0;
             this.services[k++] = this.Control = new ControlServer(options);
@@ -42,6 +44,10 @@ namespace Jacdac
                 this.services[k++] = this.Settings = new SettingsServer(options.SettingsStorage);
             if (!options.DisableBrain)
                 this.services[k++] = new UniqueBrainServer();
+            if (options.IsInfrastructure)
+                this.services[k++] = new InfrastructureServer();
+            if (options.IsProxy)
+                this.services[k++] = new ProxyServer();
             if (options.Services != null)
                 options.Services.CopyTo(this.services, k);
             for (byte i = 0; i < services.Length; i++)

@@ -13,6 +13,8 @@ namespace Jacdac
         public uint ProductIdentifier;
         public bool IsClient = true;
         public bool IsPassive = false;
+        public bool IsProxy = false;
+        public bool IsInfrastructure = false;
         public bool DisableRoleManager = false;
         public bool DisableLogger = false;
         public bool DisableBrain = false;
@@ -83,14 +85,15 @@ namespace Jacdac
                 transport.Connect();
         }
 
-        public void SendFrame(byte[] frame, Transport excluded = null)
+        public void SendFrame(byte[] frame, Transport sender = null)
         {
             if (!Packet.CheckFrame(frame))
                 return;
             var transports = this.transports;
             foreach (var transport in transports)
-                if (transport != excluded && transport.ConnectionState == ConnectionState.Connected)
+                if (transport != sender && transport.ConnectionState == ConnectionState.Connected)
                     transport.SendFrame(frame);
+            this.FrameSent?.Invoke(sender, frame);
         }
 
         public void Start()
@@ -139,6 +142,11 @@ namespace Jacdac
 
         private void Transport_FrameReceived(Transport sender, byte[] frame)
         {
+            this.ProcessFrame(sender, frame);
+        }
+
+        public void ProcessFrame(Transport sender, byte[] frame)
+        {
             TransportStats.FrameReceived++;
 
             // process packet
@@ -151,7 +159,7 @@ namespace Jacdac
             }
 
             // broadcast to other transports
-            if (packets.Length > 0 && this.transports.Length > 1)
+            if (packets.Length > 0)
                 this.SendFrame(frame, sender);
         }
 
@@ -387,5 +395,7 @@ namespace Jacdac
         public event DeviceEventHandler DeviceDisconnected;
 
         public event NodeEventHandler SelfAnnounced;
+
+        public event FrameEventHandler FrameSent;
     }
 }

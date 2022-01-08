@@ -18,7 +18,7 @@ namespace Jacdac.Transports
             this.controller = controller;
         }
 
-        public override event FrameReceivedEvent FrameReceived
+        public override event FrameEventHandler FrameReceived
         {
             add
             {

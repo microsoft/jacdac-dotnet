@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Usb",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.WebSockets", "Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj", "{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.DevTools", "Jacdac.NET.DevTools\Jacdac.NET.DevTools.csproj", "{A53448E6-BF7F-4C41-AACC-57CD678AB4ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A53448E6-BF7F-4C41-AACC-57CD678AB4ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A53448E6-BF7F-4C41-AACC-57CD678AB4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A53448E6-BF7F-4C41-AACC-57CD678AB4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A53448E6-BF7F-4C41-AACC-57CD678AB4ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

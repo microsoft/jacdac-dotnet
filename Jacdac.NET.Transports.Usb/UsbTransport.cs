@@ -58,7 +58,7 @@ namespace Jacdac.Transports.Usb
         {
         }
 
-        public override event FrameReceivedEvent FrameReceived;
+        public override event FrameEventHandler FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
 
         public override void SendFrame(byte[] data)

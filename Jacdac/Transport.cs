@@ -4,7 +4,7 @@ namespace Jacdac
 {
     public delegate void ConnectionStateChangedEvent(Transport sender, ConnectionState newState);
 
-    public delegate void FrameReceivedEvent(Transport sender, byte[] frame);
+    public delegate void FrameEventHandler(Transport sender, byte[] frame);
 
     public enum TransportError : uint
     {
@@ -148,7 +148,7 @@ namespace Jacdac
 
         public virtual void Dispose() { }
 
-        public abstract event FrameReceivedEvent FrameReceived;
+        public abstract event FrameEventHandler FrameReceived;
 
         /// <summary>
         /// Raised when an error is received

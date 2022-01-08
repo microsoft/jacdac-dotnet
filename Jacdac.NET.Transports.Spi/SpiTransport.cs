@@ -52,7 +52,7 @@ namespace Jacdac.Transports.Spi
             return "spi bridge";
         }
 
-        public override event FrameReceivedEvent FrameReceived;
+        public override event FrameEventHandler FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
 
         protected override void InternalConnect()

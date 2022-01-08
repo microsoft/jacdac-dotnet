@@ -25,6 +25,7 @@ To avoid mscorlib issues, each platform has a different set of assemblies where 
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
   - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
+  - `Jacdac.NET.DevTools`, a web site/proxy to help with developing Jacdac applications
   - `Jacdac.Tests`, unit tests, .NET6
 
 ### TinyCLR

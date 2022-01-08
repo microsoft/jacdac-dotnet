@@ -12,7 +12,7 @@ namespace Jacdac.Transports.WebSockets
         const int RECONNECT_TIMEOUT = 5000;
 
         public readonly Uri Uri;
-        public override event FrameReceivedEvent FrameReceived;
+        public override event FrameEventHandler FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
 
         private ClientWebSocket socket;
