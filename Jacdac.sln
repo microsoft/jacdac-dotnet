@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Spi",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.WebSockets", "Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj", "{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Usb", "..\..\jacdac-dotnet\Jacdac.NET.Transports.Usb\Jacdac.NET.Transports.Usb.csproj", "{A22A8043-5FE6-4304-88D6-C6267C257053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A22A8043-5FE6-4304-88D6-C6267C257053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A22A8043-5FE6-4304-88D6-C6267C257053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A22A8043-5FE6-4304-88D6-C6267C257053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A22A8043-5FE6-4304-88D6-C6267C257053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
