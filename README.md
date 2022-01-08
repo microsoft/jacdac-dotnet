@@ -39,6 +39,12 @@ To avoid mscorlib issues, each platform has a different set of assemblies where 
   - `Jacdac`, C# Jacdac sources. This package serves as a placeholder for C# files and
     and is not referenced anywhere. **For development purposes only**.
 
+### DevTools
+
+Launch Jacdac.NET.DevTools and use the `WebSocket` transport to connect your Jacdac bus to a local dashboard.
+This allows you to test your code against simulators and physical devices, and leverage the tooling
+available in the Jacdac network.
+
 ## Developer setup
 
 The rest of this page is for developers of the jacdac-dotnet library. For user documentation, go to https://microsoft.github.io/jacdac-docs/clients/dotnet.
