@@ -8,6 +8,7 @@
 		<PackageIcon>jacdac.png</PackageIcon>
 		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
