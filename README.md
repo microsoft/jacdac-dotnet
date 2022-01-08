@@ -1,4 +1,4 @@
-# Jacdac .NET
+# Jacdac for .NET
 
 **Jacdac** is a plug-and-play hardware/software stack 
 for **microcontrollers** and their peripherals (sensors/actuators), 
