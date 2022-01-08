@@ -125,6 +125,12 @@ namespace Jacdac.Transports.Hf2
                 return;
             }
 
+            if (packet.Payload.Length == 0)
+            {
+                Debug.WriteLine($"HF2: empty payload");
+                return;
+            }
+
             if (!inMultiPartResponse)
                 currentResponse = Hf2Response.Parse(packet.Payload);
             else

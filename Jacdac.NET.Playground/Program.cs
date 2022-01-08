@@ -21,6 +21,10 @@ namespace Jacdac.NET.Playground
                         Console.WriteLine("adding spi connection");
                         bus.AddTransport(Jacdac.Transports.Spi.SpiTransport.CreateRaspberryPiJacdapterTransport());
                         break;
+                    case "usb":
+                        Console.WriteLine("adding usb connection");
+                        bus.AddTransport(new Jacdac.Transports.Usb.UsbTransport());
+                        break;
                     case "devtools":
                         Console.WriteLine("adding devtools connection");
                         bus.AddTransport(new WebSocketTransport());

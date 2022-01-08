@@ -77,7 +77,7 @@ namespace Jacdac.Transports.Usb
         protected override void InternalConnect()
         {
             var usbDevices = UsbTransport.GetDevices();
-            Console.WriteLine($"usb: found ${usbDevices.Length} devices");
+            Debug.WriteLine($"usb: found {usbDevices.Length} devices");
             this.usbDevice = usbDevices.FirstOrDefault();
             if (this.usbDevice == null)
             {

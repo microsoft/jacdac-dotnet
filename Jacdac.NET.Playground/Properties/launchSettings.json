@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "devtools twins",
+      "commandLineArgs": "devtools twins usb",
       "hotReloadEnabled": false
     }
   }

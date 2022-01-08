@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace Jacdac.Transports.Usb
 
             if (device.Open(out usbDevice))
             {
+                Debug.WriteLine("hf2: open device");
                 hf2 = new HF2(this);
 
                 var endpoints = usbDevice.Configs[0].InterfaceInfoList[0].EndpointInfoList;
@@ -44,10 +46,12 @@ namespace Jacdac.Transports.Usb
                 var inEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 1);
                 var outEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 0);
 
+                Debug.WriteLine("hf2: open reader");
                 var reader = usbDevice.OpenEndpointReader((ReadEndpointID)inEndpoint.Descriptor.EndpointID, 64, EndpointType.Bulk);
                 reader.DataReceived += Reader_DataReceived;
                 reader.DataReceivedEnabled = true;
 
+                Debug.WriteLine("hf2: open writer");
                 this.writer = usbDevice.OpenEndpointWriter((WriteEndpointID)outEndpoint.Descriptor.EndpointID, EndpointType.Bulk);
             }
             else
@@ -65,13 +69,16 @@ namespace Jacdac.Transports.Usb
 
             hf2.OnJacdacMessage += this.onFrameReceived;
 
+            Debug.WriteLine("hf2: send hf2 0x20 1");
             await hf2.SendCommand(0x20, new byte[1] { 1 });
+            Debug.WriteLine("hf2: connected");
             return true;
 
         }
 
         public void Close()
         {
+            Debug.WriteLine("hf2: close device");
             usbDevice.Close();
         }
 
