@@ -4,7 +4,8 @@
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
-This repository contains a **.NET 5** or **TinyCLR** client library for the [Jacdac](https://aka.ms/jacdac) protocol.
+This repository contains **.NET 5+** and **TinyCLR** client libraries for the [Jacdac](https://aka.ms/jacdac) protocol,
+as well as transports over USB, SPI, WebSockets.
 
 * **[Jacdac .NET Documentation](https://microsoft.github.io/jacdac-docs/clients/dotnet)**
 * **[Jacdac Documentation](https://aka.ms/jacdac/)**
@@ -14,10 +15,11 @@ This repository contains a **.NET 5** or **TinyCLR** client library for the [Jac
 
 ## Assemblies
 
-This repository contains a C# implementation of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
-To avoid mscorlib issues, each platform has a different set of assemblies where C# files are simply shared as links.
+The Jacdac project contains C# sources of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
+To avoid mscorlib issues, each platform recompiles these sources into its own assembly where C# files are simply shared as links.
+As a result, the C# used in the Jacdac project is .NET micro framework/TinyCLR/.NET5 compatible (and also inherits limitations thereof).
 
-### .NET 5.0
+### .NET 5+
 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
@@ -32,7 +34,7 @@ To avoid mscorlib issues, each platform has a different set of assemblies where 
 
   - `Jacdac.TinyCLR`, mirror of `Jacdac` library and UART transport
   - `Jacdac.TinyCLR.Clients`, service clients
-  - `Jacdac.TinyCLR.Storage`, storage support for various configurations
+  - `Jacdac.TinyCLR.Storage`, SD card storage support
 
 ### Misc:
 
@@ -44,6 +46,16 @@ To avoid mscorlib issues, each platform has a different set of assemblies where 
 Launch Jacdac.NET.DevTools and use the `WebSocket` transport to connect your Jacdac bus to a local dashboard.
 This allows you to test your code against simulators and physical devices, and leverage the tooling
 available in the Jacdac network.
+
+```
+jacdac.devtools
+```
+
+Add `spi` on Raspberry Pi to also connect to the JacHAT
+
+```
+jacdac.devtools spi
+```
 
 ## Developer setup
 

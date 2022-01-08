@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyName>jacdac.devtools</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
