@@ -5,6 +5,12 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.WebSockets;
 
+var port = 8081;
+
+Console.WriteLine("Jacdac DevTools");
+Console.WriteLine($"   dashboard: http://localhost:{port}");
+Console.WriteLine($"   websocket: ws://localhost:{port}");
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -36,7 +42,7 @@ void SendFrame(WebSocket[] cs, byte[] frame)
         }).ToArray());
 }
 
-
+// start bus if transport needed
 JDBus? bus = null;
 JDBus CreateBus()
 {
@@ -120,4 +126,4 @@ app.Use(async (context, next) =>
 });
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.Run("http://localhost:8081/");
+app.Run($"http://localhost:{port}/");
