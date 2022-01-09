@@ -87,6 +87,11 @@ foreach (var arg in args)
     }
 }
 
+// download proxy code
+var resp = await new HttpClient().GetAsync("https://microsoft.github.io/jacdac-docs/devtools/proxy");
+resp.EnsureSuccessStatusCode();
+var proxySource = await resp.Content.ReadAsStringAsync();
+
 app.UseWebSockets();
 app.Use(async (context, next) =>
 {
@@ -118,12 +123,17 @@ app.Use(async (context, next) =>
             };
         await proxy();
     }
+    if (context.Request.Path == "/")
+    {
+        context.Response.Headers.ContentType = "text/html";
+        context.Response.Headers.CacheControl = "no-cache";
+        await context.Response.WriteAsync(proxySource);
+        await context.Response.CompleteAsync();
+    }
     else
     {
         await next();
     }
 
 });
-app.UseDefaultFiles();
-app.UseStaticFiles();
 app.Run($"http://localhost:{port}/");
