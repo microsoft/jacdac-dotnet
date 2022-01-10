@@ -151,7 +151,7 @@ namespace Jacdac
             return values;
         }
 
-        protected bool TryGetRegisterValues(ushort code, string packFormat, object[] values)
+        protected bool TryGetRegisterValues(ushort code, string packFormat, out object[] values)
         {
             try
             {
