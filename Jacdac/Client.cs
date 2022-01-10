@@ -151,6 +151,20 @@ namespace Jacdac
             return values;
         }
 
+        protected bool TryGetRegisterValues(ushort code, string packFormat, object[] values)
+        {
+            try
+            {
+                values = this.GetRegisterValues(code, packFormat);
+                if (values.Length > 0)
+                    return true;
+            }
+            catch (ClientDisconnectedException)
+            { }
+            values = null;
+            return false;
+        }
+
         protected object GetRegisterValue(ushort code, string packFormat, object[] defaultValues = null)
         {
             var values = this.GetRegisterValues(code, packFormat, defaultValues);
