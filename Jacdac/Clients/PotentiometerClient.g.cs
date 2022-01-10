@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Specifies the physical layout of the potentiometer., 
         /// </summary>
-        bool TryGetVariant(out PotentiometerVariant value)
+        bool TryGetVariant(out PotentiometerVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant, out value)) 

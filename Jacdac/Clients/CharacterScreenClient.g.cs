@@ -38,7 +38,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>brightness</c> register value.
         /// Brightness of the screen. `0` means off., _: /
         /// </summary>
-        bool TryGetBrightness(out float value)
+        bool TryGetBrightness(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, out value)) 
@@ -66,7 +66,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describes the type of character LED screen., 
         /// </summary>
-        bool TryGetVariant(out CharacterScreenVariant value)
+        bool TryGetVariant(out CharacterScreenVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)CharacterScreenReg.Variant, CharacterScreenRegPack.Variant, out value)) 
@@ -85,7 +85,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>text_direction</c> register value.
         /// Specifies the RTL or LTR direction of the text., 
         /// </summary>
-        bool TryGetTextDirection(out CharacterScreenTextDirection value)
+        bool TryGetTextDirection(out CharacterScreenTextDirection values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, out value)) 

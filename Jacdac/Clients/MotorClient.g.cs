@@ -59,7 +59,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>load_torque</c> register value.
         /// Torque required to produce the rated power of an electrical motor at load speed., _: kg/cm
         /// </summary>
-        bool TryGetLoadTorque(out float value)
+        bool TryGetLoadTorque(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)MotorReg.LoadTorque, MotorRegPack.LoadTorque, out value)) 
@@ -78,7 +78,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>load_speed</c> register value.
         /// Revolutions per minute of the motor under full load., _: rpm
         /// </summary>
-        bool TryGetLoadSpeed(out float value)
+        bool TryGetLoadSpeed(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed, out value)) 
@@ -97,7 +97,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>reversible</c> register value.
         /// Indicates if the motor can run backwards., 
         /// </summary>
-        bool TryGetReversible(out bool value)
+        bool TryGetReversible(out bool values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)MotorReg.Reversible, MotorRegPack.Reversible, out value)) 

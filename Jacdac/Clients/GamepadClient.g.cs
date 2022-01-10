@@ -35,7 +35,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical joystick., 
         /// </summary>
-        bool TryGetVariant(out GamepadVariant value)
+        bool TryGetVariant(out GamepadVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)GamepadReg.Variant, GamepadRegPack.Variant, out value)) 

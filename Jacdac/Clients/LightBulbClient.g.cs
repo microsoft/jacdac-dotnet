@@ -39,7 +39,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>dimmable</c> register value.
         /// Indicates if the light supports dimming., 
         /// </summary>
-        bool TryGetDimmable(out bool value)
+        bool TryGetDimmable(out bool values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LightBulbReg.Dimmable, LightBulbRegPack.Dimmable, out value)) 

@@ -38,7 +38,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>lang</c> register value.
         /// Language used for utterances as defined in https://www.ietf.org/rfc/bcp/bcp47.txt., 
         /// </summary>
-        bool TryGetLang(out string value)
+        bool TryGetLang(out string values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, out value)) 
@@ -66,7 +66,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>volume</c> register value.
         /// Volume for utterances., _: /
         /// </summary>
-        bool TryGetVolume(out float value)
+        bool TryGetVolume(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, out value)) 
@@ -94,7 +94,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>pitch</c> register value.
         /// Pitch for utterances, 
         /// </summary>
-        bool TryGetPitch(out float value)
+        bool TryGetPitch(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, out value)) 
@@ -122,7 +122,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>rate</c> register value.
         /// Rate for utterances, 
         /// </summary>
-        bool TryGetRate(out float value)
+        bool TryGetRate(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, out value)) 

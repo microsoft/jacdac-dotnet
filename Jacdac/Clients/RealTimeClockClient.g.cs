@@ -35,7 +35,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>drift</c> register value.
         /// Time drift since the last call to the `set_time` command., _: s
         /// </summary>
-        bool TryGetDrift(out float value)
+        bool TryGetDrift(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Drift, RealTimeClockRegPack.Drift, out value)) 
@@ -54,7 +54,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>precision</c> register value.
         /// Error on the clock, in parts per million of seconds., _: ppm
         /// </summary>
-        bool TryGetPrecision(out float value)
+        bool TryGetPrecision(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Precision, RealTimeClockRegPack.Precision, out value)) 
@@ -73,7 +73,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical clock used by the sensor., 
         /// </summary>
-        bool TryGetVariant(out RealTimeClockVariant value)
+        bool TryGetVariant(out RealTimeClockVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Variant, RealTimeClockRegPack.Variant, out value)) 

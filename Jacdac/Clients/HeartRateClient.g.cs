@@ -35,7 +35,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>heart_rate_error</c> register value.
         /// The estimated error on the reported sensor data., _: bpm
         /// </summary>
-        bool TryGetHeartRateError(out float value)
+        bool TryGetHeartRateError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)HeartRateReg.HeartRateError, HeartRateRegPack.HeartRateError, out value)) 
@@ -54,7 +54,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical sensor, 
         /// </summary>
-        bool TryGetVariant(out HeartRateVariant value)
+        bool TryGetVariant(out HeartRateVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)HeartRateReg.Variant, HeartRateRegPack.Variant, out value)) 

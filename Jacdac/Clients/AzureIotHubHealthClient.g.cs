@@ -20,7 +20,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>hub_name</c> register value.
         /// Something like `my-iot-hub.azure-devices.net` if available., 
         /// </summary>
-        bool TryGetHubName(out string value)
+        bool TryGetHubName(out string values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName, out value)) 
@@ -39,7 +39,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>hub_device_id</c> register value.
         /// Device identifier in Azure Iot Hub if available., 
         /// </summary>
-        bool TryGetHubDeviceId(out string value)
+        bool TryGetHubDeviceId(out string values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId, out value)) 

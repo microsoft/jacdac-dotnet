@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>weight_error</c> register value.
         /// The estimate error on the reported reading., _: kg
         /// </summary>
-        bool TryGetWeightError(out float value)
+        bool TryGetWeightError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.WeightError, WeightScaleRegPack.WeightError, out value)) 
@@ -52,7 +52,7 @@ namespace Jacdac.Clients {
         /// Calibrated zero offset error on the scale, i.e. the measured weight when nothing is on the scale.
         /// You do not need to subtract that from the reading, it has already been done., _: kg
         /// </summary>
-        bool TryGetZeroOffset(out float value)
+        bool TryGetZeroOffset(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, out value)) 
@@ -80,7 +80,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>gain</c> register value.
         /// Calibrated gain on the weight scale error., 
         /// </summary>
-        bool TryGetGain(out float value)
+        bool TryGetGain(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, out value)) 
@@ -108,7 +108,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_weight</c> register value.
         /// Maximum supported weight on the scale., _: kg
         /// </summary>
-        bool TryGetMaxWeight(out float value)
+        bool TryGetMaxWeight(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.MaxWeight, WeightScaleRegPack.MaxWeight, out value)) 
@@ -127,7 +127,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>min_weight</c> register value.
         /// Minimum recommend weight on the scale., _: kg
         /// </summary>
-        bool TryGetMinWeight(out float value)
+        bool TryGetMinWeight(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.MinWeight, WeightScaleRegPack.MinWeight, out value)) 
@@ -146,7 +146,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>weight_resolution</c> register value.
         /// Smallest, yet distinguishable change in reading., _: kg
         /// </summary>
-        bool TryGetWeightResolution(out float value)
+        bool TryGetWeightResolution(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.WeightResolution, WeightScaleRegPack.WeightResolution, out value)) 
@@ -165,7 +165,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical scale, 
         /// </summary>
-        bool TryGetVariant(out WeightScaleVariant value)
+        bool TryGetVariant(out WeightScaleVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WeightScaleReg.Variant, WeightScaleRegPack.Variant, out value)) 

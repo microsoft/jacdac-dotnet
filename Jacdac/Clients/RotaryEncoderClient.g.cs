@@ -46,7 +46,7 @@ namespace Jacdac.Clients {
         /// The encoder is combined with a clicker. If this is the case, the clicker button service
         /// should follow this service in the service list of the device., 
         /// </summary>
-        bool TryGetClicker(out bool value)
+        bool TryGetClicker(out bool values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RotaryEncoderReg.Clicker, RotaryEncoderRegPack.Clicker, out value)) 

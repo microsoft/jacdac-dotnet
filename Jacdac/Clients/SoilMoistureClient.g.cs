@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>moisture_error</c> register value.
         /// The error on the moisture reading., _: /
         /// </summary>
-        bool TryGetMoistureError(out float value)
+        bool TryGetMoistureError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SoilMoistureReg.MoistureError, SoilMoistureRegPack.MoistureError, out value)) 
@@ -51,7 +51,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describe the type of physical sensor., 
         /// </summary>
-        bool TryGetVariant(out SoilMoistureVariant value)
+        bool TryGetVariant(out SoilMoistureVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SoilMoistureReg.Variant, SoilMoistureRegPack.Variant, out value)) 

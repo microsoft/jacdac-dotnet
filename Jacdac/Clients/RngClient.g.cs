@@ -39,7 +39,7 @@ namespace Jacdac.Clients {
         /// `ADCNoise` is the noise from quick readings of analog-digital converter, which reads temperature of the MCU or some floating pin.
         /// `WebCrypto` refers is used in simulators, where the source of randomness comes from an advanced operating system., 
         /// </summary>
-        bool TryGetVariant(out RngVariant value)
+        bool TryGetVariant(out RngVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RngReg.Variant, RngRegPack.Variant, out value)) 

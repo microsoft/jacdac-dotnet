@@ -56,7 +56,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>temperature_error</c> register value.
         /// The real temperature is between `temperature - temperature_error` and `temperature + temperature_error`., _: °C
         /// </summary>
-        bool TryGetTemperatureError(out float value)
+        bool TryGetTemperatureError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)TemperatureReg.TemperatureError, TemperatureRegPack.TemperatureError, out value)) 
@@ -75,7 +75,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Specifies the type of thermometer., 
         /// </summary>
-        bool TryGetVariant(out TemperatureVariant value)
+        bool TryGetVariant(out TemperatureVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)TemperatureReg.Variant, TemperatureRegPack.Variant, out value)) 

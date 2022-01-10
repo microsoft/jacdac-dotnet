@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>precipitation_precision</c> register value.
         /// Typically the amount of rain needed for tipping the bucket., _: mm
         /// </summary>
-        bool TryGetPrecipitationPrecision(out float value)
+        bool TryGetPrecipitationPrecision(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)RainGaugeReg.PrecipitationPrecision, RainGaugeRegPack.PrecipitationPrecision, out value)) 

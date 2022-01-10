@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describes the type of switch used., 
         /// </summary>
-        bool TryGetVariant(out SwitchVariant value)
+        bool TryGetVariant(out SwitchVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SwitchReg.Variant, SwitchRegPack.Variant, out value)) 
@@ -52,7 +52,7 @@ namespace Jacdac.Clients {
         /// Specifies the delay without activity to automatically turn off after turning on.
         /// For example, some light switches in staircases have such a capability., _: s
         /// </summary>
-        bool TryGetAutoOffDelay(out float value)
+        bool TryGetAutoOffDelay(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay, out value)) 

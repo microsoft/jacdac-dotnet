@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>wind_direction_error</c> register value.
         /// Error on the wind direction reading, _: °
         /// </summary>
-        bool TryGetWindDirectionError(out uint value)
+        bool TryGetWindDirectionError(out uint values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WindDirectionReg.WindDirectionError, WindDirectionRegPack.WindDirectionError, out value)) 

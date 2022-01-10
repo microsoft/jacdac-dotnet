@@ -34,7 +34,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>oxygen_error</c> register value.
         /// The estimated error on the reported sensor data., _: %
         /// </summary>
-        bool TryGetOxygenError(out float value)
+        bool TryGetOxygenError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)PulseOximeterReg.OxygenError, PulseOximeterRegPack.OxygenError, out value)) 

@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>analog</c> register value.
         /// Indicates if the button provides analog `pressure` readings., 
         /// </summary>
-        bool TryGetAnalog(out bool value)
+        bool TryGetAnalog(out bool values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)ButtonReg.Analog, ButtonRegPack.Analog, out value)) 

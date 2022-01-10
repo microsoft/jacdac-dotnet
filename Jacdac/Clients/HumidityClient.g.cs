@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>humidity_error</c> register value.
         /// The real humidity is between `humidity - humidity_error` and `humidity + humidity_error`., _: %RH
         /// </summary>
-        bool TryGetHumidityError(out float value)
+        bool TryGetHumidityError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)HumidityReg.HumidityError, HumidityRegPack.HumidityError, out value)) 

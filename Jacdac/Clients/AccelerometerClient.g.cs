@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>forces_error</c> register value.
         /// Error on the reading value., _: g
         /// </summary>
-        bool TryGetForcesError(out float value)
+        bool TryGetForcesError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)AccelerometerReg.ForcesError, AccelerometerRegPack.ForcesError, out value)) 
@@ -52,7 +52,7 @@ namespace Jacdac.Clients {
         /// Configures the range forces detected.
         /// The value will be "rounded up" to one of `max_forces_supported`., _: g
         /// </summary>
-        bool TryGetMaxForce(out float value)
+        bool TryGetMaxForce(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, out value)) 

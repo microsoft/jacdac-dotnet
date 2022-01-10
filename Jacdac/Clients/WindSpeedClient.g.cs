@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>wind_speed_error</c> register value.
         /// Error on the reading, _: m/s
         /// </summary>
-        bool TryGetWindSpeedError(out float value)
+        bool TryGetWindSpeedError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WindSpeedReg.WindSpeedError, WindSpeedRegPack.WindSpeedError, out value)) 
@@ -51,7 +51,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_wind_speed</c> register value.
         /// Maximum speed that can be measured by the sensor., _: m/s
         /// </summary>
-        bool TryGetMaxWindSpeed(out float value)
+        bool TryGetMaxWindSpeed(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)WindSpeedReg.MaxWindSpeed, WindSpeedRegPack.MaxWindSpeed, out value)) 

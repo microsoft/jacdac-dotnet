@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>light_level_error</c> register value.
         /// Absolute estimated error of the reading value, _: /
         /// </summary>
-        bool TryGetLightLevelError(out float value)
+        bool TryGetLightLevelError(out float values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LightLevelReg.LightLevelError, LightLevelRegPack.LightLevelError, out value)) 
@@ -51,7 +51,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical sensor., 
         /// </summary>
-        bool TryGetVariant(out LightLevelVariant value)
+        bool TryGetVariant(out LightLevelVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LightLevelReg.Variant, LightLevelRegPack.Variant, out value)) 

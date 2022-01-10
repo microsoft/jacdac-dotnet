@@ -32,7 +32,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_power</c> register value.
         /// Limit the power drawn by the light-strip (and controller)., _: mA
         /// </summary>
-        bool TryGetMaxPower(out uint value)
+        bool TryGetMaxPower(out uint values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LedReg.MaxPower, LedRegPack.MaxPower, out value)) 
@@ -60,7 +60,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>led_count</c> register value.
         /// If known, specifies the number of LEDs in parallel on this device., 
         /// </summary>
-        bool TryGetLedCount(out uint value)
+        bool TryGetLedCount(out uint values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LedReg.LedCount, LedRegPack.LedCount, out value)) 
@@ -79,7 +79,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>wave_length</c> register value.
         /// If monochrome LED, specifies the wave length of the LED., _: nm
         /// </summary>
-        bool TryGetWaveLength(out uint value)
+        bool TryGetWaveLength(out uint values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LedReg.WaveLength, LedRegPack.WaveLength, out value)) 
@@ -98,7 +98,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>luminous_intensity</c> register value.
         /// The luminous intensity of the LED, at full value, in micro candella., _: mcd
         /// </summary>
-        bool TryGetLuminousIntensity(out uint value)
+        bool TryGetLuminousIntensity(out uint values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity, out value)) 
@@ -117,7 +117,7 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The physical type of LED., 
         /// </summary>
-        bool TryGetVariant(out LedVariant value)
+        bool TryGetVariant(out LedVariant values)
         {
             object[] values;
             if (this.TryGetRegisterValues((ushort)LedReg.Variant, LedRegPack.Variant, out value)) 
