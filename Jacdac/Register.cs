@@ -53,11 +53,16 @@ namespace Jacdac
 
         private void ProcessReport(Packet pkt)
         {
-            var updated = this.NeedsRefresh || !Util.BufferEquals(this.Data, pkt.Data);
+            this.ReceiveData(pkt.Data, pkt.Timestamp);
+        }
+
+        internal void ReceiveData(byte[] data, TimeSpan timestamp)
+        {
+            var updated = this.NeedsRefresh || !Util.BufferEquals(this.Data, data);
             if (updated)
-                this.Data = pkt.Data;
+                this.Data = data;
             this.LastGetAttempts = 0; // reset counter
-            this.LastGetTimestamp = pkt.Timestamp;
+            this.LastGetTimestamp = timestamp;
             this.NeedsRefresh = false;
 
             this.ReportReceived?.Invoke(this, EventArgs.Empty);

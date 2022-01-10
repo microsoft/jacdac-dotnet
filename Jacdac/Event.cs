@@ -1,8 +1,11 @@
-﻿namespace Jacdac
+﻿using System;
+
+namespace Jacdac
 {
     public sealed partial class JDEvent : JDServiceNode
     {
         private byte[] data;
+        private TimeSpan lastGetTimestamp = TimeSpan.MinValue;
         public uint Count = 0;
 
         internal JDEvent(JDService service, ushort code)
@@ -11,13 +14,9 @@
 
         }
 
-        public byte[] Data
-        {
-            get
-            {
-                return this.data;
-            }
-        }
+        public byte[] Data { get => this.data; }
+
+        public TimeSpan LastGetTimestamp { get => this.lastGetTimestamp; }
 
         public object[] Values
         {
@@ -53,11 +52,19 @@
             if (isahead && (old || missed5)) return false;
 
             this.data = pkt.Data;
+            this.lastGetTimestamp = pkt.Timestamp;
             this.Count++;
 
             // update device counter
             device.EventCounter = pkt.EventCounter;
             this.RaiseChanged();
+
+            if (this.Code == (ushort)SystemEvent.StatusCodeChanged)
+            {
+                var reg = this.Service.GetRegister((ushort)SystemReg.StatusCode);
+                if (reg != null)
+                    reg.ReceiveData(this.data, this.lastGetTimestamp);
+            }
 
             return true;
         }

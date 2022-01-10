@@ -84,6 +84,17 @@ namespace Jacdac
             return $"{this.Name}<{this.BoundService?.ToString() ?? "?"}";
         }
 
+        /// <summary>
+        /// (Optional) Friendly name for the service
+        /// </summary>
+        public string InstanceName
+        {
+            get
+            {
+                return (string)this.GetRegisterValue((ushort)SystemReg.InstanceName, SystemRegPack.InstanceName, new object[] { null });
+            }
+        }
+
         public JDService WaitForService(int timeout)
         {
             var s = this.BoundService;
@@ -127,19 +138,23 @@ namespace Jacdac
             return reg;
         }
 
-        protected object[] GetRegisterValues(ushort code, string packFormat)
+        protected object[] GetRegisterValues(ushort code, string packFormat, object[] defaultValues = null)
         {
             var reg = this.WaitForRegister(code);
             reg.PackFormat = packFormat;
             var values = reg.WaitForValues(VALUES_TIMEOUT);
             if (values.Length == 0)
-                throw new ClientDisconnectedException();
+                if (defaultValues != null)
+                    return defaultValues;
+                else
+                    throw new ClientDisconnectedException();
             return values;
         }
 
-        protected object GetRegisterValue(ushort code, string packFormat)
+        protected object GetRegisterValue(ushort code, string packFormat, object[] defaultValues = null)
         {
-            return this.GetRegisterValues(code, packFormat)[0];
+            var values = this.GetRegisterValues(code, packFormat, defaultValues);
+            return values[0];
         }
 
         protected void SetRegisterValues(ushort code, string packetFormat, object[] values)
@@ -182,6 +197,9 @@ namespace Jacdac
                     ev.Handler(this, eargs);
                 }
             }
+
+            if (code == (ushort)SystemEvent.StatusCodeChanged)
+                this.RaiseChanged();
         }
 
         protected void AddEvent(ushort code, ClientEventHandler handler)
