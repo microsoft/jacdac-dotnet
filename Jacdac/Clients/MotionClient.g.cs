@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_distance</c> register value.
         /// Maximum distance where objects can be detected., _: m
         /// </summary>
-        bool TryGetMaxDistance(out float values)
+        bool TryGetMaxDistance(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance, out value)) 
+            if (this.TryGetRegisterValues((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -51,10 +51,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>angle</c> register value.
         /// Opening of the field of view, _: °
         /// </summary>
-        bool TryGetAngle(out uint values)
+        bool TryGetAngle(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MotionReg.Angle, MotionRegPack.Angle, out value)) 
+            if (this.TryGetRegisterValues((ushort)MotionReg.Angle, MotionRegPack.Angle, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -70,10 +70,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Type of physical sensor, 
         /// </summary>
-        bool TryGetVariant(out MotionVariant values)
+        bool TryGetVariant(out MotionVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MotionReg.Variant, MotionRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)MotionReg.Variant, MotionRegPack.Variant, out values)) 
             {
                 value = (MotionVariant)values[0];
                 return true;

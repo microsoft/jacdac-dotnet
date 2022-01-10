@@ -94,10 +94,10 @@ namespace Jacdac.Clients {
         /// If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
         /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot., _: #
         /// </summary>
-        bool TryGetNumColumns(out uint values)
+        bool TryGetNumColumns(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, out value)) 
+            if (this.TryGetRegisterValues((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -173,10 +173,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Specifies the shape of the light strip., 
         /// </summary>
-        bool TryGetVariant(out LedPixelVariant values)
+        bool TryGetVariant(out LedPixelVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant, out values)) 
             {
                 value = (LedPixelVariant)values[0];
                 return true;

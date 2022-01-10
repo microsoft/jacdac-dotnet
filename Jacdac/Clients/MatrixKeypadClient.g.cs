@@ -46,10 +46,10 @@ namespace Jacdac.Clients {
         /// and the next service on the device is a ``LEDPixel`` service, it is considered
         /// as the service controlling the LED pixel on the keypad., 
         /// </summary>
-        bool TryGetVariant(out MatrixKeypadVariant values)
+        bool TryGetVariant(out MatrixKeypadVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant, out values)) 
             {
                 value = (MatrixKeypadVariant)values[0];
                 return true;

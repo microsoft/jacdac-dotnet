@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>TVOC_error</c> register value.
         /// Error on the reading data, _: ppb
         /// </summary>
-        bool TryGetTVOCError(out float values)
+        bool TryGetTVOCError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError, out value)) 
+            if (this.TryGetRegisterValues((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError, out values)) 
             {
                 value = (float)values[0];
                 return true;

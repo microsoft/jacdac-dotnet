@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>uv_index_error</c> register value.
         /// Error on the UV measure., _: uv
         /// </summary>
-        bool TryGetUvIndexError(out float values)
+        bool TryGetUvIndexError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError, out value)) 
+            if (this.TryGetRegisterValues((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -51,10 +51,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical sensor and capabilities., 
         /// </summary>
-        bool TryGetVariant(out UvIndexVariant values)
+        bool TryGetVariant(out UvIndexVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant, out values)) 
             {
                 value = (UvIndexVariant)values[0];
                 return true;

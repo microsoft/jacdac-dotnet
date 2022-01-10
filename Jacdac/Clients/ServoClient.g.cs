@@ -137,10 +137,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>stall_torque</c> register value.
         /// The servo motor will stop rotating when it is trying to move a ``stall_torque`` weight at a radial distance of ``1.0`` cm., _: kg/cm
         /// </summary>
-        bool TryGetStallTorque(out float values)
+        bool TryGetStallTorque(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque, out value)) 
+            if (this.TryGetRegisterValues((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -156,10 +156,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>response_speed</c> register value.
         /// Time to move 60°., _: s/60°
         /// </summary>
-        bool TryGetResponseSpeed(out float values)
+        bool TryGetResponseSpeed(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed, out value)) 
+            if (this.TryGetRegisterValues((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -175,10 +175,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>current_angle</c> register value.
         /// The current physical position of the arm., _: °
         /// </summary>
-        bool TryGetCurrentAngle(out float values)
+        bool TryGetCurrentAngle(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle, out value)) 
+            if (this.TryGetRegisterValues((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle, out values)) 
             {
                 value = (float)values[0];
                 return true;

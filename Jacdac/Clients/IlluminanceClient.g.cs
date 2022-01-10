@@ -34,10 +34,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>illuminance_error</c> register value.
         /// Error on the reported sensor value., _: lux
         /// </summary>
-        bool TryGetIlluminanceError(out float values)
+        bool TryGetIlluminanceError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError, out value)) 
+            if (this.TryGetRegisterValues((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError, out values)) 
             {
                 value = (float)values[0];
                 return true;

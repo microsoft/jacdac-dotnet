@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>distance_error</c> register value.
         /// Absolute error on the reading value., _: m
         /// </summary>
-        bool TryGetDistanceError(out float values)
+        bool TryGetDistanceError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError, out value)) 
+            if (this.TryGetRegisterValues((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -51,10 +51,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>min_range</c> register value.
         /// Minimum measurable distance, _: m
         /// </summary>
-        bool TryGetMinRange(out float values)
+        bool TryGetMinRange(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange, out value)) 
+            if (this.TryGetRegisterValues((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -70,10 +70,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_range</c> register value.
         /// Maximum measurable distance, _: m
         /// </summary>
-        bool TryGetMaxRange(out float values)
+        bool TryGetMaxRange(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange, out value)) 
+            if (this.TryGetRegisterValues((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -89,10 +89,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Determines the type of sensor used., 
         /// </summary>
-        bool TryGetVariant(out DistanceVariant values)
+        bool TryGetVariant(out DistanceVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DistanceReg.Variant, DistanceRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)DistanceReg.Variant, DistanceRegPack.Variant, out values)) 
             {
                 value = (DistanceVariant)values[0];
                 return true;

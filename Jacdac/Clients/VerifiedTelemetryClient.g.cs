@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>telemetry_status_interval</c> register value.
         /// Specifies the interval between computing the fingerprint information., _: ms
         /// </summary>
-        bool TryGetTelemetryStatusInterval(out uint values)
+        bool TryGetTelemetryStatusInterval(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, out value)) 
+            if (this.TryGetRegisterValues((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, out values)) 
             {
                 value = (uint)values[0];
                 return true;

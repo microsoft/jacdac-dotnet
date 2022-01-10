@@ -44,10 +44,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describes the type of relay used., 
         /// </summary>
-        bool TryGetVariant(out RelayVariant values)
+        bool TryGetVariant(out RelayVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)RelayReg.Variant, RelayRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)RelayReg.Variant, RelayRegPack.Variant, out values)) 
             {
                 value = (RelayVariant)values[0];
                 return true;
@@ -63,10 +63,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>max_switching_current</c> register value.
         /// Maximum switching current for a resistive load., _: mA
         /// </summary>
-        bool TryGetMaxSwitchingCurrent(out uint values)
+        bool TryGetMaxSwitchingCurrent(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent, out value)) 
+            if (this.TryGetRegisterValues((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent, out values)) 
             {
                 value = (uint)values[0];
                 return true;

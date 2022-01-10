@@ -41,10 +41,10 @@ namespace Jacdac.Clients {
         /// Limit the power provided by the service. The actual maximum limit will depend on hardware.
         /// This field may be read-only in some implementations - you should read it back after setting., _: mA
         /// </summary>
-        bool TryGetMaxPower(out uint values)
+        bool TryGetMaxPower(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -82,10 +82,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>current_draw</c> register value.
         /// Present current draw from the bus., _: mA
         /// </summary>
-        bool TryGetCurrentDraw(out uint values)
+        bool TryGetCurrentDraw(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -101,10 +101,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>battery_voltage</c> register value.
         /// Voltage on input., _: mV
         /// </summary>
-        bool TryGetBatteryVoltage(out uint values)
+        bool TryGetBatteryVoltage(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -120,10 +120,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>battery_charge</c> register value.
         /// Fraction of charge in the battery., _: /
         /// </summary>
-        bool TryGetBatteryCharge(out float values)
+        bool TryGetBatteryCharge(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -140,10 +140,10 @@ namespace Jacdac.Clients {
         /// Energy that can be delivered to the bus when battery is fully charged.
         /// This excludes conversion overheads if any., _: mWh
         /// </summary>
-        bool TryGetBatteryCapacity(out uint values)
+        bool TryGetBatteryCapacity(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -161,10 +161,10 @@ namespace Jacdac.Clients {
         /// This regulates how often and for how long such current is drawn.
         /// Typically a 1/8W 22 ohm resistor is used as load. This limits the duty cycle to 10%., _: ms
         /// </summary>
-        bool TryGetKeepOnPulseDuration(out uint values)
+        bool TryGetKeepOnPulseDuration(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -191,10 +191,10 @@ namespace Jacdac.Clients {
         /// This regulates how often and for how long such current is drawn.
         /// Typically a 1/8W 22 ohm resistor is used as load. This limits the duty cycle to 10%., _: ms
         /// </summary>
-        bool TryGetKeepOnPulsePeriod(out uint values)
+        bool TryGetKeepOnPulsePeriod(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, out value)) 
+            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, out values)) 
             {
                 value = (uint)values[0];
                 return true;

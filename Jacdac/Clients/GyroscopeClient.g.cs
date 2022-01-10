@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>rotation_rates_error</c> register value.
         /// Error on the reading value., _: °/s
         /// </summary>
-        bool TryGetRotationRatesError(out float values)
+        bool TryGetRotationRatesError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError, out value)) 
+            if (this.TryGetRegisterValues((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -52,10 +52,10 @@ namespace Jacdac.Clients {
         /// Configures the range of rotation rates.
         /// The value will be "rounded up" to one of `max_rates_supported`., _: °/s
         /// </summary>
-        bool TryGetMaxRate(out float values)
+        bool TryGetMaxRate(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, out value)) 
+            if (this.TryGetRegisterValues((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, out values)) 
             {
                 value = (float)values[0];
                 return true;

@@ -38,10 +38,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>lang</c> register value.
         /// Language used for utterances as defined in https://www.ietf.org/rfc/bcp/bcp47.txt., 
         /// </summary>
-        bool TryGetLang(out string values)
+        bool TryGetLang(out string value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, out value)) 
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, out values)) 
             {
                 value = (string)values[0];
                 return true;
@@ -66,10 +66,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>volume</c> register value.
         /// Volume for utterances., _: /
         /// </summary>
-        bool TryGetVolume(out float values)
+        bool TryGetVolume(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, out value)) 
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -94,10 +94,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>pitch</c> register value.
         /// Pitch for utterances, 
         /// </summary>
-        bool TryGetPitch(out float values)
+        bool TryGetPitch(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, out value)) 
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -122,10 +122,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>rate</c> register value.
         /// Rate for utterances, 
         /// </summary>
-        bool TryGetRate(out float values)
+        bool TryGetRate(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, out value)) 
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, out values)) 
             {
                 value = (float)values[0];
                 return true;

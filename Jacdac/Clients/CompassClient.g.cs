@@ -50,10 +50,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>heading_error</c> register value.
         /// Error on the heading reading, _: °
         /// </summary>
-        bool TryGetHeadingError(out float values)
+        bool TryGetHeadingError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError, out value)) 
+            if (this.TryGetRegisterValues((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError, out values)) 
             {
                 value = (float)values[0];
                 return true;

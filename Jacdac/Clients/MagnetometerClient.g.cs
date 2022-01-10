@@ -33,10 +33,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>forces_error</c> register value.
         /// Absolute estimated error on the readings., _: nT
         /// </summary>
-        bool TryGetForcesError(out int values)
+        bool TryGetForcesError(out int value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError, out value)) 
+            if (this.TryGetRegisterValues((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError, out values)) 
             {
                 value = (int)values[0];
                 return true;

@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Type of physical sensor used, 
         /// </summary>
-        bool TryGetVariant(out ReflectedLightVariant values)
+        bool TryGetVariant(out ReflectedLightVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant, out values)) 
             {
                 value = (ReflectedLightVariant)values[0];
                 return true;

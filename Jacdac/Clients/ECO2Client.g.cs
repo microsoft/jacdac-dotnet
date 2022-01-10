@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>e_CO2_error</c> register value.
         /// Error on the reading value., _: ppm
         /// </summary>
-        bool TryGetECO2Error(out float values)
+        bool TryGetECO2Error(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error, out value)) 
+            if (this.TryGetRegisterValues((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -75,10 +75,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Type of physical sensor and capabilities., 
         /// </summary>
-        bool TryGetVariant(out ECO2Variant values)
+        bool TryGetVariant(out ECO2Variant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ECO2Reg.Variant, ECO2RegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)ECO2Reg.Variant, ECO2RegPack.Variant, out values)) 
             {
                 value = (ECO2Variant)values[0];
                 return true;

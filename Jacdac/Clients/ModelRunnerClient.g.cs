@@ -121,10 +121,10 @@ namespace Jacdac.Clients {
         /// If present and true this service can run models independently of other
         /// instances of this service on the device., 
         /// </summary>
-        bool TryGetParallel(out bool values)
+        bool TryGetParallel(out bool value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel, out value)) 
+            if (this.TryGetRegisterValues((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel, out values)) 
             {
                 value = (bool)values[0];
                 return true;

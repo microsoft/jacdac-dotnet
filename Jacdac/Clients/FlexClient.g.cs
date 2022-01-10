@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>length</c> register value.
         /// Length of the flex sensor, _: mm
         /// </summary>
-        bool TryGetLength(out uint values)
+        bool TryGetLength(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)FlexReg.Length, FlexRegPack.Length, out value)) 
+            if (this.TryGetRegisterValues((ushort)FlexReg.Length, FlexRegPack.Length, out values)) 
             {
                 value = (uint)values[0];
                 return true;

@@ -70,10 +70,10 @@ namespace Jacdac.Clients {
         /// Turn on or off the column LEDs (separating minutes from hours, etc.) in of the segment.
         /// If the column LEDs is not supported, the value remains false., 
         /// </summary>
-        bool TryGetDoubleDots(out bool values)
+        bool TryGetDoubleDots(out bool value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, out value)) 
+            if (this.TryGetRegisterValues((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, out values)) 
             {
                 value = (bool)values[0];
                 return true;

@@ -39,10 +39,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>brightness</c> register value.
         /// Reads the general brightness of the display, brightness for LEDs. `0` when the screen is off., _: /
         /// </summary>
-        bool TryGetBrightness(out float values)
+        bool TryGetBrightness(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, out value)) 
+            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -91,10 +91,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describes the type of matrix used., 
         /// </summary>
-        bool TryGetVariant(out DotMatrixVariant values)
+        bool TryGetVariant(out DotMatrixVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant, out values)) 
             {
                 value = (DotMatrixVariant)values[0];
                 return true;

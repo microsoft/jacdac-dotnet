@@ -38,10 +38,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// Describes the type of solenoid used., 
         /// </summary>
-        bool TryGetVariant(out SolenoidVariant values)
+        bool TryGetVariant(out SolenoidVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant, out values)) 
             {
                 value = (SolenoidVariant)values[0];
                 return true;

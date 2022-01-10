@@ -32,10 +32,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>level_error</c> register value.
         /// The error rage on the current reading, _: /
         /// </summary>
-        bool TryGetLevelError(out float values)
+        bool TryGetLevelError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError, out value)) 
+            if (this.TryGetRegisterValues((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError, out values)) 
             {
                 value = (float)values[0];
                 return true;
@@ -51,10 +51,10 @@ namespace Jacdac.Clients {
         /// Tries to read the <c>variant</c> register value.
         /// The type of physical sensor., 
         /// </summary>
-        bool TryGetVariant(out WaterLevelVariant values)
+        bool TryGetVariant(out WaterLevelVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant, out value)) 
+            if (this.TryGetRegisterValues((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant, out values)) 
             {
                 value = (WaterLevelVariant)values[0];
                 return true;
