@@ -16,8 +16,16 @@ namespace Jacdac.Transports.Usb
         public int PID;
     }
 
+    [Serializable]
+    public sealed class USBTransportOptions
+    {
+        public string DeviceId;
+    }
+
     public sealed class UsbTransport : Transport
     {
+        private readonly USBTransportOptions Options;
+
         public static USBDeviceDescription[] GetDevices()
         {
             var devices = new List<USBDeviceDescription>();
@@ -48,14 +56,17 @@ namespace Jacdac.Transports.Usb
         private USBDeviceDescription usbDevice;
         private UsbHF2Transport transport;
 
-        public static UsbTransport Create()
+        public static UsbTransport Create(USBTransportOptions options = null)
         {
-            return new UsbTransport();
+            if (options == null)
+                options = new USBTransportOptions();
+            return new UsbTransport(options);
         }
 
-        internal UsbTransport()
+        internal UsbTransport(USBTransportOptions options)
             : base("usb")
         {
+            this.Options = options;
         }
 
         public override event FrameEventHandler FrameReceived;
@@ -83,7 +94,8 @@ namespace Jacdac.Transports.Usb
         {
             var usbDevices = UsbTransport.GetDevices();
             Debug.WriteLine($"usb: found {usbDevices.Length} devices");
-            this.usbDevice = usbDevices.FirstOrDefault();
+            var deviceId = this.Options.DeviceId;
+            this.usbDevice = usbDevices.FirstOrDefault(d => deviceId == null || deviceId == d.DeviceID);
             if (this.usbDevice == null)
             {
                 this.SetConnectionState(ConnectionState.Disconnected);
