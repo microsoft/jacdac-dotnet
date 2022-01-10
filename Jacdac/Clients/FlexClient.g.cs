@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>bending</c> register value.
         /// A measure of the bending., _: /
         /// </summary>
         public float Bending
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Length of the flex sensor, _: mm
+        /// Tries to read the <c>length</c> register value.
+        /// Length of the flex sensor, _: mm
         /// </summary>
-        public uint Length
+        bool TryGetLength(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)FlexReg.Length, FlexRegPack.Length, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)FlexReg.Length, FlexRegPack.Length);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 

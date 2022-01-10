@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rows</c> register value.
         /// Number of rows in the matrix, _: #
         /// </summary>
         public uint Rows
@@ -28,6 +29,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>columns</c> register value.
         /// Number of columns in the matrix, _: #
         /// </summary>
         public uint Columns
@@ -39,15 +41,23 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The type of physical keypad. If the variant is ``ElastomerLEDPixel``
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical keypad. If the variant is ``ElastomerLEDPixel``
         /// and the next service on the device is a ``LEDPixel`` service, it is considered
         /// as the service controlling the LED pixel on the keypad., 
         /// </summary>
-        public MatrixKeypadVariant Variant
+        bool TryGetVariant(out MatrixKeypadVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant, out value)) 
             {
-                return (MatrixKeypadVariant)this.GetRegisterValue((ushort)MatrixKeypadReg.Variant, MatrixKeypadRegPack.Variant);
+                value = (MatrixKeypadVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(MatrixKeypadVariant);
+                return false;
             }
         }
 

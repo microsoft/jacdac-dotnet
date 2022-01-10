@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>sampling_period</c> register value.
         /// Get or set microphone sampling period.
         /// Sampling rate is `1_000_000 / sampling_period Hz`., _: us
         /// </summary>

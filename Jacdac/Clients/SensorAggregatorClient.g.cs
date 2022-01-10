@@ -18,6 +18,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>num_samples</c> register value.
         /// Number of input samples collected so far., 
         /// </summary>
         public uint NumSamples
@@ -29,6 +30,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>sample_size</c> register value.
         /// Size of a single sample., _: B
         /// </summary>
         public uint SampleSize
@@ -40,6 +42,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>streaming_samples</c> register value.
         /// When set to `N`, will stream `N` samples as `current_sample` reading., _: #
         /// </summary>
         public uint StreamingSamples
@@ -57,6 +60,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>current_sample</c> register value.
         /// Last collected sample., 
         /// </summary>
         public byte[] CurrentSample

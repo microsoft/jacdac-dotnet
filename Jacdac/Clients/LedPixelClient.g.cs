@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>brightness</c> register value.
         /// Set the luminosity of the strip.
         /// At `0` the power to the strip is completely shut down., _: /
         /// </summary>
@@ -35,6 +36,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>actual_brightness</c> register value.
         /// This is the luminosity actually applied to the strip.
         /// May be lower than `brightness` if power-limited by the `max_power` register.
         /// It will rise slowly (few seconds) back to `brightness` is limits are no longer required., _: /
@@ -48,6 +50,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>light_type</c> register value.
         /// Specifies the type of light strip connected to controller.
         /// Controllers which are sold with lights should default to the correct type
         /// and could not allow change., 
@@ -67,6 +70,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>num_pixels</c> register value.
         /// Specifies the number of pixels in the strip.
         /// Controllers which are sold with lights should default to the correct length
         /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot., _: #
@@ -86,24 +90,36 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
+        /// Tries to read the <c>num_columns</c> register value.
+        /// If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
         /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot., _: #
         /// </summary>
-        public uint NumColumns
+        bool TryGetNumColumns(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, value);
+                value = default(uint);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the num_columns value
+        /// </summary>
+        public void SetNumColumns(uint value)
+        {
+            this.SetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>max_power</c> register value.
         /// Limit the power drawn by the light-strip (and controller)., _: mA
         /// </summary>
         public uint MaxPower
@@ -121,6 +137,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_pixels</c> register value.
         /// The maximum supported number of pixels.
         /// All writes to `num_pixels` are clamped to `max_pixels`., _: #
         /// </summary>
@@ -133,6 +150,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>num_repeats</c> register value.
         /// How many times to repeat the program passed in `run` command.
         /// Should be set before the `run` command.
         /// Setting to `0` means to repeat forever., _: #
@@ -152,13 +170,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Specifies the shape of the light strip., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Specifies the shape of the light strip., 
         /// </summary>
-        public LedPixelVariant Variant
+        bool TryGetVariant(out LedPixelVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant, out value)) 
             {
-                return (LedPixelVariant)this.GetRegisterValue((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant);
+                value = (LedPixelVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(LedPixelVariant);
+                return false;
             }
         }
 

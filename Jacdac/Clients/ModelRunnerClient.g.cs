@@ -21,6 +21,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>auto_invoke_every</c> register value.
         /// When register contains `N > 0`, run the model automatically every time new `N` samples are collected.
         /// Model may be run less often if it takes longer to run than `N * sampling_interval`.
         /// The `outputs` register will stream its value after each run.
@@ -41,6 +42,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>last_run_time</c> register value.
         /// The time consumed in last model execution., _: us
         /// </summary>
         public uint LastRunTime
@@ -52,6 +54,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>allocated_arena_size</c> register value.
         /// Number of RAM bytes allocated for model execution., _: B
         /// </summary>
         public uint AllocatedArenaSize
@@ -63,6 +66,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>model_size</c> register value.
         /// The size of the model in bytes., _: B
         /// </summary>
         public uint ModelSize
@@ -74,6 +78,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>last_error</c> register value.
         /// Textual description of last error when running or loading model (if any)., 
         /// </summary>
         public string LastError
@@ -85,6 +90,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>format</c> register value.
         /// The type of ML models supported by this service.
         /// `TFLite` is flatbuffer `.tflite` file.
         /// `ML4F` is compiled machine code model for Cortex-M4F.
@@ -99,6 +105,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>format_version</c> register value.
         /// A version number for the format., 
         /// </summary>
         public uint FormatVersion
@@ -110,14 +117,22 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) If present and true this service can run models independently of other
+        /// Tries to read the <c>parallel</c> register value.
+        /// If present and true this service can run models independently of other
         /// instances of this service on the device., 
         /// </summary>
-        public bool Parallel
+        bool TryGetParallel(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)ModelRunnerReg.Parallel, ModelRunnerRegPack.Parallel);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>heading</c> register value.
         /// The heading with respect to the magnetic north., _: °
         /// </summary>
         public float Heading
@@ -28,6 +29,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turn on or off the sensor. Turning on the sensor may start a calibration sequence., 
         /// </summary>
         public bool Enabled
@@ -45,13 +47,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the heading reading, _: °
+        /// Tries to read the <c>heading_error</c> register value.
+        /// Error on the heading reading, _: °
         /// </summary>
-        public float HeadingError
+        bool TryGetHeadingError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)CompassReg.HeadingError, CompassRegPack.HeadingError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

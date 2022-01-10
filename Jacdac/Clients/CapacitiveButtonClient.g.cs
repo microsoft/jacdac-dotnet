@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>threshold</c> register value.
         /// Indicates the threshold for ``up`` events., _: /
         /// </summary>
         public float Threshold

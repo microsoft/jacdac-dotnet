@@ -17,28 +17,45 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Something like `my-iot-hub.azure-devices.net` if available., 
+        /// Tries to read the <c>hub_name</c> register value.
+        /// Something like `my-iot-hub.azure-devices.net` if available., 
         /// </summary>
-        public string HubName
+        bool TryGetHubName(out string value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName, out value)) 
             {
-                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName);
+                value = (string)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(string);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Device identifier in Azure Iot Hub if available., 
+        /// Tries to read the <c>hub_device_id</c> register value.
+        /// Device identifier in Azure Iot Hub if available., 
         /// </summary>
-        public string HubDeviceId
+        bool TryGetHubDeviceId(out string value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId, out value)) 
             {
-                return (string)this.GetRegisterValue((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId);
+                value = (string)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(string);
+                return false;
             }
         }
 
         /// <summary>
+        /// Reads the <c>connection_status</c> register value.
         /// Indicates the status of connection. A message beyond the [0..3] range represents an HTTP error code., 
         /// </summary>
         public AzureIotHubHealthConnectionStatus ConnectionStatus

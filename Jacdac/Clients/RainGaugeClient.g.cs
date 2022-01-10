@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>precipitation</c> register value.
         /// Total precipitation recorded so far., _: mm
         /// </summary>
         public float Precipitation
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Typically the amount of rain needed for tipping the bucket., _: mm
+        /// Tries to read the <c>precipitation_precision</c> register value.
+        /// Typically the amount of rain needed for tipping the bucket., _: mm
         /// </summary>
-        public float PrecipitationPrecision
+        bool TryGetPrecipitationPrecision(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RainGaugeReg.PrecipitationPrecision, RainGaugeRegPack.PrecipitationPrecision, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)RainGaugeReg.PrecipitationPrecision, RainGaugeRegPack.PrecipitationPrecision);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

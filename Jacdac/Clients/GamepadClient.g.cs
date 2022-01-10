@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>direction</c> register value.
         /// If the joystick is analog, the directional buttons should be "simulated", based on joystick position
         /// (`Left` is `{ x = -1, y = 0 }`, `Up` is `{ x = 0, y = -1}`).
         /// If the joystick is digital, then each direction will read as either `-1`, `0`, or `1` (in fixed representation).
@@ -31,17 +32,26 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The type of physical joystick., 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical joystick., 
         /// </summary>
-        public GamepadVariant Variant
+        bool TryGetVariant(out GamepadVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)GamepadReg.Variant, GamepadRegPack.Variant, out value)) 
             {
-                return (GamepadVariant)this.GetRegisterValue((ushort)GamepadReg.Variant, GamepadRegPack.Variant);
+                value = (GamepadVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(GamepadVariant);
+                return false;
             }
         }
 
         /// <summary>
+        /// Reads the <c>buttons_available</c> register value.
         /// Indicates a bitmask of the buttons that are mounted on the joystick.
         /// If the `Left`/`Up`/`Right`/`Down` buttons are marked as available here, the joystick is digital.
         /// Even when marked as not available, they will still be simulated based on the analog joystick., 

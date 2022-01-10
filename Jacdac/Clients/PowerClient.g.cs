@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>allowed</c> register value.
         /// Can be used to completely disable the service.
         /// When allowed, the service may still not be providing power, see 
         /// `power_status` for the actual current state., 
@@ -36,24 +37,36 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Limit the power provided by the service. The actual maximum limit will depend on hardware.
+        /// Tries to read the <c>max_power</c> register value.
+        /// Limit the power provided by the service. The actual maximum limit will depend on hardware.
         /// This field may be read-only in some implementations - you should read it back after setting., _: mA
         /// </summary>
-        public uint MaxPower
+        bool TryGetMaxPower(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, value);
+                value = default(uint);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the max_power value
+        /// </summary>
+        public void SetMaxPower(uint value)
+        {
+            this.SetRegisterValue((ushort)PowerReg.MaxPower, PowerRegPack.MaxPower, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>power_status</c> register value.
         /// Indicates whether the power provider is currently providing power (`Powering` state), and if not, why not.
         /// `Overprovision` means there was another power provider, and we stopped not to overprovision the bus., 
         /// </summary>
@@ -66,87 +79,141 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Present current draw from the bus., _: mA
+        /// Tries to read the <c>current_draw</c> register value.
+        /// Present current draw from the bus., _: mA
         /// </summary>
-        public uint CurrentDraw
+        bool TryGetCurrentDraw(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.CurrentDraw, PowerRegPack.CurrentDraw);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Voltage on input., _: mV
+        /// Tries to read the <c>battery_voltage</c> register value.
+        /// Voltage on input., _: mV
         /// </summary>
-        public uint BatteryVoltage
+        bool TryGetBatteryVoltage(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryVoltage, PowerRegPack.BatteryVoltage);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Fraction of charge in the battery., _: /
+        /// Tries to read the <c>battery_charge</c> register value.
+        /// Fraction of charge in the battery., _: /
         /// </summary>
-        public float BatteryCharge
+        bool TryGetBatteryCharge(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)PowerReg.BatteryCharge, PowerRegPack.BatteryCharge);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Energy that can be delivered to the bus when battery is fully charged.
+        /// Tries to read the <c>battery_capacity</c> register value.
+        /// Energy that can be delivered to the bus when battery is fully charged.
         /// This excludes conversion overheads if any., _: mWh
         /// </summary>
-        public uint BatteryCapacity
+        bool TryGetBatteryCapacity(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.BatteryCapacity, PowerRegPack.BatteryCapacity);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Many USB power packs need current to be drawn from time to time to prevent shutdown.
+        /// Tries to read the <c>keep_on_pulse_duration</c> register value.
+        /// Many USB power packs need current to be drawn from time to time to prevent shutdown.
         /// This regulates how often and for how long such current is drawn.
         /// Typically a 1/8W 22 ohm resistor is used as load. This limits the duty cycle to 10%., _: ms
         /// </summary>
-        public uint KeepOnPulseDuration
+        bool TryGetKeepOnPulseDuration(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, value);
+                value = default(uint);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the keep_on_pulse_duration value
+        /// </summary>
+        public void SetKeepOnPulseDuration(uint value)
+        {
+            this.SetRegisterValue((ushort)PowerReg.KeepOnPulseDuration, PowerRegPack.KeepOnPulseDuration, value);
+        }
+
 
         /// <summary>
-        /// (Optional) Many USB power packs need current to be drawn from time to time to prevent shutdown.
+        /// Tries to read the <c>keep_on_pulse_period</c> register value.
+        /// Many USB power packs need current to be drawn from time to time to prevent shutdown.
         /// This regulates how often and for how long such current is drawn.
         /// Typically a 1/8W 22 ohm resistor is used as load. This limits the duty cycle to 10%., _: ms
         /// </summary>
-        public uint KeepOnPulsePeriod
+        bool TryGetKeepOnPulsePeriod(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, value);
+                value = default(uint);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the keep_on_pulse_period value
+        /// </summary>
+        public void SetKeepOnPulsePeriod(uint value)
+        {
+            this.SetRegisterValue((ushort)PowerReg.KeepOnPulsePeriod, PowerRegPack.KeepOnPulsePeriod, value);
+        }
+
 
         /// <summary>
         /// Emitted whenever `power_status` changes.

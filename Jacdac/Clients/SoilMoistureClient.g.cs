@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>moisture</c> register value.
         /// Indicates the wetness of the soil, from `dry` to `wet`., _: /
         /// </summary>
         public float Moisture
@@ -28,24 +29,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The error on the moisture reading., _: /
+        /// Tries to read the <c>moisture_error</c> register value.
+        /// The error on the moisture reading., _: /
         /// </summary>
-        public float MoistureError
+        bool TryGetMoistureError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SoilMoistureReg.MoistureError, SoilMoistureRegPack.MoistureError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)SoilMoistureReg.MoistureError, SoilMoistureRegPack.MoistureError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Describe the type of physical sensor., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Describe the type of physical sensor., 
         /// </summary>
-        public SoilMoistureVariant Variant
+        bool TryGetVariant(out SoilMoistureVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SoilMoistureReg.Variant, SoilMoistureRegPack.Variant, out value)) 
             {
-                return (SoilMoistureVariant)this.GetRegisterValue((ushort)SoilMoistureReg.Variant, SoilMoistureRegPack.Variant);
+                value = (SoilMoistureVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(SoilMoistureVariant);
+                return false;
             }
         }
 

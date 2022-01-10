@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>light_level</c> register value.
         /// Detect light level, _: /
         /// </summary>
         public float LightLevel
@@ -28,24 +29,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Absolute estimated error of the reading value, _: /
+        /// Tries to read the <c>light_level_error</c> register value.
+        /// Absolute estimated error of the reading value, _: /
         /// </summary>
-        public float LightLevelError
+        bool TryGetLightLevelError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LightLevelReg.LightLevelError, LightLevelRegPack.LightLevelError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)LightLevelReg.LightLevelError, LightLevelRegPack.LightLevelError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The type of physical sensor., 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical sensor., 
         /// </summary>
-        public LightLevelVariant Variant
+        bool TryGetVariant(out LightLevelVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LightLevelReg.Variant, LightLevelRegPack.Variant, out value)) 
             {
-                return (LightLevelVariant)this.GetRegisterValue((ushort)LightLevelReg.Variant, LightLevelRegPack.Variant);
+                value = (LightLevelVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(LightLevelVariant);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>frequency_bins</c> register value.
         /// The computed frequency data., 
         /// </summary>
         public byte[] FrequencyBins
@@ -28,6 +29,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turns on/off the micropohone., 
         /// </summary>
         public bool Enabled
@@ -45,6 +47,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>fft_pow2_size</c> register value.
         /// The power of 2 used as the size of the FFT to be used to determine the frequency domain., 
         /// </summary>
         public uint FftPow2Size
@@ -62,6 +65,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>min_decibels</c> register value.
         /// The minimum power value in the scaling range for the FFT analysis data, _: dB
         /// </summary>
         public int MinDecibels
@@ -79,6 +83,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_decibels</c> register value.
         /// The maximum power value in the scaling range for the FFT analysis data, _: dB
         /// </summary>
         public int MaxDecibels
@@ -96,6 +101,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>smoothing_time_constant</c> register value.
         /// The averaging constant with the last analysis frame.
         /// If `0` is set, there is no averaging done, whereas a value of `1` means "overlap the previous and current buffer quite a lot while computing the value"., _: /
         /// </summary>

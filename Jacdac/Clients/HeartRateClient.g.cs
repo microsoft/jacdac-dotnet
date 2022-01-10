@@ -20,6 +20,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>heart_rate</c> register value.
         /// The estimated heart rate., _: bpm
         /// </summary>
         public float HeartRate
@@ -31,24 +32,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The estimated error on the reported sensor data., _: bpm
+        /// Tries to read the <c>heart_rate_error</c> register value.
+        /// The estimated error on the reported sensor data., _: bpm
         /// </summary>
-        public float HeartRateError
+        bool TryGetHeartRateError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)HeartRateReg.HeartRateError, HeartRateRegPack.HeartRateError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)HeartRateReg.HeartRateError, HeartRateRegPack.HeartRateError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The type of physical sensor, 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical sensor, 
         /// </summary>
-        public HeartRateVariant Variant
+        bool TryGetVariant(out HeartRateVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)HeartRateReg.Variant, HeartRateRegPack.Variant, out value)) 
             {
-                return (HeartRateVariant)this.GetRegisterValue((ushort)HeartRateReg.Variant, HeartRateRegPack.Variant);
+                value = (HeartRateVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(HeartRateVariant);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>forces</c> register value.
         /// Indicates the current forces acting on accelerometer., x: g,y: g,z: g
         /// </summary>
         public object[] /*(float, float, float)*/ Forces
@@ -28,33 +29,52 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reading value., _: g
+        /// Tries to read the <c>forces_error</c> register value.
+        /// Error on the reading value., _: g
         /// </summary>
-        public float ForcesError
+        bool TryGetForcesError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AccelerometerReg.ForcesError, AccelerometerRegPack.ForcesError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)AccelerometerReg.ForcesError, AccelerometerRegPack.ForcesError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Configures the range forces detected.
+        /// Tries to read the <c>max_force</c> register value.
+        /// Configures the range forces detected.
         /// The value will be "rounded up" to one of `max_forces_supported`., _: g
         /// </summary>
-        public float MaxForce
+        bool TryGetMaxForce(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the max_force value
+        /// </summary>
+        public void SetMaxForce(float value)
+        {
+            this.SetRegisterValue((ushort)AccelerometerReg.MaxForce, AccelerometerRegPack.MaxForce, value);
+        }
+
 
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.

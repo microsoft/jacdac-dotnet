@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>pressure</c> register value.
         /// The air pressure., _: hPa
         /// </summary>
         public float Pressure
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The real pressure is between `pressure - pressure_error` and `pressure + pressure_error`., _: hPa
+        /// Tries to read the <c>pressure_error</c> register value.
+        /// The real pressure is between `pressure - pressure_error` and `pressure + pressure_error`., _: hPa
         /// </summary>
-        public float PressureError
+        bool TryGetPressureError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)BarometerReg.PressureError, BarometerRegPack.PressureError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)BarometerReg.PressureError, BarometerRegPack.PressureError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

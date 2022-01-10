@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>brightness</c> register value.
         /// Indicates the brightness of the light bulb. Zero means completely off and 0xffff means completely on.
         /// For non-dimmable lights, the value should be clamp to 0xffff for any non-zero value., _: /
         /// </summary>
@@ -35,13 +36,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Indicates if the light supports dimming., 
+        /// Tries to read the <c>dimmable</c> register value.
+        /// Indicates if the light supports dimming., 
         /// </summary>
-        public bool Dimmable
+        bool TryGetDimmable(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LightBulbReg.Dimmable, LightBulbRegPack.Dimmable, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)LightBulbReg.Dimmable, LightBulbRegPack.Dimmable);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 

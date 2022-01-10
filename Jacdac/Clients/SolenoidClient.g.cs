@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>pulled</c> register value.
         /// Indicates whether the solenoid is energized and pulled (on) or pushed (off)., 
         /// </summary>
         public bool Pulled
@@ -34,13 +35,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Describes the type of solenoid used., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Describes the type of solenoid used., 
         /// </summary>
-        public SolenoidVariant Variant
+        bool TryGetVariant(out SolenoidVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant, out value)) 
             {
-                return (SolenoidVariant)this.GetRegisterValue((ushort)SolenoidReg.Variant, SolenoidRegPack.Variant);
+                value = (SolenoidVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(SolenoidVariant);
+                return false;
             }
         }
 

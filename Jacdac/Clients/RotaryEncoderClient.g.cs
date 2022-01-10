@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>position</c> register value.
         /// Upon device reset starts at `0` (regardless of the shaft position).
         /// Increases by `1` for a clockwise "click", by `-1` for counter-clockwise., _: #
         /// </summary>
@@ -29,6 +30,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>clicks_per_turn</c> register value.
         /// This specifies by how much `position` changes when the crank does 360 degree turn. Typically 12 or 24., _: #
         /// </summary>
         public uint ClicksPerTurn
@@ -40,14 +42,22 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The encoder is combined with a clicker. If this is the case, the clicker button service
+        /// Tries to read the <c>clicker</c> register value.
+        /// The encoder is combined with a clicker. If this is the case, the clicker button service
         /// should follow this service in the service list of the device., 
         /// </summary>
-        public bool Clicker
+        bool TryGetClicker(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RotaryEncoderReg.Clicker, RotaryEncoderRegPack.Clicker, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)RotaryEncoderReg.Clicker, RotaryEncoderRegPack.Clicker);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 

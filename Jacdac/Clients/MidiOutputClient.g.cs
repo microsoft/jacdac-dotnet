@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Opens or closes the port to the MIDI device, 
         /// </summary>
         public bool Enabled

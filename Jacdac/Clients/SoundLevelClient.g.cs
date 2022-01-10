@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>sound_level</c> register value.
         /// The sound level detected by the microphone, _: /
         /// </summary>
         public float SoundLevel
@@ -28,6 +29,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turn on or off the microphone., 
         /// </summary>
         public bool Enabled
@@ -45,6 +47,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>loud_threshold</c> register value.
         /// The sound level to trigger a loud event., _: /
         /// </summary>
         public float LoudThreshold
@@ -62,6 +65,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>quiet_threshold</c> register value.
         /// The sound level to trigger a quiet event., _: /
         /// </summary>
         public float QuietThreshold

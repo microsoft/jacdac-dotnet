@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>wind_speed</c> register value.
         /// The velocity of the wind., _: m/s
         /// </summary>
         public float WindSpeed
@@ -28,24 +29,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reading, _: m/s
+        /// Tries to read the <c>wind_speed_error</c> register value.
+        /// Error on the reading, _: m/s
         /// </summary>
-        public float WindSpeedError
+        bool TryGetWindSpeedError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WindSpeedReg.WindSpeedError, WindSpeedRegPack.WindSpeedError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WindSpeedReg.WindSpeedError, WindSpeedRegPack.WindSpeedError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Maximum speed that can be measured by the sensor., _: m/s
+        /// Tries to read the <c>max_wind_speed</c> register value.
+        /// Maximum speed that can be measured by the sensor., _: m/s
         /// </summary>
-        public float MaxWindSpeed
+        bool TryGetMaxWindSpeed(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WindSpeedReg.MaxWindSpeed, WindSpeedRegPack.MaxWindSpeed, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WindSpeedReg.MaxWindSpeed, WindSpeedRegPack.MaxWindSpeed);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

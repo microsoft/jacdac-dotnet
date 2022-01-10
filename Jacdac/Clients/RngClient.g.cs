@@ -20,6 +20,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>random</c> register value.
         /// A register that returns a 64 bytes random buffer on every request.
         /// This never blocks for a long time. If you need additional random bytes, keep querying the register., 
         /// </summary>
@@ -32,16 +33,24 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The type of algorithm/technique used to generate the number.
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of algorithm/technique used to generate the number.
         /// `Quantum` refers to dedicated hardware device generating random noise due to quantum effects.
         /// `ADCNoise` is the noise from quick readings of analog-digital converter, which reads temperature of the MCU or some floating pin.
         /// `WebCrypto` refers is used in simulators, where the source of randomness comes from an advanced operating system., 
         /// </summary>
-        public RngVariant Variant
+        bool TryGetVariant(out RngVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RngReg.Variant, RngRegPack.Variant, out value)) 
             {
-                return (RngVariant)this.GetRegisterValue((ushort)RngReg.Variant, RngRegPack.Variant);
+                value = (RngVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(RngVariant);
+                return false;
             }
         }
 

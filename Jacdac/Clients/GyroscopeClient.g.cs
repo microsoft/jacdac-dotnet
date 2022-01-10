@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rotation_rates</c> register value.
         /// Indicates the current rates acting on gyroscope., x: °/s,y: °/s,z: °/s
         /// </summary>
         public object[] /*(float, float, float)*/ RotationRates
@@ -28,33 +29,52 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reading value., _: °/s
+        /// Tries to read the <c>rotation_rates_error</c> register value.
+        /// Error on the reading value., _: °/s
         /// </summary>
-        public float RotationRatesError
+        bool TryGetRotationRatesError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)GyroscopeReg.RotationRatesError, GyroscopeRegPack.RotationRatesError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Configures the range of rotation rates.
+        /// Tries to read the <c>max_rate</c> register value.
+        /// Configures the range of rotation rates.
         /// The value will be "rounded up" to one of `max_rates_supported`., _: °/s
         /// </summary>
-        public float MaxRate
+        bool TryGetMaxRate(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the max_rate value
+        /// </summary>
+        public void SetMaxRate(float value)
+        {
+            this.SetRegisterValue((ushort)GyroscopeReg.MaxRate, GyroscopeRegPack.MaxRate, value);
+        }
+
 
 
     }

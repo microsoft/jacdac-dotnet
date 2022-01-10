@@ -18,6 +18,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_bool</c> register value.
         /// A read write bool register., 
         /// </summary>
         public bool RwBool
@@ -35,6 +36,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_bool</c> register value.
         /// A read only bool register. Mirrors rw_bool., 
         /// </summary>
         public bool RoBool
@@ -46,6 +48,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_u32</c> register value.
         /// A read write u32 register., 
         /// </summary>
         public uint RwU32
@@ -63,6 +66,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_u32</c> register value.
         /// A read only u32 register.. Mirrors rw_u32., 
         /// </summary>
         public uint RoU32
@@ -74,6 +78,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_i32</c> register value.
         /// A read write i32 register., 
         /// </summary>
         public int RwI32
@@ -91,6 +96,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_i32</c> register value.
         /// A read only i32 register.. Mirrors rw_i32., 
         /// </summary>
         public int RoI32
@@ -102,6 +108,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_string</c> register value.
         /// A read write string register., 
         /// </summary>
         public string RwString
@@ -119,6 +126,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_string</c> register value.
         /// A read only string register. Mirrors rw_string., 
         /// </summary>
         public string RoString
@@ -130,6 +138,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_bytes</c> register value.
         /// A read write string register., 
         /// </summary>
         public byte[] RwBytes
@@ -147,6 +156,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_bytes</c> register value.
         /// A read only string register. Mirrors ro_bytes., 
         /// </summary>
         public byte[] RoBytes
@@ -158,6 +168,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_i8_u8_u16_i32</c> register value.
         /// A read write i8, u8, u16, i32 register., 
         /// </summary>
         public object[] /*(int, uint, uint, int)*/ RwI8U8U16I32
@@ -175,6 +186,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_i8_u8_u16_i32</c> register value.
         /// A read only i8, u8, u16, i32 register.. Mirrors rw_i8_u8_u16_i32., 
         /// </summary>
         public object[] /*(int, uint, uint, int)*/ RoI8U8U16I32
@@ -186,6 +198,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rw_u8_string</c> register value.
         /// A read write u8, string register., 
         /// </summary>
         public object[] /*(uint, string)*/ RwU8String
@@ -203,6 +216,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ro_u8_string</c> register value.
         /// A read only u8, string register.. Mirrors rw_u8_string., 
         /// </summary>
         public object[] /*(uint, string)*/ RoU8String

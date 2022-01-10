@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>level</c> register value.
         /// The reported water level., _: /
         /// </summary>
         public float Level
@@ -28,24 +29,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The error rage on the current reading, _: /
+        /// Tries to read the <c>level_error</c> register value.
+        /// The error rage on the current reading, _: /
         /// </summary>
-        public float LevelError
+        bool TryGetLevelError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WaterLevelReg.LevelError, WaterLevelRegPack.LevelError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The type of physical sensor., 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical sensor., 
         /// </summary>
-        public WaterLevelVariant Variant
+        bool TryGetVariant(out WaterLevelVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant, out value)) 
             {
-                return (WaterLevelVariant)this.GetRegisterValue((ushort)WaterLevelReg.Variant, WaterLevelRegPack.Variant);
+                value = (WaterLevelVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(WaterLevelVariant);
+                return false;
             }
         }
 

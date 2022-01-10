@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>moving</c> register value.
         /// Reports is movement is currently detected by the sensor., 
         /// </summary>
         public bool Moving
@@ -28,35 +29,59 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Maximum distance where objects can be detected., _: m
+        /// Tries to read the <c>max_distance</c> register value.
+        /// Maximum distance where objects can be detected., _: m
         /// </summary>
-        public float MaxDistance
+        bool TryGetMaxDistance(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)MotionReg.MaxDistance, MotionRegPack.MaxDistance);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Opening of the field of view, _: °
+        /// Tries to read the <c>angle</c> register value.
+        /// Opening of the field of view, _: °
         /// </summary>
-        public uint Angle
+        bool TryGetAngle(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotionReg.Angle, MotionRegPack.Angle, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)MotionReg.Angle, MotionRegPack.Angle);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Type of physical sensor, 
+        /// Tries to read the <c>variant</c> register value.
+        /// Type of physical sensor, 
         /// </summary>
-        public MotionVariant Variant
+        bool TryGetVariant(out MotionVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotionReg.Variant, MotionRegPack.Variant, out value)) 
             {
-                return (MotionVariant)this.GetRegisterValue((ushort)MotionReg.Variant, MotionRegPack.Variant);
+                value = (MotionVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(MotionVariant);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>duty</c> register value.
         /// PWM duty cycle of the motor. Use negative/positive values to run the motor forwards and backwards.
         /// Positive is recommended to be clockwise rotation and negative counterclockwise. A duty of ``0`` 
         /// while ``enabled`` acts as brake., _: /
@@ -37,6 +38,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turn the power to the motor on/off., 
         /// </summary>
         public bool Enabled
@@ -54,35 +56,59 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Torque required to produce the rated power of an electrical motor at load speed., _: kg/cm
+        /// Tries to read the <c>load_torque</c> register value.
+        /// Torque required to produce the rated power of an electrical motor at load speed., _: kg/cm
         /// </summary>
-        public float LoadTorque
+        bool TryGetLoadTorque(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotorReg.LoadTorque, MotorRegPack.LoadTorque, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.LoadTorque, MotorRegPack.LoadTorque);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Revolutions per minute of the motor under full load., _: rpm
+        /// Tries to read the <c>load_speed</c> register value.
+        /// Revolutions per minute of the motor under full load., _: rpm
         /// </summary>
-        public float LoadSpeed
+        bool TryGetLoadSpeed(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Indicates if the motor can run backwards., 
+        /// Tries to read the <c>reversible</c> register value.
+        /// Indicates if the motor can run backwards., 
         /// </summary>
-        public bool Reversible
+        bool TryGetReversible(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MotorReg.Reversible, MotorRegPack.Reversible, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)MotorReg.Reversible, MotorRegPack.Reversible);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>red</c> register value.
         /// The on/off state of the red light., 
         /// </summary>
         public bool Red
@@ -34,6 +35,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>orange</c> register value.
         /// The on/off state of the red light., 
         /// </summary>
         public bool Orange
@@ -51,6 +53,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>green</c> register value.
         /// The on/off state of the red light., 
         /// </summary>
         public bool Green

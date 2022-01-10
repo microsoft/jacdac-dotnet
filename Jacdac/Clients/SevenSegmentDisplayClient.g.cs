@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>digits</c> register value.
         /// Each byte encodes the display status of a digit using,
         /// where bit 0 encodes segment `A`, bit 1 encodes segments `B`, ..., bit 6 encodes segments `G`, and bit 7 encodes the decimal point (if present).
         /// If incoming `digits` data is smaller than `digit_count`, the remaining digits will be cleared.
@@ -47,6 +48,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>brightness</c> register value.
         /// Controls the brightness of the LEDs. `0` means off., _: /
         /// </summary>
         public float Brightness
@@ -64,24 +66,36 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Turn on or off the column LEDs (separating minutes from hours, etc.) in of the segment.
+        /// Tries to read the <c>double_dots</c> register value.
+        /// Turn on or off the column LEDs (separating minutes from hours, etc.) in of the segment.
         /// If the column LEDs is not supported, the value remains false., 
         /// </summary>
-        public bool DoubleDots
+        bool TryGetDoubleDots(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots);
+                value = (bool)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, value);
+                value = default(bool);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the double_dots value
+        /// </summary>
+        public void SetDoubleDots(bool value)
+        {
+            this.SetRegisterValue((ushort)SevenSegmentDisplayReg.DoubleDots, SevenSegmentDisplayRegPack.DoubleDots, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>digit_count</c> register value.
         /// The number of digits available on the display., 
         /// </summary>
         public uint DigitCount
@@ -93,6 +107,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>decimal_point</c> register value.
         /// True if decimal points are available (on all digits)., 
         /// </summary>
         public bool DecimalPoint

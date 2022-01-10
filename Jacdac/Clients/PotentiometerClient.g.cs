@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>position</c> register value.
         /// The relative position of the slider., _: /
         /// </summary>
         public float Position
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Specifies the physical layout of the potentiometer., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Specifies the physical layout of the potentiometer., 
         /// </summary>
-        public PotentiometerVariant Variant
+        bool TryGetVariant(out PotentiometerVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant, out value)) 
             {
-                return (PotentiometerVariant)this.GetRegisterValue((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant);
+                value = (PotentiometerVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(PotentiometerVariant);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>TVOC</c> register value.
         /// Total volatile organic compound readings in parts per billion., _: ppb
         /// </summary>
         public float TVOC
@@ -28,17 +29,26 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reading data, _: ppb
+        /// Tries to read the <c>TVOC_error</c> register value.
+        /// Error on the reading data, _: ppb
         /// </summary>
-        public float TVOCError
+        bool TryGetTVOCError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)TvocReg.TVOCError, TvocRegPack.TVOCError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
+        /// Reads the <c>min_TVOC</c> register value.
         /// Minimum measurable value, _: ppb
         /// </summary>
         public float MinTVOC
@@ -50,6 +60,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_TVOC</c> register value.
         /// Minimum measurable value., _: ppb
         /// </summary>
         public float MaxTVOC

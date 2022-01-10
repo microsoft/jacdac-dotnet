@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>weight</c> register value.
         /// The reported weight., _: kg
         /// </summary>
         public float Weight
@@ -28,92 +29,154 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The estimate error on the reported reading., _: kg
+        /// Tries to read the <c>weight_error</c> register value.
+        /// The estimate error on the reported reading., _: kg
         /// </summary>
-        public float WeightError
+        bool TryGetWeightError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.WeightError, WeightScaleRegPack.WeightError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightError, WeightScaleRegPack.WeightError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Calibrated zero offset error on the scale, i.e. the measured weight when nothing is on the scale.
+        /// Tries to read the <c>zero_offset</c> register value.
+        /// Calibrated zero offset error on the scale, i.e. the measured weight when nothing is on the scale.
         /// You do not need to subtract that from the reading, it has already been done., _: kg
         /// </summary>
-        public float ZeroOffset
+        bool TryGetZeroOffset(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, value);
+                value = default(float);
+                return false;
             }
+        }
+        
+        /// <summary>
+        /// Sets the zero_offset value
+        /// </summary>
+        public void SetZeroOffset(float value)
+        {
+            this.SetRegisterValue((ushort)WeightScaleReg.ZeroOffset, WeightScaleRegPack.ZeroOffset, value);
+        }
 
+
+        /// <summary>
+        /// Tries to read the <c>gain</c> register value.
+        /// Calibrated gain on the weight scale error., 
+        /// </summary>
+        bool TryGetGain(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, out value)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Sets the gain value
+        /// </summary>
+        public void SetGain(float value)
+        {
+            this.SetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, value);
+        }
+
+
+        /// <summary>
+        /// Tries to read the <c>max_weight</c> register value.
+        /// Maximum supported weight on the scale., _: kg
+        /// </summary>
+        bool TryGetMaxWeight(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.MaxWeight, WeightScaleRegPack.MaxWeight, out value)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
         }
 
         /// <summary>
-        /// (Optional) Calibrated gain on the weight scale error., 
+        /// Tries to read the <c>min_weight</c> register value.
+        /// Minimum recommend weight on the scale., _: kg
         /// </summary>
-        public float Gain
+        bool TryGetMinWeight(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.MinWeight, WeightScaleRegPack.MinWeight, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)WeightScaleReg.Gain, WeightScaleRegPack.Gain, value);
-            }
-
-        }
-
-        /// <summary>
-        /// (Optional) Maximum supported weight on the scale., _: kg
-        /// </summary>
-        public float MaxWeight
-        {
-            get
-            {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MaxWeight, WeightScaleRegPack.MaxWeight);
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Minimum recommend weight on the scale., _: kg
+        /// Tries to read the <c>weight_resolution</c> register value.
+        /// Smallest, yet distinguishable change in reading., _: kg
         /// </summary>
-        public float MinWeight
+        bool TryGetWeightResolution(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.WeightResolution, WeightScaleRegPack.WeightResolution, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.MinWeight, WeightScaleRegPack.MinWeight);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Smallest, yet distinguishable change in reading., _: kg
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical scale, 
         /// </summary>
-        public float WeightResolution
+        bool TryGetVariant(out WeightScaleVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WeightScaleReg.Variant, WeightScaleRegPack.Variant, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)WeightScaleReg.WeightResolution, WeightScaleRegPack.WeightResolution);
+                value = (WeightScaleVariant)values[0];
+                return true;
             }
-        }
-
-        /// <summary>
-        /// (Optional) The type of physical scale, 
-        /// </summary>
-        public WeightScaleVariant Variant
-        {
-            get
+            else
             {
-                return (WeightScaleVariant)this.GetRegisterValue((ushort)WeightScaleReg.Variant, WeightScaleRegPack.Variant);
+                value = default(WeightScaleVariant);
+                return false;
             }
         }
 

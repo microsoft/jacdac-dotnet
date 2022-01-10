@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>dots</c> register value.
         /// The state of the screen where dot on/off state is
         /// stored as a bit, column by column. The column should be byte aligned., 
         /// </summary>
@@ -35,23 +36,35 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Reads the general brightness of the display, brightness for LEDs. `0` when the screen is off., _: /
+        /// Tries to read the <c>brightness</c> register value.
+        /// Reads the general brightness of the display, brightness for LEDs. `0` when the screen is off., _: /
         /// </summary>
-        public float Brightness
+        bool TryGetBrightness(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, value);
+                value = default(float);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the brightness value
+        /// </summary>
+        public void SetBrightness(float value)
+        {
+            this.SetRegisterValue((ushort)DotMatrixReg.Brightness, DotMatrixRegPack.Brightness, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>rows</c> register value.
         /// Number of rows on the screen, _: #
         /// </summary>
         public uint Rows
@@ -63,6 +76,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>columns</c> register value.
         /// Number of columns on the screen, _: #
         /// </summary>
         public uint Columns
@@ -74,13 +88,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Describes the type of matrix used., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Describes the type of matrix used., 
         /// </summary>
-        public DotMatrixVariant Variant
+        bool TryGetVariant(out DotMatrixVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant, out value)) 
             {
-                return (DotMatrixVariant)this.GetRegisterValue((ushort)DotMatrixReg.Variant, DotMatrixRegPack.Variant);
+                value = (DotMatrixVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(DotMatrixVariant);
+                return false;
             }
         }
 

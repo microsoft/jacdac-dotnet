@@ -19,6 +19,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>illuminance</c> register value.
         /// The amount of illuminance, as lumens per square metre., _: lux
         /// </summary>
         public float Illuminance
@@ -30,13 +31,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reported sensor value., _: lux
+        /// Tries to read the <c>illuminance_error</c> register value.
+        /// Error on the reported sensor value., _: lux
         /// </summary>
-        public float IlluminanceError
+        bool TryGetIlluminanceError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)IlluminanceReg.IlluminanceError, IlluminanceRegPack.IlluminanceError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>telemetry_status</c> register value.
         /// Reads the telemetry working status, where ``true`` is working and ``false`` is faulty., 
         /// </summary>
         public VerifiedTelemetryStatus TelemetryStatus
@@ -28,23 +29,35 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Specifies the interval between computing the fingerprint information., _: ms
+        /// Tries to read the <c>telemetry_status_interval</c> register value.
+        /// Specifies the interval between computing the fingerprint information., _: ms
         /// </summary>
-        public uint TelemetryStatusInterval
+        bool TryGetTelemetryStatusInterval(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, value);
+                value = default(uint);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the telemetry_status_interval value
+        /// </summary>
+        public void SetTelemetryStatusInterval(uint value)
+        {
+            this.SetRegisterValue((ushort)VerifiedTelemetryReg.TelemetryStatusInterval, VerifiedTelemetryRegPack.TelemetryStatusInterval, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>fingerprint_type</c> register value.
         /// Type of the fingerprint., 
         /// </summary>
         public VerifiedTelemetryFingerprintType FingerprintType
@@ -56,6 +69,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>fingerprint_template</c> register value.
         /// Template Fingerprint information of a working sensor., confidence: %
         /// </summary>
         public object[] /*(uint, byte[])*/ FingerprintTemplate

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>volume</c> register value.
         /// Global volume of the output. ``0`` means completely off. This volume is mixed with each play volumes., _: /
         /// </summary>
         public float Volume

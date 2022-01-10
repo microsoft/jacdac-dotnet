@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>kinematics</c> register value.
         /// The current position and orientation of the robot., x: cm,y: cm,vx: cm/s,vy: cm/s,heading: °
         /// </summary>
         public object[] /*(float, float, float, float, float)*/ Kinematics

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>color</c> register value.
         /// The current color of the LED., 
         /// </summary>
         public object[] /*(uint, uint, uint)*/ Color
@@ -28,63 +29,106 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Limit the power drawn by the light-strip (and controller)., _: mA
+        /// Tries to read the <c>max_power</c> register value.
+        /// Limit the power drawn by the light-strip (and controller)., _: mA
         /// </summary>
-        public uint MaxPower
+        bool TryGetMaxPower(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.MaxPower, LedRegPack.MaxPower, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower, value);
+                value = default(uint);
+                return false;
             }
+        }
+        
+        /// <summary>
+        /// Sets the max_power value
+        /// </summary>
+        public void SetMaxPower(uint value)
+        {
+            this.SetRegisterValue((ushort)LedReg.MaxPower, LedRegPack.MaxPower, value);
+        }
 
+
+        /// <summary>
+        /// Tries to read the <c>led_count</c> register value.
+        /// If known, specifies the number of LEDs in parallel on this device., 
+        /// </summary>
+        bool TryGetLedCount(out uint value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.LedCount, LedRegPack.LedCount, out value)) 
+            {
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
+            }
         }
 
         /// <summary>
-        /// (Optional) If known, specifies the number of LEDs in parallel on this device., 
+        /// Tries to read the <c>wave_length</c> register value.
+        /// If monochrome LED, specifies the wave length of the LED., _: nm
         /// </summary>
-        public uint LedCount
+        bool TryGetWaveLength(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.WaveLength, LedRegPack.WaveLength, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.LedCount, LedRegPack.LedCount);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) If monochrome LED, specifies the wave length of the LED., _: nm
+        /// Tries to read the <c>luminous_intensity</c> register value.
+        /// The luminous intensity of the LED, at full value, in micro candella., _: mcd
         /// </summary>
-        public uint WaveLength
+        bool TryGetLuminousIntensity(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.WaveLength, LedRegPack.WaveLength);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The luminous intensity of the LED, at full value, in micro candella., _: mcd
+        /// Tries to read the <c>variant</c> register value.
+        /// The physical type of LED., 
         /// </summary>
-        public uint LuminousIntensity
+        bool TryGetVariant(out LedVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.Variant, LedRegPack.Variant, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity);
+                value = (LedVariant)values[0];
+                return true;
             }
-        }
-
-        /// <summary>
-        /// (Optional) The physical type of LED., 
-        /// </summary>
-        public LedVariant Variant
-        {
-            get
+            else
             {
-                return (LedVariant)this.GetRegisterValue((ushort)LedReg.Variant, LedRegPack.Variant);
+                value = default(LedVariant);
+                return false;
             }
         }
 

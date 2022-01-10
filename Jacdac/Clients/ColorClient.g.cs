@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>color</c> register value.
         /// Detected color in the RGB color space., red: /,green: /,blue: /
         /// </summary>
         public object[] /*(float, float, float)*/ Color

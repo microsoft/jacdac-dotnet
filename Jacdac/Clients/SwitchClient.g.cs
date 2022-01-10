@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>active</c> register value.
         /// Indicates whether the switch is currently active (on)., 
         /// </summary>
         public bool Active
@@ -28,25 +29,41 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Describes the type of switch used., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Describes the type of switch used., 
         /// </summary>
-        public SwitchVariant Variant
+        bool TryGetVariant(out SwitchVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SwitchReg.Variant, SwitchRegPack.Variant, out value)) 
             {
-                return (SwitchVariant)this.GetRegisterValue((ushort)SwitchReg.Variant, SwitchRegPack.Variant);
+                value = (SwitchVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(SwitchVariant);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Specifies the delay without activity to automatically turn off after turning on.
+        /// Tries to read the <c>auto_off_delay</c> register value.
+        /// Specifies the delay without activity to automatically turn off after turning on.
         /// For example, some light switches in staircases have such a capability., _: s
         /// </summary>
-        public float AutoOffDelay
+        bool TryGetAutoOffDelay(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

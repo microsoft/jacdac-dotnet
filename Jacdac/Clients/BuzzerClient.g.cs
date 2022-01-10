@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>volume</c> register value.
         /// The volume (duty cycle) of the buzzer., _: /
         /// </summary>
         public float Volume

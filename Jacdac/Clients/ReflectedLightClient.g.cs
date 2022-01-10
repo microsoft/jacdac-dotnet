@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>brightness</c> register value.
         /// Reports the reflected brightness. It may be a digital value or, for some sensor, analog value., _: /
         /// </summary>
         public float Brightness
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Type of physical sensor used, 
+        /// Tries to read the <c>variant</c> register value.
+        /// Type of physical sensor used, 
         /// </summary>
-        public ReflectedLightVariant Variant
+        bool TryGetVariant(out ReflectedLightVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant, out value)) 
             {
-                return (ReflectedLightVariant)this.GetRegisterValue((ushort)ReflectedLightReg.Variant, ReflectedLightRegPack.Variant);
+                value = (ReflectedLightVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(ReflectedLightVariant);
+                return false;
             }
         }
 

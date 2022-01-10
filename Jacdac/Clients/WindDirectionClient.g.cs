@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>wind_direction</c> register value.
         /// The direction of the wind., _: °
         /// </summary>
         public uint WindDirection
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the wind direction reading, _: °
+        /// Tries to read the <c>wind_direction_error</c> register value.
+        /// Error on the wind direction reading, _: °
         /// </summary>
-        public uint WindDirectionError
+        bool TryGetWindDirectionError(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)WindDirectionReg.WindDirectionError, WindDirectionRegPack.WindDirectionError, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)WindDirectionReg.WindDirectionError, WindDirectionRegPack.WindDirectionError);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>distance</c> register value.
         /// Current distance from the object, _: m
         /// </summary>
         public float Distance
@@ -28,46 +29,78 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Absolute error on the reading value., _: m
+        /// Tries to read the <c>distance_error</c> register value.
+        /// Absolute error on the reading value., _: m
         /// </summary>
-        public float DistanceError
+        bool TryGetDistanceError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.DistanceError, DistanceRegPack.DistanceError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Minimum measurable distance, _: m
+        /// Tries to read the <c>min_range</c> register value.
+        /// Minimum measurable distance, _: m
         /// </summary>
-        public float MinRange
+        bool TryGetMinRange(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.MinRange, DistanceRegPack.MinRange);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Maximum measurable distance, _: m
+        /// Tries to read the <c>max_range</c> register value.
+        /// Maximum measurable distance, _: m
         /// </summary>
-        public float MaxRange
+        bool TryGetMaxRange(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)DistanceReg.MaxRange, DistanceRegPack.MaxRange);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Determines the type of sensor used., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Determines the type of sensor used., 
         /// </summary>
-        public DistanceVariant Variant
+        bool TryGetVariant(out DistanceVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DistanceReg.Variant, DistanceRegPack.Variant, out value)) 
             {
-                return (DistanceVariant)this.GetRegisterValue((ushort)DistanceReg.Variant, DistanceRegPack.Variant);
+                value = (DistanceVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(DistanceVariant);
+                return false;
             }
         }
 

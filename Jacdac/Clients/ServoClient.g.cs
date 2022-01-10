@@ -19,6 +19,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>angle</c> register value.
         /// Specifies the angle of the arm (request)., _: °
         /// </summary>
         public float Angle
@@ -37,6 +38,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turn the power to the servo on/off., 
         /// </summary>
         public bool Enabled
@@ -54,6 +56,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>offset</c> register value.
         /// Correction applied to the angle to account for the servo arm drift., _: °
         /// </summary>
         public float Offset
@@ -71,6 +74,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>min_angle</c> register value.
         /// Lowest angle that can be set., _: °
         /// </summary>
         public float MinAngle
@@ -82,6 +86,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>min_pulse</c> register value.
         /// The length of pulse corresponding to lowest angle., _: us
         /// </summary>
         public uint MinPulse
@@ -99,6 +104,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_angle</c> register value.
         /// Highest angle that can be set., _: °
         /// </summary>
         public float MaxAngle
@@ -110,6 +116,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_pulse</c> register value.
         /// The length of pulse corresponding to highest angle., _: us
         /// </summary>
         public uint MaxPulse
@@ -127,35 +134,59 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The servo motor will stop rotating when it is trying to move a ``stall_torque`` weight at a radial distance of ``1.0`` cm., _: kg/cm
+        /// Tries to read the <c>stall_torque</c> register value.
+        /// The servo motor will stop rotating when it is trying to move a ``stall_torque`` weight at a radial distance of ``1.0`` cm., _: kg/cm
         /// </summary>
-        public float StallTorque
+        bool TryGetStallTorque(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.StallTorque, ServoRegPack.StallTorque);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Time to move 60°., _: s/60°
+        /// Tries to read the <c>response_speed</c> register value.
+        /// Time to move 60°., _: s/60°
         /// </summary>
-        public float ResponseSpeed
+        bool TryGetResponseSpeed(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.ResponseSpeed, ServoRegPack.ResponseSpeed);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The current physical position of the arm., _: °
+        /// Tries to read the <c>current_angle</c> register value.
+        /// The current physical position of the arm., _: °
         /// </summary>
-        public float CurrentAngle
+        bool TryGetCurrentAngle(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turns on or off the detection of barcodes., 
         /// </summary>
         public bool Enabled

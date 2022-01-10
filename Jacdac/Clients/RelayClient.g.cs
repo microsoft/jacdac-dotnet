@@ -23,6 +23,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>active</c> register value.
         /// Indicates whether the relay circuit is currently energized or not., 
         /// </summary>
         public bool Active
@@ -40,24 +41,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Describes the type of relay used., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Describes the type of relay used., 
         /// </summary>
-        public RelayVariant Variant
+        bool TryGetVariant(out RelayVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RelayReg.Variant, RelayRegPack.Variant, out value)) 
             {
-                return (RelayVariant)this.GetRegisterValue((ushort)RelayReg.Variant, RelayRegPack.Variant);
+                value = (RelayVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(RelayVariant);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Maximum switching current for a resistive load., _: mA
+        /// Tries to read the <c>max_switching_current</c> register value.
+        /// Maximum switching current for a resistive load., _: mA
         /// </summary>
-        public uint MaxSwitchingCurrent
+        bool TryGetMaxSwitchingCurrent(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent, out value)) 
             {
-                return (uint)this.GetRegisterValue((ushort)RelayReg.MaxSwitchingCurrent, RelayRegPack.MaxSwitchingCurrent);
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 

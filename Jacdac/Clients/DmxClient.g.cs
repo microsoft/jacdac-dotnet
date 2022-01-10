@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Determines if the DMX bridge is active., 
         /// </summary>
         public bool Enabled

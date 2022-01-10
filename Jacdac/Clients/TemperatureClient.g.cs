@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>temperature</c> register value.
         /// The temperature., _: °C
         /// </summary>
         public float Temperature
@@ -28,6 +29,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>min_temperature</c> register value.
         /// Lowest temperature that can be reported., _: °C
         /// </summary>
         public float MinTemperature
@@ -39,6 +41,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_temperature</c> register value.
         /// Highest temperature that can be reported., _: °C
         /// </summary>
         public float MaxTemperature
@@ -50,24 +53,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The real temperature is between `temperature - temperature_error` and `temperature + temperature_error`., _: °C
+        /// Tries to read the <c>temperature_error</c> register value.
+        /// The real temperature is between `temperature - temperature_error` and `temperature + temperature_error`., _: °C
         /// </summary>
-        public float TemperatureError
+        bool TryGetTemperatureError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)TemperatureReg.TemperatureError, TemperatureRegPack.TemperatureError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)TemperatureReg.TemperatureError, TemperatureRegPack.TemperatureError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Specifies the type of thermometer., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Specifies the type of thermometer., 
         /// </summary>
-        public TemperatureVariant Variant
+        bool TryGetVariant(out TemperatureVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)TemperatureReg.Variant, TemperatureRegPack.Variant, out value)) 
             {
-                return (TemperatureVariant)this.GetRegisterValue((ushort)TemperatureReg.Variant, TemperatureRegPack.Variant);
+                value = (TemperatureVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(TemperatureVariant);
+                return false;
             }
         }
 

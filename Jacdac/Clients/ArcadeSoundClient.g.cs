@@ -19,6 +19,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>sample_rate</c> register value.
         /// Get or set playback sample rate (in samples per second).
         /// If you set it, read it back, as the value may be rounded up or down., _: Hz
         /// </summary>
@@ -37,6 +38,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>buffer_size</c> register value.
         /// The size of the internal audio buffer., _: B
         /// </summary>
         public uint BufferSize
@@ -48,6 +50,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>buffer_pending</c> register value.
         /// How much data is still left in the buffer to play.
         /// Clients should not send more data than `buffer_size - buffer_pending`,
         /// but can keep the `buffer_pending` as low as they want to ensure low latency

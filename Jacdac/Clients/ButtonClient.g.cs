@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>pressure</c> register value.
         /// Indicates the pressure state of the button, where `0` is open., _: /
         /// </summary>
         public float Pressure
@@ -28,13 +29,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Indicates if the button provides analog `pressure` readings., 
+        /// Tries to read the <c>analog</c> register value.
+        /// Indicates if the button provides analog `pressure` readings., 
         /// </summary>
-        public bool Analog
+        bool TryGetAnalog(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ButtonReg.Analog, ButtonRegPack.Analog, out value)) 
             {
-                return (bool)this.GetRegisterValue((ushort)ButtonReg.Analog, ButtonRegPack.Analog);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 

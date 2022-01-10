@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>forces</c> register value.
         /// Indicates the current magnetic field on magnetometer.
         /// For reference: `1 mgauss` is `100 nT` (and `1 gauss` is `100 000 nT`)., x: nT,y: nT,z: nT
         /// </summary>
@@ -29,13 +30,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Absolute estimated error on the readings., _: nT
+        /// Tries to read the <c>forces_error</c> register value.
+        /// Absolute estimated error on the readings., _: nT
         /// </summary>
-        public int ForcesError
+        bool TryGetForcesError(out int value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError, out value)) 
             {
-                return (int)this.GetRegisterValue((ushort)MagnetometerReg.ForcesError, MagnetometerRegPack.ForcesError);
+                value = (int)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(int);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>message</c> register value.
         /// Text to show. Use `\n` to break lines., 
         /// </summary>
         public string Message
@@ -34,51 +35,82 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Brightness of the screen. `0` means off., _: /
+        /// Tries to read the <c>brightness</c> register value.
+        /// Brightness of the screen. `0` means off., _: /
         /// </summary>
-        public float Brightness
+        bool TryGetBrightness(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, value);
+                value = default(float);
+                return false;
             }
+        }
+        
+        /// <summary>
+        /// Sets the brightness value
+        /// </summary>
+        public void SetBrightness(float value)
+        {
+            this.SetRegisterValue((ushort)CharacterScreenReg.Brightness, CharacterScreenRegPack.Brightness, value);
+        }
 
+
+        /// <summary>
+        /// Tries to read the <c>variant</c> register value.
+        /// Describes the type of character LED screen., 
+        /// </summary>
+        bool TryGetVariant(out CharacterScreenVariant value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)CharacterScreenReg.Variant, CharacterScreenRegPack.Variant, out value)) 
+            {
+                value = (CharacterScreenVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(CharacterScreenVariant);
+                return false;
+            }
         }
 
         /// <summary>
-        /// (Optional) Describes the type of character LED screen., 
+        /// Tries to read the <c>text_direction</c> register value.
+        /// Specifies the RTL or LTR direction of the text., 
         /// </summary>
-        public CharacterScreenVariant Variant
+        bool TryGetTextDirection(out CharacterScreenTextDirection value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, out value)) 
             {
-                return (CharacterScreenVariant)this.GetRegisterValue((ushort)CharacterScreenReg.Variant, CharacterScreenRegPack.Variant);
+                value = (CharacterScreenTextDirection)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(CharacterScreenTextDirection);
+                return false;
             }
         }
-
+        
         /// <summary>
-        /// (Optional) Specifies the RTL or LTR direction of the text., 
+        /// Sets the text_direction value
         /// </summary>
-        public CharacterScreenTextDirection TextDirection
+        public void SetTextDirection(CharacterScreenTextDirection value)
         {
-            get
-            {
-                return (CharacterScreenTextDirection)this.GetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection);
-            }
-            set
-            {
-                
-                this.SetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, value);
-            }
-
+            this.SetRegisterValue((ushort)CharacterScreenReg.TextDirection, CharacterScreenRegPack.TextDirection, value);
         }
 
+
         /// <summary>
+        /// Reads the <c>rows</c> register value.
         /// Gets the number of rows., _: #
         /// </summary>
         public uint Rows
@@ -90,6 +122,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>columns</c> register value.
         /// Gets the number of columns., _: #
         /// </summary>
         public uint Columns

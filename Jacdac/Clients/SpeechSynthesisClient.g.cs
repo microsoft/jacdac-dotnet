@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Determines if the speech engine is in a non-paused state., 
         /// </summary>
         public bool Enabled
@@ -34,72 +35,116 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Language used for utterances as defined in https://www.ietf.org/rfc/bcp/bcp47.txt., 
+        /// Tries to read the <c>lang</c> register value.
+        /// Language used for utterances as defined in https://www.ietf.org/rfc/bcp/bcp47.txt., 
         /// </summary>
-        public string Lang
+        bool TryGetLang(out string value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, out value)) 
             {
-                return (string)this.GetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang);
+                value = (string)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, value);
+                value = default(string);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the lang value
+        /// </summary>
+        public void SetLang(string value)
+        {
+            this.SetRegisterValue((ushort)SpeechSynthesisReg.Lang, SpeechSynthesisRegPack.Lang, value);
+        }
+
 
         /// <summary>
-        /// (Optional) Volume for utterances., _: /
+        /// Tries to read the <c>volume</c> register value.
+        /// Volume for utterances., _: /
         /// </summary>
-        public float Volume
+        bool TryGetVolume(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the volume value
+        /// </summary>
+        public void SetVolume(float value)
+        {
+            this.SetRegisterValue((ushort)SpeechSynthesisReg.Volume, SpeechSynthesisRegPack.Volume, value);
+        }
+
 
         /// <summary>
-        /// (Optional) Pitch for utterances, 
+        /// Tries to read the <c>pitch</c> register value.
+        /// Pitch for utterances, 
         /// </summary>
-        public float Pitch
+        bool TryGetPitch(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the pitch value
+        /// </summary>
+        public void SetPitch(float value)
+        {
+            this.SetRegisterValue((ushort)SpeechSynthesisReg.Pitch, SpeechSynthesisRegPack.Pitch, value);
+        }
+
 
         /// <summary>
-        /// (Optional) Rate for utterances, 
+        /// Tries to read the <c>rate</c> register value.
+        /// Rate for utterances, 
         /// </summary>
-        public float Rate
+        bool TryGetRate(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the rate value
+        /// </summary>
+        public void SetRate(float value)
+        {
+            this.SetRegisterValue((ushort)SpeechSynthesisReg.Rate, SpeechSynthesisRegPack.Rate, value);
+        }
+
 
 
         

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Determins if the braille display is active., 
         /// </summary>
         public bool Enabled
@@ -34,6 +35,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>patterns</c> register value.
         /// Braille patterns to show. Must be unicode characters between `0x2800` and `0x28ff`., 
         /// </summary>
         public string Patterns
@@ -52,6 +54,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>length</c> register value.
         /// Gets the number of patterns that can be displayed., _: #
         /// </summary>
         public uint Length

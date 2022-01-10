@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>humidity</c> register value.
         /// The relative humidity in percentage of full water saturation., _: %RH
         /// </summary>
         public float Humidity
@@ -28,17 +29,26 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The real humidity is between `humidity - humidity_error` and `humidity + humidity_error`., _: %RH
+        /// Tries to read the <c>humidity_error</c> register value.
+        /// The real humidity is between `humidity - humidity_error` and `humidity + humidity_error`., _: %RH
         /// </summary>
-        public float HumidityError
+        bool TryGetHumidityError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)HumidityReg.HumidityError, HumidityRegPack.HumidityError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)HumidityReg.HumidityError, HumidityRegPack.HumidityError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
+        /// Reads the <c>min_humidity</c> register value.
         /// Lowest humidity that can be reported., _: %RH
         /// </summary>
         public float MinHumidity
@@ -50,6 +60,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_humidity</c> register value.
         /// Highest humidity that can be reported., _: %RH
         /// </summary>
         public float MaxHumidity

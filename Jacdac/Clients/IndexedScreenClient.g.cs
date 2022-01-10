@@ -19,6 +19,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>brightness</c> register value.
         /// Set backlight brightness.
         /// If set to `0` the display may go to sleep., _: /
         /// </summary>
@@ -37,6 +38,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>bits_per_pixel</c> register value.
         /// Determines the number of palette entries.
         /// Typical values are 1, 2, 4, or 8., _: bit
         /// </summary>
@@ -49,6 +51,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>width</c> register value.
         /// Screen width in "natural" orientation., _: px
         /// </summary>
         public uint Width
@@ -60,6 +63,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>height</c> register value.
         /// Screen height in "natural" orientation., _: px
         /// </summary>
         public uint Height
@@ -71,6 +75,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>width_major</c> register value.
         /// If true, consecutive pixels in the "width" direction are sent next to each other (this is typical for graphics cards).
         /// If false, consecutive pixels in the "height" direction are sent next to each other.
         /// For embedded screen controllers, this is typically true iff `width < height`
@@ -93,6 +98,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>up_sampling</c> register value.
         /// Every pixel sent over wire is represented by `up_sampling x up_sampling` square of physical pixels.
         /// Some displays may allow changing this (which will also result in changes to `width` and `height`).
         /// Typical values are 1 and 2., _: px
@@ -112,6 +118,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rotation</c> register value.
         /// Possible values are 0, 90, 180 and 270 only.
         /// Write to this register do not affect `width` and `height` registers,
         /// and may be ignored by some screens., _: °

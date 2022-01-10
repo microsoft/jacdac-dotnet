@@ -19,6 +19,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>oxygen</c> register value.
         /// The estimated oxygen level in blood., _: %
         /// </summary>
         public float Oxygen
@@ -30,13 +31,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) The estimated error on the reported sensor data., _: %
+        /// Tries to read the <c>oxygen_error</c> register value.
+        /// The estimated error on the reported sensor data., _: %
         /// </summary>
-        public float OxygenError
+        bool TryGetOxygenError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)PulseOximeterReg.OxygenError, PulseOximeterRegPack.OxygenError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)PulseOximeterReg.OxygenError, PulseOximeterRegPack.OxygenError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 

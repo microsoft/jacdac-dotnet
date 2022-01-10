@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Turns on/off the radio antenna., 
         /// </summary>
         public bool Enabled
@@ -34,6 +35,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>group</c> register value.
         /// Group used to filter packets, 
         /// </summary>
         public uint Group
@@ -51,6 +53,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>transmission_power</c> register value.
         /// Antenna power to increase or decrease range., 
         /// </summary>
         public uint TransmissionPower
@@ -68,6 +71,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>frequency_band</c> register value.
         /// Change the transmission and reception band of the radio to the given channel., 
         /// </summary>
         public uint FrequencyBand

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>e_CO2</c> register value.
         /// Equivalent CO₂ (eCO₂) readings., _: ppm
         /// </summary>
         public float ECO2
@@ -28,17 +29,26 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the reading value., _: ppm
+        /// Tries to read the <c>e_CO2_error</c> register value.
+        /// Error on the reading value., _: ppm
         /// </summary>
-        public float ECO2Error
+        bool TryGetECO2Error(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)ECO2Reg.ECO2Error, ECO2RegPack.ECO2Error);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
+        /// Reads the <c>min_e_CO2</c> register value.
         /// Minimum measurable value, _: ppm
         /// </summary>
         public float MinECO2
@@ -50,6 +60,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>max_e_CO2</c> register value.
         /// Minimum measurable value, _: ppm
         /// </summary>
         public float MaxECO2
@@ -61,13 +72,21 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Type of physical sensor and capabilities., 
+        /// Tries to read the <c>variant</c> register value.
+        /// Type of physical sensor and capabilities., 
         /// </summary>
-        public ECO2Variant Variant
+        bool TryGetVariant(out ECO2Variant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ECO2Reg.Variant, ECO2RegPack.Variant, out value)) 
             {
-                return (ECO2Variant)this.GetRegisterValue((ushort)ECO2Reg.Variant, ECO2RegPack.Variant);
+                value = (ECO2Variant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(ECO2Variant);
+                return false;
             }
         }
 

@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>uv_index</c> register value.
         /// Ultraviolet index, typically refreshed every second., _: uv
         /// </summary>
         public float UvIndex
@@ -28,24 +29,40 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Error on the UV measure., _: uv
+        /// Tries to read the <c>uv_index_error</c> register value.
+        /// Error on the UV measure., _: uv
         /// </summary>
-        public float UvIndexError
+        bool TryGetUvIndexError(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)UvIndexReg.UvIndexError, UvIndexRegPack.UvIndexError);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The type of physical sensor and capabilities., 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical sensor and capabilities., 
         /// </summary>
-        public UvIndexVariant Variant
+        bool TryGetVariant(out UvIndexVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant, out value)) 
             {
-                return (UvIndexVariant)this.GetRegisterValue((ushort)UvIndexReg.Variant, UvIndexRegPack.Variant);
+                value = (UvIndexVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(UvIndexVariant);
+                return false;
             }
         }
 

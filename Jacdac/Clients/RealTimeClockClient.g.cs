@@ -17,6 +17,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>local_time</c> register value.
         /// Current time in 24h representation.
         /// 
         /// -   `day_of_month` is day of the month, starting at `1`
@@ -31,35 +32,59 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
-        /// (Optional) Time drift since the last call to the `set_time` command., _: s
+        /// Tries to read the <c>drift</c> register value.
+        /// Time drift since the last call to the `set_time` command., _: s
         /// </summary>
-        public float Drift
+        bool TryGetDrift(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Drift, RealTimeClockRegPack.Drift, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Drift, RealTimeClockRegPack.Drift);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) Error on the clock, in parts per million of seconds., _: ppm
+        /// Tries to read the <c>precision</c> register value.
+        /// Error on the clock, in parts per million of seconds., _: ppm
         /// </summary>
-        public float Precision
+        bool TryGetPrecision(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Precision, RealTimeClockRegPack.Precision, out value)) 
             {
-                return (float)this.GetRegisterValue((ushort)RealTimeClockReg.Precision, RealTimeClockRegPack.Precision);
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
             }
         }
 
         /// <summary>
-        /// (Optional) The type of physical clock used by the sensor., 
+        /// Tries to read the <c>variant</c> register value.
+        /// The type of physical clock used by the sensor., 
         /// </summary>
-        public RealTimeClockVariant Variant
+        bool TryGetVariant(out RealTimeClockVariant value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)RealTimeClockReg.Variant, RealTimeClockRegPack.Variant, out value)) 
             {
-                return (RealTimeClockVariant)this.GetRegisterValue((ushort)RealTimeClockReg.Variant, RealTimeClockRegPack.Variant);
+                value = (RealTimeClockVariant)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(RealTimeClockVariant);
+                return false;
             }
         }
 

@@ -27,6 +27,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>enabled</c> register value.
         /// Determines whether the WiFi radio is enabled. It starts enabled upon reset., 
         /// </summary>
         public bool Enabled
@@ -44,6 +45,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ip_address</c> register value.
         /// 0, 4 or 16 byte buffer with the IPv4 or IPv6 address assigned to device if any., 
         /// </summary>
         public byte[] IpAddress
@@ -55,6 +57,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>eui_48</c> register value.
         /// The 6-byte MAC address of the device. If a device does MAC address randomization it will have to "restart"., 
         /// </summary>
         public byte[] Eui48
@@ -66,6 +69,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>ssid</c> register value.
         /// SSID of the access-point to which device is currently connected.
         /// Empty string if not connected., 
         /// </summary>
@@ -78,6 +82,7 @@ namespace Jacdac.Clients {
         }
 
         /// <summary>
+        /// Reads the <c>rssi</c> register value.
         /// Current signal strength. Returns -128 when not connected., _: dB
         /// </summary>
         public int Rssi
