@@ -186,6 +186,7 @@ namespace Jacdac
         protected void SetRegisterValues(ushort code, string packetFormat, object[] values)
         {
             var reg = this.WaitForRegister(code);
+            reg.PackFormat = packetFormat;
             reg.SendValues(values);
         }
 

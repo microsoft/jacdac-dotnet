@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "usb slidyblinky",
+      "commandLineArgs": "devtools Thermostat",
       "hotReloadEnabled": false
     }
   }

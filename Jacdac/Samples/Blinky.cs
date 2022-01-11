@@ -27,10 +27,5 @@ namespace Jacdac.Samples
                 }
             };
         }
-
-        private void Led_Connected(JDNode sender, ServiceEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
