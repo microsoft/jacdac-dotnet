@@ -5,9 +5,9 @@ namespace Jacdac.Servers
 {
     public sealed partial class RoleManagerServer : JDServiceServer
     {
-        public readonly ISettingsStorage Storage;
-        public JDStaticRegisterServer AutoBind;
-        public JDStaticRegisterServer AllRolesAllocated;
+        private readonly ISettingsStorage Storage;
+        private JDStaticRegisterServer autoBindRegister;
+        private JDStaticRegisterServer allRolesAllocatedRegister;
 
         private Client[] roles = new Client[0];
 
@@ -15,18 +15,43 @@ namespace Jacdac.Servers
             : base(ServiceClasses.RoleManager, null)
         {
             this.Storage = storage;
-            this.AddRegister(this.AutoBind = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
-            this.AddRegister(this.AllRolesAllocated = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
+            this.AddRegister(this.autoBindRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
+            this.AddRegister(this.allRolesAllocatedRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRoles, this.handleListRoles);
             this.AddCommand((ushort)Jacdac.RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
 
             this.Changed += this.handleChanged;
+            this.allRolesAllocatedRegister.Changed += handleAllRolesAllocatedChanged;
         }
+
+        public bool AutoBind
+        {
+            get { return this.autoBindRegister.GetValueAsBool(); }
+        }
+
+        /// <summary>
+        /// Raised when all roles are connected
+        /// </summary>
+        public event NodeEventHandler Connected;
+
+        /// <summary>
+        /// Raised when all roles are disconnected
+        /// </summary>
+        public event NodeEventHandler Disconnected;
 
         public Client[] Roles
         {
             get { return this.Roles; }
+        }
+
+        private void handleAllRolesAllocatedChanged(JDNode sender, EventArgs e)
+        {
+            var v = this.allRolesAllocatedRegister.GetValueAsBool();
+            if (v)
+                this.Connected?.Invoke(this, e);
+            else
+                this.Disconnected?.Invoke(this, e);
         }
 
         public void AddClient(Client role)
@@ -58,8 +83,8 @@ namespace Jacdac.Servers
                     allRolesAllocated = false;
                     break;
                 }
-            this.AllRolesAllocated.SetValues(new object[] { allRolesAllocated });
             this.SaveBindings();
+            this.allRolesAllocatedRegister.SetValues(new object[] { allRolesAllocated });
             this.SendEvent((ushort)Jacdac.RoleManagerEvent.Change);
         }
 
@@ -270,7 +295,7 @@ namespace Jacdac.Servers
             }
 
             // dynamic allocation
-            if (this.AutoBind.GetValueAsBool())
+            if (this.autoBindRegister.GetValueAsBool())
             {
                 foreach (var role in roles)
                 {

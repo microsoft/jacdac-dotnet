@@ -64,7 +64,16 @@ namespace Jacdac
                 this.AddTransport(transport);
             this.Start();
         }
+
+        /// <summary>
+        /// Gets the logger server hosted on the self device if any
+        /// </summary>
         public override LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
+
+        /// <summary>
+        /// Gets the role manager server hosted on the self device, if any.
+        /// </summary>
+        public RoleManagerServer RoleManager { get { return this.SelfDeviceServer?.RoleManager; } }
 
         public void AddTransport(Transport transport)
         {

@@ -130,7 +130,7 @@ namespace Jacdac
             pkt.DeviceId = this.DeviceId;
             this.SendPacket(pkt);
 
-            if (this.RoleManager != null && this.RoleManager.AutoBind.GetValueAsBool())
+            if (this.RoleManager != null && this.RoleManager.AutoBind)
                 this.RoleManager.BindRoles();
         }
 

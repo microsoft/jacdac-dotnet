@@ -27,6 +27,8 @@ namespace Jacdac.Playground
             });
             bus.DeviceConnected += (s, e) => Console.WriteLine($"device connected: {e.Device}");
             bus.DeviceDisconnected += (s, e) => Console.WriteLine($"device disconnected: {e.Device}");
+            bus.RoleManager.Connected += (s, e) => Console.WriteLine($"roles connected");
+            bus.RoleManager.Disconnected += (s, e) => Console.WriteLine($"roles connected");
 
             // add transports
             foreach (var arg in args)

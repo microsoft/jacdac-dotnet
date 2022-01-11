@@ -86,6 +86,7 @@ namespace Jacdac
                 pkt.RequiresAck = true;
             this.LastSetTimestamp = bus.Timestamp;
             this.Service.SendPacket(pkt);
+            this.NeedsRefresh = true;
         }
 
         public void SendGet(bool ack = false)

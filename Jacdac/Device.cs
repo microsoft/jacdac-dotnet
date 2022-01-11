@@ -268,7 +268,7 @@ namespace Jacdac
             lock (this)
             {
                 acks = this._acks == null ? new Ack[0] : (Ack[])this._acks.Clone();
-                this.Debug($"{this}: resend acks {acks.Length}");
+                //this.Debug($"{this}: resend acks {acks.Length}");
                 foreach (var ack in acks)
                 {
                     if (ack.Packet == null) continue; // already processed

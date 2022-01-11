@@ -183,6 +183,11 @@ namespace Jacdac
             return values[0];
         }
 
+        protected bool GetRegisterValueAsBool(ushort code, string packFormat, object[] defaultValues = null)
+        {
+            return (uint)this.GetRegisterValue(code, packFormat, defaultValues) != 0;
+        }
+
         protected void SetRegisterValues(ushort code, string packetFormat, object[] values)
         {
             var reg = this.WaitForRegister(code);
