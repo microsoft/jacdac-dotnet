@@ -308,7 +308,9 @@ namespace Jacdac
 
         private void handleRegisterChange(JDNode sender, EventArgs e)
         {
-            this.ReadingChanged?.Invoke(this, EventArgs.Empty);
+            var ev = this.ReadingChanged;
+            if (ev != null)
+                this.ReadingChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace Jacdac.Samples
             var thermometer = new TemperatureClient(bus, "temp");
             var relay = new RelayClient(bus, "relay");
             var lastCommand = DateTime.MinValue;
-            var desired = 68; // 68F
+            var desired = 21; // 21C
             thermometer.ReadingChanged += (s, e) =>
             {
                 try
@@ -28,7 +28,10 @@ namespace Jacdac.Samples
                         relay.Active = false;
                     // 0..1 zone, do nothing
                 }
-                catch (ClientDisconnectedException) { }
+                catch (ClientDisconnectedException)
+                {
+                    Thread.Sleep(1000);
+                }
             };
         }
     }

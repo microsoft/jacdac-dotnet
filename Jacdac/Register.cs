@@ -219,12 +219,14 @@ namespace Jacdac
             }
         }
 
-        public void SendValues(object[] values)
+        public void SendValues(object[] values, bool ack = false)
         {
             var packf = this.PackFormat;
             if (packf == null)
                 throw new InvalidOperationException("register format unknown");
-            this.Data = PacketEncoding.Pack(packf, values);
+            var data = PacketEncoding.Pack(packf, values);
+            if (!Util.BufferEquals(data, this.Data))
+                this.SendSet(data, ack);
         }
 
         public object[] WaitForValues(int timeout = 1000)
