@@ -20,10 +20,10 @@ namespace Jacdac.Samples
                     Console.WriteLine("blink");
                     // blue
                     led.Animate(0, 0, brightness, speed);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     // red
                     led.Animate(brightness, 0, 0, speed);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                 }
             };
         }
