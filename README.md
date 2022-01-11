@@ -44,26 +44,28 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
 
 ### Misc:
 
-  - `Jacdac.NET.DevTools`, a .NET Core web site/proxy to help with developing Jacdac applications
+  - `Jacdac.DevTools`, a .NET Core web site/proxy to help with developing Jacdac applications
   - `Jacdac.Tests`, unit tests, .NET6
   - `Jacdac`, C# Jacdac sources. This package serves as a placeholder for C# files and
     and is not referenced anywhere. **For development purposes only**.
 
 ### DevTools
 
-Launch Jacdac.NET.DevTools and use the `WebSocket` transport to connect your Jacdac bus to a local dashboard.
+Launch Jacdac.DevTools and use the `WebSocket` transport to connect your Jacdac bus to a local dashboard.
 This allows you to test your code against simulators and physical devices, and leverage the tooling
 available in the Jacdac network.
 
+To installm,
+```
+dotnet tool install jacdac.devtools
+```
+
+To run,
 ```
 jacdac.devtools
 ```
 
 Add `spi` on Raspberry Pi to also connect to the JacHAT
-
-```
-dotnet jacdac.devtools.dll spi
-```
 
 ## Developer setup
 
