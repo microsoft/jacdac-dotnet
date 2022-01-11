@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections;
 using System.Device.Gpio;
 using System.Device.Spi;
-using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac.Transports.Spi
@@ -26,8 +25,63 @@ namespace Jacdac.Transports.Spi
         readonly int spiBusId;
         readonly GpioController controller;
         SpiDevice spi;
-        readonly ConcurrentQueue<byte[]> sendQueue;
-        readonly ConcurrentQueue<byte[]> receiveQueue;
+        // must be synched with sendQueue
+        readonly Queue sendQueue;
+        // must be synched with receiveQueue
+        readonly Queue receiveQueue;
+
+        static class QueueExtensions
+        {
+            public static bool TryDequeue(Queue queue, out byte[] value)
+            {
+                lock (queue)
+                {
+                    if (queue.Count > 0)
+                    {
+                        value = (byte[])queue.Dequeue();
+                        return true;
+                    }
+                    else
+                    {
+                        value = null;
+                        return false;
+                    }
+                }
+            }
+
+            public static bool TryPeekAndDequeue(Queue queue, int maxLength, out byte[] value)
+            {
+                lock (queue)
+                {
+                    if (queue.Count > 0)
+                    {
+                        value = (byte[])queue.Peek();
+                        if (value.Length <= maxLength)
+                        {
+                            queue.Dequeue();
+                            return true;
+                        }
+                    }
+
+                    value = null;
+                    return false;
+                }
+            }
+
+            public static bool IsEmpty(Queue queue)
+            {
+                lock (queue)
+                {
+                    return queue.Count == 0;
+                }
+            }
+
+            public static void Enqueue(Queue queue, byte[] value)
+            {
+                lock (queue)
+                    queue.Enqueue(value);
+            }
+        }
 
         public static SpiTransport Create()
         {
@@ -43,8 +97,8 @@ namespace Jacdac.Transports.Spi
             this.rxReadyPin = rxReadyPin;
             this.resetPin = resetPin;
             this.spiBusId = spiBusId;
-            this.sendQueue = new ConcurrentQueue<byte[]>();
-            this.receiveQueue = new ConcurrentQueue<byte[]>();
+            this.sendQueue = new Queue();
+            this.receiveQueue = new Queue();
         }
 
         public override string ToString()
@@ -106,7 +160,7 @@ namespace Jacdac.Transports.Spi
         public override void SendFrame(byte[] data)
         {
             //Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
-            this.sendQueue.Enqueue(data);
+            QueueExtensions.Enqueue(this.sendQueue, data);
 
             this.transfer();
         }
@@ -128,12 +182,9 @@ namespace Jacdac.Transports.Spi
             bool transfer = true;
             while (transfer)
             {
-                lock (this.sendQueue)
-                {
-                    transfer = this.transferFrame();
-                }
+                transfer = this.transferFrame();
                 byte[] recv;
-                while (this.receiveQueue.TryDequeue(out recv))
+                while (QueueExtensions.TryDequeue(this.receiveQueue, out recv))
                 {
                     var ev = this.FrameReceived;
                     if (ev != null)
@@ -147,7 +198,7 @@ namespace Jacdac.Transports.Spi
             // much be in a locked context
             bool txReady = this.controller.Read(this.txReadyPin) == PinValue.High;
             bool rxReady = this.controller.Read(this.rxReadyPin) == PinValue.High;
-            bool sendtx = this.sendQueue.Count > 0 && txReady;
+            bool sendtx = txReady && !QueueExtensions.IsEmpty(this.sendQueue) && txReady;
 
             if (!sendtx && !rxReady)
                 return false;
@@ -159,12 +210,14 @@ namespace Jacdac.Transports.Spi
             // assemble packets into send buffer
             int txq_ptr = 0;
             byte[] pkt;
-            while (this.sendQueue.TryPeek(out pkt) && txq_ptr + pkt.Length < XFER_SIZE)
+            while (QueueExtensions.TryPeekAndDequeue(this.sendQueue, (int)(XFER_SIZE - txq_ptr), out pkt))
             {
-                this.sendQueue.TryDequeue(out pkt);
                 Array.Copy(pkt, 0, txqueue, txq_ptr, pkt.Length);
                 txq_ptr += (pkt.Length + 3) & ~3;
             }
+
+            if (txq_ptr == 0 && !rxReady)
+                return false; // nothing to transfer, nothing to receive
 
             // attempt transfer
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
@@ -182,13 +235,6 @@ namespace Jacdac.Transports.Spi
                 while (framep < XFER_SIZE)
                 {
                     var frame2 = rxqueue[framep + 2];
-                    /*
-                    if (framep == 0 && frame2 > 0)
-                    {
-                        Console.WriteLine($"tx {txReady}, rx {rxReady}, send {this.sendQueue.Count}, recv {this.receiveQueue.Count}");
-                        Console.WriteLine($"rx {HexEncoding.ToString(rxqueue)}");
-                    }
-                    */
                     if (frame2 == 0)
                         break;
                     int sz = frame2 + 12;
@@ -210,7 +256,7 @@ namespace Jacdac.Transports.Spi
                         var frame = new byte[sz];
                         Array.Copy(rxqueue, framep, frame, 0, sz);
                         //Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
-                        this.receiveQueue.Enqueue(frame);
+                        QueueExtensions.Enqueue(this.receiveQueue, frame);
                     }
                     sz = (sz + 3) & ~3;
                     framep += sz;
@@ -231,7 +277,7 @@ namespace Jacdac.Transports.Spi
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine(ex.Message);
                     Thread.Sleep(1);
                 }
             }
@@ -242,10 +288,7 @@ namespace Jacdac.Transports.Spi
         {
             var err = this.ErrorReceived;
             if (err != null)
-            {
-                var now = DateTime.Now;
-                err(this, new TransportErrorReceivedEventArgs(error, now, data));
-            }
+                err(this, new TransportErrorReceivedEventArgs(error, data));
         }
     }
 }

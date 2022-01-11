@@ -4,7 +4,7 @@
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
-This repository contains **.NET 5+** and **TinyCLR** client libraries for the [Jacdac](https://aka.ms/jacdac) protocol,
+This repository contains **.NET Core (5+)**, **.NET nanoframework** and **TinyCLR** client libraries for the [Jacdac](https://aka.ms/jacdac) protocol,
 as well as transports over USB, SPI, WebSockets.
 
 * **[Jacdac .NET Documentation](https://microsoft.github.io/jacdac-docs/clients/dotnet)**
@@ -17,9 +17,9 @@ as well as transports over USB, SPI, WebSockets.
 
 The Jacdac project contains C# sources of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform recompiles these sources into its own assembly where C# files are simply shared as links.
-As a result, the C# used in the Jacdac project is .NET micro framework/TinyCLR/.NET5 compatible (and also inherits limitations thereof).
+As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/TinyCLR compatible (and also inherits limitations thereof).
 
-### .NET 5+
+### [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/introduction) and [.NET IoT Core](https://dotnet.microsoft.com/en-us/apps/iot)
 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
@@ -27,17 +27,23 @@ As a result, the C# used in the Jacdac project is .NET micro framework/TinyCLR/.
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
   - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
-  - `Jacdac.NET.DevTools`, a web site/proxy to help with developing Jacdac applications
-  - `Jacdac.Tests`, unit tests, .NET6
 
-### TinyCLR
+### [TinyCLR](https://www.ghielectronics.com/tinyclr/)
 
   - `Jacdac.TinyCLR`, mirror of `Jacdac` library and UART transport
   - `Jacdac.TinyCLR.Clients`, service clients
   - `Jacdac.TinyCLR.Storage`, SD card storage support
 
+### [.NET nanoframework](https://www.nanoframework.net/)
+
+  - `Jacdac.Nano`, mirror of `Jacdac` library and UART transport
+  - `Jacdac.Nano.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET nanoframework
+  - `Jacdac.Nano.Clients`, service clients
+
 ### Misc:
 
+  - `Jacdac.NET.DevTools`, a .NET Core web site/proxy to help with developing Jacdac applications
+  - `Jacdac.Tests`, unit tests, .NET6
   - `Jacdac`, C# Jacdac sources. This package serves as a placeholder for C# files and
     and is not referenced anywhere. **For development purposes only**.
 

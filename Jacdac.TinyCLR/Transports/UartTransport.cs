@@ -42,7 +42,7 @@ namespace Jacdac.Transports
             {
                 this.controller.ErrorReceived += (JacdacSerialWireController sender, ErrorReceivedEventArgs args) =>
                 {
-                    value(this, new TransportErrorReceivedEventArgs((TransportError)(uint)args.Error, args.Timestamp, args.Data));
+                    value(this, new TransportErrorReceivedEventArgs((TransportError)(uint)args.Error, args.Data));
                 };
             }
             remove

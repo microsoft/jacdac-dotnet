@@ -44,14 +44,11 @@ namespace Jacdac
     public sealed class TransportErrorReceivedEventArgs
     {
         public TransportError Error { get; }
-        public DateTime Timestamp { get; }
-
         public byte[] Data { get; }
 
-        public TransportErrorReceivedEventArgs(TransportError error, DateTime timestamp, byte[] data)
+        public TransportErrorReceivedEventArgs(TransportError error, byte[] data)
         {
             this.Error = error;
-            this.Timestamp = timestamp;
             this.Data = data;
         }
     }
