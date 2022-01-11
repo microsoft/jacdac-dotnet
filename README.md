@@ -36,6 +36,8 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
 
 ### [.NET nanoframework](https://www.nanoframework.net/)
 
+**Under development**: we need help to either write a native single wire serial transport... or build a SPI HAT for Feather S2.
+
   - `Jacdac.Nano`, mirror of `Jacdac` library and UART transport
   - `Jacdac.Nano.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET nanoframework
   - `Jacdac.Nano.Clients`, service clients
