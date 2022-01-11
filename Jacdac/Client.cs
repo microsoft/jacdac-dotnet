@@ -3,6 +3,15 @@ using System.Threading;
 
 namespace Jacdac
 {
+    /// <summary>
+    /// Raised when trying to access a client that is not connected to a server.
+    /// </summary>
+    [Serializable]
+    public sealed class ClientDisconnectedException : Exception
+    {
+        internal ClientDisconnectedException() { }
+    }
+
     [Serializable]
     public sealed class ClientEventArgs : EventArgs
     {
@@ -61,23 +70,26 @@ namespace Jacdac
             {
                 if (this._boundService != value)
                 {
-                    var s = this._boundService;
-                    if (s != null)
-                        s.EventRaised -= handleEventRaised;
+                    var old = this._boundService;
+                    if (old != null)
+                    {
+                        this._boundService = null;
+                        old.EventRaised -= this.handleEventRaised;
+                        if (old != null)
+                            this.Disconnected?.Invoke(this, new ServiceEventArgs(old));
+                    }
                     this._boundService = value;
                     if (value != null)
                     {
-                        value.EventRaised += handleEventRaised;
-                        this.Connected?.Invoke(this, EventArgs.Empty);
+                        value.EventRaised += this.handleEventRaised;
+                        this.Connected?.Invoke(this, new ServiceEventArgs(value));
                     }
-                    else
-                        this.Disconnected?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        public event NodeEventHandler Connected;
-        public event NodeEventHandler Disconnected;
+        public event ServiceEventHandler Connected;
+        public event ServiceEventHandler Disconnected;
 
         public override string ToString()
         {
@@ -103,11 +115,11 @@ namespace Jacdac
             if (timeout < 0)
                 throw new ClientDisconnectedException();
 
-            NodeEventHandler signal = null;
+            ServiceEventHandler signal = null;
             try
             {
                 var wait = new AutoResetEvent(false);
-                signal = (JDNode node, EventArgs pkt) =>
+                signal = (sender, e) =>
                 {
                     this.Connected -= signal;
                     wait.Set();
@@ -268,16 +280,39 @@ namespace Jacdac
         }
     }
 
-    [Serializable]
-    public sealed class ClientDisconnectedException : Exception
-    {
-        internal ClientDisconnectedException() { }
-    }
-
     public abstract class SensorClient : Client
     {
         protected SensorClient(JDBus bus, string name, uint serviceClass)
             : base(bus, name, serviceClass)
-        { }
+        {
+            this.Connected += handleConnected;
+            this.Disconnected += handleDisconnected;
+        }
+
+        private void handleConnected(JDNode sender, ServiceEventArgs e)
+        {
+            var sensor = (SensorClient)sender;
+            var service = e.Service;
+            var register = service.GetRegister((ushort)SystemReg.Reading);
+            register.Changed += handleRegisterChange;
+        }
+
+        private void handleDisconnected(JDNode sender, ServiceEventArgs e)
+        {
+            var sensor = (SensorClient)sender;
+            var service = e.Service;
+            var register = service.GetRegister((ushort)SystemReg.Reading);
+            register.Changed -= handleRegisterChange;
+        }
+
+        private void handleRegisterChange(JDNode sender, EventArgs e)
+        {
+            this.ReadingChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Raised when the value of the reading changed.
+        /// </summary>
+        public event NodeEventHandler ReadingChanged;
     }
 }

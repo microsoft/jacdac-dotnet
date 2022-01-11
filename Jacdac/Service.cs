@@ -232,4 +232,16 @@ namespace Jacdac
     }
 
     public delegate void EventRaisedHandler(JDService service, EventRaisedArgs args);
+
+    [Serializable]
+    public sealed class ServiceEventArgs : EventArgs
+    {
+        public readonly JDService Service;
+        internal ServiceEventArgs(JDService service)
+        {
+            this.Service = service;
+        }
+    }
+
+    public delegate void ServiceEventHandler(JDNode sender, ServiceEventArgs e);
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "usb HumidityTracker",
+      "commandLineArgs": "usb SliderChange",
       "hotReloadEnabled": false
     }
   }
