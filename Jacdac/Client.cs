@@ -199,7 +199,7 @@ namespace Jacdac
             var service = this.BoundService;
             if (service == null)
                 throw new ClientDisconnectedException();
-            service.SendPacket(Packet.FromCmd(code));
+            service.SendPacket(Packet.FromCmd(code, data));
         }
 
         protected void SendCmdPacked(ushort code, string packFormat, object[] values)

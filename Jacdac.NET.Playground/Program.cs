@@ -25,6 +25,8 @@ namespace Jacdac.Playground
                 ProductIdentifier = sample.ProductIdentifier,
                 SpecificationCatalog = new ServiceSpecificationCatalog()
             });
+            bus.DeviceConnected += (s, e) => Console.WriteLine($"device connected: {e.Device}");
+            bus.DeviceDisconnected += (s, e) => Console.WriteLine($"device disconnected: {e.Device}");
 
             // add transports
             foreach (var arg in args)
