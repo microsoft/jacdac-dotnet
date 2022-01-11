@@ -8,12 +8,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
-      - name: Build Jacdac Debug
-        run: dotnet build Jacdac.sln -c Debug
-      - name: Build Jacdac Release
-        run: dotnet build Jacdac.sln -c Release
-      - name: Build Tests
-        run: dotnet build .\Jacdac.Tests\Jacdac.Tests.csproj
+      - uses: microsoft/setup-msbuild@v1.1
+      - name: dotnet restore Jacdac.sln
+        run: dotnet restore Jacdac.sln
+      - name: msbuild restore Jacdac.sln
+        run: msbuild -t:restore Jacdac.sln
+      - name: MSBuild Jacdac Debug
+        run: msbuild Jacdac.sln -p:Configuration=Debug
+      - name: MSBuild Jacdac Release
+        run: msbuild Jacdac.sln -p:Configuration=Release
       - name: Run tests
         run: dotnet test .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Semantic release

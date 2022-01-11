@@ -123,7 +123,7 @@ app.Use(async (context, next) =>
             };
         await proxy();
     }
-    if (context.Request.Path == "/")
+    else if (context.Request.Path == "/")
     {
         context.Response.Headers.ContentType = "text/html";
         context.Response.Headers.CacheControl = "no-cache";
