@@ -18,12 +18,15 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-	  <Compile Include="..\Jacdac\*.cs">
-		  <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
-	  </Compile>
-	  <Compile Include="..\Jacdac\Constants\*.cs">
-		  <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
-	  </Compile>
+    <Compile Include="..\Jacdac\*.cs">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\Jacdac\Servers\*.cs">
+      <Link>Servers\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\Jacdac\Constants\*.cs">
+      <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -32,6 +35,9 @@
     </Reference>
     <Reference Include="nanoFramework.System.Text">
       <HintPath>..\packages\nanoFramework.System.Text.1.1.2\lib\nanoFramework.System.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Math">
+      <HintPath>..\packages\nanoFramework.System.Math.1.4.3\lib\System.Math.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

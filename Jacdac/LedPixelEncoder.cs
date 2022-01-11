@@ -93,7 +93,9 @@ namespace Jacdac
             this.pos = 0;
             this.currcmd = 0;
             this.source = source;
-            this.args = new ArrayList(args);
+            this.args = new System.Collections.ArrayList();
+            for (int i = 0; i < args.Length; i++)
+                this.args.Add(args[i]);
         }
 
 
