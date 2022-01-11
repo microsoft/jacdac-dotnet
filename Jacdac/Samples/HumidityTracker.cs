@@ -6,7 +6,6 @@ namespace Jacdac.Samples
 {
     public sealed class HumidityTracker : ISample
     {
-        public uint ProductIdentifier { get => 0x36ea1209; }
         public void Run(JDBus bus)
         {
             var humidity = new HumidityClient(bus, "humidity");

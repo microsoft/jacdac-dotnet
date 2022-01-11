@@ -5,8 +5,6 @@ namespace Jacdac.Samples
 {
     internal class ButtonTracker : ISample
     {
-        public uint ProductIdentifier => 0x36ad4f2b;
-
         public void Run(JDBus bus)
         {
             var button = new ButtonClient(bus, "btn");

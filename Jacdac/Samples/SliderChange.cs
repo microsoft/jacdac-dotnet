@@ -6,7 +6,6 @@ namespace Jacdac.Samples
 {
     public sealed class SliderChange : ISample
     {
-        public uint ProductIdentifier { get => 0x3e71bd83; }
         public void Run(JDBus bus)
         {
             var slider = new PotentiometerClient(bus, "slider");

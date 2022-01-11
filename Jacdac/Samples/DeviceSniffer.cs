@@ -4,7 +4,6 @@ namespace Jacdac.Samples
 {
     public class DeviceSniffer : ISample
     {
-        public uint ProductIdentifier { get => 0x3aff3267; }
         public void Run(JDBus bus)
         {
             bus.IsStreaming = true;

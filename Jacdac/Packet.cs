@@ -182,10 +182,12 @@ namespace Jacdac
             return p;
         }
 
-        public static Packet FromCmd(ushort serviceCommand, byte[] buffer = null)
+        public static Packet FromCmd(ushort serviceCommand, byte[] buffer = null, bool ack = false)
         {
             var pkt = From(serviceCommand, buffer);
             pkt.IsCommand = true;
+            if (ack)
+                pkt.RequiresAck = true;
             return pkt;
         }
 

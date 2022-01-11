@@ -6,8 +6,6 @@ namespace Jacdac.Samples
 {
     internal class Blinky : ISample
     {
-        public uint ProductIdentifier => 0x36ad4f2b;
-
         public void Run(JDBus bus)
         {
             var led = new LedClient(bus, "led");

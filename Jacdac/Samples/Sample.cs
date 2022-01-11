@@ -5,11 +5,6 @@ namespace Jacdac.Samples
 {
     public interface ISample
     {
-        /// <summary>
-        /// Unique firmware identifier, 
-        /// Use https://microsoft.github.io/jacdac-docs/reference/device-definition/ to generate a new one.
-        /// </summary>
-        uint ProductIdentifier { get; }
         void Run(JDBus bus);
     }
 

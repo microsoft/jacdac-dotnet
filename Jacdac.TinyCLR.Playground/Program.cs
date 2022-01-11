@@ -89,7 +89,6 @@ namespace Jacdac.Playground
                 SpecificationCatalog = new ServiceSpecificationCatalog(specStorage),
                 RoleStorage = rolesStorage,
                 DefaultMinLoggerPriority = LoggerPriority.Log,
-                ProductIdentifier = sample.ProductIdentifier
             });
 
             new Thread(() => sample.Run(bus)).Start();

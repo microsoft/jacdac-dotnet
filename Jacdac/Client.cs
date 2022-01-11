@@ -200,12 +200,16 @@ namespace Jacdac
             this.SetRegisterValues(code, packetFormat, new object[] { value });
         }
 
-        protected void SendCmd(ushort code, byte[] data = null)
+        protected void SendCmd(ushort code, byte[] data = null, bool ack = false)
         {
             var service = this.BoundService;
             if (service == null)
-                throw new ClientDisconnectedException();
-            service.SendPacket(Packet.FromCmd(code, data));
+            {
+                if (ack)
+                    throw new ClientDisconnectedException();
+                return;
+            }
+            service.SendPacket(Packet.FromCmd(code, data, ack));
         }
 
         protected void SendCmdPacked(ushort code, string packFormat, object[] values)

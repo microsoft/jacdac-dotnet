@@ -274,6 +274,7 @@ namespace Jacdac
                     if (ack.Packet == null) continue; // already processed
                     if (--ack.RetriesLeft < 0)
                     {
+                        this.Debug($"{this}: ack error {ack.Packet}");
                         ack.Packet = null;
                         ack.Error = true;
                         ack.Event.Set();
@@ -287,10 +288,7 @@ namespace Jacdac
                 }
                 // filter out error packets
                 if (errors > 0)
-                {
-                    this.Debug($"{this}: ack errors {errors}");
                     this.RefreshAcks(acks, errors);
-                }
 
 
                 // schedule acks again

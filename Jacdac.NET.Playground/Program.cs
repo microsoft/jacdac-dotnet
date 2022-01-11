@@ -22,7 +22,6 @@ namespace Jacdac.Playground
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()
             {
-                ProductIdentifier = sample.ProductIdentifier,
                 SpecificationCatalog = new ServiceSpecificationCatalog()
             });
             bus.DeviceConnected += (s, e) => Console.WriteLine($"device connected: {e.Device}");

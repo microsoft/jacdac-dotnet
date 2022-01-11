@@ -6,8 +6,6 @@ namespace Jacdac.Samples
 {
     internal class Thermostat : ISample
     {
-        public uint ProductIdentifier => 0x3ef747de;
-
         public void Run(JDBus bus)
         {
             var thermometer = new TemperatureClient(bus, "temp");
