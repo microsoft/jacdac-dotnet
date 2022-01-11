@@ -14,6 +14,8 @@ jobs:
       - name: msbuild restore Jacdac.Dev.sln
         run: msbuild -t:restore Jacdac.Dev.sln
       - name: MSBuild Jacdac.Dev
+        run: msbuild ./Jacdac.TinyCLR/Jacdac.TinyCLR.csproj
+      - name: MSBuild Jacdac.Dev
         run: msbuild Jacdac.Dev.sln
       - name: Build Jacdac Debug
         run: dotnet build Jacdac.sln -c Debug
