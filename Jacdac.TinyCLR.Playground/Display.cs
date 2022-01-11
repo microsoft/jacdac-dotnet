@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 
-namespace Jacdac_RgbLed
+namespace Jacdac.Playground
 {
     internal class Display
     {

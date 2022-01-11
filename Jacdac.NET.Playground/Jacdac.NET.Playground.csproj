@@ -1,16 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj" />
-    <ProjectReference Include="..\Jacdac.NET.Transports.Spi\Jacdac.NET.Transports.Spi.csproj" />
-    <ProjectReference Include="..\Jacdac.NET.Transports.Usb\Jacdac.NET.Transports.Usb.csproj" />
-    <ProjectReference Include="..\Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj" />
-    <ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj" />
+		<ProjectReference Include="..\Jacdac.NET.Transports.Spi\Jacdac.NET.Transports.Spi.csproj" />
+		<ProjectReference Include="..\Jacdac.NET.Transports.Usb\Jacdac.NET.Transports.Usb.csproj" />
+		<ProjectReference Include="..\Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj" />
+		<ProjectReference Include="..\Jacdac.NET\Jacdac.NET.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Jacdac\Samples\*.cs">
+			<Link>Samples\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
 
 </Project>

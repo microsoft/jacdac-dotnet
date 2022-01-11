@@ -147,7 +147,7 @@ namespace Jacdac
                 if (defaultValues != null)
                     return defaultValues;
                 else
-                    throw new RegisterValueMissingException();
+                    throw new ClientDisconnectedException();
             return values;
         }
 
@@ -159,7 +159,7 @@ namespace Jacdac
                 if (values.Length > 0)
                     return true;
             }
-            catch (RegisterValueMissingException)
+            catch (ClientDisconnectedException)
             { }
             values = null;
             return false;
@@ -272,12 +272,6 @@ namespace Jacdac
     public sealed class ClientDisconnectedException : Exception
     {
         internal ClientDisconnectedException() { }
-    }
-
-    [Serializable]
-    public sealed class RegisterValueMissingException : Exception
-    {
-        internal RegisterValueMissingException() { }
     }
 
     public abstract class SensorClient : Client

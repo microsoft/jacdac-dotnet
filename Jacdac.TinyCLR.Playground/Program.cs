@@ -12,8 +12,9 @@ using Jacdac.Storage;
 using GHIElectronics.TinyCLR.Devices.Storage;
 using GHIElectronics.TinyCLR.Devices.Gpio;
 using Jacdac.Clients;
+using Jacdac.Samples;
 
-namespace Jacdac_RgbLed
+namespace Jacdac.Playground
 {
     internal class Program
     {
@@ -27,6 +28,11 @@ namespace Jacdac_RgbLed
         {
             // Display enable
             Display.Enable();
+
+            var sampleName = "devicesniffer";
+            var sample = SampleExtensions.GetSample(new string[] { sampleName });
+            if (sample == null)
+                throw new InvalidOperationException("please select a sample to run");
 
             var sdStorage = new StorageManager(StorageController.FromName(SC20100.StorageController.SdCard));
             var ssidStorage = sdStorage.MountSettingsStorage("wifi.json");
@@ -61,44 +67,11 @@ namespace Jacdac_RgbLed
                 SpecificationCatalog = new ServiceSpecificationCatalog(specStorage),
                 RoleStorage = rolesStorage,
                 DefaultMinLoggerPriority = LoggerPriority.Log,
+                ProductIdentifier = sample.ProductIdentifier
             });
-            bus.DeviceConnected += Bus_DeviceConnected;
-            bus.DeviceDisconnected += Bus_DeviceDisconnected;
-            bus.SelfAnnounced += Bus_SelfAnnounced;
 
-            Display.WriteLine("cached specs:");
-            foreach (var sc in bus.SpecificationCatalog.Storage.GetServiceClasses())
-                Display.WriteLine("  0x" + sc.ToString("x1"));
-
-            transport.FrameReceived += (Transport sender, byte[] frame) =>
-            {
-                //  Debug.WriteLine($"{bus.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(frame)}");
-            };
-
-            Display.WriteLine($"Self device: {bus.SelfDeviceServer}");
-
-            var humidity = new HumidityClient(bus, "humidity");
-            var button = new ButtonClient(bus, "btn");
-
-            button.Down += (sender, args) => Display.WriteLine("button down");
-            button.Up += (sender, args) => Display.WriteLine("button up");
-            button.Hold += (sender, args) => Display.WriteLine("button hold");
-
-            //Blink(transport);
-            while (true)
-            {
-                try
-                {
-
-                    Display.WriteLine($"humidity: {humidity.Humidity}");
-                }
-                catch (ClientDisconnectedException)
-                {
-                    //Display.WriteLine("connect humidity");
-                }
-                //Display.WriteLine($".");
-                Thread.Sleep(1000);
-            }
+            new Thread(() => sample.Run(bus)).Start();
+            Thread.Sleep(Timeout.Infinite);
         }
 
         private static void WifiServer_ScanStarted(JDNode sender, EventArgs e)

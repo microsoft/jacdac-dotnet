@@ -1,22 +1,33 @@
 ﻿using Jacdac.Clients;
+using Jacdac.Samples;
 using Jacdac.Transports;
 using Jacdac.Transports.Spi;
 using Jacdac.Transports.Usb;
 using Jacdac.Transports.WebSockets;
 using System;
+using System.Threading;
 
-namespace Jacdac.NET.Playground
+namespace Jacdac.Playground
 {
     class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("jacdac: connecting...");
-            var bus = new JDBus(null);
-            bus.IsStreaming = true;
-            for (int i = 0; i < args.Length; i++)
+
+            var sample = SampleExtensions.GetSample(args);
+            if (sample == null)
+                throw new InvalidOperationException("please select a sample to run");
+
+            // create and start bus
+            var bus = new JDBus(null, new JDBusOptions()
             {
-                var arg = args[i];
+                ProductIdentifier = sample.ProductIdentifier,
+                SpecificationCatalog = new ServiceSpecificationCatalog()
+            });
+
+            // add transports
+            foreach (var arg in args)
                 switch (arg)
                 {
                     case "spi":
@@ -31,60 +42,11 @@ namespace Jacdac.NET.Playground
                         Console.WriteLine("adding devtools connection");
                         bus.AddTransport(WebSocketTransport.Create());
                         break;
-                    case "twins":
-                        Console.WriteLine("tracking twins");
-                        bus.SpecificationCatalog = new ServiceSpecificationCatalog();
-                        break;
                 }
-            }
-            foreach (var transport in bus.Transports)
-            {
-                transport.ConnectionChanged += (sender, newState) =>
-                {
-                    Console.WriteLine($"{sender.Kind}: {newState}");
-                };
-            }
-            bus.DeviceConnected += (sender, conn) =>
-            {
-                var device = conn.Device;
-                var selfMsg = bus.SelfDeviceServer.DeviceId == device.DeviceId ? "(self)" : "";
-                Console.WriteLine($"device connected {device} {selfMsg}");
 
-                device.Announced += (sender, an) =>
-                {
-                    var services = device.GetServices();
-                    foreach (var service in services)
-                    {
-                        service.ResolveSpecification();
-                        Console.WriteLine(service);
-                        var reading = service.GetRegister((ushort)Jacdac.SystemReg.Reading);
-                        if (reading != null)
-                            reading.ReportReceived += (sender, rargs) =>
-                            {
-                                Console.Write($"  {reading}: ");
-                                var values = reading.Values;
-                                foreach (var value in values)
-                                    Console.Write($"{value}, ");
-                                Console.WriteLine();
-                            };
-                    }
-                };
-            };
-
-            var humidity = new HumidityClient(bus, "humidity");
-            while (true)
-            {
-                try
-                {
-                    var h = humidity.Humidity;
-                    Console.WriteLine($"humidity: {h}");
-                }
-                catch (ClientDisconnectedException)
-                {
-                    Console.WriteLine("connect humidity sensor");
-                }
-                System.Threading.Thread.Sleep(1000);
-            }
+            //  run test
+            new Thread(state => sample.Run(bus)).Start();
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }
