@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
+      - name: MSBuild Jacdac.Dev
+        run: msbuild Jacdac.Dev.sln
       - name: Build Jacdac Debug
         run: dotnet build Jacdac.sln -c Debug
       - name: Build Jacdac Release
