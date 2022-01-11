@@ -114,7 +114,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint);
+                return (bool)this.GetRegisterValueAsBool((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint);
             }
         }
 

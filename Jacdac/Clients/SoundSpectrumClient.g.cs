@@ -36,7 +36,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)SoundSpectrumReg.Enabled, SoundSpectrumRegPack.Enabled);
             }
             set
             {

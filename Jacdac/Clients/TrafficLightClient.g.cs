@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red);
+                return (bool)this.GetRegisterValueAsBool((ushort)TrafficLightReg.Red, TrafficLightRegPack.Red);
             }
             set
             {
@@ -42,7 +42,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange);
+                return (bool)this.GetRegisterValueAsBool((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange);
             }
             set
             {
@@ -60,7 +60,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green);
+                return (bool)this.GetRegisterValueAsBool((ushort)TrafficLightReg.Green, TrafficLightRegPack.Green);
             }
             set
             {

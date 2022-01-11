@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)BitRadioReg.Enabled, BitRadioRegPack.Enabled);
             }
             set
             {

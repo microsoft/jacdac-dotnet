@@ -25,7 +25,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool);
+                return (bool)this.GetRegisterValueAsBool((ushort)ProtoTestReg.RwBool, ProtoTestRegPack.RwBool);
             }
             set
             {
@@ -43,7 +43,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ProtoTestReg.RoBool, ProtoTestRegPack.RoBool);
+                return (bool)this.GetRegisterValueAsBool((ushort)ProtoTestReg.RoBool, ProtoTestRegPack.RoBool);
             }
         }
 

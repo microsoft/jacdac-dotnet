@@ -34,7 +34,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)WifiReg.Enabled, WifiRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)WifiReg.Enabled, WifiRegPack.Enabled);
             }
             set
             {

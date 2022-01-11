@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SwitchReg.Active, SwitchRegPack.Active);
+                return (bool)this.GetRegisterValueAsBool((ushort)SwitchReg.Active, SwitchRegPack.Active);
             }
         }
 

@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)DmxReg.Enabled, DmxRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)DmxReg.Enabled, DmxRegPack.Enabled);
             }
             set
             {

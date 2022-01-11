@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)SpeechSynthesisReg.Enabled, SpeechSynthesisRegPack.Enabled);
             }
             set
             {

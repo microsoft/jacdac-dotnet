@@ -45,7 +45,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)ServoReg.Enabled, ServoRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)ServoReg.Enabled, ServoRegPack.Enabled);
             }
             set
             {

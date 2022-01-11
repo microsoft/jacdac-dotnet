@@ -87,7 +87,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor);
+                return (bool)this.GetRegisterValueAsBool((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor);
             }
             set
             {

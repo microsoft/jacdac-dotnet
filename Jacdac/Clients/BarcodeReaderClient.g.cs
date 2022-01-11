@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)BarcodeReaderReg.Enabled, BarcodeReaderRegPack.Enabled);
             }
             set
             {

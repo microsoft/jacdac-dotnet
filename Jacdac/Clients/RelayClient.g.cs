@@ -30,7 +30,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)RelayReg.Active, RelayRegPack.Active);
+                return (bool)this.GetRegisterValueAsBool((ushort)RelayReg.Active, RelayRegPack.Active);
             }
             set
             {

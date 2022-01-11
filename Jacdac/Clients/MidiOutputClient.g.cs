@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)MidiOutputReg.Enabled, MidiOutputRegPack.Enabled);
             }
             set
             {

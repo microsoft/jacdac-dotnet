@@ -26,7 +26,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)PowerReg.Allowed, PowerRegPack.Allowed);
+                return (bool)this.GetRegisterValueAsBool((ushort)PowerReg.Allowed, PowerRegPack.Allowed);
             }
             set
             {

@@ -36,7 +36,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)CompassReg.Enabled, CompassRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)CompassReg.Enabled, CompassRegPack.Enabled);
             }
             set
             {

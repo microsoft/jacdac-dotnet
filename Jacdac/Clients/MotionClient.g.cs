@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MotionReg.Moving, MotionRegPack.Moving);
+                return (bool)this.GetRegisterValueAsBool((ushort)MotionReg.Moving, MotionRegPack.Moving);
             }
         }
 

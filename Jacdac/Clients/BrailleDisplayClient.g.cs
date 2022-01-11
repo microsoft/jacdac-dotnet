@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)BrailleDisplayReg.Enabled, BrailleDisplayRegPack.Enabled);
             }
             set
             {

@@ -45,7 +45,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)MotorReg.Enabled, MotorRegPack.Enabled);
+                return (bool)this.GetRegisterValueAsBool((ushort)MotorReg.Enabled, MotorRegPack.Enabled);
             }
             set
             {

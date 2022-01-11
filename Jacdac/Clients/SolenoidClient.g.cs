@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (bool)this.GetRegisterValue((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled);
+                return (bool)this.GetRegisterValueAsBool((ushort)SolenoidReg.Pulled, SolenoidRegPack.Pulled);
             }
             set
             {
