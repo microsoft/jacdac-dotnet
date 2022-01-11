@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Measures equivalent CO₂ levels.
     /// Implements a client for the Equivalent CO₂ service.

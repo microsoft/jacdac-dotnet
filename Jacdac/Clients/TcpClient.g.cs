@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Data transfer over TCP/IP and TLS stream sockets.
     /// Implements a client for the TCP service.

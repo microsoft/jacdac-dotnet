@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A sensor measuring humidity of outside environment.
     /// Implements a client for the Humidity service.

@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Health and diagnostics information about the Azure Iot Hub connection.
     /// Implements a client for the Azure IoT Hub Health service.

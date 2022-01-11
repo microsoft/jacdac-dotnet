@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A sensor that detects light and dark surfaces, commonly used for line following robots.
     /// Implements a client for the Reflected light service.

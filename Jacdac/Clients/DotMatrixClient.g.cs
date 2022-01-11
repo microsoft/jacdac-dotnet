@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A rectangular dot matrix display, made of monochrome LEDs or Braille pins.
     /// Implements a client for the Dot Matrix service.

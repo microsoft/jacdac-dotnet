@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Non-volatile key-value storage interface for storing settings.
     /// Implements a client for the Settings service.

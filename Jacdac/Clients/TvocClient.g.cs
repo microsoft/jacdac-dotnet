@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Measures equivalent Total Volatile Organic Compound levels.
     /// Implements a client for the Total Volatile organic compound service.

@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A screen that displays characters, typically a LCD/OLED character screen.
     /// Implements a client for the Character Screen service.

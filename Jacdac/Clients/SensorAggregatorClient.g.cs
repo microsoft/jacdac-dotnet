@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Aggregate data from multiple sensors into a single stream
      /// (often used as input to machine learning models on the same device, see model runner service).

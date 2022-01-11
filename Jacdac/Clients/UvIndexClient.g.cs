@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// The UV Index is a measure of the intensity of ultraviolet (UV) rays from the Sun.
     /// Implements a client for the UV index service.

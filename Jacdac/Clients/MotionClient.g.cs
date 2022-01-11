@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A sensor, typically PIR, that detects object motion within a certain range
     /// Implements a client for the Motion service.

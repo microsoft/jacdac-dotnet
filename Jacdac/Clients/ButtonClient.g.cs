@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A push-button, which returns to inactive position when not operated anymore.
     /// Implements a client for the Button service.

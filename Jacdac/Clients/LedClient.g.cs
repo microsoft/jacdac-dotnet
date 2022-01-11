@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A controller for 1 or more monochrome or RGB LEDs connected in parallel.
     /// Implements a client for the LED service.

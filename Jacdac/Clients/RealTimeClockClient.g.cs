@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Real time clock to support collecting data with precise time stamps.
     /// Implements a client for the Real time clock service.

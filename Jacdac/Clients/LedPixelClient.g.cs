@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A controller for strips of individually controlled RGB LEDs.
     /// Implements a client for the LED Pixel service.

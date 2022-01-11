@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A record and replay module. You can record a few seconds of audio and play it back.
     /// Implements a client for the Sound Recorder with Playback service.

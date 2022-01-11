@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A matrix of buttons connected as a keypad
     /// Implements a client for the Matrix Keypad service.

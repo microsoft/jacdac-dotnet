@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A 7-segment numeric display, with one or more digits.
     /// Implements a client for the 7-segment display service.

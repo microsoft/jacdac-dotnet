@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A push-pull solenoid is a type of relay that pulls a coil when activated.
     /// Implements a client for the Solenoid service.

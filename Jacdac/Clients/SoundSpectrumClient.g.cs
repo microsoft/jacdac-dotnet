@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A microphone that analyzes the sound specturm
     /// Implements a client for the Sound Spectrum service.

@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A sound level detector sensor, gives a relative indication of the sound level.
     /// Implements a client for the Sound level service.

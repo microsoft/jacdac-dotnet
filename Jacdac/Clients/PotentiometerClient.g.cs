@@ -2,9 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients
+namespace Jacdac.Clients 
 {
-
     /// <summary>
     /// A slider or rotary potentiometer.
     /// Implements a client for the Potentiometer service.
@@ -30,22 +29,13 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Raised when the position value changed
-        /// </summary>
-        public event NodeEventHandler PositionChanged
-        {
-            add { this.ReadingChanged += value; }
-            remove { this.ReadingChanged -= value; }
-        }
-
-        /// <summary>
         /// Tries to read the <c>variant</c> register value.
         /// Specifies the physical layout of the potentiometer., 
         /// </summary>
         bool TryGetVariant(out PotentiometerVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant, out values))
+            if (this.TryGetRegisterValues((ushort)PotentiometerReg.Variant, PotentiometerRegPack.Variant, out values)) 
             {
                 value = (PotentiometerVariant)values[0];
                 return true;

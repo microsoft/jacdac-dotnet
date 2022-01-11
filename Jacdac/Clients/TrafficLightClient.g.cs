@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Controls a mini traffic with a red, orange and green LED.
     /// Implements a client for the Traffic Light service.

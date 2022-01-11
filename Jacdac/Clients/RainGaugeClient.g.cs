@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// Measures the amount of liquid precipitation over an area in a predefined period of time.
     /// Implements a client for the Rain gauge service.

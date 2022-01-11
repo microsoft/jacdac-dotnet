@@ -2,8 +2,8 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients {
-
+namespace Jacdac.Clients 
+{
     /// <summary>
     /// A configuration service for a capacitive push-button.
     /// Implements a client for the Capacitive Button service.
