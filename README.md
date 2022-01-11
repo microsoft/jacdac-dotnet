@@ -25,7 +25,7 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
   - `Jacdac.NET.Clients`, service clients
   - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
-  - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5
+  - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5 (experimental)
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
 
 ### [TinyCLR](https://www.ghielectronics.com/tinyclr/)
