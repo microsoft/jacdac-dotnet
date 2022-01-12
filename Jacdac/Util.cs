@@ -237,6 +237,22 @@ namespace Jacdac
             return (int)value;
         }
 
+        public static float UnboxFloat(object value)
+        {
+            if (value is int) return (int)value;
+            if (value is short) return (short)value;
+            if (value is sbyte) return (sbyte)value;
+            if (value is ushort) return (ushort)value;
+            if (value is byte) return (byte)value;
+            if (value is uint) return (uint)value;
+            if (value is bool)
+            {
+                return (bool)value ? 1 : 0;
+            }
+            // try for enums
+            return (int)value;
+        }
+
         public static int SetNumber(
             byte[] buf,
             int offset,

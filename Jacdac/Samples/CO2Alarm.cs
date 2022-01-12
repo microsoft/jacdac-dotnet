@@ -1,6 +1,8 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
-using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -10,6 +12,7 @@ namespace Jacdac.Samples
         {
             // DISCLAIMER: This is a sample and should not be used as reference to build
             // any kind of device.
+            #region sources
             var co2 = new ECO2Client(bus, "co2");
             var buzzer = new BuzzerClient(bus, "buzzer");
             var led = new LedClient(bus, "led");
@@ -31,6 +34,7 @@ namespace Jacdac.Samples
                     led.SetColor(0);
                 }
             };
+            #endregion
         }
     }
 }

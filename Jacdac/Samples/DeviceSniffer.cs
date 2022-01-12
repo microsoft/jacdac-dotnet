@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region namespaces
+using Jacdac;
+using System;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -6,6 +9,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             bus.IsStreaming = true;
             foreach (var transport in bus.Transports)
             {
@@ -39,6 +43,7 @@ namespace Jacdac.Samples
                     }
                 };
             };
+            #endregion
         }
     }
 }

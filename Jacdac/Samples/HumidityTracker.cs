@@ -1,6 +1,9 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +11,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var humidity = new HumidityClient(bus, "humidity");
             // read humidity in a timer
             new Timer(state =>
@@ -19,6 +23,7 @@ namespace Jacdac.Samples
                 }
                 catch (ClientDisconnectedException) { }
             }, null, 0, 500);
+            #endregion
         }
     }
 }

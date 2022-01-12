@@ -1,6 +1,9 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +11,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var rot = new RotaryEncoderClient(bus, "rot");
             var mouse = new HidMouseClient(bus, "mouse");
             int lastPosition = 0;
@@ -22,6 +26,7 @@ namespace Jacdac.Samples
                     mouse.Wheel(1, 0);
                 lastPosition = position;
             };
+            #endregion
         }
     }
 }

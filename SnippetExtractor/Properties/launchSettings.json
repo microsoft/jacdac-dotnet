@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SnippetExtractor": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../Jacdac/Samples"
+    }
+  }
+}

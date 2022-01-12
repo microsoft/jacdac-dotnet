@@ -1,6 +1,8 @@
-﻿using Jacdac.Clients;
-using System;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +10,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var led = new LedClient(bus, "led");
             var slider = new PotentiometerClient(bus, "slider");
             var speed = 64u;
@@ -30,6 +33,7 @@ namespace Jacdac.Samples
                     Thread.Sleep(1000);
                 }
             }
+            #endregion
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +11,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var gamepad = new GamepadClient(bus, "gamepad");
             var mouse = new HidMouseClient(bus, "mouse");
             gamepad.ReadingChanged += (s, e) =>
@@ -17,6 +21,7 @@ namespace Jacdac.Samples
                 if (Math.Abs(dx) > 20 || Math.Abs(dy) > 20)
                     mouse.Move(dx / 4, dy / 4, 0);
             };
+            #endregion
         }
     }
 }

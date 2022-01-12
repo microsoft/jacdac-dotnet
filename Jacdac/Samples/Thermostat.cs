@@ -1,6 +1,9 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +11,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var thermometer = new TemperatureClient(bus, "temp");
             var relay = new RelayClient(bus, "relay");
             var lastCommand = DateTime.MinValue;
@@ -41,6 +45,7 @@ namespace Jacdac.Samples
                     Thread.Sleep(1000);
                 }
             };
+            #endregion
         }
     }
 }

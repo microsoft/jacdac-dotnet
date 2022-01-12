@@ -1,6 +1,9 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
 using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +11,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var led = new LedClient(bus, "led");
             led.Connected += (s, e) =>
             {
@@ -24,6 +28,7 @@ namespace Jacdac.Samples
                     Thread.Sleep(500);
                 }
             };
+            #endregion
         }
     }
 }

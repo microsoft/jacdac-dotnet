@@ -1,6 +1,8 @@
-﻿using Jacdac.Clients;
+﻿#region namespaces
+using Jacdac;
+using Jacdac.Clients;
 using System;
-using System.Threading;
+#endregion
 
 namespace Jacdac.Samples
 {
@@ -8,6 +10,7 @@ namespace Jacdac.Samples
     {
         public void Run(JDBus bus)
         {
+            #region sources
             var slider = new PotentiometerClient(bus, "slider");
             slider.Connected += (s, e) => Console.WriteLine("connected");
             slider.Disconnected += (s, e) => Console.WriteLine("connected");
@@ -16,6 +19,7 @@ namespace Jacdac.Samples
                 var position = slider.Position;
                 Console.WriteLine($"position: {position}");
             };
+            #endregion
         }
     }
 }
