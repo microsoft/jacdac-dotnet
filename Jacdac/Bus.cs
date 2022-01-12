@@ -17,7 +17,7 @@ namespace Jacdac
         public bool IsInfrastructure = false;
         public bool DisableRoleManager = false;
         public bool DisableLogger = false;
-        public bool DisableBrain = false;
+        public bool DisableUniqueBrain = false;
         public ISettingsStorage SettingsStorage;
         public ISettingsStorage RoleStorage;
         public JDServiceServer[] Services;

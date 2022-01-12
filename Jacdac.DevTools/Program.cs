@@ -53,7 +53,7 @@ JDBus CreateBus()
         {
             IsClient = false,
             IsInfrastructure = true,
-            DisableBrain = true,
+            DisableUniqueBrain = true,
             DisableRoleManager = true,
             DisableLogger = true,
         });

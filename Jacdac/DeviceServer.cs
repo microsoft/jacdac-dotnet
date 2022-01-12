@@ -30,7 +30,7 @@ namespace Jacdac
                 + (options.DisableLogger ? 0 : 1)
                 + (options.DisableRoleManager ? 0 : 1)
                 + (options.SettingsStorage == null ? 0 : 1)
-                + (options.DisableBrain ? 0 : 1)
+                + (options.DisableUniqueBrain ? 0 : 1)
                 + (options.IsInfrastructure ? 1 : 0)
                 + (options.IsProxy ? 1 : 0)
                 + (options.Services != null ? options.Services.Length : 0)];
@@ -42,7 +42,7 @@ namespace Jacdac
                 this.services[k++] = this.RoleManager = new RoleManagerServer(options.RoleStorage);
             if (options.SettingsStorage != null)
                 this.services[k++] = this.Settings = new SettingsServer(options.SettingsStorage);
-            if (!options.DisableBrain)
+            if (!options.DisableUniqueBrain)
                 this.services[k++] = new UniqueBrainServer();
             if (options.IsInfrastructure)
                 this.services[k++] = new InfrastructureServer();
