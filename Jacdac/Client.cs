@@ -320,6 +320,7 @@ namespace Jacdac
             var ev = this.ReadingChanged;
             if (ev != null)
                 this.ReadingChanged?.Invoke(this, EventArgs.Empty);
+            this.RaiseChanged();
         }
 
         /// <summary>
