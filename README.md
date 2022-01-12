@@ -42,6 +42,12 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
   - `Jacdac.Nano.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET nanoframework
   - `Jacdac.Nano.Clients`, service clients
 
+### Sample sources
+
+The samples are mostly foud in `./Jacdac/Samples` and cross-compiled into these projects:
+- `Jacdac.NET.Playground`, change the command line argument to match the sample type name
+- `Jacdac.TinyCLR.Playground`, change the sample type name in `Program.cs`
+
 ### Misc:
 
   - `Jacdac.DevTools`, a .NET Core web site/proxy to help with developing Jacdac applications
