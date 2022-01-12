@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.sh = nuget.sh
 		README.md = README.md
 		release.config.js = release.config.js
+		snippet.bat = snippet.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.Tests", "Jacdac.Tests\Jacdac.Tests.csproj", "{5540EEE8-5DA1-4FCF-9721-81E65E6244C3}"
