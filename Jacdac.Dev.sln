@@ -8,7 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF5CADE3-4BFB-4BEC-A09A-6D40110ADADE}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
-		nuget.sh = nuget.sh
+		Directory.Build.props = Directory.Build.props
+		pack.bat = pack.bat
+		publish.bat = publish.bat
 		README.md = README.md
 		release.config.js = release.config.js
 		snippet.bat = snippet.bat
