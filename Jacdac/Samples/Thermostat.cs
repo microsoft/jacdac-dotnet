@@ -16,7 +16,7 @@ namespace Jacdac.Samples
             var relay = new RelayClient(bus, "relay");
             var lastCommand = DateTime.MinValue;
             var desired = 21; // 21C
-            relay.Changed += (s, e) => Console.WriteLine($"relay: {(relay.Active ? "on" : "off")}");
+            //relay. += (s, e) => Console.WriteLine($"relay: {(relay.Active ? "on" : "off")}");
 
             thermometer.ReadingChanged += (s, e) =>
             {

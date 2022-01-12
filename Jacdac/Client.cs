@@ -16,14 +16,82 @@ namespace Jacdac
     public sealed class ClientEventArgs : EventArgs
     {
         readonly object[] Values;
-        internal ClientEventArgs(object[] values)
+        internal ClientEventArgs(object[] values = null)
         {
-            this.Values = values;
+            this.Values = values ?? PacketEncoding.Empty;
         }
     }
     public delegate void ClientEventHandler(Client sender, ClientEventArgs args);
 
-    public abstract class Client : JDNode
+    internal sealed class DebouncedClientEventHandler
+    {
+        public event ClientEventHandler Handler;
+
+        private readonly Client sender;
+        private object[] _lastMissedValues = null;
+        private Thread _thread;
+
+        public DebouncedClientEventHandler(Client sender)
+        {
+            this.sender = sender;
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return this.Handler == null;
+            }
+        }
+        public void BeginRaise(object[] values)
+        {
+            var ev = this.Handler;
+            if (ev == null) return;
+
+            lock (this.sender)
+            {
+                if (this._thread != null)
+                    this._lastMissedValues = values;
+                else
+                {
+                    this._lastMissedValues = null;
+                    this._thread = new Thread(() =>
+                    {
+                        try
+                        {
+                            var args = new ClientEventArgs(values);
+                            ev.Invoke(this.sender, args);
+                        }
+                        finally
+                        {
+                            var missed = this._lastMissedValues;
+                            this._thread = null;
+                            this._lastMissedValues = null;
+                            if (missed != null)
+                                this.BeginRaise(missed);
+                        }
+                    });
+                    this._thread.Start();
+                }
+            }
+        }
+    }
+
+    public static class ThreadExtensions
+    {
+        public static void BeginRaiseEvent(object @event, ThreadStart call)
+        {
+            if (@event == null) return; // optimization shortcut
+            Start(call);
+        }
+
+        public static void Start(ThreadStart call)
+        {
+            new Thread(call).Start();
+        }
+    }
+
+    public abstract class Client
     {
         public readonly string Name;
         public readonly uint ServiceClass;
@@ -76,13 +144,13 @@ namespace Jacdac
                         this._boundService = null;
                         old.EventRaised -= this.handleEventRaised;
                         if (old != null)
-                            this.Disconnected?.Invoke(this, new ServiceEventArgs(old));
+                            ThreadExtensions.BeginRaiseEvent(this.Disconnected, () => this.Disconnected?.Invoke(this, new ServiceEventArgs(old)));
                     }
                     this._boundService = value;
                     if (value != null)
                     {
                         value.EventRaised += this.handleEventRaised;
-                        this.Connected?.Invoke(this, new ServiceEventArgs(value));
+                        ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(value)));
                     }
                 }
             }
@@ -221,21 +289,15 @@ namespace Jacdac
         private void handleEventRaised(JDService service, EventRaisedArgs args)
         {
             var code = args.Event.Code;
-            var pkt = args.Packet;
             var events = this.events;
-            ClientEventArgs eargs = null;
             foreach (var ev in events)
             {
                 if (ev.Code == code)
                 {
-                    if (eargs == null)
-                        eargs = new ClientEventArgs(args.Event.Values);
-                    ev.Handler(this, eargs);
+                    ev.DebouncedHandler.BeginRaise(args.Event.Values);
+                    break;
                 }
             }
-
-            if (code == (ushort)SystemEvent.StatusCodeChanged)
-                this.RaiseChanged();
         }
 
         protected void AddEvent(ushort code, ClientEventHandler handler)
@@ -245,12 +307,16 @@ namespace Jacdac
             {
                 // don't double add
                 foreach (var ev in events)
-                    if (ev.Code == code && ev.Handler == handler)
+                    if (ev.Code == code)
+                    {
+                        ev.DebouncedHandler.Handler += handler;
                         return;
+                    }
 
                 var newEvents = new EventBinding[events.Length + 1];
                 events.CopyTo(newEvents, 0);
-                newEvents[events.Length] = new EventBinding(code, handler);
+                var newEvent = newEvents[events.Length] = new EventBinding(this, code);
+                newEvent.DebouncedHandler.Handler += handler;
                 this.events = newEvents;
             }
         }
@@ -262,14 +328,18 @@ namespace Jacdac
                 for (int i = 0; i < events.Length; i++)
                 {
                     var ev = events[i];
-                    if (ev.Code == code && ev.Handler == handler)
+                    if (ev.Code == code)
                     {
-                        // remove events
-                        var newEvents = new EventBinding[events.Length - 1];
-                        Array.Copy(events, 0, newEvents, 0, i);
-                        if (i + 1 < events.Length)
-                            Array.Copy(events, i + 1, newEvents, 0, events.Length - i - 1);
-                        this.events = newEvents;
+                        ev.DebouncedHandler.Handler -= handler;
+                        if (ev.DebouncedHandler.IsEmpty)
+                        {
+                            // remove events
+                            var newEvents = new EventBinding[events.Length - 1];
+                            Array.Copy(events, 0, newEvents, 0, i);
+                            if (i + 1 < events.Length)
+                                Array.Copy(events, i + 1, newEvents, 0, events.Length - i - 1);
+                            this.events = newEvents;
+                        }
                         break;
                     }
                 }
@@ -277,29 +347,34 @@ namespace Jacdac
             }
         }
 
-        struct EventBinding
+        sealed class EventBinding
         {
             public static EventBinding[] Empty = new EventBinding[0];
+
             public readonly ushort Code;
-            public readonly ClientEventHandler Handler;
-            public EventBinding(ushort code, ClientEventHandler handler)
+            public readonly DebouncedClientEventHandler DebouncedHandler;
+
+            public EventBinding(Client sender, ushort code)
             {
                 this.Code = code;
-                this.Handler = handler;
+                this.DebouncedHandler = new DebouncedClientEventHandler(sender);
             }
         }
     }
 
     public abstract class SensorClient : Client
     {
+        private readonly DebouncedClientEventHandler readingChanged;
+
         protected SensorClient(JDBus bus, string name, uint serviceClass)
             : base(bus, name, serviceClass)
         {
+            this.readingChanged = new DebouncedClientEventHandler(this);
             this.Connected += handleConnected;
             this.Disconnected += handleDisconnected;
         }
 
-        private void handleConnected(JDNode sender, ServiceEventArgs e)
+        private void handleConnected(object sender, ServiceEventArgs e)
         {
             var sensor = (SensorClient)sender;
             var service = e.Service;
@@ -307,7 +382,7 @@ namespace Jacdac
             register.Changed += handleRegisterChange;
         }
 
-        private void handleDisconnected(JDNode sender, ServiceEventArgs e)
+        private void handleDisconnected(object sender, ServiceEventArgs e)
         {
             var sensor = (SensorClient)sender;
             var service = e.Service;
@@ -315,17 +390,18 @@ namespace Jacdac
             register.Changed -= handleRegisterChange;
         }
 
-        private void handleRegisterChange(JDNode sender, EventArgs e)
+        private void handleRegisterChange(object sender, EventArgs e)
         {
-            var ev = this.ReadingChanged;
-            if (ev != null)
-                this.ReadingChanged?.Invoke(this, EventArgs.Empty);
-            this.RaiseChanged();
+            this.readingChanged.BeginRaise(PacketEncoding.Empty);
         }
 
         /// <summary>
         /// Raised when the value of the reading changed.
         /// </summary>
-        public event NodeEventHandler ReadingChanged;
+        public event ClientEventHandler ReadingChanged
+        {
+            add { this.readingChanged.Handler += value; }
+            remove { this.readingChanged.Handler -= value; }
+        }
     }
 }

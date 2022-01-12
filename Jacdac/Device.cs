@@ -7,6 +7,33 @@ namespace Jacdac
 {
     public sealed partial class JDDevice : JDBusNode
     {
+        static uint Fnv1(byte[] data)
+        {
+            var h = 0x811c9dc5;
+            for (var i = 0; i < data.Length; ++i)
+            {
+                h = (h * 0x1000193) ^ data[i];
+            }
+            return h;
+        }
+        static uint Hash(byte[] buf, int bits)
+        {
+            if (bits < 1) return 0;
+            var h = Fnv1(buf);
+            if (bits >= 32) return h >> 0;
+            else return (uint)((h ^ (h >> bits)) & ((1 << bits) - 1)) >> 0;
+        }
+        public static string ShortDeviceId(string devid)
+        {
+            var h = Hash(HexEncoding.ToBuffer(devid), 30);
+            return new String(new char[] {
+                (char)(0x41 + (h % 26)) ,
+                (char)(0x41 + ((h / 26) % 26)) ,
+                (char)(0x30 + ((h / (26 * 26)) % 10)) ,
+                (char)(0x30 + ((h / (26 * 26 * 10)) % 10))
+                });
+        }
+
         private JDBus bus;
         public readonly string DeviceId;
         public readonly string ShortId;
@@ -21,7 +48,7 @@ namespace Jacdac
         {
             this.bus = bus;
             this.DeviceId = deviceId;
-            this.ShortId = Util.ShortDeviceId(this.DeviceId);
+            this.ShortId = ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
             this._servicesData = Packet.EmptyData;
         }

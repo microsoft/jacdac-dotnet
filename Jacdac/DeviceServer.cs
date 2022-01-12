@@ -64,7 +64,7 @@ namespace Jacdac
 
         public string ShortId
         {
-            get { return Util.ShortDeviceId(this.DeviceId); }
+            get { return JDDevice.ShortDeviceId(this.DeviceId); }
         }
 
         public override string ToString()

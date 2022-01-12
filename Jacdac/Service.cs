@@ -187,32 +187,41 @@ namespace Jacdac
             return this.events;
         }
 
-        public JDEvent GetEvent(ushort code, bool createIfMissing = false)
+        public JDEvent GetEvent(ushort code)
+        {
+            JDEvent r;
+            if (!this.TryGetEvent(code, out r))
+            {
+                lock (this)
+                {
+                    if (!this.TryGetEvent(code, out r))
+                    {
+
+                        r = new JDEvent(this, code);
+                        var newEvents = new JDEvent[this.events.Length + 1];
+                        this.events.CopyTo(newEvents, 0);
+                        newEvents[newEvents.Length - 1] = r;
+                        this.events = newEvents;
+                    }
+                }
+            }
+            return r;
+        }
+
+        public bool TryGetEvent(ushort code, out JDEvent @event)
         {
             var events = this.events;
-            JDEvent r = null;
             for (var i = 0; i < events.Length; ++i)
             {
                 var reg = (JDEvent)events[i];
                 if (reg.Code == code)
                 {
-                    r = reg;
-                    break;
+                    @event = reg;
+                    return true;
                 }
             }
-
-            if (r == null && createIfMissing)
-            {
-                lock (this)
-                {
-                    r = new JDEvent(this, code);
-                    var newEvents = new JDEvent[this.events.Length + 1];
-                    this.events.CopyTo(newEvents, 0);
-                    newEvents[newEvents.Length - 1] = r;
-                    this.events = newEvents;
-                }
-            }
-            return r;
+            @event = null;
+            return false;
         }
 
         public event EventRaisedHandler EventRaised;
@@ -243,5 +252,5 @@ namespace Jacdac
         }
     }
 
-    public delegate void ServiceEventHandler(JDNode sender, ServiceEventArgs e);
+    public delegate void ServiceEventHandler(object sender, ServiceEventArgs e);
 }
