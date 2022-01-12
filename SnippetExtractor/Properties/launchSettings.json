@@ -2,7 +2,7 @@
   "profiles": {
     "SnippetExtractor": {
       "commandName": "Project",
-      "commandLineArgs": "../../../../Jacdac/Samples"
+      "commandLineArgs": "../../../../Jacdac/Samples ../../../../../src/pages/clients/dotnet/samples",
     }
   }
 }

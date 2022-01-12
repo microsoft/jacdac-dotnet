@@ -9,17 +9,21 @@ namespace SnippetExtractor
     {
         static void Main(string[] args)
         {
-            var input = args[0];
-            Console.WriteLine($"processing ${input}/*.cs -> .g.md");
+            var input = Path.GetFullPath(args[0]);
+            var output = Path.GetFullPath(args[1]);
+            Console.WriteLine($"processing ${input}/*.cs -> ${output}.g.cs");
+            if (!Directory.Exists(output))
+                Directory.CreateDirectory(output);
             foreach (var file in Directory.GetFiles(input, "*.cs"))
             {
-                ProcessFile(file);
+                ProcessFile(file, output);
             }
         }
 
-        static void ProcessFile(string file)
+        static void ProcessFile(string file, string output)
         {
-            Console.WriteLine($"  {file}");
+            var ofile = Path.GetFullPath(Path.Combine(output, Path.ChangeExtension(Path.GetFileName(file).ToLowerInvariant(), ".g.cs")));
+            Console.WriteLine($"  {file} -> ${ofile}");
             var csharp = File.ReadAllText(file);
             var lines = csharp.Split("\n");
             var namespaces = new List<string>();
@@ -67,8 +71,8 @@ namespace SnippetExtractor
 
             namespaces.Sort();
 
-            using var writer = new StreamWriter(File.OpenWrite(Path.ChangeExtension(file.ToLowerInvariant(), ".g.md")));
-            writer.WriteLine("```cs");
+            using var writer = new StreamWriter(File.OpenWrite(ofile));
+            //writer.WriteLine("```cs");
             foreach (var ns in namespaces)
                 writer.WriteLine(ns);
             writer.WriteLine();
@@ -76,7 +80,7 @@ namespace SnippetExtractor
             writer.WriteLine();
             foreach (var line in sources)
                 writer.WriteLine(line);
-            writer.WriteLine("```");
+            //writer.WriteLine("```");
 
         }
     }
