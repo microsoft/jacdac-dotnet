@@ -1,6 +1,5 @@
 using Jacdac;
 using Jacdac.Transports.Spi;
-using Jacdac.Transports.Usb;
 using Microsoft.AspNetCore.Connections;
 using System.Diagnostics;
 using System.Net;
@@ -74,12 +73,6 @@ foreach (var arg in args)
 {
     switch (arg)
     {
-        case "usb":
-            {
-                var b = CreateBus();
-                b.AddTransport(UsbTransport.Create());
-                break;
-            }
         case "spi":
             {
                 var b = CreateBus();

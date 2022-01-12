@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Spi",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.WebSockets", "Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj", "{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Transports.Usb", "Jacdac.NET.Transports.Usb\Jacdac.NET.Transports.Usb.csproj", "{A22A8043-5FE6-4304-88D6-C6267C257053}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.NET.Playground", "Jacdac.NET.Playground\Jacdac.NET.Playground.csproj", "{B9DE3032-1CAE-4AD2-969D-304657A22673}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.DevTools", "Jacdac.DevTools\Jacdac.DevTools.csproj", "{DAEB5ACD-399D-42E6-B0D8-B75A6BF2BB96}"
@@ -69,10 +67,6 @@ Global
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{174B4ADB-D1E5-4AB9-B461-C5673BC3514F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A22A8043-5FE6-4304-88D6-C6267C257053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A22A8043-5FE6-4304-88D6-C6267C257053}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A22A8043-5FE6-4304-88D6-C6267C257053}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A22A8043-5FE6-4304-88D6-C6267C257053}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9DE3032-1CAE-4AD2-969D-304657A22673}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9DE3032-1CAE-4AD2-969D-304657A22673}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9DE3032-1CAE-4AD2-969D-304657A22673}.Release|Any CPU.ActiveCfg = Release|Any CPU

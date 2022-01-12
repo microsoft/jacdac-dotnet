@@ -2,7 +2,6 @@
 using Jacdac.Samples;
 using Jacdac.Transports;
 using Jacdac.Transports.Spi;
-using Jacdac.Transports.Usb;
 using Jacdac.Transports.WebSockets;
 using System;
 using System.Threading;
@@ -36,10 +35,6 @@ namespace Jacdac.Playground
                     case "spi":
                         Console.WriteLine("adding spi connection");
                         bus.AddTransport(SpiTransport.Create());
-                        break;
-                    case "usb":
-                        Console.WriteLine("adding usb connection");
-                        bus.AddTransport(UsbTransport.Create());
                         break;
                     case "devtools":
                         Console.WriteLine("adding devtools connection");

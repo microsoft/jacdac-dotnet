@@ -8,7 +8,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="LibUsbDotNet" Version="2.2.29" />
+	  <PackageReference Include="Device.Net" Version="4.2.1" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
+	  <PackageReference Include="Usb.Net" Version="4.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
