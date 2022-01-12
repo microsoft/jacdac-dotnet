@@ -1,8 +1,10 @@
 using Jacdac;
 using Jacdac.Transports.Spi;
 using Jacdac.Transports.Usb;
+using Microsoft.AspNetCore.Connections;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Sockets;
 using System.Net.WebSockets;
 
 var port = 8081;
@@ -92,6 +94,21 @@ var resp = await new HttpClient().GetAsync("https://microsoft.github.io/jacdac-d
 resp.EnsureSuccessStatusCode();
 var proxySource = await resp.Content.ReadAsStringAsync();
 
+app.Lifetime.ApplicationStopping.Register(() =>
+{
+    lock (clients)
+    {
+        foreach (var client in clients)
+        {
+            try
+            {
+                client.Dispose();
+            }
+            catch { }
+        }
+        clients.Clear();
+    }
+});
 app.UseWebSockets();
 app.Use(async (context, next) =>
 {
@@ -102,24 +119,41 @@ app.Use(async (context, next) =>
             clients.Add(ws);
         var proxy = async () =>
             {
-                var buffer = new byte[512];
-                while (ws.State == WebSocketState.Open)
+                try
                 {
-                    // grab frame
-                    var result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                    var frame = buffer.Take(result.Count).ToArray();
-                    // dispatch to bus
-                    bus?.ProcessFrame(null, frame);
-                    // dispatch to other clients
-                    WebSocket[] cs;
-                    lock (clients)
-                        cs = clients.Where(client => client != ws).ToArray();
-                    SendFrame(cs, frame);
+                    var buffer = new byte[512];
+                    while (ws.State == WebSocketState.Open)
+                    {
+                        // grab frame
+                        var result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        var frame = buffer.Take(result.Count).ToArray();
+                        // dispatch to bus
+                        bus?.ProcessFrame(null, frame);
+                        // dispatch to other clients
+                        WebSocket[] cs;
+                        lock (clients)
+                            cs = clients.Where(client => client != ws).ToArray();
+                        SendFrame(cs, frame);
+                    }
                 }
-                // web socket closed, clean
-                lock (clients)
-                    clients.Remove(ws);
-                ws.Dispose();
+                catch (SocketException)
+                {
+
+                }
+                finally
+                {
+                    // web socket closed, clean
+                    lock (clients)
+                        clients.Remove(ws);
+                    try
+                    {
+
+                    }
+                    catch
+                    {
+                        ws.Dispose();
+                    }
+                }
             };
         await proxy();
     }
