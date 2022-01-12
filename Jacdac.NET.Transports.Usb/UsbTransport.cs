@@ -80,8 +80,7 @@ namespace Jacdac.Transports.Usb
 
         private void handleHF2FrameReceived(byte[] frame)
         {
-            if (this.FrameReceived != null)
-                this.FrameReceived.Invoke(this, frame);
+            this.FrameReceived?.Invoke(this, frame);
         }
 
         public USBDeviceDescription UsbDevice
