@@ -7,8 +7,8 @@ namespace Jacdac.Servers
 
     public class RealTimeClockServerOptions : JDServiceServerOptions
     {
-        public RealTimeClockVariant Variant;
-        public SetTimeHandler SetTime;
+        public RealTimeClockVariant Variant = Platform.RealTimeClock;
+        public SetTimeHandler SetTime = Platform.SetRealTime;
     }
 
     public sealed partial class RealTimeClockServer : JDServiceServer

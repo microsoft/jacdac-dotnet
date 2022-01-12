@@ -33,6 +33,7 @@ namespace Jacdac
             var revision = (ushort)((version >> 0) & 0xFFFF);
             Platform.FirmwareVersion = major + "." + minor + "." + build + "." + revision;
             Platform.RealTimeClock = RealTimeClockVariant.Crystal;
+            Platform.SetRealTime = (now) => SystemTime.SetTime(now);
             Platform.CreateClock = () =>
             {
                 var start = DateTime.Now;

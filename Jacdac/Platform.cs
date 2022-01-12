@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jacdac.Servers;
+using System;
 using System.IO;
 
 namespace Jacdac
@@ -16,6 +17,7 @@ namespace Jacdac
         public static string DeviceDescription;
         public static RealTimeClockVariant RealTimeClock = 0;
         public static ClockFactory CreateClock;
+        public static SetTimeHandler SetRealTime;
         public static Crc16Calculator Crc16 = (byte[] p, int start, int size) =>
         {
             ushort crc = 0xffff;

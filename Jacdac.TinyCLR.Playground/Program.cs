@@ -30,7 +30,7 @@ namespace Jacdac.Playground
             // Display enable
             Display.Enable();
 
-            var sampleName = "devicesniffer";
+            var sampleName = "buttontracker";
             var sample = SampleExtensions.GetSample(new string[] { sampleName });
             if (sample == null)
                 throw new InvalidOperationException("please select a sample to run");
@@ -75,7 +75,7 @@ namespace Jacdac.Playground
             var transport = new UartTransport(new JacdacSerialWireController(SC20260.UartPort.Uart4, new UartSetting { SwapTxRxPin = true }));
 
             //var serviceStorage = sdStorage.MountKeyStorage("servicestwins.json");
-            var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions { Variant = RealTimeClockVariant.Crystal });
+            var rtc = new RealTimeClockServer(() => DateTime.Now, new RealTimeClockServerOptions());
             servers.Add(rtc);
             var settingsStorage = sdStorage.MountSettingsStorage("settings.json");
             var settings = new SettingsServer(settingsStorage);
