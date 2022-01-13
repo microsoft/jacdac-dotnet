@@ -6,11 +6,18 @@ using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 
+var internet = args.Any(arg => arg == "--internet");
+var host = internet ? "*" : "localhost";
 var port = 8081;
+var url = $"http://{host}:{port}";
 
 Console.WriteLine("Jacdac DevTools");
-Console.WriteLine($"   dashboard: http://localhost:{port}");
-Console.WriteLine($"   websocket: ws://localhost:{port}");
+Console.WriteLine($"   dashboard: {url}");
+Console.WriteLine($"   websocket: ws://{host}:{port}");
+if (internet)
+    Console.WriteLine("WARNING: network access enabled");
+else
+    Console.WriteLine("Use --internet to access dashboard on the network");
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -163,4 +170,4 @@ app.Use(async (context, next) =>
     }
 
 });
-app.Run($"http://localhost:{port}/");
+app.Run(url);
