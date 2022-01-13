@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint CapacitiveButton = 0x2865adc9;
     }
-    public enum CapacitiveButtonReg {
+    public enum CapacitiveButtonReg : ushort {
         /// <summary>
         /// Read-write ratio u0.16 (uint16_t). Indicates the threshold for ``up`` events.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Threshold = "u0.16";
     }
 
-    public enum CapacitiveButtonCmd {
+    public enum CapacitiveButtonCmd : ushort {
         /// <summary>
         /// No args. Request to calibrate the capactive. When calibration is requested, the device expects that no object is touching the button.
         /// The report indicates the calibration is done.

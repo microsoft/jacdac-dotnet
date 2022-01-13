@@ -9,7 +9,7 @@ namespace Jacdac {
         InfraredAnalog = 0x2,
     }
 
-    public enum ReflectedLightReg {
+    public enum ReflectedLightReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). Reports the reflected brightness. It may be a digital value or, for some sensor, analog value.
         ///

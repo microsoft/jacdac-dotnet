@@ -19,7 +19,7 @@ namespace Jacdac {
         DoubleClick = 0x4,
     }
 
-    public enum HidMouseCmd {
+    public enum HidMouseCmd : ushort {
         /// <summary>
         /// Sets the up/down state of one or more buttons.
         /// A `Click` is the same as `Down` followed by `Up` after 100ms.

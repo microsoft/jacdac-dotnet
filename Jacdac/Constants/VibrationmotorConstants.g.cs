@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint VibrationMotor = 0x183fc4a2;
     }
-    public enum VibrationMotorCmd {
+    public enum VibrationMotorCmd : ushort {
         /// <summary>
         /// Starts a sequence of vibration and pauses. To stop any existing vibration, send an empty payload.
         ///

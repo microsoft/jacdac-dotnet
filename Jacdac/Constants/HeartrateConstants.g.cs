@@ -12,7 +12,7 @@ namespace Jacdac {
         WebCam = 0x5,
     }
 
-    public enum HeartRateReg {
+    public enum HeartRateReg : ushort {
         /// <summary>
         /// Read-only bpm u16.16 (uint32_t). The estimated heart rate.
         ///

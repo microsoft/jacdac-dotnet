@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint RainGauge = 0x13734c95;
     }
-    public enum RainGaugeReg {
+    public enum RainGaugeReg : ushort {
         /// <summary>
         /// Read-only mm u16.16 (uint32_t). Total precipitation recorded so far.
         ///

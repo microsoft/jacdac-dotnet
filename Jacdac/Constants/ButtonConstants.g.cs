@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Button = 0x1473a263;
     }
-    public enum ButtonReg {
+    public enum ButtonReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). Indicates the pressure state of the button, where `0` is open.
         ///
@@ -45,7 +45,7 @@ namespace Jacdac {
         public const string Pressed = "u8";
     }
 
-    public enum ButtonEvent {
+    public enum ButtonEvent : ushort {
         /// <summary>
         /// Emitted when button goes from inactive to active.
         /// </summary>

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint SoundLevel = 0x14ad1a5d;
     }
-    public enum SoundLevelReg {
+    public enum SoundLevelReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). The sound level detected by the microphone
         ///
@@ -63,7 +63,7 @@ namespace Jacdac {
         public const string QuietThreshold = "u0.16";
     }
 
-    public enum SoundLevelEvent {
+    public enum SoundLevelEvent : ushort {
         /// <summary>
         /// Raised when a loud sound is detected
         /// </summary>

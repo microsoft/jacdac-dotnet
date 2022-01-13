@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Illuminance = 0x1e6ecaf2;
     }
-    public enum IlluminanceReg {
+    public enum IlluminanceReg : ushort {
         /// <summary>
         /// Read-only lux u22.10 (uint32_t). The amount of illuminance, as lumens per square metre.
         ///

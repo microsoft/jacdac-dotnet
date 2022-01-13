@@ -10,7 +10,7 @@ namespace Jacdac {
         WebCrypto = 0x3,
     }
 
-    public enum RngReg {
+    public enum RngReg : ushort {
         /// <summary>
         /// Read-only bytes. A register that returns a 64 bytes random buffer on every request.
         /// This never blocks for a long time. If you need additional random bytes, keep querying the register.

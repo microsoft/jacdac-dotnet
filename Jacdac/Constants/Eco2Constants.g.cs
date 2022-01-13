@@ -9,7 +9,7 @@ namespace Jacdac {
         NDIR = 0x2,
     }
 
-    public enum ECO2Reg {
+    public enum ECO2Reg : ushort {
         /// <summary>
         /// Read-only ppm u22.10 (uint32_t). Equivalent CO₂ (eCO₂) readings.
         ///

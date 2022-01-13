@@ -10,7 +10,7 @@ namespace Jacdac {
         NonContactPhotoElectric = 0x3,
     }
 
-    public enum WaterLevelReg {
+    public enum WaterLevelReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). The reported water level.
         ///

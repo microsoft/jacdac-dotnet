@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint PulseOximeter = 0x10bb4eb6;
     }
-    public enum PulseOximeterReg {
+    public enum PulseOximeterReg : ushort {
         /// <summary>
         /// Read-only % u8.8 (uint16_t). The estimated oxygen level in blood.
         ///

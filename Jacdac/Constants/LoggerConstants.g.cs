@@ -12,7 +12,7 @@ namespace Jacdac {
         Silent = 0x4,
     }
 
-    public enum LoggerReg {
+    public enum LoggerReg : ushort {
         /// <summary>
         /// Read-write Priority (uint8_t). Messages with level lower than this won't be emitted. The default setting may vary.
         /// Loggers should revert this to their default setting if the register has not been
@@ -34,7 +34,7 @@ namespace Jacdac {
         public const string MinPriority = "u8";
     }
 
-    public enum LoggerCmd {
+    public enum LoggerCmd : ushort {
         /// <summary>
         /// Argument: message string (bytes). Report a message.
         ///

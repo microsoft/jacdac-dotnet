@@ -2,7 +2,7 @@ namespace Jacdac {
     public static partial class ServiceClasses
     {
     }
-    public enum BaseCmd {
+    public enum BaseCmd : ushort {
         /// <summary>
         /// This report may be emitted by a server in response to a command (action or register operation)
         /// that it does not understand.
@@ -23,7 +23,7 @@ namespace Jacdac {
         public const string CommandNotImplemented = "u16 u16";
     }
 
-    public enum BaseReg {
+    public enum BaseReg : ushort {
         /// <summary>
         /// Constant string (bytes). A friendly name that describes the role of this service instance in the device.
         /// It often corresponds to what's printed on the device:
@@ -62,7 +62,7 @@ namespace Jacdac {
         public const string StatusCode = "u16 u16";
     }
 
-    public enum BaseEvent {
+    public enum BaseEvent : ushort {
         /// <summary>
         /// Notifies that the status code of the service changed.
         ///

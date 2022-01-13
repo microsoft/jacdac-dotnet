@@ -10,7 +10,7 @@ namespace Jacdac {
         Cuckoo = 0x3,
     }
 
-    public enum RealTimeClockReg {
+    public enum RealTimeClockReg : ushort {
         /// <summary>
         /// Current time in 24h representation.
         ///
@@ -70,7 +70,7 @@ namespace Jacdac {
         public const string Variant = "u8";
     }
 
-    public enum RealTimeClockCmd {
+    public enum RealTimeClockCmd : ushort {
         /// <summary>
         /// Sets the current time and resets the error.
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint SevenSegmentDisplay = 0x196158f7;
     }
-    public enum SevenSegmentDisplayReg {
+    public enum SevenSegmentDisplayReg : ushort {
         /// <summary>
         /// Read-write bytes. Each byte encodes the display status of a digit using,
         /// where bit 0 encodes segment `A`, bit 1 encodes segments `B`, ..., bit 6 encodes segments `G`, and bit 7 encodes the decimal point (if present).
@@ -81,7 +81,7 @@ namespace Jacdac {
         public const string DecimalPoint = "u8";
     }
 
-    public enum SevenSegmentDisplayCmd {
+    public enum SevenSegmentDisplayCmd : ushort {
         /// <summary>
         /// Argument: value f64 (uint64_t). Shows the number on the screen using the decimal dot if available.
         /// </summary>

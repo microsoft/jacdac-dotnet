@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Gyroscope = 0x1e1b06f2;
     }
-    public enum GyroscopeReg {
+    public enum GyroscopeReg : ushort {
         /// <summary>
         /// Indicates the current rates acting on gyroscope.
         ///

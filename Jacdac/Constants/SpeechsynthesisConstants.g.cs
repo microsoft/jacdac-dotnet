@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint SpeechSynthesis = 0x1204d995;
     }
-    public enum SpeechSynthesisReg {
+    public enum SpeechSynthesisReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Determines if the speech engine is in a non-paused state.
         ///
@@ -77,7 +77,7 @@ namespace Jacdac {
         public const string Rate = "u16.16";
     }
 
-    public enum SpeechSynthesisCmd {
+    public enum SpeechSynthesisCmd : ushort {
         /// <summary>
         /// Argument: text string (bytes). Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.
         ///

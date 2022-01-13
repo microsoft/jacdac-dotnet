@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint WindDirection = 0x186be92b;
     }
-    public enum WindDirectionReg {
+    public enum WindDirectionReg : ushort {
         /// <summary>
         /// Read-only ° uint16_t. The direction of the wind.
         ///

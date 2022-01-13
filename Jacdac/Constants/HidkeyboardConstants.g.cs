@@ -24,7 +24,7 @@ namespace Jacdac {
         Down = 0x2,
     }
 
-    public enum HidKeyboardCmd {
+    public enum HidKeyboardCmd : ushort {
         /// <summary>
         /// Presses a key or a sequence of keys down.
         ///

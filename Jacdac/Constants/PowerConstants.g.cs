@@ -11,7 +11,7 @@ namespace Jacdac {
         Overprovision = 0x3,
     }
 
-    public enum PowerReg {
+    public enum PowerReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Can be used to completely disable the service.
         /// When allowed, the service may still not be providing power, see
@@ -150,14 +150,14 @@ namespace Jacdac {
         public const string KeepOnPulsePeriod = "u16";
     }
 
-    public enum PowerCmd {
+    public enum PowerCmd : ushort {
         /// <summary>
         /// No args. Sent by the power service periodically, as broadcast.
         /// </summary>
         Shutdown = 0x80,
     }
 
-    public enum PowerEvent {
+    public enum PowerEvent : ushort {
         /// <summary>
         /// Argument: power_status PowerStatus (uint8_t). Emitted whenever `power_status` changes.
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint ProtoTest = 0x16c7466a;
     }
-    public enum ProtoTestReg {
+    public enum ProtoTestReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). A read write bool register.
         ///
@@ -203,7 +203,7 @@ namespace Jacdac {
         public const string RoU8String = "u8 s";
     }
 
-    public enum ProtoTestEvent {
+    public enum ProtoTestEvent : ushort {
         /// <summary>
         /// Argument: bo bool (uint8_t). An event raised when rw_bool is modified
         ///
@@ -305,7 +305,7 @@ namespace Jacdac {
         public const string EU8String = "u8 s";
     }
 
-    public enum ProtoTestCmd {
+    public enum ProtoTestCmd : ushort {
         /// <summary>
         /// Argument: bo bool (uint8_t). A command to set rw_bool.
         ///

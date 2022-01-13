@@ -9,7 +9,7 @@ namespace Jacdac {
         Braille = 0x2,
     }
 
-    public enum DotMatrixReg {
+    public enum DotMatrixReg : ushort {
         /// <summary>
         /// Read-write bytes. The state of the screen where dot on/off state is
         /// stored as a bit, column by column. The column should be byte aligned.

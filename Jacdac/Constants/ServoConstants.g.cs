@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Servo = 0x12fc9103;
     }
-    public enum ServoReg {
+    public enum ServoReg : ushort {
         /// <summary>
         /// Read-write ° i16.16 (int32_t). Specifies the angle of the arm (request).
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Flex = 0x1f47c6c6;
     }
-    public enum FlexReg {
+    public enum FlexReg : ushort {
         /// <summary>
         /// Read-only ratio i1.15 (int16_t). A measure of the bending.
         ///

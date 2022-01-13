@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients
+namespace Jacdac.Clients 
 {
     /// <summary>
     /// Controls a HID mouse.
@@ -17,7 +17,7 @@ namespace Jacdac.Clients
         }
 
 
-
+        
         /// <summary>
         /// Sets the up/down state of one or more buttons.
         /// A `Click` is the same as `Down` followed by `Up` after 100ms.
@@ -28,7 +28,7 @@ namespace Jacdac.Clients
             this.SendCmdPacked((ushort)HidMouseCmd.SetButton, HidMouseCmdPack.SetButton, new object[] { buttons, ev });
         }
 
-
+        
         /// <summary>
         /// Moves the mouse by the distance specified.
         /// If the time is positive, it specifies how long to make the move.
@@ -38,7 +38,7 @@ namespace Jacdac.Clients
             this.SendCmdPacked((ushort)HidMouseCmd.Move, HidMouseCmdPack.Move, new object[] { dx, dy, time });
         }
 
-
+        
         /// <summary>
         /// Turns the wheel up or down. Positive if scrolling up.
         /// If the time is positive, it specifies how long to make the move.

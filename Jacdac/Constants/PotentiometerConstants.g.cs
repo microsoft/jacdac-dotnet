@@ -9,7 +9,7 @@ namespace Jacdac {
         Rotary = 0x2,
     }
 
-    public enum PotentiometerReg {
+    public enum PotentiometerReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). The relative position of the slider.
         ///

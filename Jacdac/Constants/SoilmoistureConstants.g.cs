@@ -9,7 +9,7 @@ namespace Jacdac {
         Capacitive = 0x2,
     }
 
-    public enum SoilMoistureReg {
+    public enum SoilMoistureReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). Indicates the wetness of the soil, from `dry` to `wet`.
         ///

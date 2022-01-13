@@ -13,7 +13,7 @@ namespace Jacdac {
         I32 = 0xa0,
     }
 
-    public enum SensorAggregatorReg {
+    public enum SensorAggregatorReg : ushort {
         /// <summary>
         /// Set automatic input collection.
         /// These settings are stored in flash.

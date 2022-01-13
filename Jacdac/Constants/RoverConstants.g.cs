@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Rover = 0x19f4d06b;
     }
-    public enum RoverReg {
+    public enum RoverReg : ushort {
         /// <summary>
         /// The current position and orientation of the robot.
         ///

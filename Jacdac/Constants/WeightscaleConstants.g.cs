@@ -10,7 +10,7 @@ namespace Jacdac {
         Jewelry = 0x3,
     }
 
-    public enum WeightScaleReg {
+    public enum WeightScaleReg : ushort {
         /// <summary>
         /// Read-only kg u16.16 (uint32_t). The reported weight.
         ///
@@ -127,7 +127,7 @@ namespace Jacdac {
         public const string Variant = "u8";
     }
 
-    public enum WeightScaleCmd {
+    public enum WeightScaleCmd : ushort {
         /// <summary>
         /// No args. Call this command when there is nothing on the scale. If supported, the module should save the calibration data.
         /// </summary>

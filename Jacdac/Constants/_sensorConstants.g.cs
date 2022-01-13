@@ -2,7 +2,7 @@ namespace Jacdac {
     public static partial class ServiceClasses
     {
     }
-    public enum SensorReg {
+    public enum SensorReg : ushort {
         /// <summary>
         /// Read-write # uint8_t. Asks device to stream a given number of samples
         /// (clients will typically write `255` to this register every second or so, while streaming is required).

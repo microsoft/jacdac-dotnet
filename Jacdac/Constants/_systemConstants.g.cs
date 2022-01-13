@@ -20,7 +20,7 @@ namespace Jacdac {
         CalibrationNeeded = 0x64,
     }
 
-    public enum SystemCmd {
+    public enum SystemCmd : ushort {
         /// <summary>
         /// No args. Enumeration data for control service; service-specific advertisement data otherwise.
         /// Control broadcasts it automatically every ``announce_interval``ms, but other service have to be queried to provide it.
@@ -64,7 +64,7 @@ namespace Jacdac {
         public const string CommandNotImplemented = "u16 u16";
     }
 
-    public enum SystemReg {
+    public enum SystemReg : ushort {
         /// <summary>
         /// Read-write uint32_t. This is either binary on/off (0 or non-zero), or can be gradual (eg. brightness of an RGB LED strip).
         ///
@@ -357,7 +357,7 @@ namespace Jacdac {
         public const string InstanceName = "s";
     }
 
-    public enum SystemEvent {
+    public enum SystemEvent : ushort {
         /// <summary>
         /// Notifies that the service has been activated (eg. button pressed, network connected, etc.)
         /// </summary>

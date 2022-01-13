@@ -12,7 +12,7 @@ namespace Jacdac {
         NotPageAligned = 0x4,
     }
 
-    public enum BootloaderCmd {
+    public enum BootloaderCmd : ushort {
         /// <summary>
         /// No args. The `service_class` is always `0x1ffa9948`. The `product_identifer` identifies the kind of firmware
         /// that "fits" this device.

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Tvoc = 0x12a5b597;
     }
-    public enum TvocReg {
+    public enum TvocReg : ushort {
         /// <summary>
         /// Read-only ppb u22.10 (uint32_t). Total volatile organic compound readings in parts per billion.
         ///

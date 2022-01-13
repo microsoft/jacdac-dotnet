@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint ArcadeSound = 0x1fc63606;
     }
-    public enum ArcadeSoundCmd {
+    public enum ArcadeSoundCmd : ushort {
         /// <summary>
         /// Argument: samples bytes. Play samples, which are single channel, signed 16-bit little endian values.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Play = "b";
     }
 
-    public enum ArcadeSoundReg {
+    public enum ArcadeSoundReg : ushort {
         /// <summary>
         /// Read-write Hz u22.10 (uint32_t). Get or set playback sample rate (in samples per second).
         /// If you set it, read it back, as the value may be rounded up or down.

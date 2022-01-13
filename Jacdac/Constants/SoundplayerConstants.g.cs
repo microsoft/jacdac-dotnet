@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint SoundPlayer = 0x1403d338;
     }
-    public enum SoundPlayerReg {
+    public enum SoundPlayerReg : ushort {
         /// <summary>
         /// Read-write ratio u0.16 (uint16_t). Global volume of the output. ``0`` means completely off. This volume is mixed with each play volumes.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Volume = "u0.16";
     }
 
-    public enum SoundPlayerCmd {
+    public enum SoundPlayerCmd : ushort {
         /// <summary>
         /// Argument: name string (bytes). Starts playing a sound.
         ///

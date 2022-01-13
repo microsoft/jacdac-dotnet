@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Bridge = 0x1fe5b46f;
     }
-    public enum BridgeReg {
+    public enum BridgeReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Enables or disables the bridge.
         ///

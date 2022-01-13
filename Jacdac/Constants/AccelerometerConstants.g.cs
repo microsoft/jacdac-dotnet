@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Accelerometer = 0x1f140409;
     }
-    public enum AccelerometerReg {
+    public enum AccelerometerReg : ushort {
         /// <summary>
         /// Indicates the current forces acting on accelerometer.
         ///
@@ -64,7 +64,7 @@ namespace Jacdac {
         public const string MaxForcesSupported = "r: u12.20";
     }
 
-    public enum AccelerometerEvent {
+    public enum AccelerometerEvent : ushort {
         /// <summary>
         /// Emitted when accelerometer is tilted in the given direction.
         /// </summary>

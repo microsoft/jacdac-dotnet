@@ -19,7 +19,7 @@ namespace Jacdac {
         Matrix = 0x5,
     }
 
-    public enum LedPixelReg {
+    public enum LedPixelReg : ushort {
         /// <summary>
         /// Read-write ratio u0.8 (uint8_t). Set the luminosity of the strip.
         /// At `0` the power to the strip is completely shut down.
@@ -160,7 +160,7 @@ namespace Jacdac {
         public const string Variant = "u8";
     }
 
-    public enum LedPixelCmd {
+    public enum LedPixelCmd : ushort {
         /// <summary>
         /// Argument: program bytes. Run the given light "program". See service description for details.
         ///

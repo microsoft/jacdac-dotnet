@@ -19,7 +19,7 @@ namespace Jacdac {
         IEEE_802_LongRange = 0x8000,
     }
 
-    public enum WifiCmd {
+    public enum WifiCmd : ushort {
         /// <summary>
         /// Argument: results pipe (bytes). Return list of WiFi network from the last scan.
         /// Scans are performed periodically while not connected (in particular, on startup and after current connection drops),
@@ -142,7 +142,7 @@ namespace Jacdac {
         public const string NetworkResults = "i16 i16 s";
     }
 
-    public enum WifiReg {
+    public enum WifiReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Determines whether the WiFi radio is enabled. It starts enabled upon reset.
         ///
@@ -217,7 +217,7 @@ namespace Jacdac {
         public const string Rssi = "i8";
     }
 
-    public enum WifiEvent {
+    public enum WifiEvent : ushort {
         /// <summary>
         /// Emitted upon successful join and IP address assignment.
         /// </summary>

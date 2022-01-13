@@ -9,7 +9,7 @@ namespace Jacdac {
         ReverseBiasedLED = 0x2,
     }
 
-    public enum LightLevelReg {
+    public enum LightLevelReg : ushort {
         /// <summary>
         /// Read-only ratio u0.16 (uint16_t). Detect light level
         ///

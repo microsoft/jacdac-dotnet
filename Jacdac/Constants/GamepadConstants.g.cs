@@ -28,7 +28,7 @@ namespace Jacdac {
         Gamepad = 0x4,
     }
 
-    public enum GamepadReg {
+    public enum GamepadReg : ushort {
         /// <summary>
         /// If the joystick is analog, the directional buttons should be "simulated", based on joystick position
         /// (`Left` is `{ x = -1, y = 0 }`, `Up` is `{ x = 0, y = -1}`).
@@ -79,7 +79,7 @@ namespace Jacdac {
         public const string ButtonsAvailable = "u32";
     }
 
-    public enum GamepadEvent {
+    public enum GamepadEvent : ushort {
         /// <summary>
         /// Argument: buttons Buttons (uint32_t). Emitted whenever the state of buttons changes.
         ///

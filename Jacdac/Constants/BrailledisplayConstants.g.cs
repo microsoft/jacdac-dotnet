@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint BrailleDisplay = 0x13bfb7cc;
     }
-    public enum BrailleDisplayReg {
+    public enum BrailleDisplayReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Determins if the braille display is active.
         ///

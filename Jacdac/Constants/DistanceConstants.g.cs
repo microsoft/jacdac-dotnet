@@ -11,7 +11,7 @@ namespace Jacdac {
         Laser = 0x4,
     }
 
-    public enum DistanceReg {
+    public enum DistanceReg : ushort {
         /// <summary>
         /// Read-only m u16.16 (uint32_t). Current distance from the object
         ///

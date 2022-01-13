@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Color = 0x1630d567;
     }
-    public enum ColorReg {
+    public enum ColorReg : ushort {
         /// <summary>
         /// Detected color in the RGB color space.
         ///

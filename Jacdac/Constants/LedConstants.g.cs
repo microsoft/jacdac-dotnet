@@ -11,7 +11,7 @@ namespace Jacdac {
         Bead = 0x4,
     }
 
-    public enum LedCmd {
+    public enum LedCmd : ushort {
         /// <summary>
         /// This has the same semantics as `set_status_light` in the control service.
         ///
@@ -29,7 +29,7 @@ namespace Jacdac {
         public const string Animate = "u8 u8 u8 u8";
     }
 
-    public enum LedReg {
+    public enum LedReg : ushort {
         /// <summary>
         /// The current color of the LED.
         ///
