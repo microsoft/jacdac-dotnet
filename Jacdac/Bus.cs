@@ -38,7 +38,6 @@ namespace Jacdac
         public readonly JDDeviceServer SelfDeviceServer;
         private readonly Clock clock;
 
-        public bool IsClient;
         public bool IsPassive;
         public bool IsStreaming;
         public LoggerPriority DefaultMinLoggerPriority;
@@ -54,7 +53,6 @@ namespace Jacdac
                 options = new JDBusOptions();
 
             this.clock = Platform.CreateClock();
-            this.IsClient = options.IsClient;
             this.IsPassive = options.IsPassive;
             this.SpecificationCatalog = options.SpecificationCatalog;
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);

@@ -138,7 +138,7 @@ namespace Jacdac
         public void SendGet(bool ack = false)
         {
             var bus = this.Bus;
-            if (this.NotImplemented || bus == null) return;
+            if (this.NotImplemented || bus == null || bus.SelfDeviceServer.IsProxy) return;
 
             this.LastGetAttempts++;
             if (this.LastGetAttempts > 5)

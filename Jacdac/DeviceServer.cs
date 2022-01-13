@@ -16,6 +16,7 @@ namespace Jacdac
         private byte packetCount = 0;
         private JDServiceServer[] services;
         public bool IsClient;
+        public bool IsProxy;
         private ushort eventCounter = 0;
 
         public JDDeviceServer(JDBus bus, string deviceId, JDBusOptions options)
@@ -25,6 +26,7 @@ namespace Jacdac
             this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
+            this.IsProxy = options.IsProxy;
             this.services = new JDServiceServer[
                 1 // control
                 + (options.DisableLogger ? 0 : 1)

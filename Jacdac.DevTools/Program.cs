@@ -122,6 +122,7 @@ namespace Jacdac.DevTools
                 var bus = new JDBus(spiTransport, new JDBusOptions
                 {
                     IsClient = false,
+                    IsProxy = true,
                     IsInfrastructure = true,
                     DisableUniqueBrain = true,
                     DisableRoleManager = true,
