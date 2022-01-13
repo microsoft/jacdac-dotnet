@@ -35,6 +35,30 @@ namespace Jacdac
             var spec = this.Specification;
             if (spec != null)
                 return spec.name;
+
+            /*
+            if (Platform.UseReflectionMetadata)
+            {
+                var serviceClass = this.Service.ServiceClass;
+                var fields = typeof(ServiceClasses).GetFields();
+                foreach (var field in fields)
+                    if (field.FieldType == typeof(uint) && (uint)field.GetValue(null) == serviceClass)
+                    {
+                        var regTypeName = field.Name + "Reg";
+                        foreach (var regType in typeof(ServiceClasses).Assembly.GetTypes())
+                        {
+                            if (regType.IsEnum && regType.Name == regTypeName)
+                            {
+                                var enumValues = regType..GetEnumValues();
+                                foreach (var enumValue in enumValues)
+                                    if (enumField.IsLiteral && enumField.FieldType == typeof(ushort) && (ushort)enumField.GetValue(null) == this.Code)
+                                        return enumField.Name.ToLower();
+                            }
+                        }
+                    }
+            }
+            */
+
             return $"0x{ this.Code.ToString("x2")}";
         }
 
@@ -50,9 +74,8 @@ namespace Jacdac
 
         public override string ToString()
         {
-            var spec = this.Specification;
-            var descr = spec == null ? $"0x{this.Code.ToString("x2")}" : spec.name;
-            return $"{this.Service.ToString()}[{descr}]";
+            var name = this.Name;
+            return $"{this.Service.ToString()}[{name}]";
         }
 
         public string GetHumanValue()

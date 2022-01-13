@@ -57,10 +57,13 @@ namespace Jacdac
             if (spec != null)
                 return spec.name;
 
-            var fields = typeof(Jacdac.ServiceClasses).GetFields();
-            foreach (var field in fields)
-                if (field.FieldType == typeof(uint) && (uint)field.GetValue(null) == this.ServiceClass)
-                    return field.Name.ToLower();
+            if (Platform.UseReflectionMetadata)
+            {
+                var fields = typeof(Jacdac.ServiceClasses).GetFields();
+                foreach (var field in fields)
+                    if (field.FieldType == typeof(uint) && (uint)field.GetValue(null) == this.ServiceClass)
+                        return field.Name.ToLower();
+            }
 
             return $"0x{ this.ServiceClass.ToString("x8")}";
         }
