@@ -1,6 +1,8 @@
 ﻿using Jacdac.Servers;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace Jacdac
@@ -78,6 +80,41 @@ namespace Jacdac
         public override string ToString()
         {
             return $"bus ({this.devices.Length} devices)";
+        }
+
+        public string Describe()
+        {
+            var build = new StringBuilder();
+            var transports = this.transports;
+            var devices = this.devices;
+
+            build.AppendLine(this.ToString());
+            build.AppendLine("transports:");
+            foreach (var transport in transports)
+            {
+                build.AppendLine($"  {transport}");
+            }
+            build.AppendLine("devices:");
+            foreach (var device in devices)
+            {
+                build.AppendLine($"  {device}");
+                var services = device.GetServices();
+                foreach (var service in services)
+                {
+                    build.AppendLine($"      {service}");
+                    var registers = service.GetRegisters();
+                    foreach (var register in registers)
+                        build.AppendLine($"        {register}");
+                }
+            }
+            if (this.RoleManager != null)
+            {
+                build.AppendLine("clients:");
+                var clients = this.RoleManager.Roles;
+                foreach (var client in clients)
+                    build.AppendLine($"  {client}");
+            }
+            return build.ToString();
         }
         public void AddTransport(Transport transport)
         {

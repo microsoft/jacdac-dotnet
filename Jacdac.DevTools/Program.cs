@@ -74,8 +74,12 @@ if (spi)
         DisableRoleManager = true,
         DisableLogger = true,
     });
-    bus.DeviceConnected += (sender, device) => Debug.WriteLine($"{device.Device} connected");
-    bus.DeviceDisconnected += (sender, device) => Debug.WriteLine($"{device.Device} disconnected");
+    bus.DeviceConnected += (s, e) =>
+    {
+        Console.WriteLine($"device connected: {e.Device}");
+        e.Device.Restarted += (s2, e2) => Console.WriteLine($"device restarted: {e.Device}");
+    };
+    bus.DeviceDisconnected += (sender, device) => Console.WriteLine($"device disconnected: {device.Device}");
     bus.FrameSent += (sender, frame) =>
     {
         WebSocket[] cs;

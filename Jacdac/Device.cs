@@ -98,7 +98,7 @@ namespace Jacdac
         {
             var ctrl = this.GetService(0);
             if (ctrl != null)
-                ctrl.SendPacket(Packet.FromCmd((ushort)Jacdac.ControlCmd.Reset));
+                ctrl.SendPacket(Packet.FromCmd((ushort)ControlCmd.Reset));
         }
 
         public void Identify()

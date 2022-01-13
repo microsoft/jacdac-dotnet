@@ -43,7 +43,7 @@ namespace Jacdac.Servers
 
         public Client[] Roles
         {
-            get { return this.Roles; }
+            get { return this.roles; }
         }
 
         private void handleAllRolesAllocatedChanged(JDNode sender, EventArgs e)

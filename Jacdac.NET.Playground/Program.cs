@@ -4,6 +4,7 @@ using Jacdac.Transports;
 using Jacdac.Transports.Spi;
 using Jacdac.Transports.WebSockets;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace Jacdac.Playground
@@ -23,7 +24,11 @@ namespace Jacdac.Playground
             {
                 SpecificationCatalog = new ServiceSpecificationCatalog()
             });
-            bus.DeviceConnected += (s, e) => Console.WriteLine($"device connected: {e.Device}");
+            bus.DeviceConnected += (s, e) =>
+            {
+                Console.WriteLine($"device connected: {e.Device}");
+                e.Device.Restarted += (s2, e2) => Console.WriteLine($"device restarted: {e.Device}");
+            };
             bus.DeviceDisconnected += (s, e) => Console.WriteLine($"device disconnected: {e.Device}");
             bus.RoleManager.Connected += (s, e) => Console.WriteLine($"roles connected");
             bus.RoleManager.Disconnected += (s, e) => Console.WriteLine($"roles connected");
@@ -53,9 +58,7 @@ namespace Jacdac.Playground
             // stats
             new Timer(state =>
             {
-                Console.WriteLine(bus);
-                foreach (var transport in bus.Transports)
-                    Console.WriteLine(transport);
+                Console.WriteLine(bus.Describe());
             }, null, 1000, 15000);
 
             //  run test
