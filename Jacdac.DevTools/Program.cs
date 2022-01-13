@@ -7,23 +7,26 @@ using System.Net.Sockets;
 using System.Net.WebSockets;
 
 var internet = args.Any(arg => arg == "--internet");
+var spi = args.Any(arg => arg == "--spi");
 var host = internet ? "*" : "localhost";
 var port = 8081;
 var url = $"http://{host}:{port}";
 
 Console.WriteLine("Jacdac DevTools (.NET)");
+Console.WriteLine("");
+Console.WriteLine("  --spi       enable SPI transport");
+Console.WriteLine("  --internet  bind all network interfaces");
+Console.WriteLine("");
 Console.WriteLine($"   dashboard: {url}");
 Console.WriteLine($"   websocket: ws://{host}:{port}");
 if (internet)
 {
-    Console.WriteLine("WARNING: all network interfaces enabled");
+    Console.WriteLine("WARNING: all network interfaces bound");
     var server = Dns.GetHostName();
     var heserver = Dns.GetHostEntry(server);
     foreach (var ip in heserver.AddressList)
         Console.WriteLine($"  {ip}");
 }
-else
-    Console.WriteLine("Use --internet to enable all network interfaces");
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -83,18 +86,12 @@ JDBus CreateBus()
     }
     return bus;
 }
-foreach (var arg in args)
+
+if (spi)
 {
-    switch (arg)
-    {
-        case "spi":
-            {
-                var b = CreateBus();
-                Console.WriteLine("adding SPI transport");
-                b.AddTransport(SpiTransport.Create());
-                break;
-            }
-    }
+    var b = CreateBus();
+    Console.WriteLine("adding SPI transport");
+    b.AddTransport(SpiTransport.Create());
 }
 
 // download proxy code
