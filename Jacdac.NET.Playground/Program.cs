@@ -50,6 +50,14 @@ namespace Jacdac.Playground
                 }
             }
 
+            // stats
+            new Timer(state =>
+            {
+                Console.WriteLine(bus);
+                foreach (var transport in bus.Transports)
+                    Console.WriteLine(transport);
+            }, null, 1000, 15000);
+
             //  run test
             new Thread(state => sample.Run(bus)).Start();
             Thread.Sleep(Timeout.Infinite);

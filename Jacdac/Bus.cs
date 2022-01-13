@@ -75,6 +75,10 @@ namespace Jacdac
         /// </summary>
         public RoleManagerServer RoleManager { get { return this.SelfDeviceServer?.RoleManager; } }
 
+        public override string ToString()
+        {
+            return $"bus ({this.devices.Length} devices)";
+        }
         public void AddTransport(Transport transport)
         {
             if (transport == null)

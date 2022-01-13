@@ -119,17 +119,9 @@ namespace Jacdac
             }
             else if (pkt.IsCommand)
             {
-                this.InvalidateRegisterValues(pkt);
                 if (this.CommandReceived != null)
                     this.CommandReceived.Invoke(this, new PacketEventArgs(pkt));
             }
-        }
-
-        private void InvalidateRegisterValues(Packet pkt)
-        {
-            var registers = this.registers;
-            for (var i = 0; i < registers.Length; i++)
-                registers[i].LastGetTimestamp = TimeSpan.Zero;
         }
 
         public void SendPacket(Packet pkt)

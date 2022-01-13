@@ -8,6 +8,7 @@ using System.Net.WebSockets;
 
 var internet = args.Any(arg => arg == "--internet");
 var spi = args.Any(arg => arg == "--spi");
+var stats = args.Any(arg => arg == "--stats");
 var host = internet ? "*" : "localhost";
 var port = 8081;
 var url = $"http://{host}:{port}";
@@ -16,6 +17,7 @@ Console.WriteLine("Jacdac DevTools (.NET)");
 Console.WriteLine("");
 Console.WriteLine("  --spi       enable SPI transport");
 Console.WriteLine("  --internet  bind all network interfaces");
+Console.WriteLine("  --stats     show various stats");
 Console.WriteLine("");
 Console.WriteLine($"   dashboard: {url}");
 Console.WriteLine($"   websocket: ws://{host}:{port}");
@@ -59,39 +61,36 @@ void SendFrame(WebSocket[] cs, byte[] frame)
         }).ToArray());
 }
 
-// start bus if transport needed
 JDBus? bus = null;
-JDBus CreateBus()
-{
-    if (bus == null)
-    {
-        Console.WriteLine("starting Jacdac bus...");
-        bus = new JDBus(null, new JDBusOptions
-        {
-            IsClient = false,
-            IsInfrastructure = true,
-            DisableUniqueBrain = true,
-            DisableRoleManager = true,
-            DisableLogger = true,
-        });
-        bus.DeviceConnected += (sender, device) => Debug.WriteLine($"{device.Device} connected");
-        bus.DeviceDisconnected += (sender, device) => Debug.WriteLine($"{device.Device} disconnected");
-        bus.FrameSent += (sender, frame) =>
-        {
-            WebSocket[] cs;
-            lock (clients)
-                cs = clients.ToArray();
-            SendFrame(cs, frame);
-        };
-    }
-    return bus;
-}
-
 if (spi)
 {
-    var b = CreateBus();
-    Console.WriteLine("adding SPI transport");
-    b.AddTransport(SpiTransport.Create());
+    Console.WriteLine("starting Jacdac bus...");
+    var spiTransport = SpiTransport.Create();
+    bus = new JDBus(spiTransport, new JDBusOptions
+    {
+        IsClient = false,
+        IsInfrastructure = true,
+        DisableUniqueBrain = true,
+        DisableRoleManager = true,
+        DisableLogger = true,
+    });
+    bus.DeviceConnected += (sender, device) => Debug.WriteLine($"{device.Device} connected");
+    bus.DeviceDisconnected += (sender, device) => Debug.WriteLine($"{device.Device} disconnected");
+    bus.FrameSent += (sender, frame) =>
+    {
+        WebSocket[] cs;
+        lock (clients)
+            cs = clients.ToArray();
+        SendFrame(cs, frame);
+    };
+    if (stats)
+    {
+        new Timer(state =>
+        {
+            Console.Write(bus);
+            Console.WriteLine(spiTransport);
+        }, null, 0, 30000);
+    }
 }
 
 // download proxy code

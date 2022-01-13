@@ -7,6 +7,16 @@ using System.Threading;
 
 namespace Jacdac.Transports.Spi
 {
+    public sealed class SpiTransportStats
+    {
+        public uint FrameSent = 0;
+        public uint FrameReceived = 0;
+        public uint FrameTransferError = 0;
+        public uint MaxSendQueueLength = 0;
+        public uint MaxReceiveQueueLength = 0;
+        public uint FrameTransferAttemptError = 0;
+    }
+
     /**
      * A transport that communicates with a SPI bridge.
      */
@@ -31,6 +41,7 @@ namespace Jacdac.Transports.Spi
         readonly Queue sendQueue;
         // must be synched with receiveQueue
         readonly Queue receiveQueue;
+        public readonly SpiTransportStats Stats = new SpiTransportStats();
 
         static class QueueExtensions
         {
@@ -78,10 +89,14 @@ namespace Jacdac.Transports.Spi
                 }
             }
 
-            public static void Enqueue(Queue queue, byte[] value)
+            public static uint Enqueue(Queue queue, byte[] value, uint maxLength)
             {
                 lock (queue)
+                {
                     queue.Enqueue(value);
+                    var c = (uint)queue.Count;
+                    return c > maxLength ? c : maxLength;
+                }
             }
         }
 
@@ -105,12 +120,12 @@ namespace Jacdac.Transports.Spi
 
         public override string ToString()
         {
-            return "spi bridge";
+            var stats = this.Stats;
+            return $"spi transport (sent {stats.FrameSent}, recv {stats.FrameReceived}, err {stats.FrameTransferError})";
         }
 
         public override event FrameEventHandler FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
-
         protected override void InternalConnect()
         {
             Console.WriteLine($"spi: connecting");
@@ -180,7 +195,7 @@ namespace Jacdac.Transports.Spi
         public override void SendFrame(byte[] data)
         {
             //Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
-            QueueExtensions.Enqueue(this.sendQueue, data);
+            this.Stats.MaxSendQueueLength = QueueExtensions.Enqueue(this.sendQueue, data, this.Stats.MaxSendQueueLength);
 
             this.transfer();
         }
@@ -244,13 +259,18 @@ namespace Jacdac.Transports.Spi
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
             if (!ok)
             {
+                this.Stats.FrameTransferError++;
                 Console.WriteLine("spi: transfer failed");
                 this.raiseError(TransportError.Frame, pkt);
                 return false;
             }
 
+            if (txq_ptr > 0)
+                this.Stats.FrameSent++;
+
             if (rxReady)
             {
+                this.Stats.FrameReceived++;
                 // consume received frame if any
                 int framep = 0;
                 while (framep < XFER_SIZE)
@@ -277,7 +297,7 @@ namespace Jacdac.Transports.Spi
                         var frame = new byte[sz];
                         Array.Copy(rxqueue, framep, frame, 0, sz);
                         //Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
-                        QueueExtensions.Enqueue(this.receiveQueue, frame);
+                        this.Stats.MaxReceiveQueueLength = QueueExtensions.Enqueue(this.receiveQueue, frame, this.Stats.MaxReceiveQueueLength);
                     }
                     sz = (sz + 3) & ~3;
                     framep += sz;
@@ -299,6 +319,7 @@ namespace Jacdac.Transports.Spi
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    this.Stats.FrameTransferAttemptError++;
                     Thread.Sleep(1);
                 }
             }
