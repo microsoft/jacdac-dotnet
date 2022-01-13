@@ -15,9 +15,9 @@ Console.WriteLine("Jacdac DevTools");
 Console.WriteLine($"   dashboard: {url}");
 Console.WriteLine($"   websocket: ws://{host}:{port}");
 if (internet)
-    Console.WriteLine("WARNING: network access enabled");
+    Console.WriteLine("WARNING: all network interfaces enabled");
 else
-    Console.WriteLine("Use --internet to access dashboard on the network");
+    Console.WriteLine("Use --internet to enable all network interfaces");
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
