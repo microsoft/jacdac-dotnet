@@ -5,7 +5,6 @@ namespace Jacdac
 {
     public sealed class JDRegister : JDServiceNode
     {
-        private string _name;
         private bool notImplemented = false;
         public TimeSpan LastGetTimestamp = TimeSpan.Zero;
         public TimeSpan LastSetTimestamp = TimeSpan.Zero;
@@ -24,9 +23,7 @@ namespace Jacdac
         {
             get
             {
-                if (this._name == null)
-                    this._name = this.ResolveName();
-                return this._name;
+                return this.ResolveName();
             }
         }
 
@@ -36,28 +33,7 @@ namespace Jacdac
             if (spec != null)
                 return spec.name;
 
-            /*
-            if (Platform.UseReflectionMetadata)
-            {
-                var serviceClass = this.Service.ServiceClass;
-                var fields = typeof(ServiceClasses).GetFields();
-                foreach (var field in fields)
-                    if (field.FieldType == typeof(uint) && (uint)field.GetValue(null) == serviceClass)
-                    {
-                        var regTypeName = field.Name + "Reg";
-                        foreach (var regType in typeof(ServiceClasses).Assembly.GetTypes())
-                        {
-                            if (regType.IsEnum && regType.Name == regTypeName)
-                            {
-                                var enumValues = regType..GetEnumValues();
-                                foreach (var enumValue in enumValues)
-                                    if (enumField.IsLiteral && enumField.FieldType == typeof(ushort) && (ushort)enumField.GetValue(null) == this.Code)
-                                        return enumField.Name.ToLower();
-                            }
-                        }
-                    }
-            }
-            */
+            // Reflection of Enum values not support in TinyCLR.
 
             return $"0x{ this.Code.ToString("x2")}";
         }
@@ -88,7 +64,20 @@ namespace Jacdac
             if (values.Length == 0)
                 return "--";
             else if (values.Length == 1)
-                return values[0]?.ToString() ?? "!";
+            {
+                var value = values[0];
+                if (this.Service.ServiceClass == ServiceClasses.Control && this.Code == (ushort)ControlReg.Uptime)
+                    return new TimeSpan((long)((ulong)value * 10)).ToString();
+
+                var str = value.ToString();
+                if (this.PackFormat == "u32")
+                    str += " (0x" + ((uint)value).ToString("x8") + ")";
+                else if (this.PackFormat == "u16")
+                    str += " (0x" + ((uint)value).ToString("x4") + ")";
+                else if (this.PackFormat == "u8")
+                    str += " (0x" + ((uint)value).ToString("x2") + ")";
+                return str;
+            }
             else
                 return $"[{values.Length}";
         }

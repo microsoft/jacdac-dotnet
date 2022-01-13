@@ -27,8 +27,14 @@ namespace Jacdac.Playground
             bus.DeviceConnected += (s, e) =>
             {
                 Console.WriteLine($"device connected: {e.Device}");
+                e.Device.Announced += (s2, e2) =>
+                {
+                    foreach (var service in e.Device.GetServices())
+                        service.ResolveSpecification();
+                };
                 e.Device.Restarted += (s2, e2) => Console.WriteLine($"device restarted: {e.Device}");
             };
+
             bus.DeviceDisconnected += (s, e) => Console.WriteLine($"device disconnected: {e.Device}");
             bus.RoleManager.Connected += (s, e) => Console.WriteLine($"roles connected");
             bus.RoleManager.Disconnected += (s, e) => Console.WriteLine($"roles connected");

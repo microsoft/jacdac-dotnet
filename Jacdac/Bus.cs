@@ -97,14 +97,20 @@ namespace Jacdac
             build.AppendLine("devices:");
             foreach (var device in devices)
             {
-                build.AppendLine($"  {device}");
+                build.AppendLine($"  {device.ShortId} ({device.DeviceId})");
                 var services = device.GetServices();
                 foreach (var service in services)
                 {
-                    build.AppendLine($"      {service}");
+                    if (service.ServiceClass == 0)
+                    {
+                        service.GetRegister((ushort)ControlReg.ProductIdentifier);
+                        service.GetRegister((ushort)ControlReg.FirmwareVersion);
+                        service.GetRegister((ushort)ControlReg.Uptime);
+                    }
+                    build.AppendLine($"      {service.ServiceIndex}: {service.Name} (0x{service.ServiceClass.ToString("x8")})");
                     var registers = service.GetRegisters();
                     foreach (var register in registers)
-                        build.AppendLine($"        {register}: {register.GetHumanValue()}");
+                        build.AppendLine($"        {register.Name}: {register.GetHumanValue()}");
                 }
             }
             if (this.RoleManager != null)
