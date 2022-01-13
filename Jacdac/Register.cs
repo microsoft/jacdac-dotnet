@@ -5,6 +5,7 @@ namespace Jacdac
 {
     public sealed class JDRegister : JDServiceNode
     {
+        private string _name;
         private bool notImplemented = false;
         public TimeSpan LastGetTimestamp = TimeSpan.Zero;
         public TimeSpan LastSetTimestamp = TimeSpan.Zero;
@@ -17,6 +18,24 @@ namespace Jacdac
         internal JDRegister(JDService service, ushort code)
             : base(service, code)
         {
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (this._name == null)
+                    this._name = this.ResolveName();
+                return this._name;
+            }
+        }
+
+        private string ResolveName()
+        {
+            var spec = this.Specification;
+            if (spec != null)
+                return spec.name;
+            return $"0x{ this.Code.ToString("x2")}";
         }
 
         public bool NotImplemented
@@ -34,6 +53,21 @@ namespace Jacdac
             var spec = this.Specification;
             var descr = spec == null ? $"0x{this.Code.ToString("x2")}" : spec.name;
             return $"{this.Service.ToString()}[{descr}]";
+        }
+
+        public string GetHumanValue()
+        {
+            var data = this.Data;
+            if (data == null) return "?";
+            if (this.PackFormat == null)
+                return HexEncoding.ToString(data);
+            var values = PacketEncoding.UnPack(this.PackFormat, data);
+            if (values.Length == 0)
+                return "--";
+            else if (values.Length == 1)
+                return values[0]?.ToString() ?? "!";
+            else
+                return $"[{values.Length}";
         }
 
         internal void ProcessPacket(Packet pkt)

@@ -104,7 +104,7 @@ namespace Jacdac
                     build.AppendLine($"      {service}");
                     var registers = service.GetRegisters();
                     foreach (var register in registers)
-                        build.AppendLine($"        {register}");
+                        build.AppendLine($"        {register}: {register.GetHumanValue()}");
                 }
             }
             if (this.RoleManager != null)
@@ -197,8 +197,6 @@ namespace Jacdac
 
         public void ProcessFrame(Transport sender, byte[] frame)
         {
-            TransportStats.FrameReceived++;
-
             // process packet
             var packets = Packet.FromFrame(frame);
             var timestamp = this.Timestamp;
@@ -215,7 +213,6 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            TransportStats.FrameError++;
             var e = args.Error;
             string name = "?";
             switch (e)
