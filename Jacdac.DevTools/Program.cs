@@ -11,11 +11,17 @@ var host = internet ? "*" : "localhost";
 var port = 8081;
 var url = $"http://{host}:{port}";
 
-Console.WriteLine("Jacdac DevTools");
+Console.WriteLine("Jacdac DevTools (.NET)");
 Console.WriteLine($"   dashboard: {url}");
 Console.WriteLine($"   websocket: ws://{host}:{port}");
 if (internet)
+{
     Console.WriteLine("WARNING: all network interfaces enabled");
+    var server = Dns.GetHostName();
+    var heserver = Dns.GetHostEntry(server);
+    foreach (var ip in heserver.AddressList)
+        Console.WriteLine($"  {ip}");
+}
 else
     Console.WriteLine("Use --internet to enable all network interfaces");
 
@@ -56,6 +62,7 @@ JDBus CreateBus()
 {
     if (bus == null)
     {
+        Console.WriteLine("starting Jacdac bus...");
         bus = new JDBus(null, new JDBusOptions
         {
             IsClient = false,
@@ -83,6 +90,7 @@ foreach (var arg in args)
         case "spi":
             {
                 var b = CreateBus();
+                Console.WriteLine("adding SPI transport");
                 b.AddTransport(SpiTransport.Create());
                 break;
             }
@@ -116,7 +124,10 @@ app.Use(async (context, next) =>
     {
         var ws = await context.WebSockets.AcceptWebSocketAsync();
         lock (clients)
+        {
             clients.Add(ws);
+            Console.WriteLine($"clients: {clients.Count} connected");
+        }
         var proxy = async () =>
             {
                 try
@@ -144,7 +155,10 @@ app.Use(async (context, next) =>
                 {
                     // web socket closed, clean
                     lock (clients)
+                    {
                         clients.Remove(ws);
+                        Console.WriteLine($"clients: {clients.Count} connected");
+                    }
                     try
                     {
 
