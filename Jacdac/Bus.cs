@@ -103,9 +103,10 @@ namespace Jacdac
                 {
                     if (service.ServiceClass == 0)
                     {
+                        service.GetRegister((ushort)ControlReg.Uptime);
                         service.GetRegister((ushort)ControlReg.ProductIdentifier);
                         service.GetRegister((ushort)ControlReg.FirmwareVersion);
-                        service.GetRegister((ushort)ControlReg.Uptime);
+                        service.GetRegister((ushort)ControlReg.DeviceDescription);
                     }
                     build.AppendLine($"      {service.ServiceIndex}: {service.Name} (0x{service.ServiceClass.ToString("x8")})");
                     var registers = service.GetRegisters();
