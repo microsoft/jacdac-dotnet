@@ -202,7 +202,8 @@ namespace Jacdac.Transports.Spi
             bool transfer = true;
             while (transfer)
             {
-                transfer = this.transferFrame();
+                lock (this.spi)
+                    transfer = this.transferFrame();
                 byte[] recv;
                 while (QueueExtensions.TryDequeue(this.receiveQueue, out recv))
                 {

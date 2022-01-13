@@ -1,25 +1,163 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
 
 namespace Jacdac
 {
+    public enum LedPixelProgramUpdateMode : byte
+    {
+        Replace = 0,
+        AddRGB = 1,
+        SubstractRGB = 2,
+        MultiplyRGB = 3
+    }
+
+    /// <summary>
+    /// A parametric helper class to build LED pixel animations.
+    /// </summary>
+    public sealed class LedPixelProgramBuilder
+    {
+        StringBuilder commands; // string[]
+        ArrayList args; // object[]
+        public LedPixelProgramBuilder()
+        {
+            this.commands = new StringBuilder();
+            this.args = new ArrayList();
+        }
+
+        private LedPixelProgramBuilder AppendColors(string cmd, int[] colors)
+        {
+            this.commands.Append(cmd);
+            foreach (var color in colors)
+            {
+                this.commands.Append(" #");
+                if (color < 0)
+                    throw new ArgumentOutOfRangeException("colors");
+                args.Add((uint)color);
+            }
+            this.commands.AppendLine();
+            return this;
+        }
+
+        /// <summary>
+        /// set all pixels in current range to given color pattern
+        /// </summary>
+        public LedPixelProgramBuilder SetAll(params int[] colors)
+        {
+            return this.AppendColors("setall", colors);
+        }
+
+        /// <summary>
+        /// Sets one pixel in current range to given color pattern
+        /// </summary>
+        public LedPixelProgramBuilder SetOne(uint index, int color)
+        {
+            return this.AppendColors($"setone {index}", new int[] { color });
+        }
+
+        /// <summary>
+        /// Set all pixels in current range to color between RGB colors in sequence
+        /// </summary>
+        public LedPixelProgramBuilder Fade(params int[] rgbColors)
+        {
+            return this.AppendColors("fade", rgbColors);
+        }
+
+        /// <summary>
+        /// Set all pixels in current range to color between HSV colors in sequence
+        /// </summary>
+        public LedPixelProgramBuilder FadeHSV(params int[] hsvColors)
+        {
+            return this.AppendColors("fadehsv", hsvColors);
+        }
+
+        /// <summary>
+        /// rotate (shift) pixels by K positions away (positive) or towards (negative) from the connector
+        /// </summary>
+        public LedPixelProgramBuilder Rotate(int steps)
+        {
+            if (steps > 0)
+                return this.AppendColors("rotfwd", new int[] { steps });
+            else if (steps < 0)
+                return this.AppendColors("rotback", new int[] { -steps });
+            return this;
+        }
+
+        /// <summary>
+        /// Send buffer to strip and wait waitMilliseconds milliseconds
+        /// </summary>
+        public LedPixelProgramBuilder Show(int waitMilliseconds = -1)
+        {
+            this.commands.Append("show");
+            if (waitMilliseconds >= 0)
+            {
+                this.commands.Append(" ");
+                this.commands.Append(waitMilliseconds);
+            }
+            this.commands.AppendLine();
+            return this;
+        }
+
+        /// <summary>
+        ///  range from pixel P, Npixels long (currently unsupported: every Wpixels skip Spixels)
+        /// </summary>
+        public LedPixelProgramBuilder Range(uint startIndex, uint length)
+        {
+            this.commands.AppendLine($"range ${startIndex} ${length}");
+            return this;
+        }
+
+        /// <summary>
+        ///  range from pixel P, Npixels long (currently unsupported: every Wpixels skip Spixels)
+        /// </summary>
+        public LedPixelProgramBuilder SetUpdateMode(LedPixelProgramUpdateMode mode, bool temp = false)
+        {
+            this.commands.Append(temp ? "tmpmode" : "mode");
+            if (mode != LedPixelProgramUpdateMode.Replace)
+            {
+                this.commands.Append(" ");
+                this.commands.Append((byte)mode);
+            }
+            this.commands.AppendLine();
+            return this;
+        }
+
+        /// <summary>
+        /// Gets the current command sources
+        /// </summary>
+        public string Source
+        {
+            get { return this.commands.ToString(); }
+        }
+
+        /// <summary>
+        /// Gets the current arguments
+        /// </summary>
+        public object[] Args
+        {
+            get { return this.args.ToArray(); }
+        }
+
+        /// <summary>
+        /// Compile current program into bytecode
+        /// </summary>
+        /// <returns></returns>
+        public byte[] ToBuffer()
+        {
+            return LedPixelProgramEncoding.ToBuffer(this.Source, this.Args);
+        }
+
+        public override string ToString()
+        {
+            return this.Source;
+        }
+    }
+
     /// <summary>
     /// Encode LED light instructions
     /// </summary>
-    public sealed class LedPixelEncoding
+    public sealed class LedPixelProgramEncoding
     {
-        /*
-         * `0xD0: set_all(C+)` - set all pixels in current range to given color pattern
-         * `0xD1: fade(C+)` - set `N` pixels to color between colors in sequence
-         * `0xD2: fade_hsv(C+)` - similar to `fade()`, but colors are specified and faded in HSV
-         * `0xD3: rotate_fwd(K)` - rotate (shift) pixels by `K` positions away from the connector
-         * `0xD4: rotate_back(K)` - same, but towards the connector
-         * `0xD5: show(M=50)` - send buffer to strip and wait `M` milliseconds
-         * `0xD6: range(P=0, N=length)` - range from pixel `P`, `N` pixels long
-         * `0xD7: mode(K=0)` - set update mode
-         * `0xD8: mode1(K=0)` - set update mode for next command only
-         */
-
         const byte LIGHT_PROG_SET_ALL = 0xd0;
         const byte LIGHT_PROG_FADE = 0xd1;
         const byte LIGHT_PROG_FADE_HSV = 0xd2;
@@ -73,7 +211,7 @@ namespace Jacdac
                 case "mult":
                     return LIGHT_PROG_MULT;
                 default:
-                    throw new ArgumentException("cmd");
+                    throw new ArgumentException($"command unknown {cmd}");
             }
         }
 
@@ -85,7 +223,7 @@ namespace Jacdac
         string source;
         ArrayList args;
 
-        private LedPixelEncoding(string source, object[] args)
+        private LedPixelProgramEncoding(string source, object[] args)
         {
             this.outarr = new byte[256];
             this.outarrp = 0;
@@ -109,7 +247,7 @@ namespace Jacdac
          */
         public static byte[] ToBuffer(string source, object[] args = null)
         {
-            var encoder = new LedPixelEncoding(source, args);
+            var encoder = new LedPixelProgramEncoding(source, args);
             return encoder.run();
         }
 

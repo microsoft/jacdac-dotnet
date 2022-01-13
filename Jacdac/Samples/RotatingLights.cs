@@ -18,24 +18,15 @@ namespace Jacdac.Samples
             var purple = 0xff00ff;
             var blue = 0x0000ff;
             var off = 0x000000;
-            var paint = LedPixelEncoding.ToBuffer(
-@"fade # # # # # # #
-show 0", new object[] { off, red, purple, blue, purple, red, off });
-
-            var rotate = LedPixelEncoding.ToBuffer(
-@"
-rotfwd 2
-show 20
-rotfwd 2
-show 20
-rotfwd 2
-show 20
-rotfwd 2
-show 20
-rotfwd 2
-show 20
-"
-);
+            var paint = new LedPixelProgramBuilder()
+                .Fade(off, red, purple, blue, purple, red, off)
+                .Show(0)
+                .ToBuffer();
+            var rotateBuilder = new LedPixelProgramBuilder();
+            for (var i = 0; i < 5; ++i)
+                rotateBuilder.Rotate(4).Show(20);
+            var rotate = rotateBuilder.ToBuffer();
+            rotateBuilder = null;
             leds.Connected += (s, e) =>
             {
                 Console.WriteLine("leds connected...");
@@ -45,7 +36,6 @@ show 20
                 leds.Run(paint);
                 while (leds.IsConnected)
                 {
-                    Console.Write(".");
                     leds.Run(rotate);
                     Thread.Sleep(100);
                 }
