@@ -8,6 +8,7 @@ namespace Jacdac.Servers
         private readonly ISettingsStorage Storage;
         private JDStaticRegisterServer autoBindRegister;
         private JDStaticRegisterServer allRolesAllocatedRegister;
+        private bool binding = false;
 
         private Client[] roles = new Client[0];
 
@@ -250,8 +251,20 @@ namespace Jacdac.Servers
 
         public void BindRoles()
         {
+            if (this.binding) return;
             lock (this.roles)
-                this.SyncBindRoles();
+            {
+                if (this.binding) return;
+                try
+                {
+                    this.binding = true;
+                    this.SyncBindRoles();
+                }
+                finally
+                {
+                    this.binding = false;
+                }
+            }
         }
 
         private void SyncBindRoles()

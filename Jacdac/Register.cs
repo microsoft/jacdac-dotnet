@@ -95,6 +95,8 @@ namespace Jacdac
             if (this.NotImplemented || bus == null) return;
 
             this.LastGetAttempts++;
+            if (this.LastGetAttempts > 5)
+                this.NeedsRefresh = false; // give up
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
             var pkt = Packet.FromCmd(cmd);
             if (ack)

@@ -94,8 +94,9 @@ namespace Jacdac
             this.currcmd = 0;
             this.source = source;
             this.args = new ArrayList();
-            for (int i = 0; i < args.Length; i++)
-                this.args.Add(args[i]);
+            if (args != null)
+                for (int i = 0; i < args.Length; i++)
+                    this.args.Add(args[i]);
         }
 
 
@@ -106,7 +107,7 @@ namespace Jacdac
          * @returns
          * @category Data Packing
          */
-        public static byte[] ToBuffer(string source, object[] args)
+        public static byte[] ToBuffer(string source, object[] args = null)
         {
             var encoder = new LedPixelEncoder(source, args);
             return encoder.run();
@@ -122,6 +123,9 @@ namespace Jacdac
             while (this.pos < source.Length)
             {
                 var token = this.nextToken();
+                if (token.Length == 0)
+                    break;
+
                 var t0 = token[0];
                 if (97 <= t0 && t0 <= 122)
                 {
@@ -231,7 +235,7 @@ namespace Jacdac
 
         private string nextToken()
         {
-            while (isWhiteSpace(this.source[pos])) pos++;
+            while (pos < this.source.Length && isWhiteSpace(this.source[pos])) pos++;
 
             var beg = this.pos;
             while (this.pos < this.source.Length && !isWhiteSpace(source[pos]))
