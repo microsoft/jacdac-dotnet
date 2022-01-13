@@ -114,6 +114,11 @@ namespace Jacdac
             roleMgr.AddClient(this);
         }
 
+        public int CompareTo(Client other)
+        {
+            return this.Name.CompareTo(other.Name);
+        }
+
         public string Host
         {
             get

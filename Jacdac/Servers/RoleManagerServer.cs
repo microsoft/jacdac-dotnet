@@ -18,9 +18,9 @@ namespace Jacdac.Servers
             this.Storage = storage;
             this.AddRegister(this.autoBindRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
             this.AddRegister(this.allRolesAllocatedRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRoles, this.handleListRoles);
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
+            this.AddCommand((ushort)RoleManagerCmd.SetRole, this.handleSetRole);
+            this.AddCommand((ushort)RoleManagerCmd.ListRoles, this.handleListRoles);
+            this.AddCommand((ushort)RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
 
             this.Changed += this.handleChanged;
             this.allRolesAllocatedRegister.Changed += handleAllRolesAllocatedChanged;
@@ -65,8 +65,20 @@ namespace Jacdac.Servers
 
                 var roles = this.roles;
                 var newRoles = new Client[roles.Length + 1];
-                roles.CopyTo(newRoles, 0);
-                newRoles[roles.Length] = role;
+
+                // find insertion point
+                var i = 0;
+                for (i = 0; i < roles.Length; i++)
+                {
+                    if (role.CompareTo(roles[i]) < 0)
+                        break;
+                }
+                // splice newRolei in the role list
+                if (i > 0)
+                    Array.Copy(roles, 0, newRoles, 0, i);
+                newRoles[i] = role;
+                if (i < roles.Length)
+                    Array.Copy(roles, i, newRoles, i + 1, roles.Length - i);
 
                 this.roles = newRoles;
             }
@@ -159,6 +171,14 @@ namespace Jacdac.Servers
 
         private void handleClearAllRoles(JDNode sensor, PacketEventArgs args)
         {
+            this.ClearRoles();
+        }
+
+        /// <summary>
+        /// Clears all role information
+        /// </summary>
+        public void ClearRoles()
+        {
             this.Debug($"roles: clear");
             if (this.Storage != null)
                 this.Storage.Clear();
@@ -193,6 +213,17 @@ namespace Jacdac.Servers
             var serviceIndex = (uint)values[1];
             var name = (string)values[2];
 
+            this.BindRole(name, deviceId, serviceIndex);
+        }
+
+        /// <summary>
+        /// Binds a role to a service
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="serviceIndex"></param>
+        public void BindRole(string name, string deviceId, uint serviceIndex)
+        {
             lock (this.roles)
             {
                 Client role;
@@ -289,7 +320,9 @@ namespace Jacdac.Servers
                 return;
 
 
-            this.Debug($"roles: binding {bound}/{roles.Length}");
+            this.Debug($"roles: bound {bound}/{roles.Length}");
+            for (var i = 0; i < roles.Length; ++i)
+                this.Debug($"  {roles[i]}");
             // try to load bindings from storage
             if (this.Storage != null)
             {

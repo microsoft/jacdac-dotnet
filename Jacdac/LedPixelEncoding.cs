@@ -6,7 +6,7 @@ namespace Jacdac
     /// <summary>
     /// Encode LED light instructions
     /// </summary>
-    public sealed class LedPixelEncoder
+    public sealed class LedPixelEncoding
     {
         /*
          * `0xD0: set_all(C+)` - set all pixels in current range to given color pattern
@@ -85,7 +85,7 @@ namespace Jacdac
         string source;
         ArrayList args;
 
-        private LedPixelEncoder(string source, object[] args)
+        private LedPixelEncoding(string source, object[] args)
         {
             this.outarr = new byte[256];
             this.outarrp = 0;
@@ -109,7 +109,7 @@ namespace Jacdac
          */
         public static byte[] ToBuffer(string source, object[] args = null)
         {
-            var encoder = new LedPixelEncoder(source, args);
+            var encoder = new LedPixelEncoding(source, args);
             return encoder.run();
         }
 
@@ -131,8 +131,8 @@ namespace Jacdac
                 {
                     // a-z
                     this.flush();
-                    var currcmd = cmdCode(token);
-                    if (currcmd == LIGHT_PROG_MULT)
+                    this.currcmd = cmdCode(token);
+                    if (this.currcmd == LIGHT_PROG_MULT)
                     {
                         var f = double.Parse(this.nextToken());
                         if (f < 0 || f > 2)

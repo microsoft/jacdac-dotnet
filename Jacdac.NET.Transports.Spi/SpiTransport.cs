@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Device.Gpio;
 using System.Device.Spi;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac.Transports.Spi
@@ -25,6 +26,7 @@ namespace Jacdac.Transports.Spi
         readonly int spiBusId;
         readonly GpioController controller;
         SpiDevice spi;
+        Timer reconnectTimer = null;
         // must be synched with sendQueue
         readonly Queue sendQueue;
         // must be synched with receiveQueue
@@ -111,7 +113,14 @@ namespace Jacdac.Transports.Spi
 
         protected override void InternalConnect()
         {
-            Console.WriteLine($"connecting to jacdapter...");
+            Console.WriteLine($"spi: connecting");
+
+            if (this.reconnectTimer != null)
+            {
+                this.reconnectTimer.Dispose();
+                this.reconnectTimer = null;
+            }
+
             this.controller.OpenPin(txReadyPin, PinMode.Input); // pull down
             this.controller.OpenPin(rxReadyPin, PinMode.Input); // pull down
 
@@ -133,7 +142,7 @@ namespace Jacdac.Transports.Spi
             this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
             this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
-            Console.WriteLine($"jacdapter ready.");
+            Console.WriteLine($"spi: ready");
             this.SetConnectionState(ConnectionState.Connected);
 
             // initiate
@@ -142,6 +151,7 @@ namespace Jacdac.Transports.Spi
 
         protected override void InternalDisconnect()
         {
+            Console.WriteLine($"spi: disconnecting");
             this.controller.UnregisterCallbackForPinValueChangedEvent(rxReadyPin, this.handleRxPinRising);
             this.controller.UnregisterCallbackForPinValueChangedEvent(txReadyPin, this.handleTxPinRising);
 
@@ -155,6 +165,16 @@ namespace Jacdac.Transports.Spi
                 this.spi = null;
                 spi.Dispose();
             }
+
+            // start reconnect timer
+            if (this.reconnectTimer == null)
+                this.reconnectTimer = new Timer(state =>
+                {
+                    if (this.ConnectionState == ConnectionState.Connected)
+                        return;
+                    Console.WriteLine($"spi: reconnecting");
+                    this.Connect();
+                }, null, 5000, 5000);
         }
 
         public override void SendFrame(byte[] data)
@@ -223,7 +243,7 @@ namespace Jacdac.Transports.Spi
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
             if (!ok)
             {
-                Console.WriteLine("transfer failed");
+                Console.WriteLine("spi: transfer failed");
                 this.raiseError(TransportError.Frame, pkt);
                 return false;
             }
@@ -240,7 +260,7 @@ namespace Jacdac.Transports.Spi
                     int sz = frame2 + 12;
                     if (framep + sz > XFER_SIZE)
                     {
-                        Console.WriteLine($"packet overflow {framep} + {sz} > {XFER_SIZE}");
+                        Console.WriteLine($"spi: packet overflow {framep} + {sz} > {XFER_SIZE}");
                         break;
                     }
                     var frame0 = rxqueue[framep];
