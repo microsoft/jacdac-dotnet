@@ -61,7 +61,7 @@ namespace Jacdac.Playground
                     case "ws":
                         var url = args[++i];
                         Console.WriteLine($"adding websocket connection to {url}");
-                        bus.AddTransport(WebSocketTransport.Create(new Uri("ws://" + url)));
+                        bus.AddTransport(WebSocketTransport.Create(new Uri(url)));
                         break;
                 }
             }

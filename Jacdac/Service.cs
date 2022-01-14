@@ -82,10 +82,13 @@ namespace Jacdac
                     {
                         ServiceSpec spec;
                         if (catalog.TryGetSpecification(this.ServiceClass, out spec))
+                        {
                             this._specification = spec;
+                            System.Diagnostics.Debug.Assert(this._specification.registers != null);
+                        }
                     }
                 }
-                return this._specification;
+                return this._specification?.registers != null ? this._specification : null;
             }
         }
 

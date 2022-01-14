@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "devtools prototest",
+      "commandLineArgs": "ws ws://192.168.0.131:8081/ doublerotatinglights",
       "hotReloadEnabled": false
     }
   }
