@@ -14,7 +14,7 @@ namespace Jacdac
     }
 
     [Serializable]
-    public sealed class ClientEventArgs : EventArgs
+    public sealed class ClientEventArgs
     {
         readonly object[] Values;
         internal ClientEventArgs(object[] values = null)
@@ -92,6 +92,9 @@ namespace Jacdac
         }
     }
 
+    /// <summary>
+    /// A role client which gets bound to a service by the role maanger.
+    /// </summary>
     public abstract class Client
     {
         public readonly string Name;
@@ -130,15 +133,21 @@ namespace Jacdac
             }
         }
 
+        /// <summary>
+        /// Indicates if the client is connected to a service
+        /// </summary>
         public bool IsConnected
         {
             get { return this.BoundService != null; }
         }
 
+        /// <summary>
+        /// Gets the bound service
+        /// </summary>
         public JDService BoundService
         {
             get { return this._boundService; }
-            set
+            internal set
             {
                 if (this._boundService != value)
                 {
@@ -168,7 +177,17 @@ namespace Jacdac
             }
         }
 
+        /// <summary>
+        /// Raised when a service is bound to the role
+        /// </summary>
         public event ServiceEventHandler Connected;
+        /// <summary>
+        /// Raised when a device reconnects from a restart
+        /// </summary>
+        public event ServiceEventHandler Configure;
+        /// <summary>
+        /// Raised when the service is unbound from the role
+        /// </summary>
         public event ServiceEventHandler Disconnected;
 
         public override string ToString()
@@ -327,9 +346,12 @@ namespace Jacdac
         {
             new Thread(() =>
             {
-                this.Configure?.Invoke(this, EventArgs.Empty);
-
                 var service = this.BoundService;
+                if (service == null) return;
+
+                if (this.Configure != null)
+                    this.Configure.Invoke(this, new ServiceEventArgs(service));
+
                 var rvs = this.registerValueBindings;
                 if (service == null || rvs.Length == 0) return;
 
@@ -339,11 +361,6 @@ namespace Jacdac
 
             }).Start();
         }
-
-        /// <summary>
-        /// Raised when a device reconnects from a restart
-        /// </summary>
-        public event EventHandler Configure;
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
