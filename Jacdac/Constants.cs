@@ -83,5 +83,11 @@
         public const uint REGISTER_POLL_REPORT_INTERVAL = 5001;
 
         public const uint LOGGER_LISTENER_TIMEOUT = 3000;
+
+        public static int CLIENT_CONNECT_TIMEOUT = 3000;
+        public static int CLIENT_VALUES_TIMEOUT = 1000;
+
+        public static uint ROLE_MANAGER_AUTO_BIND_INTERVAL = 1500;
+
     }
 }

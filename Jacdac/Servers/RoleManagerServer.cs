@@ -11,6 +11,7 @@ namespace Jacdac.Servers
         private bool binding = false;
 
         private Client[] roles = new Client[0];
+        public TimeSpan LastBindRoles { get; private set; } = TimeSpan.Zero;
 
         public RoleManagerServer(ISettingsStorage storage = null)
             : base(ServiceClasses.RoleManager, null)
@@ -322,6 +323,14 @@ namespace Jacdac.Servers
             return false;
         }
 
+        public void AutoBindRolesMaybe()
+        {
+            var now = this.Bus.Timestamp;
+            var age = (now - this.LastBindRoles).TotalMilliseconds;
+            if (age < Constants.ROLE_MANAGER_AUTO_BIND_INTERVAL && this.AutoBind)
+                this.BindRoles();
+        }
+
         public void BindRoles()
         {
             if (this.binding) return;
@@ -342,8 +351,11 @@ namespace Jacdac.Servers
 
         private void SyncBindRoles()
         {
-            var hash = this.ComputeHash();
             var bus = this.Device.Bus;
+            if (bus == null) return;
+
+            var hash = this.ComputeHash();
+            this.LastBindRoles = bus.Timestamp;
             var devices = bus.GetDevices();
             var roles = this.roles;
             var bound = 0;

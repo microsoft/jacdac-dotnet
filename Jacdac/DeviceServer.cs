@@ -132,9 +132,7 @@ namespace Jacdac
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             pkt.DeviceId = this.DeviceId;
             this.SendPacket(pkt);
-
-            if (this.RoleManager != null && this.RoleManager.AutoBind)
-                this.RoleManager.BindRoles();
+            this.RoleManager?.AutoBindRolesMaybe();
         }
 
         public ushort CreateEventCmd(ushort evCode)
