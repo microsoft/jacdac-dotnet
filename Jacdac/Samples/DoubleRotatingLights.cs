@@ -30,7 +30,7 @@ namespace Jacdac.Samples
                 .ToBuffer();
             var rotateBuilder = new LedPixelProgramBuilder();
             for (var i = 0; i < 10; ++i)
-                rotateBuilder.Rotate(10).Show(20);
+                rotateBuilder.Rotate(4).Show(20);
             var rotate = rotateBuilder.ToBuffer();
             rotateBuilder = null;
 
@@ -40,6 +40,7 @@ namespace Jacdac.Samples
                 leds.NumPixels = 300;
                 leds.MaxPower = 2000;
                 leds.Brightness = 0.1f;
+                leds.Run(paint);
                 leds.Run(paint);
                 while (leds.IsConnected)
                 {
@@ -55,6 +56,7 @@ namespace Jacdac.Samples
                 leds2.NumPixels = 300;
                 leds2.MaxPower = 2000;
                 leds2.Brightness = 0.1f;
+                leds2.Run(paint2);
                 leds2.Run(paint2);
                 while (leds2.IsConnected)
                 {

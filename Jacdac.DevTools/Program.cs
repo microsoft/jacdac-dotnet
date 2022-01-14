@@ -110,7 +110,7 @@ namespace Jacdac.DevTools
             ProxyTransport? proxyTransport = null;
             if (spi)
             {
-                Console.WriteLine("starting Jacdac bus...");
+                Console.WriteLine($"{DateTime.Now}> jacdac: starting bus...");
                 var spiTransport = SpiTransport.Create();
                 proxyTransport = new ProxyTransport(frame =>
                 {
@@ -131,16 +131,15 @@ namespace Jacdac.DevTools
                 bus.AddTransport(proxyTransport);
                 bus.DeviceConnected += (s, e) =>
                 {
-                    Console.WriteLine($"device connected: {e.Device}");
-                    e.Device.Restarted += (s2, e2) => Console.WriteLine($"device restarted: {e.Device}");
+                    Console.WriteLine($"{DateTime.Now}> device connected: {e.Device}");
+                    e.Device.Restarted += (s2, e2) => Console.WriteLine($"{DateTime.Now}> device restarted: {e.Device}");
                 };
-                bus.DeviceDisconnected += (sender, device) => Console.WriteLine($"device disconnected: {device.Device}");
+                bus.DeviceDisconnected += (sender, device) => Console.WriteLine($"{DateTime.Now}> device disconnected: {device.Device}");
                 if (stats)
                 {
                     new Timer(state =>
                     {
-                        Console.Write(bus);
-                        Console.WriteLine(spiTransport);
+                        Console.Write(bus.Describe());
                     }, null, 0, 30000);
                 }
             }
@@ -174,7 +173,7 @@ namespace Jacdac.DevTools
                     lock (clients)
                     {
                         clients.Add(ws);
-                        Console.WriteLine($"clients: {clients.Count} connected");
+                        Console.WriteLine($"{DateTime.Now}> clients: {clients.Count} connected");
                     }
                     var proxy = async () =>
                         {
@@ -205,7 +204,7 @@ namespace Jacdac.DevTools
                                 lock (clients)
                                 {
                                     clients.Remove(ws);
-                                    Console.WriteLine($"clients: {clients.Count} connected");
+                                    Console.WriteLine($"{DateTime.Now}> clients: {clients.Count} connected");
                                 }
                                 try
                                 {
