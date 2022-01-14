@@ -98,7 +98,7 @@ namespace Jacdac
         public readonly uint ServiceClass;
         private JDService _boundService;
         private EventBinding[] events = EventBinding.Empty;
-        private RegisterValueBinding[] registers = RegisterValueBinding.Empty;
+        private RegisterValueBinding[] registerValueBindings = RegisterValueBinding.Empty;
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
@@ -281,7 +281,7 @@ namespace Jacdac
 
         private bool TryGetRegisterValueBinding(ushort code, out RegisterValueBinding registerValue)
         {
-            var registerValues = this.registers;
+            var registerValues = this.registerValueBindings;
             foreach (var rv in registerValues)
                 if (rv.Code == code)
                 {
@@ -297,15 +297,15 @@ namespace Jacdac
         {
             lock (this)
             {
-                var registerValues = this.registers;
+                var rvs = this.registerValueBindings;
                 RegisterValueBinding registerValue = null;
                 if (this.TryGetRegisterValueBinding(code, out registerValue))
                     return registerValue;
 
-                var newRegisterValues = new RegisterValueBinding[registerValues.Length + 1];
-                registerValues.CopyTo(newRegisterValues, 0);
-                registerValue = newRegisterValues[registerValues.Length] = new RegisterValueBinding(code);
-                registerValues = newRegisterValues;
+                var newRvs = new RegisterValueBinding[rvs.Length + 1];
+                rvs.CopyTo(newRvs, 0);
+                registerValue = newRvs[rvs.Length] = new RegisterValueBinding(code);
+                this.registerValueBindings = newRvs;
 
                 return registerValue;
             }
@@ -325,7 +325,7 @@ namespace Jacdac
             new Thread(() =>
             {
                 var service = this.BoundService;
-                var rvs = this.registers;
+                var rvs = this.registerValueBindings;
                 if (service == null || rvs.Length == 0) return;
 
                 Debug.WriteLine($"{this}: apply register values");
@@ -337,6 +337,7 @@ namespace Jacdac
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
+            Debug.WriteLine($"{this}: device restarted");
             this.BeginApplyRegisterValueBindings();
         }
 

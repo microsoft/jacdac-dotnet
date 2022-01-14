@@ -137,16 +137,18 @@ namespace Jacdac
             var restarted = w1 != 0 &&
             (w1 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK) <
                 (w0 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK);
-            var servicesChanged = !Util.BufferEquals(pkt.Data, this._servicesData, 4);
+            var servicesChanged = !Util.BufferEquals(data, this._servicesData, 4);
 
             // compare service data
             if (servicesChanged)
             {
-                this.InitServices(pkt.Data);
+                this.InitServices(data);
                 this.Announced?.Invoke(this, EventArgs.Empty);
                 changed = true;
             }
 
+            // update first 4 bytes
+            Array.Copy(data, 0, this._servicesData, 0, 4);
 
             // notify of any changes
             if (restarted)
