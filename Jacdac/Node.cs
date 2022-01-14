@@ -33,7 +33,7 @@ namespace Jacdac
 
         protected void Debug(string msg)
         {
-            System.Diagnostics.Debug.WriteLine(msg);
+            System.Diagnostics.Debug.WriteLine($"{this}: {msg}");
             var logger = this.Logger;
             logger?.SendReport(LoggerPriority.Debug, msg);
         }

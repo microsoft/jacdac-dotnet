@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Jacdac
 {
@@ -26,6 +28,7 @@ namespace Jacdac
             JDDevice device;
             if (!bus.TryGetDevice(id, out device))
                 return null;
+            Debug.WriteLine($"pipes: open out {device}:{port}");
             return new OutPipe(device, port);
         }
 
@@ -46,26 +49,27 @@ namespace Jacdac
 
         public void sendMeta(byte[] buf)
         {
-            this.sendData(buf, Jacdac.Constants.PIPE_METADATA_MASK);
+            this.sendData(buf, Constants.PIPE_METADATA_MASK);
         }
         private void sendData(byte[] buf, ushort flags)
         {
             if (this.device == null)
                 throw new InvalidOperationException("sending data over closed pipe");
             ushort cmd = (ushort)(
-                (this.port << Jacdac.Constants.PIPE_PORT_SHIFT) |
+                (this.port << Constants.PIPE_PORT_SHIFT) |
                 flags |
-                (this._count & Jacdac.Constants.PIPE_COUNTER_MASK));
-            var pkt = Packet.From(cmd, buf);
+                (this._count & Constants.PIPE_COUNTER_MASK));
+            var pkt = Packet.FromCmd(cmd, buf);
             pkt.RequiresAck = true;
-            pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_PIPE;
+            pkt.ServiceIndex = Constants.JD_SERVICE_INDEX_PIPE;
             try
             {
                 this.device.SendPacket(pkt);
             }
-            catch (AckException)
+            catch (AckException ex)
             {
                 this.free();
+                throw ex;
             }
             this._count++;
         }
@@ -78,7 +82,7 @@ namespace Jacdac
 
         private void close()
         {
-            this.sendData(Packet.EmptyData, Jacdac.Constants.PIPE_CLOSE_MASK);
+            this.sendData(Packet.EmptyData, Constants.PIPE_CLOSE_MASK);
             this.free();
         }
 
@@ -87,20 +91,28 @@ namespace Jacdac
             ObjectEncoder converter
         )
         {
-            try
+            new Thread(() =>
             {
-                var n = items.Length;
-                for (var i = 0; i < n; ++i)
+                try
                 {
-                    var item = items[i];
-                    var data = converter(item);
-                    this.send(data);
+                    var n = items.Length;
+                    for (var i = 0; i < n; ++i)
+                    {
+                        var item = items[i];
+                        var data = converter(item);
+                        this.send(data);
+                    }
+                    this.close();
                 }
-            }
-            finally
-            {
-                this.close();
-            }
+                catch (AckException)
+                {
+                    Debug.WriteLine("pipe failed");
+                }
+                finally
+                {
+                    this.free();
+                }
+            }).Start();
         }
     }
 

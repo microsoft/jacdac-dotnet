@@ -1,10 +1,12 @@
 ﻿using Jacdac.Clients;
 using Jacdac.Samples;
+using Jacdac.Servers;
 using Jacdac.Transports;
 using Jacdac.Transports.Spi;
 using Jacdac.Transports.WebSockets;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace Jacdac.Playground
@@ -15,13 +17,13 @@ namespace Jacdac.Playground
         {
             Console.WriteLine("jacdac: connecting...");
 
+            var prototest = args.Any(arg => arg == "prototest");
             var sample = SampleExtensions.GetSample(args);
-            if (sample == null)
-                throw new InvalidOperationException("please select a sample to run");
-
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()
             {
+                DisableRoleManager = sample == null,
+                Services = prototest ? new JDServiceServer[] { new ProtoTestServer() } : null,
                 SpecificationCatalog = new ServiceSpecificationCatalog()
             });
             bus.DeviceConnected += (s, e) =>
@@ -36,8 +38,11 @@ namespace Jacdac.Playground
             };
 
             bus.DeviceDisconnected += (s, e) => Console.WriteLine($"device disconnected: {e.Device}");
-            bus.RoleManager.Connected += (s, e) => Console.WriteLine($"roles connected");
-            bus.RoleManager.Disconnected += (s, e) => Console.WriteLine($"roles connected");
+            if (bus.RoleManager != null)
+            {
+                bus.RoleManager.Connected += (s, e) => Console.WriteLine($"roles connected");
+                bus.RoleManager.Disconnected += (s, e) => Console.WriteLine($"roles connected");
+            }
 
             // add transports
             for (var i = 0; i < args.Length; ++i)
@@ -68,7 +73,8 @@ namespace Jacdac.Playground
             }, null, 1000, 15000);
 
             //  run test
-            new Thread(state => sample.Run(bus)).Start();
+            if (sample != null)
+                new Thread(state => sample.Run(bus)).Start();
             Thread.Sleep(Timeout.Infinite);
         }
     }

@@ -105,6 +105,7 @@ namespace Jacdac
         {
             this.packetCount++;
             var frame = Packet.ToFrame(new Packet[] { pkt });
+            pkt.SetFrameCrc(frame);
             this.Bus.SendFrame(frame);
         }
 

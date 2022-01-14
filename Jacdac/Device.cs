@@ -245,7 +245,7 @@ namespace Jacdac
                 for (var i = 0; i < acks.Length; ++i)
                 {
                     var ack = acks[i];
-                    if (ack.Packet != null) newAcks[k] = ack;
+                    if (ack.Packet != null) newAcks[k++] = ack;
                 }
                 System.Diagnostics.Debug.Assert(k == newAcks.Length);
                 this._acks = newAcks;
@@ -263,7 +263,6 @@ namespace Jacdac
 
         private void ReceiveAck(Packet ackPkt)
         {
-            this.Debug($"{this}: receive ack {ackPkt.Crc}");
             var serviceCommand = ackPkt.ServiceCommand;
             Ack[] acks;
             var received = 0;
@@ -280,10 +279,7 @@ namespace Jacdac
                     }
                 }
                 if (received > 0)
-                {
-                    this.Debug($"{this}: ack received {received}");
                     this.RefreshAcks(acks, received);
-                }
             }
             this.SignalAcks(acks);
         }
@@ -295,13 +291,12 @@ namespace Jacdac
             lock (this)
             {
                 acks = this._acks == null ? new Ack[0] : (Ack[])this._acks.Clone();
-                //this.Debug($"{this}: resend acks {acks.Length}");
                 foreach (var ack in acks)
                 {
                     if (ack.Packet == null) continue; // already processed
                     if (--ack.RetriesLeft < 0)
                     {
-                        this.Debug($"{this}: ack error {ack.Packet}");
+                        this.Debug($" ack error {ack.Packet}");
                         ack.Packet = null;
                         ack.Error = true;
                         ack.Event.Set();
@@ -309,8 +304,10 @@ namespace Jacdac
                     }
                     else
                     {
-                        if (this.Bus == null || this.Bus.IsPassive) continue; // disconnected
-                        this.Bus.SelfDeviceServer.SendPacket(ack.Packet);
+                        var bus = this.Bus;
+                        if (bus == null || bus.IsPassive) continue; // disconnected
+                        this.Debug($" ack retry {ack.Packet}");
+                        bus.SelfDeviceServer.SendPacket(ack.Packet);
                     }
                 }
                 // filter out error packets
@@ -346,7 +343,7 @@ namespace Jacdac
                 }
                 else
                 {
-                    var newAcks = new Ack[this._acks.Length];
+                    var newAcks = new Ack[this._acks.Length + 1];
                     this._acks.CopyTo(newAcks, 0);
                     newAcks[newAcks.Length - 1] = ack;
                     this._acks = newAcks;

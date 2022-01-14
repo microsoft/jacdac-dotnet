@@ -287,7 +287,7 @@ namespace Jacdac
             get => (ushort)(this.ServiceCommand >> Jacdac.Constants.PIPE_PORT_SHIFT);
         }
 
-        public ushort pipeCount
+        public ushort PipeCount
         {
             get => (ushort)(this.ServiceCommand & Jacdac.Constants.PIPE_COUNTER_MASK);
         }
@@ -298,7 +298,16 @@ namespace Jacdac
             set => this.header[13] = (byte)((this.header[13] & Jacdac.Constants.JD_SERVICE_INDEX_INV_MASK) | value);
         }
 
-        public ushort Crc => BitConverter.ToUInt16(this.header, 0);
+        public ushort Crc
+        {
+            get { return BitConverter.ToUInt16(this.header, 0); }
+        }
+
+        internal void SetFrameCrc(byte[] frame)
+        {
+            this.header[0] = frame[0];
+            this.header[1] = frame[1];
+        }
 
         public ushort ServiceCommand
         {
