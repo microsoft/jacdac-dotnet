@@ -35,6 +35,16 @@ namespace Jacdac
         public string name;
         public ServiceRegisterSpec[] registers;
 
+        public bool IsEmpty
+        {
+            get { return this.registers == null; }
+        }
+
+        public static ServiceSpec Empty(uint serviceClass)
+        {
+            return new ServiceSpec() { serviceClass = serviceClass, registers = null };
+        }
+
         public override string ToString()
         {
             var sc = this.serviceClass.ToString("x8");
@@ -79,12 +89,21 @@ namespace Jacdac
             foreach (var specification in specifications)
                 if (specification.serviceClass == serviceClass)
                 {
-                    spec = specification.registers != null ? specification : null;
+                    spec = specification.IsEmpty ? null : specification;
                     return spec != null;
                 }
 
             spec = null;
             return false;
+        }
+
+        private ServiceSpec FindSpecification(uint serviceClass)
+        {
+            var specifications = this.specifications;
+            foreach (var specification in specifications)
+                if (specification.serviceClass == serviceClass)
+                    return specification;
+            return null;
         }
 
         public void BeginResolveSpecification(uint serviceClass)
@@ -97,9 +116,9 @@ namespace Jacdac
 
         public ServiceSpec ResolveSpecification(uint serviceClass)
         {
-            ServiceSpec spec;
-            if (this.TryGetSpecification(serviceClass, out spec))
-                return spec;
+            var spec = this.FindSpecification(serviceClass);
+            if (spec != null)
+                return spec.IsEmpty ? null : spec;
 
             lock (this)
             {
@@ -108,8 +127,8 @@ namespace Jacdac
                 if (spec == null)
                     spec = this.DownloadSpecification(serviceClass);
 
-                ServiceSpec existingSpec;
-                if (spec != null && !this.TryGetSpecification(serviceClass, out existingSpec))
+                var existingSpec = this.FindSpecification(serviceClass);
+                if (existingSpec == null)
                 {
                     var newSpecs = new ServiceSpec[specifications.Length + 1];
                     specifications.CopyTo(newSpecs, 0);
@@ -139,7 +158,8 @@ namespace Jacdac
                 if (source != null)
                 {
                     var spec = SpecificationReader(source);
-                    this.Storage?.Write(serviceClass, source);
+                    if (!spec.IsEmpty)
+                        this.Storage?.Write(serviceClass, source);
                     return spec;
                 }
             }
@@ -147,7 +167,7 @@ namespace Jacdac
             {
                 Debug.WriteLine(ex.Message);
             }
-            return null;
+            return ServiceSpec.Empty(serviceClass);
         }
     }
 }
