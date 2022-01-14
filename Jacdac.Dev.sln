@@ -48,6 +48,10 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Jacdac.Nano.Clients", "Jacd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.DevTools", "Jacdac.DevTools\Jacdac.DevTools.csproj", "{56A741DC-6481-4A75-B91E-17E0DF4A1BF7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{0DAD67B9-5C1D-480C-A87D-2E26AFA713A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnippetExtractor", "SnippetExtractor\SnippetExtractor.csproj", "{9A459C50-F18B-48D0-8E34-0D540F86B886}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,9 +134,16 @@ Global
 		{56A741DC-6481-4A75-B91E-17E0DF4A1BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56A741DC-6481-4A75-B91E-17E0DF4A1BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56A741DC-6481-4A75-B91E-17E0DF4A1BF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A459C50-F18B-48D0-8E34-0D540F86B886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A459C50-F18B-48D0-8E34-0D540F86B886}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A459C50-F18B-48D0-8E34-0D540F86B886}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A459C50-F18B-48D0-8E34-0D540F86B886}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A459C50-F18B-48D0-8E34-0D540F86B886} = {0DAD67B9-5C1D-480C-A87D-2E26AFA713A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E68C87D-E13A-4864-B418-221FE2CD9DC9}
