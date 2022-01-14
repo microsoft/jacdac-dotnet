@@ -13,7 +13,14 @@ namespace Jacdac.Samples
         {
             #region sources
             var leds = new LedPixelClient(bus, "leds1");
+            leds.NumPixels = 300;
+            leds.MaxPower = 2000;
+            leds.Brightness = 0.1f;
+
             var leds2 = new LedPixelClient(bus, "leds2");
+            leds2.NumPixels = 300;
+            leds2.MaxPower = 2000;
+            leds2.Brightness = 0.1f;
 
             var red = 0xff0000;
             var purple = 0xff00ff;
@@ -34,14 +41,13 @@ namespace Jacdac.Samples
             var rotate = rotateBuilder.ToBuffer();
             rotateBuilder = null;
 
+            leds.Configure += (s, e) =>
+            {
+                leds.Run(paint);
+            };
             leds.Connected += (s, e) =>
             {
                 Console.WriteLine("leds connected...");
-                leds.NumPixels = 300;
-                leds.MaxPower = 2000;
-                leds.Brightness = 0.1f;
-                leds.Run(paint);
-                leds.Run(paint);
                 while (leds.IsConnected)
                 {
                     leds.Run(rotate);
@@ -50,14 +56,12 @@ namespace Jacdac.Samples
             };
             leds.Disconnected += (s, e) => Console.WriteLine("leds disconnected...");
 
+            leds2.Configure += (s, e) =>
+            {
+                leds2.Run(paint2);
+            };
             leds2.Connected += (s, e) =>
             {
-                Console.WriteLine("leds2 connected...");
-                leds2.NumPixels = 300;
-                leds2.MaxPower = 2000;
-                leds2.Brightness = 0.1f;
-                leds2.Run(paint2);
-                leds2.Run(paint2);
                 while (leds2.IsConnected)
                 {
                     leds2.Run(rotate);

@@ -335,8 +335,14 @@ namespace Jacdac
                 foreach (var rv in rvs)
                     this.ApplyRegisterValueBinding(rv);
 
+                this.Configure?.Invoke(this, EventArgs.Empty);
             }).Start();
         }
+
+        /// <summary>
+        /// Raised when a device reconnects from a restart
+        /// </summary>
+        public event EventHandler Configure;
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
