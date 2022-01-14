@@ -11,7 +11,7 @@ namespace Jacdac {
         Disconnecting = 0x4,
     }
 
-    public enum AzureIotHubHealthReg {
+    public enum AzureIotHubHealthReg : ushort {
         /// <summary>
         /// Read-only string (bytes). Something like `my-iot-hub.azure-devices.net` if available.
         ///
@@ -57,7 +57,7 @@ namespace Jacdac {
         public const string ConnectionStatus = "u16";
     }
 
-    public enum AzureIotHubHealthCmd {
+    public enum AzureIotHubHealthCmd : ushort {
         /// <summary>
         /// No args. Starts a connection to the IoT hub service
         /// </summary>
@@ -85,7 +85,7 @@ namespace Jacdac {
         public const string SetConnectionString = "s";
     }
 
-    public enum AzureIotHubHealthEvent {
+    public enum AzureIotHubHealthEvent : ushort {
         /// <summary>
         /// Argument: connection_status ConnectionStatus (uint16_t). Raised when the connection status changes
         ///

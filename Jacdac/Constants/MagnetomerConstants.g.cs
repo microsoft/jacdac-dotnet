@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Magnetometer = 0x13029088;
     }
-    public enum MagnetometerReg {
+    public enum MagnetometerReg : ushort {
         /// <summary>
         /// Indicates the current magnetic field on magnetometer.
         /// For reference: `1 mgauss` is `100 nT` (and `1 gauss` is `100 000 nT`).
@@ -36,7 +36,7 @@ namespace Jacdac {
         public const string ForcesError = "i32";
     }
 
-    public enum MagnetometerCmd {
+    public enum MagnetometerCmd : ushort {
         /// <summary>
         /// No args. Forces a calibration sequence where the user/device
         /// might have to rotate to be calibrated.

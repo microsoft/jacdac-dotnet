@@ -11,7 +11,7 @@ namespace Jacdac {
         ElastomerLEDPixel = 0x4,
     }
 
-    public enum MatrixKeypadReg {
+    public enum MatrixKeypadReg : ushort {
         /// <summary>
         /// Read-only. The coordinate of the button currently pressed. Keys are zero-indexed from left to right, top to bottom:
         /// ``row = index / columns``, ``column = index % columns``.
@@ -88,7 +88,7 @@ namespace Jacdac {
         public const string Variant = "u8";
     }
 
-    public enum MatrixKeypadEvent {
+    public enum MatrixKeypadEvent : ushort {
         /// <summary>
         /// Argument: uint8_t. Emitted when a key, at the given index, goes from inactive (`pressed == 0`) to active.
         ///

@@ -35,5 +35,6 @@ namespace Jacdac
 
         public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
         public static SetStatusLightHandler SetStatusLight = null;
+        public static bool UseReflectionMetadata = true;
     }
 }

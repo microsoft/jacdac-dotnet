@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Barometer = 0x1e117cea;
     }
-    public enum BarometerReg {
+    public enum BarometerReg : ushort {
         /// <summary>
         /// Read-only hPa u22.10 (uint32_t). The air pressure.
         ///

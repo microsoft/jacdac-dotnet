@@ -2,7 +2,7 @@
 using Jacdac;
 using System;
 
-namespace Jacdac.Clients
+namespace Jacdac.Clients 
 {
     /// <summary>
     /// A controller for 1 or more monochrome or RGB LEDs connected in parallel.
@@ -35,7 +35,7 @@ namespace Jacdac.Clients
         bool TryGetMaxPower(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.MaxPower, LedRegPack.MaxPower, out values))
+            if (this.TryGetRegisterValues((ushort)LedReg.MaxPower, LedRegPack.MaxPower, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -46,7 +46,7 @@ namespace Jacdac.Clients
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Sets the max_power value
         /// </summary>
@@ -63,7 +63,7 @@ namespace Jacdac.Clients
         bool TryGetLedCount(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.LedCount, LedRegPack.LedCount, out values))
+            if (this.TryGetRegisterValues((ushort)LedReg.LedCount, LedRegPack.LedCount, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -82,7 +82,7 @@ namespace Jacdac.Clients
         bool TryGetWaveLength(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.WaveLength, LedRegPack.WaveLength, out values))
+            if (this.TryGetRegisterValues((ushort)LedReg.WaveLength, LedRegPack.WaveLength, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -101,7 +101,7 @@ namespace Jacdac.Clients
         bool TryGetLuminousIntensity(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity, out values))
+            if (this.TryGetRegisterValues((ushort)LedReg.LuminousIntensity, LedRegPack.LuminousIntensity, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -120,7 +120,7 @@ namespace Jacdac.Clients
         bool TryGetVariant(out LedVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.Variant, LedRegPack.Variant, out values))
+            if (this.TryGetRegisterValues((ushort)LedReg.Variant, LedRegPack.Variant, out values)) 
             {
                 value = (LedVariant)values[0];
                 return true;
@@ -133,7 +133,7 @@ namespace Jacdac.Clients
         }
 
 
-
+        
         /// <summary>
         /// This has the same semantics as `set_status_light` in the control service.
         /// </summary>

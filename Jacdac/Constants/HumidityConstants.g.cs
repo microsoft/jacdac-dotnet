@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Humidity = 0x16c810b8;
     }
-    public enum HumidityReg {
+    public enum HumidityReg : ushort {
         /// <summary>
         /// Read-only %RH u22.10 (uint32_t). The relative humidity in percentage of full water saturation.
         ///

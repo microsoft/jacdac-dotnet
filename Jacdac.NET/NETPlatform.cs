@@ -47,7 +47,7 @@ namespace Jacdac
                     IncludeFields = true
                 });
             }
-            catch (Exception ex)
+            catch (System.Text.Json.JsonException ex)
             {
                 Debug.WriteLine(ex.Message);
                 return null;
@@ -56,29 +56,36 @@ namespace Jacdac
 
         static string WebGet(string url)
         {
-            var req = HttpWebRequest.Create(url) as HttpWebRequest;
+            try
             {
-                req.KeepAlive = false;
-                req.ReadWriteTimeout = 2000;
-                req.Headers[HttpRequestHeader.Accept] = "application/json";
-                //req.HttpsAuthentCerts = certx509;
-                using (var res = req.GetResponse() as HttpWebResponse)
+                var req = HttpWebRequest.Create(url) as HttpWebRequest;
                 {
-                    if (res.StatusCode == HttpStatusCode.OK)
-                        using (var stream = res.GetResponseStream())
-                        {
-                            var mem = new MemoryStream();
-                            var read = 0;
-                            var buf = new byte[512];
-                            do
+                    req.KeepAlive = false;
+                    req.ReadWriteTimeout = 2000;
+                    req.Headers[HttpRequestHeader.Accept] = "application/json";
+                    //req.HttpsAuthentCerts = certx509;
+                    using (var res = req.GetResponse() as HttpWebResponse)
+                    {
+                        if (res.StatusCode == HttpStatusCode.OK)
+                            using (var stream = res.GetResponseStream())
                             {
-                                read = stream.Read(buf, 0, buf.Length);
-                                mem.Write(buf, 0, read);
-                            } while (read > 0);
-                            var bytes = mem.ToArray();
-                            return System.Text.UTF8Encoding.UTF8.GetString(bytes);
-                        }
+                                var mem = new MemoryStream();
+                                var read = 0;
+                                var buf = new byte[512];
+                                do
+                                {
+                                    read = stream.Read(buf, 0, buf.Length);
+                                    mem.Write(buf, 0, read);
+                                } while (read > 0);
+                                var bytes = mem.ToArray();
+                                return System.Text.UTF8Encoding.UTF8.GetString(bytes);
+                            }
+                    }
                 }
+            }
+            catch (System.Net.WebException ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             return null;
         }

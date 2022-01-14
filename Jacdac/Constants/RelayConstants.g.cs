@@ -10,7 +10,7 @@ namespace Jacdac {
         Reed = 0x3,
     }
 
-    public enum RelayReg {
+    public enum RelayReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Indicates whether the relay circuit is currently energized or not.
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint PressureButton = 0x281740c3;
     }
-    public enum PressureButtonReg {
+    public enum PressureButtonReg : ushort {
         /// <summary>
         /// Read-write ratio u0.16 (uint16_t). Indicates the threshold for ``up`` events.
         ///

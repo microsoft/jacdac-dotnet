@@ -16,6 +16,7 @@ namespace Jacdac
         private byte packetCount = 0;
         private JDServiceServer[] services;
         public bool IsClient;
+        public bool IsProxy;
         private ushort eventCounter = 0;
 
         public JDDeviceServer(JDBus bus, string deviceId, JDBusOptions options)
@@ -25,6 +26,7 @@ namespace Jacdac
             this.statusLight = options != null ? options.StatusLight : ControlAnnounceFlags.StatusLightNone;
             this.DeviceId = deviceId;
             this.IsClient = options.IsClient;
+            this.IsProxy = options.IsProxy;
             this.services = new JDServiceServer[
                 1 // control
                 + (options.DisableLogger ? 0 : 1)
@@ -103,6 +105,7 @@ namespace Jacdac
         {
             this.packetCount++;
             var frame = Packet.ToFrame(new Packet[] { pkt });
+            pkt.SetFrameCrc(frame);
             this.Bus.SendFrame(frame);
         }
 
@@ -129,9 +132,7 @@ namespace Jacdac
             pkt.ServiceIndex = Jacdac.Constants.JD_SERVICE_INDEX_CTRL;
             pkt.DeviceId = this.DeviceId;
             this.SendPacket(pkt);
-
-            if (this.RoleManager != null && this.RoleManager.AutoBind)
-                this.RoleManager.BindRoles();
+            this.RoleManager?.AutoBindRolesMaybe();
         }
 
         public ushort CreateEventCmd(ushort evCode)

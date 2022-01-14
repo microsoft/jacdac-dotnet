@@ -20,7 +20,7 @@ namespace Jacdac {
         UpcE = 0xe,
     }
 
-    public enum BarcodeReaderReg {
+    public enum BarcodeReaderReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Turns on or off the detection of barcodes.
         ///
@@ -52,7 +52,7 @@ namespace Jacdac {
         public const string Formats = "r: u8";
     }
 
-    public enum BarcodeReaderEvent {
+    public enum BarcodeReaderEvent : ushort {
         /// <summary>
         /// Raised when a bar code is detected and decoded. If the reader detects multiple codes, it will issue multiple events.
         /// In case of numeric barcodes, the `data` field should contain the ASCII (which is the same as UTF8 in that case) representation of the number.

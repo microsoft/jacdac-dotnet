@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint MidiOutput = 0x1a848cd7;
     }
-    public enum MidiOutputReg {
+    public enum MidiOutputReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Opens or closes the port to the MIDI device
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Enabled = "u8";
     }
 
-    public enum MidiOutputCmd {
+    public enum MidiOutputCmd : ushort {
         /// <summary>
         /// No args. Clears any pending send data that has not yet been sent from the MIDIOutput's queue.
         /// </summary>

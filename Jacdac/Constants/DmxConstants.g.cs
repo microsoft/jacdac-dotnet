@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Dmx = 0x11cf8c05;
     }
-    public enum DmxReg {
+    public enum DmxReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Determines if the DMX bridge is active.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Enabled = "u8";
     }
 
-    public enum DmxCmd {
+    public enum DmxCmd : ushort {
         /// <summary>
         /// Argument: channels bytes. Send a DMX packet, up to 236bytes long, including the start code.
         ///

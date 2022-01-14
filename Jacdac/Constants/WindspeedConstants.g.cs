@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint WindSpeed = 0x1b591bbf;
     }
-    public enum WindSpeedReg {
+    public enum WindSpeedReg : ushort {
         /// <summary>
         /// Read-only m/s u16.16 (uint32_t). The velocity of the wind.
         ///

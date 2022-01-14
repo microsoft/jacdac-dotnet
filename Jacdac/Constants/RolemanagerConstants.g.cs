@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint RoleManager = 0x1e4b7e66;
     }
-    public enum RoleManagerReg {
+    public enum RoleManagerReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Normally, if some roles are unfilled, and there are idle services that can fulfill them,
         /// the brain device will assign roles (bind) automatically.
@@ -40,7 +40,7 @@ namespace Jacdac {
         public const string AllRolesAllocated = "u8";
     }
 
-    public enum RoleManagerCmd {
+    public enum RoleManagerCmd : ushort {
         /// <summary>
         /// Set role. Can set to empty to remove role binding.
         ///
@@ -93,7 +93,7 @@ namespace Jacdac {
         public const string Roles = "b[8] u32 u8 s";
     }
 
-    public enum RoleManagerEvent {
+    public enum RoleManagerEvent : ushort {
         /// <summary>
         /// Notifies that role bindings have changed.
         /// </summary>

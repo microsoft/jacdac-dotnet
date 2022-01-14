@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint IndexedScreen = 0x16fa36e5;
     }
-    public enum IndexedScreenCmd {
+    public enum IndexedScreenCmd : ushort {
         /// <summary>
         /// Sets the update window for subsequent `set_pixels` commands.
         ///
@@ -36,7 +36,7 @@ namespace Jacdac {
         public const string SetPixels = "b";
     }
 
-    public enum IndexedScreenReg {
+    public enum IndexedScreenReg : ushort {
         /// <summary>
         /// Read-write ratio u0.8 (uint8_t). Set backlight brightness.
         /// If set to `0` the display may go to sleep.

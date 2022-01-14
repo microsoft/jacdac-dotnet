@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint JacscriptCloud = 0x14606e9c;
     }
-    public enum JacscriptCloudCmd {
+    public enum JacscriptCloudCmd : ushort {
         /// <summary>
         /// Upload a labelled tuple of values to the cloud.
         /// The tuple will be automatically tagged with timestamp and originating device.
@@ -78,7 +78,7 @@ namespace Jacdac {
         public const string AckCloudCommand = "u32 r: f64";
     }
 
-    public enum JacscriptCloudReg {
+    public enum JacscriptCloudReg : ushort {
         /// <summary>
         /// Read-only bool (uint8_t). Indicate whether we're currently connected to the cloud server.
         /// When offline, `upload` commands are queued, and `get_twin` respond with cached values.
@@ -97,7 +97,7 @@ namespace Jacdac {
         public const string Connected = "u8";
     }
 
-    public enum JacscriptCloudEvent {
+    public enum JacscriptCloudEvent : ushort {
         /// <summary>
         /// Emitted when a twin is updated at given path.
         /// It will be also emitted once immediately after `subscribe_twin`.

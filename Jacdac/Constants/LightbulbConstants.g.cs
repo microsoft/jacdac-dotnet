@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint LightBulb = 0x1cab054c;
     }
-    public enum LightBulbReg {
+    public enum LightBulbReg : ushort {
         /// <summary>
         /// Read-write ratio u0.16 (uint16_t). Indicates the brightness of the light bulb. Zero means completely off and 0xffff means completely on.
         /// For non-dimmable lights, the value should be clamp to 0xffff for any non-zero value.

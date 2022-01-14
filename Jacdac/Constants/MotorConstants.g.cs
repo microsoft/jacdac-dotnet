@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Motor = 0x17004cd8;
     }
-    public enum MotorReg {
+    public enum MotorReg : ushort {
         /// <summary>
         /// Read-write ratio i1.15 (int16_t). PWM duty cycle of the motor. Use negative/positive values to run the motor forwards and backwards.
         /// Positive is recommended to be clockwise rotation and negative counterclockwise. A duty of ``0``

@@ -10,7 +10,7 @@ namespace Jacdac {
         Playing = 0x2,
     }
 
-    public enum SoundRecorderWithPlaybackCmd {
+    public enum SoundRecorderWithPlaybackCmd : ushort {
         /// <summary>
         /// No args. Replay recorded audio.
         /// </summary>
@@ -38,7 +38,7 @@ namespace Jacdac {
         public const string Record = "u16";
     }
 
-    public enum SoundRecorderWithPlaybackReg {
+    public enum SoundRecorderWithPlaybackReg : ushort {
         /// <summary>
         /// Read-only Status (uint8_t). Indicate the current status
         ///

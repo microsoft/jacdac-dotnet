@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac
@@ -13,7 +14,7 @@ namespace Jacdac
     }
 
     [Serializable]
-    public sealed class ClientEventArgs : EventArgs
+    public sealed class ClientEventArgs
     {
         readonly object[] Values;
         internal ClientEventArgs(object[] values = null)
@@ -91,15 +92,16 @@ namespace Jacdac
         }
     }
 
+    /// <summary>
+    /// A role client which gets bound to a service by the role maanger.
+    /// </summary>
     public abstract class Client
     {
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
         private EventBinding[] events = EventBinding.Empty;
-
-        public static int CONNECT_TIMEOUT = 3000;
-        public static int VALUES_TIMEOUT = 1000;
+        private RegisterValueBinding[] registerValueBindings = RegisterValueBinding.Empty;
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
@@ -114,6 +116,11 @@ namespace Jacdac
             roleMgr.AddClient(this);
         }
 
+        public int CompareTo(Client other)
+        {
+            return this.Name.CompareTo(other.Name);
+        }
+
         public string Host
         {
             get
@@ -126,37 +133,61 @@ namespace Jacdac
             }
         }
 
+        /// <summary>
+        /// Indicates if the client is connected to a service
+        /// </summary>
         public bool IsConnected
         {
             get { return this.BoundService != null; }
         }
 
+        /// <summary>
+        /// Gets the bound service
+        /// </summary>
         public JDService BoundService
         {
             get { return this._boundService; }
-            set
+            internal set
             {
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
+                    Debug.WriteLine($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
+                        old.Device.Restarted -= this.handleDeviceRestarted;
+                        value.Device.Announced -= handleAnnounced;
                         old.EventRaised -= this.handleEventRaised;
                         if (old != null)
+                        {
                             ThreadExtensions.BeginRaiseEvent(this.Disconnected, () => this.Disconnected?.Invoke(this, new ServiceEventArgs(old)));
+                        }
                     }
                     this._boundService = value;
                     if (value != null)
                     {
+                        value.Device.Restarted += this.handleDeviceRestarted;
+                        value.Device.Announced += handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
+                        this.BeginApplyRegisterValueBindings();
                         ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(value)));
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Raised when a service is bound to the role
+        /// </summary>
         public event ServiceEventHandler Connected;
+        /// <summary>
+        /// Raised when a device reconnects from a restart
+        /// </summary>
+        public event ServiceEventHandler Configure;
+        /// <summary>
+        /// Raised when the service is unbound from the role
+        /// </summary>
         public event ServiceEventHandler Disconnected;
 
         public override string ToString()
@@ -213,7 +244,7 @@ namespace Jacdac
 
         protected JDRegister WaitForRegister(ushort code)
         {
-            var service = this.WaitForService(CONNECT_TIMEOUT);
+            var service = this.WaitForService(Constants.CLIENT_CONNECT_TIMEOUT);
             var reg = service.GetRegister(code);
             return reg;
         }
@@ -222,7 +253,7 @@ namespace Jacdac
         {
             var reg = this.WaitForRegister(code);
             reg.PackFormat = packFormat;
-            var values = reg.WaitForValues(VALUES_TIMEOUT);
+            var values = reg.WaitForValues(Constants.CLIENT_VALUES_TIMEOUT);
             if (values.Length == 0)
                 if (defaultValues != null)
                     return defaultValues;
@@ -258,9 +289,92 @@ namespace Jacdac
 
         protected void SetRegisterValues(ushort code, string packetFormat, object[] values)
         {
-            var reg = this.WaitForRegister(code);
-            reg.PackFormat = packetFormat;
-            reg.SendValues(values);
+            var data = PacketEncoding.Pack(packetFormat, values);
+
+            // store binding
+            RegisterValueBinding rv = null;
+            if (!this.TryGetRegisterValueBinding(code, out rv))
+                rv = this.AddRegisterValueBinding(code);
+            rv.Data = data;
+
+            // update as needed
+            this.ApplyRegisterValueBinding(rv);
+        }
+
+        private bool TryGetRegisterValueBinding(ushort code, out RegisterValueBinding registerValue)
+        {
+            var registerValues = this.registerValueBindings;
+            foreach (var rv in registerValues)
+                if (rv.Code == code)
+                {
+                    registerValue = rv;
+                    return true;
+                }
+
+            registerValue = null;
+            return false;
+        }
+
+        private RegisterValueBinding AddRegisterValueBinding(ushort code)
+        {
+            lock (this)
+            {
+                var rvs = this.registerValueBindings;
+                RegisterValueBinding registerValue = null;
+                if (this.TryGetRegisterValueBinding(code, out registerValue))
+                    return registerValue;
+
+                var newRvs = new RegisterValueBinding[rvs.Length + 1];
+                rvs.CopyTo(newRvs, 0);
+                registerValue = newRvs[rvs.Length] = new RegisterValueBinding(code);
+                this.registerValueBindings = newRvs;
+
+                return registerValue;
+            }
+        }
+
+        private void ApplyRegisterValueBinding(RegisterValueBinding rv)
+        {
+            var service = this._boundService;
+            if (service == null) return;
+
+            var reg = service.GetRegister(rv.Code);
+            reg.SendSet(rv.Data);
+        }
+
+        private void BeginApplyRegisterValueBindings()
+        {
+            new Thread(() =>
+            {
+                var service = this.BoundService;
+                if (service == null) return;
+
+                if (this.Configure != null)
+                    this.Configure.Invoke(this, new ServiceEventArgs(service));
+
+                var rvs = this.registerValueBindings;
+                if (service == null || rvs.Length == 0) return;
+
+                Debug.WriteLine($"{this}: apply {rvs.Length} register values");
+                foreach (var rv in rvs)
+                    this.ApplyRegisterValueBinding(rv);
+
+            }).Start();
+        }
+
+        private void handleDeviceRestarted(JDNode sender, EventArgs e)
+        {
+            Debug.WriteLine($"{this}: device {sender} restarted");
+            this.BeginApplyRegisterValueBindings();
+        }
+        private void handleAnnounced(JDNode sender, EventArgs e)
+        {
+            var service = this.BoundService;
+            if (service != null)
+            {
+                var newService = service.Device.GetService(service.ServiceIndex);
+                this.BoundService = newService;
+            }
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)
@@ -302,9 +416,9 @@ namespace Jacdac
 
         protected void AddEvent(ushort code, ClientEventHandler handler)
         {
-            var events = this.events;
-            lock (events)
+            lock (this)
             {
+                var events = this.events;
                 // don't double add
                 foreach (var ev in events)
                     if (ev.Code == code)
@@ -322,8 +436,7 @@ namespace Jacdac
         }
         protected void RemoveEvent(ushort code, ClientEventHandler handler)
         {
-            var events = this.events;
-            lock (events)
+            lock (this)
             {
                 for (int i = 0; i < events.Length; i++)
                 {
@@ -358,6 +471,19 @@ namespace Jacdac
             {
                 this.Code = code;
                 this.DebouncedHandler = new DebouncedClientEventHandler(sender);
+            }
+        }
+
+        sealed class RegisterValueBinding
+        {
+            public static RegisterValueBinding[] Empty = new RegisterValueBinding[0];
+
+            public readonly ushort Code;
+            public byte[] Data;
+
+            public RegisterValueBinding(ushort code)
+            {
+                this.Code = code;
             }
         }
     }

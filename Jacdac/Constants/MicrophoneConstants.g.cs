@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Microphone = 0x113dac86;
     }
-    public enum MicrophoneCmd {
+    public enum MicrophoneCmd : ushort {
         /// <summary>
         /// The samples will be streamed back over the `samples` pipe.
         /// If `num_samples` is `0`, streaming will only stop when the pipe is closed.
@@ -24,7 +24,7 @@ namespace Jacdac {
         public const string Sample = "b[12] u32";
     }
 
-    public enum MicrophoneReg {
+    public enum MicrophoneReg : ushort {
         /// <summary>
         /// Read-write μs uint32_t. Get or set microphone sampling period.
         /// Sampling rate is `1_000_000 / sampling_period Hz`.

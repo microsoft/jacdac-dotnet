@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint SoundSpectrum = 0x157abc1e;
     }
-    public enum SoundSpectrumReg {
+    public enum SoundSpectrumReg : ushort {
         /// <summary>
         /// Read-only bytes. The computed frequency data.
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint BitRadio = 0x1ac986cf;
     }
-    public enum BitRadioReg {
+    public enum BitRadioReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Turns on/off the radio antenna.
         ///
@@ -63,7 +63,7 @@ namespace Jacdac {
         public const string FrequencyBand = "u8";
     }
 
-    public enum BitRadioCmd {
+    public enum BitRadioCmd : ushort {
         /// <summary>
         /// Argument: message string (bytes). Sends a string payload as a radio message, maximum 18 characters.
         ///

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Compass = 0x15b7b9bf;
     }
-    public enum CompassReg {
+    public enum CompassReg : ushort {
         /// <summary>
         /// Read-only ° u16.16 (uint32_t). The heading with respect to the magnetic north.
         ///
@@ -49,7 +49,7 @@ namespace Jacdac {
         public const string HeadingError = "u16.16";
     }
 
-    public enum CompassCmd {
+    public enum CompassCmd : ushort {
         /// <summary>
         /// No args. Starts a calibration sequence for the compass.
         /// </summary>

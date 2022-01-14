@@ -8,8 +8,10 @@ namespace Jacdac.Servers
         private readonly ISettingsStorage Storage;
         private JDStaticRegisterServer autoBindRegister;
         private JDStaticRegisterServer allRolesAllocatedRegister;
+        private bool binding = false;
 
         private Client[] roles = new Client[0];
+        public TimeSpan LastBindRoles { get; private set; } = TimeSpan.Zero;
 
         public RoleManagerServer(ISettingsStorage storage = null)
             : base(ServiceClasses.RoleManager, null)
@@ -17,12 +19,17 @@ namespace Jacdac.Servers
             this.Storage = storage;
             this.AddRegister(this.autoBindRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AutoBind, Jacdac.RoleManagerRegPack.AutoBind, new object[] { 1 }));
             this.AddRegister(this.allRolesAllocatedRegister = new JDStaticRegisterServer((ushort)Jacdac.RoleManagerReg.AllRolesAllocated, Jacdac.RoleManagerRegPack.AllRolesAllocated, new object[] { false }));
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.SetRole, this.handleSetRole);
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ListRoles, this.handleListRoles);
-            this.AddCommand((ushort)Jacdac.RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
+            this.AddCommand((ushort)RoleManagerCmd.SetRole, this.handleSetRole);
+            this.AddCommand((ushort)RoleManagerCmd.ListRoles, this.handleListRoles);
+            this.AddCommand((ushort)RoleManagerCmd.ClearAllRoles, this.handleClearAllRoles);
 
             this.Changed += this.handleChanged;
             this.allRolesAllocatedRegister.Changed += handleAllRolesAllocatedChanged;
+        }
+
+        public override string ToString()
+        {
+            return "roles";
         }
 
         public bool AutoBind
@@ -42,7 +49,7 @@ namespace Jacdac.Servers
 
         public Client[] Roles
         {
-            get { return this.Roles; }
+            get { return this.roles; }
         }
 
         private void handleAllRolesAllocatedChanged(JDNode sender, EventArgs e)
@@ -64,8 +71,20 @@ namespace Jacdac.Servers
 
                 var roles = this.roles;
                 var newRoles = new Client[roles.Length + 1];
-                roles.CopyTo(newRoles, 0);
-                newRoles[roles.Length] = role;
+
+                // find insertion point
+                var i = 0;
+                for (i = 0; i < roles.Length; i++)
+                {
+                    if (role.CompareTo(roles[i]) < 0)
+                        break;
+                }
+                // splice newRolei in the role list
+                if (i > 0)
+                    Array.Copy(roles, 0, newRoles, 0, i);
+                newRoles[i] = role;
+                if (i < roles.Length)
+                    Array.Copy(roles, i, newRoles, i + 1, roles.Length - i);
 
                 this.roles = newRoles;
             }
@@ -86,6 +105,7 @@ namespace Jacdac.Servers
             this.SaveBindings();
             this.allRolesAllocatedRegister.SetValues(new object[] { allRolesAllocated });
             this.SendEvent((ushort)Jacdac.RoleManagerEvent.Change);
+            this.Debug("change event");
         }
 
         const string PACK_FORMAT = "b[8] u32 u8";
@@ -109,7 +129,7 @@ namespace Jacdac.Servers
                     });
                     if (!Util.BufferEquals(current, payload))
                     {
-                        this.Debug($"roles: save {role}");
+                        this.Debug($"save {role}");
                         this.Storage.Write(role.Name, payload);
                     }
                 }
@@ -143,8 +163,13 @@ namespace Jacdac.Servers
                     if (device.DeviceId == dids
                     && idx < device.GetServices().Length)
                     {
-                        role.BoundService = device.GetService(idx);
-                        break;
+                        var service = device.GetService(idx);
+                        Client existingClient;
+                        if (!this.TryGetClient(service, out existingClient))
+                        {
+                            role.BoundService = service;
+                            break;
+                        }
                     }
                 }
                 return role.BoundService != null;
@@ -158,7 +183,15 @@ namespace Jacdac.Servers
 
         private void handleClearAllRoles(JDNode sensor, PacketEventArgs args)
         {
-            this.Debug($"roles: clear");
+            this.ClearRoles();
+        }
+
+        /// <summary>
+        /// Clears all role information
+        /// </summary>
+        public void ClearRoles()
+        {
+            this.Debug($"clear");
             if (this.Storage != null)
                 this.Storage.Clear();
             var bindings = this.roles;
@@ -192,21 +225,48 @@ namespace Jacdac.Servers
             var serviceIndex = (uint)values[1];
             var name = (string)values[2];
 
+            this.BindRole(name, deviceId, serviceIndex);
+        }
+
+        /// <summary>
+        /// Binds a role to a service
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="serviceIndex"></param>
+        public void BindRole(string name, string deviceId, uint serviceIndex)
+        {
             lock (this.roles)
             {
                 Client role;
                 if (!this.TryGetClient(name, out role))
                     return; // role does not exist
 
-                var service = role.BoundService;
-                if (service != null && service.Device?.DeviceId == deviceId && service.ServiceIndex == serviceIndex)
-                    return; // already bound
+                var oldService = role.BoundService;
+                if (oldService != null && oldService.Device?.DeviceId == deviceId && oldService.ServiceIndex == serviceIndex)
+                    return; // binding did not change
 
                 JDDevice device;
                 if (!this.Device.Bus.TryGetDevice(deviceId, out device))
                     return; // device does not exist
 
+                var service = device.GetService(serviceIndex);
+                if (service == null)
+                    return; // service index out of rage
+
+                // unbind previous role if needed
+                Client existingRole;
+                if (this.TryGetBinding(service, out existingRole) && existingRole != role)
+                {
+                    this.Debug($"unbind {existingRole.Name}");
+                    existingRole.BoundService = null;
+                }
+
+                if (oldService != null)
+                    this.Debug($"unbind {role.Name}");
+                // bind to new role
                 role.BoundService = device.GetService(serviceIndex);
+                this.Debug($"bind {role} to {deviceId}[{serviceIndex}]");
             }
             this.RaiseChanged();
         }
@@ -220,6 +280,21 @@ namespace Jacdac.Servers
                     binding = b;
                     return true;
                 }
+            binding = null;
+            return false;
+        }
+
+        private bool TryGetBinding(JDService service, out Client binding)
+        {
+            var bindings = this.roles;
+            foreach (var b in bindings)
+            {
+                if (b.BoundService == service)
+                {
+                    binding = b;
+                    return true;
+                }
+            }
             binding = null;
             return false;
         }
@@ -248,16 +323,39 @@ namespace Jacdac.Servers
             return false;
         }
 
+        public void AutoBindRolesMaybe()
+        {
+            var now = this.Bus.Timestamp;
+            var age = (now - this.LastBindRoles).TotalMilliseconds;
+            if (age < Constants.ROLE_MANAGER_AUTO_BIND_INTERVAL && this.AutoBind)
+                this.BindRoles();
+        }
+
         public void BindRoles()
         {
+            if (this.binding) return;
             lock (this.roles)
-                this.SyncBindRoles();
+            {
+                if (this.binding) return;
+                try
+                {
+                    this.binding = true;
+                    this.SyncBindRoles();
+                }
+                finally
+                {
+                    this.binding = false;
+                }
+            }
         }
 
         private void SyncBindRoles()
         {
-            var hash = this.ComputeHash();
             var bus = this.Device.Bus;
+            if (bus == null) return;
+
+            var hash = this.ComputeHash();
+            this.LastBindRoles = bus.Timestamp;
             var devices = bus.GetDevices();
             var roles = this.roles;
             var bound = 0;
@@ -276,7 +374,9 @@ namespace Jacdac.Servers
                 return;
 
 
-            this.Debug($"roles: binding {bound}/{roles.Length}");
+            this.Debug($"bound {bound}/{roles.Length}");
+            for (var i = 0; i < roles.Length; ++i)
+                this.Debug($"  {roles[i]}");
             // try to load bindings from storage
             if (this.Storage != null)
             {
@@ -288,7 +388,7 @@ namespace Jacdac.Servers
                     // try get binding from storage
                     if (this.TryLoadBinding(devices, role))
                     {
-                        this.Debug($"roles: storage bind {role}");
+                        this.Debug($"storage bind {role}");
                         continue;
                     }
                 }
@@ -315,7 +415,7 @@ namespace Jacdac.Servers
                                 && !this.TryGetClient(service, out client))
                             {
                                 role.BoundService = service;
-                                this.Debug($"roles: auto bind {role}");
+                                this.Debug($"auto bind {role}");
                                 break;
                             }
                         }

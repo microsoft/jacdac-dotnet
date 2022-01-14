@@ -10,7 +10,7 @@ namespace Jacdac {
         Latch = 0x3,
     }
 
-    public enum SolenoidReg {
+    public enum SolenoidReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Indicates whether the solenoid is energized and pulled (on) or pushed (off).
         ///

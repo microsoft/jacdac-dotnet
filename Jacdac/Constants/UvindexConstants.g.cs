@@ -9,7 +9,7 @@ namespace Jacdac {
         Visible_IR = 0x2,
     }
 
-    public enum UvIndexReg {
+    public enum UvIndexReg : ushort {
         /// <summary>
         /// Read-only uv u16.16 (uint32_t). Ultraviolet index, typically refreshed every second.
         ///

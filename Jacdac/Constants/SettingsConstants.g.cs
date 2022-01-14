@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Settings = 0x1107dc4a;
     }
-    public enum SettingsCmd {
+    public enum SettingsCmd : ushort {
         /// <summary>
         /// Argument: key string (bytes). Get the value of given setting. If no such entry exists, the value returned is empty.
         ///
@@ -122,7 +122,7 @@ namespace Jacdac {
         public const string ListedEntry = "z b";
     }
 
-    public enum SettingsEvent {
+    public enum SettingsEvent : ushort {
         /// <summary>
         /// Notifies that some setting have been modified.
         /// </summary>

@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint RotaryEncoder = 0x10fa29c9;
     }
-    public enum RotaryEncoderReg {
+    public enum RotaryEncoderReg : ushort {
         /// <summary>
         /// Read-only # int32_t. Upon device reset starts at `0` (regardless of the shaft position).
         /// Increases by `1` for a clockwise "click", by `-1` for counter-clockwise.

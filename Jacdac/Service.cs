@@ -5,8 +5,9 @@ namespace Jacdac
 {
     public sealed partial class JDService : JDBusNode
     {
-        JDDevice _device;
+        private JDDevice _device;
         private ServiceSpec _specification;
+        private string _name;
         public readonly byte ServiceIndex;
         public readonly uint ServiceClass;
         JDRegister[] registers;
@@ -36,8 +37,35 @@ namespace Jacdac
         {
             var device = this.Device;
             var spec = this.Specification;
-            var descr = spec == null ? $"0x{this.ServiceClass.ToString("x8")}" : spec.name;
-            return device == null ? "?" : $"{device}[{ this.ServiceIndex}:{descr}]";
+            var name = this.Name;
+            return device == null ? "?" : $"{device}[{ this.ServiceIndex}:{name}]";
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (this._name == null)
+                    this._name = this.ResolveName();
+                return this._name;
+            }
+        }
+
+        private string ResolveName()
+        {
+            var spec = this.Specification;
+            if (spec != null)
+                return spec.name;
+
+            if (Platform.UseReflectionMetadata)
+            {
+                var fields = typeof(Jacdac.ServiceClasses).GetFields();
+                foreach (var field in fields)
+                    if (field.FieldType == typeof(uint) && (uint)field.GetValue(null) == this.ServiceClass)
+                        return field.Name.ToLower();
+            }
+
+            return $"0x{ this.ServiceClass.ToString("x8")}";
         }
 
         /**
@@ -54,10 +82,13 @@ namespace Jacdac
                     {
                         ServiceSpec spec;
                         if (catalog.TryGetSpecification(this.ServiceClass, out spec))
+                        {
                             this._specification = spec;
+                            System.Diagnostics.Debug.Assert(this._specification.registers != null);
+                        }
                     }
                 }
-                return this._specification;
+                return this._specification?.registers != null ? this._specification : null;
             }
         }
 
@@ -119,17 +150,9 @@ namespace Jacdac
             }
             else if (pkt.IsCommand)
             {
-                this.InvalidateRegisterValues(pkt);
                 if (this.CommandReceived != null)
                     this.CommandReceived.Invoke(this, new PacketEventArgs(pkt));
             }
-        }
-
-        private void InvalidateRegisterValues(Packet pkt)
-        {
-            var registers = this.registers;
-            for (var i = 0; i < registers.Length; i++)
-                registers[i].LastGetTimestamp = TimeSpan.Zero;
         }
 
         public void SendPacket(Packet pkt)

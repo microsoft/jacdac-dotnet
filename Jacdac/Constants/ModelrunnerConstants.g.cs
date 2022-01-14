@@ -10,7 +10,7 @@ namespace Jacdac {
         EdgeImpulseCompiled = 0x30564945,
     }
 
-    public enum ModelRunnerCmd {
+    public enum ModelRunnerCmd : ushort {
         /// <summary>
         /// Argument: model_size B uint32_t. Open pipe for streaming in the model. The size of the model has to be declared upfront.
         /// The model is streamed over regular pipe data packets.
@@ -70,7 +70,7 @@ namespace Jacdac {
         public const string PredictReport = "u16";
     }
 
-    public enum ModelRunnerReg {
+    public enum ModelRunnerReg : ushort {
         /// <summary>
         /// Read-write uint16_t. When register contains `N > 0`, run the model automatically every time new `N` samples are collected.
         /// Model may be run less often if it takes longer to run than `N * sampling_interval`.

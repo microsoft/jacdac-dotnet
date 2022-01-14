@@ -22,7 +22,7 @@ namespace Jacdac {
         SupportsReliableCommands = 0x1000,
     }
 
-    public enum ControlCmd {
+    public enum ControlCmd : ushort {
         /// <summary>
         /// No args. The `restart_counter` is computed from the `flags & RestartCounterSteady`, starts at `0x1` and increments by one until it reaches `0xf`, then it stays at `0xf`.
         /// If this number ever goes down, it indicates that the device restarted.
@@ -169,7 +169,7 @@ namespace Jacdac {
         public const string WrappedCommand = "u8 u8 u16 b";
     }
 
-    public enum ControlReg {
+    public enum ControlReg : ushort {
         /// <summary>
         /// Read-write μs uint32_t. When set to value other than `0`, it asks the device to reset after specified number of microseconds.
         /// This is typically used to implement watchdog functionality, where a brain device sets `reset_in` to

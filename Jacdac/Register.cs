@@ -19,6 +19,25 @@ namespace Jacdac
         {
         }
 
+        public string Name
+        {
+            get
+            {
+                return this.ResolveName();
+            }
+        }
+
+        private string ResolveName()
+        {
+            var spec = this.Specification;
+            if (spec != null)
+                return spec.name;
+
+            // Reflection of Enum values not support in TinyCLR.
+
+            return $"0x{ this.Code.ToString("x2")}";
+        }
+
         public bool NotImplemented
         {
             get { return this.notImplemented; }
@@ -31,9 +50,36 @@ namespace Jacdac
 
         public override string ToString()
         {
-            var spec = this.Specification;
-            var descr = spec == null ? $"0x{this.Code.ToString("x2")}" : spec.name;
-            return $"{this.Service.ToString()}[{descr}]";
+            var name = this.Name;
+            return $"{this.Service.ToString()}[{name}]";
+        }
+
+        public string GetHumanValue()
+        {
+            var data = this.Data;
+            if (data == null) return "?";
+            if (this.PackFormat == null)
+                return HexEncoding.ToString(data);
+            var values = PacketEncoding.UnPack(this.PackFormat, data);
+            if (values.Length == 0)
+                return "--";
+            else if (values.Length == 1)
+            {
+                var value = values[0];
+                if (this.Service.ServiceClass == ServiceClasses.Control && this.Code == (ushort)ControlReg.Uptime)
+                    return new TimeSpan((long)((ulong)value * 10)).ToString();
+
+                var str = value.ToString();
+                if (this.PackFormat == "u32")
+                    str += " (0x" + ((uint)value).ToString("x8") + ")";
+                else if (this.PackFormat == "u16")
+                    str += " (0x" + ((uint)value).ToString("x4") + ")";
+                else if (this.PackFormat == "u8")
+                    str += " (0x" + ((uint)value).ToString("x2") + ")";
+                return str;
+            }
+            else
+                return $"[{values.Length}";
         }
 
         internal void ProcessPacket(Packet pkt)
@@ -92,9 +138,14 @@ namespace Jacdac
         public void SendGet(bool ack = false)
         {
             var bus = this.Bus;
-            if (this.NotImplemented || bus == null) return;
+            if (this.NotImplemented || bus == null || bus.SelfDeviceServer.IsProxy) return;
 
             this.LastGetAttempts++;
+            if (this.LastGetAttempts > Constants.REGISTER_GET_ATTEMPT_NOT_IMPLEMENTED)
+            {
+                this.NeedsRefresh = false; // give up
+                this.NotImplemented = true;
+            }
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
             var pkt = Packet.FromCmd(cmd);
             if (ack)

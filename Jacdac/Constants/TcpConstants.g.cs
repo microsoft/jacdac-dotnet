@@ -9,7 +9,7 @@ namespace Jacdac {
         InvalidCommandPayload = 0x2,
     }
 
-    public enum TcpCmd {
+    public enum TcpCmd : ushort {
         /// <summary>
         /// Argument: inbound pipe (bytes). Open pair of pipes between network peripheral and a controlling device. In/outbound refers to direction from/to internet.
         ///
@@ -39,7 +39,7 @@ namespace Jacdac {
         public const string OpenReport = "u16";
     }
 
-    public enum TcpPipeCmd {
+    public enum TcpPipeCmd : ushort {
         /// <summary>
         /// Open an SSL connection to a given host:port pair. Can be issued only once on given pipe.
         /// After the connection is established, an empty data report is sent.

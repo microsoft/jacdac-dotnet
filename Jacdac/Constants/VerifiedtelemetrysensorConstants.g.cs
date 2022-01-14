@@ -17,7 +17,7 @@ namespace Jacdac {
         Custom = 0x3,
     }
 
-    public enum VerifiedTelemetryReg {
+    public enum VerifiedTelemetryReg : ushort {
         /// <summary>
         /// Read-only Status (uint8_t). Reads the telemetry working status, where ``true`` is working and ``false`` is faulty.
         ///
@@ -77,7 +77,7 @@ namespace Jacdac {
         public const string FingerprintTemplate = "u16 b";
     }
 
-    public enum VerifiedTelemetryCmd {
+    public enum VerifiedTelemetryCmd : ushort {
         /// <summary>
         /// No args. This command will clear the template fingerprint of a sensor and collect a new template fingerprint of the attached sensor.
         /// </summary>
@@ -89,7 +89,7 @@ namespace Jacdac {
         RetrainFingerprintTemplate = 0x81,
     }
 
-    public enum VerifiedTelemetryEvent {
+    public enum VerifiedTelemetryEvent : ushort {
         /// <summary>
         /// Argument: telemetry_status Status (uint8_t). The telemetry status of the device was updated.
         ///

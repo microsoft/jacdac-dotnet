@@ -10,7 +10,7 @@ namespace Jacdac {
         Body = 0x3,
     }
 
-    public enum TemperatureReg {
+    public enum TemperatureReg : ushort {
         /// <summary>
         /// Read-only °C i22.10 (int32_t). The temperature.
         ///

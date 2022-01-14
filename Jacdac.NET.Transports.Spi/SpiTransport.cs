@@ -2,10 +2,21 @@
 using System.Collections;
 using System.Device.Gpio;
 using System.Device.Spi;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac.Transports.Spi
 {
+    public sealed class SpiTransportStats
+    {
+        public uint FrameSent = 0;
+        public uint FrameReceived = 0;
+        public uint FrameTransferError = 0;
+        public uint MaxSendQueueLength = 0;
+        public uint MaxReceiveQueueLength = 0;
+        public uint FrameTransferAttemptError = 0;
+    }
+
     /**
      * A transport that communicates with a SPI bridge.
      */
@@ -25,10 +36,12 @@ namespace Jacdac.Transports.Spi
         readonly int spiBusId;
         readonly GpioController controller;
         SpiDevice spi;
+        Timer reconnectTimer = null;
         // must be synched with sendQueue
         readonly Queue sendQueue;
         // must be synched with receiveQueue
         readonly Queue receiveQueue;
+        public readonly SpiTransportStats Stats = new SpiTransportStats();
 
         static class QueueExtensions
         {
@@ -76,10 +89,14 @@ namespace Jacdac.Transports.Spi
                 }
             }
 
-            public static void Enqueue(Queue queue, byte[] value)
+            public static uint Enqueue(Queue queue, byte[] value, uint maxLength)
             {
                 lock (queue)
+                {
                     queue.Enqueue(value);
+                    var c = (uint)queue.Count;
+                    return c > maxLength ? c : maxLength;
+                }
             }
         }
 
@@ -103,15 +120,22 @@ namespace Jacdac.Transports.Spi
 
         public override string ToString()
         {
-            return "spi bridge";
+            var stats = this.Stats;
+            return $"spi transport (sent {stats.FrameSent}, recv {stats.FrameReceived}, err {stats.FrameTransferError})";
         }
 
         public override event FrameEventHandler FrameReceived;
         public override event TransportErrorReceivedEvent ErrorReceived;
-
         protected override void InternalConnect()
         {
-            Console.WriteLine($"connecting to jacdapter...");
+            Console.WriteLine($"spi: connecting");
+
+            if (this.reconnectTimer != null)
+            {
+                this.reconnectTimer.Dispose();
+                this.reconnectTimer = null;
+            }
+
             this.controller.OpenPin(txReadyPin, PinMode.Input); // pull down
             this.controller.OpenPin(rxReadyPin, PinMode.Input); // pull down
 
@@ -133,7 +157,7 @@ namespace Jacdac.Transports.Spi
             this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
             this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
-            Console.WriteLine($"jacdapter ready.");
+            Console.WriteLine($"spi: ready");
             this.SetConnectionState(ConnectionState.Connected);
 
             // initiate
@@ -142,6 +166,7 @@ namespace Jacdac.Transports.Spi
 
         protected override void InternalDisconnect()
         {
+            Console.WriteLine($"spi: disconnecting");
             this.controller.UnregisterCallbackForPinValueChangedEvent(rxReadyPin, this.handleRxPinRising);
             this.controller.UnregisterCallbackForPinValueChangedEvent(txReadyPin, this.handleTxPinRising);
 
@@ -155,12 +180,22 @@ namespace Jacdac.Transports.Spi
                 this.spi = null;
                 spi.Dispose();
             }
+
+            // start reconnect timer
+            if (this.reconnectTimer == null)
+                this.reconnectTimer = new Timer(state =>
+                {
+                    if (this.ConnectionState == ConnectionState.Connected)
+                        return;
+                    Console.WriteLine($"spi: reconnecting");
+                    this.Connect();
+                }, null, 5000, 5000);
         }
 
         public override void SendFrame(byte[] data)
         {
             //Console.WriteLine($"send frame {HexEncoding.ToString(data)}");
-            QueueExtensions.Enqueue(this.sendQueue, data);
+            this.Stats.MaxSendQueueLength = QueueExtensions.Enqueue(this.sendQueue, data, this.Stats.MaxSendQueueLength);
 
             this.transfer();
         }
@@ -182,7 +217,8 @@ namespace Jacdac.Transports.Spi
             bool transfer = true;
             while (transfer)
             {
-                transfer = this.transferFrame();
+                lock (this.spi)
+                    transfer = this.transferFrame();
                 byte[] recv;
                 while (QueueExtensions.TryDequeue(this.receiveQueue, out recv))
                 {
@@ -223,13 +259,18 @@ namespace Jacdac.Transports.Spi
             var ok = this.attemptTransferBuffers(txqueue, rxqueue);
             if (!ok)
             {
-                Console.WriteLine("transfer failed");
+                this.Stats.FrameTransferError++;
+                Console.WriteLine("spi: transfer failed");
                 this.raiseError(TransportError.Frame, pkt);
                 return false;
             }
 
+            if (txq_ptr > 0)
+                this.Stats.FrameSent++;
+
             if (rxReady)
             {
+                this.Stats.FrameReceived++;
                 // consume received frame if any
                 int framep = 0;
                 while (framep < XFER_SIZE)
@@ -240,7 +281,7 @@ namespace Jacdac.Transports.Spi
                     int sz = frame2 + 12;
                     if (framep + sz > XFER_SIZE)
                     {
-                        Console.WriteLine($"packet overflow {framep} + {sz} > {XFER_SIZE}");
+                        Console.WriteLine($"spi: packet overflow {framep} + {sz} > {XFER_SIZE}");
                         break;
                     }
                     var frame0 = rxqueue[framep];
@@ -256,7 +297,7 @@ namespace Jacdac.Transports.Spi
                         var frame = new byte[sz];
                         Array.Copy(rxqueue, framep, frame, 0, sz);
                         //Console.WriteLine($"recv frame {HexEncoding.ToString(frame)}");
-                        QueueExtensions.Enqueue(this.receiveQueue, frame);
+                        this.Stats.MaxReceiveQueueLength = QueueExtensions.Enqueue(this.receiveQueue, frame, this.Stats.MaxReceiveQueueLength);
                     }
                     sz = (sz + 3) & ~3;
                     framep += sz;
@@ -278,6 +319,7 @@ namespace Jacdac.Transports.Spi
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    this.Stats.FrameTransferAttemptError++;
                     Thread.Sleep(1);
                 }
             }

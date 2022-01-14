@@ -1,6 +1,8 @@
 ﻿using Jacdac.Servers;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace Jacdac
@@ -36,7 +38,6 @@ namespace Jacdac
         public readonly JDDeviceServer SelfDeviceServer;
         private readonly Clock clock;
 
-        public bool IsClient;
         public bool IsPassive;
         public bool IsStreaming;
         public LoggerPriority DefaultMinLoggerPriority;
@@ -52,7 +53,6 @@ namespace Jacdac
                 options = new JDBusOptions();
 
             this.clock = Platform.CreateClock();
-            this.IsClient = options.IsClient;
             this.IsPassive = options.IsPassive;
             this.SpecificationCatalog = options.SpecificationCatalog;
             this.SelfDeviceServer = new JDDeviceServer(this, HexEncoding.ToString(options.DeviceId), options);
@@ -75,6 +75,52 @@ namespace Jacdac
         /// </summary>
         public RoleManagerServer RoleManager { get { return this.SelfDeviceServer?.RoleManager; } }
 
+        public override string ToString()
+        {
+            return $"bus ({this.devices.Length} devices)";
+        }
+
+        public string Describe()
+        {
+            var build = new StringBuilder();
+            var transports = this.transports;
+            var devices = this.devices;
+
+            build.AppendLine(this.ToString());
+            build.AppendLine("transports:");
+            foreach (var transport in transports)
+            {
+                build.AppendLine($"  {transport}");
+            }
+            build.AppendLine("devices:");
+            foreach (var device in devices)
+            {
+                build.AppendLine($"  {device.ShortId} ({device.DeviceId})");
+                var services = device.GetServices();
+                foreach (var service in services)
+                {
+                    if (service.ServiceClass == 0)
+                    {
+                        service.GetRegister((ushort)ControlReg.Uptime);
+                        service.GetRegister((ushort)ControlReg.ProductIdentifier);
+                        service.GetRegister((ushort)ControlReg.FirmwareVersion);
+                        service.GetRegister((ushort)ControlReg.DeviceDescription);
+                    }
+                    build.AppendLine($"      {service.ServiceIndex}: {service.Name} (0x{service.ServiceClass.ToString("x8")})");
+                    var registers = service.GetRegisters();
+                    foreach (var register in registers)
+                        build.AppendLine($"        {register.Name}: {register.GetHumanValue()}");
+                }
+            }
+            if (this.RoleManager != null)
+            {
+                build.AppendLine("clients:");
+                var clients = this.RoleManager.Roles;
+                foreach (var client in clients)
+                    build.AppendLine($"  {client}");
+            }
+            return build.ToString();
+        }
         public void AddTransport(Transport transport)
         {
             if (transport == null)
@@ -156,8 +202,6 @@ namespace Jacdac
 
         public void ProcessFrame(Transport sender, byte[] frame)
         {
-            TransportStats.FrameReceived++;
-
             // process packet
             var packets = Packet.FromFrame(frame);
             var timestamp = this.Timestamp;
@@ -174,7 +218,6 @@ namespace Jacdac
 
         private void Transport_ErrorReceived(Transport sender, TransportErrorReceivedEventArgs args)
         {
-            TransportStats.FrameError++;
             var e = args.Error;
             string name = "?";
             switch (e)

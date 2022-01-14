@@ -15,7 +15,7 @@ namespace Jacdac {
         FootPedal = 0x8,
     }
 
-    public enum SwitchReg {
+    public enum SwitchReg : ushort {
         /// <summary>
         /// Read-only bool (uint8_t). Indicates whether the switch is currently active (on).
         ///
@@ -62,7 +62,7 @@ namespace Jacdac {
         public const string AutoOffDelay = "u22.10";
     }
 
-    public enum SwitchEvent {
+    public enum SwitchEvent : ushort {
         /// <summary>
         /// Emitted when switch goes from `off` to `on`.
         /// </summary>

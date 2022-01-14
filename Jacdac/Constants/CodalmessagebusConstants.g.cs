@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint CodalMessageBus = 0x121ff81d;
     }
-    public enum CodalMessageBusCmd {
+    public enum CodalMessageBusCmd : ushort {
         /// <summary>
         /// Send a message on the CODAL bus. If `source` is `0`, it is treated as wildcard.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Send = "u16 u16";
     }
 
-    public enum CodalMessageBusEvent {
+    public enum CodalMessageBusEvent : ushort {
         /// <summary>
         /// Raised by the server is triggered by the server. The filtering logic of which event to send over Jacdac is up to the server implementation.
         ///

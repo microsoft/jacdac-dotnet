@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint Buzzer = 0x1b57b1d7;
     }
-    public enum BuzzerReg {
+    public enum BuzzerReg : ushort {
         /// <summary>
         /// Read-write ratio u0.8 (uint8_t). The volume (duty cycle) of the buzzer.
         ///
@@ -21,7 +21,7 @@ namespace Jacdac {
         public const string Volume = "u0.8";
     }
 
-    public enum BuzzerCmd {
+    public enum BuzzerCmd : ushort {
         /// <summary>
         /// Play a PWM tone with given period and duty for given duration.
         /// The duty is scaled down with `volume` register.

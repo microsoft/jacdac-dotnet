@@ -8,7 +8,7 @@ namespace Jacdac {
         PIR = 0x1,
     }
 
-    public enum MotionReg {
+    public enum MotionReg : ushort {
         /// <summary>
         /// Read-only bool (uint8_t). Reports is movement is currently detected by the sensor.
         ///
@@ -68,7 +68,7 @@ namespace Jacdac {
         public const string Variant = "u8";
     }
 
-    public enum MotionEvent {
+    public enum MotionEvent : ushort {
         /// <summary>
         /// A movement was detected.
         /// </summary>

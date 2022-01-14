@@ -16,7 +16,7 @@ namespace Jacdac {
         RightToLeft = 0x2,
     }
 
-    public enum CharacterScreenReg {
+    public enum CharacterScreenReg : ushort {
         /// <summary>
         /// Read-write string (bytes). Text to show. Use `\n` to break lines.
         ///

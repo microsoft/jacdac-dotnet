@@ -17,7 +17,7 @@ namespace Jacdac {
         Exit = 0xa,
     }
 
-    public enum ArcadeGamepadReg {
+    public enum ArcadeGamepadReg : ushort {
         /// <summary>
         /// Indicates which buttons are currently active (pressed).
         /// `pressure` should be `0xff` for digital buttons, and proportional for analog ones.
@@ -51,7 +51,7 @@ namespace Jacdac {
         public const string AvailableButtons = "r: u8";
     }
 
-    public enum ArcadeGamepadEvent {
+    public enum ArcadeGamepadEvent : ushort {
         /// <summary>
         /// Argument: button Button (uint8_t). Emitted when button goes from inactive to active.
         ///

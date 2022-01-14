@@ -3,7 +3,7 @@ namespace Jacdac {
     {
         public const uint TrafficLight = 0x15c38d9b;
     }
-    public enum TrafficLightReg {
+    public enum TrafficLightReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). The on/off state of the red light.
         ///

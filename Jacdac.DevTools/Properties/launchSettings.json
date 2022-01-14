@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.DevTools": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "--internet"
     }
   }
 }
