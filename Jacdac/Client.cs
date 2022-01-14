@@ -327,6 +327,8 @@ namespace Jacdac
         {
             new Thread(() =>
             {
+                this.Configure?.Invoke(this, EventArgs.Empty);
+
                 var service = this.BoundService;
                 var rvs = this.registerValueBindings;
                 if (service == null || rvs.Length == 0) return;
@@ -335,7 +337,6 @@ namespace Jacdac
                 foreach (var rv in rvs)
                     this.ApplyRegisterValueBinding(rv);
 
-                this.Configure?.Invoke(this, EventArgs.Empty);
             }).Start();
         }
 
