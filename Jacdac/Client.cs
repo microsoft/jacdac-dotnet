@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac
@@ -324,8 +325,10 @@ namespace Jacdac
             new Thread(() =>
             {
                 var service = this.BoundService;
-                if (service == null) return;
                 var rvs = this.registers;
+                if (service == null || rvs.Length == 0) return;
+
+                Debug.WriteLine($"{this}: apply register values");
                 foreach (var rv in rvs)
                     this.ApplyRegisterValueBinding(rv);
 
