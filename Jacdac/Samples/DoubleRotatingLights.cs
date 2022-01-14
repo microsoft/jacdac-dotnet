@@ -21,7 +21,7 @@ namespace Jacdac.Samples
             var green = 0x00ff00;
             var off = 0x000000;
             var paint = new LedPixelProgramBuilder()
-                .Fade(off, green, off)
+                .Fade(off, off, green, off, off)
                 .Show(0)
                 .ToBuffer();
             var paint2 = new LedPixelProgramBuilder()

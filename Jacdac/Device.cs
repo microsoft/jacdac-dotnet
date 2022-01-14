@@ -135,8 +135,8 @@ namespace Jacdac
                 : BitConverter.ToUInt32(this._servicesData, 0);
             uint w1 = data.Length == 0 ? 0 : BitConverter.ToUInt32(data, 0);
             var restarted = w1 != 0 &&
-            (w1 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK) <
-                (w0 & Jacdac.Constants.JD_ADVERTISEMENT_0_COUNTER_MASK);
+            (w1 & Constants.JD_ADVERTISEMENT_0_COUNTER_MASK) <
+                (w0 & Constants.JD_ADVERTISEMENT_0_COUNTER_MASK);
             var servicesChanged = !Util.BufferEquals(data, this._servicesData, 4);
 
             // compare service data

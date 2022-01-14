@@ -141,8 +141,11 @@ namespace Jacdac
             if (this.NotImplemented || bus == null || bus.SelfDeviceServer.IsProxy) return;
 
             this.LastGetAttempts++;
-            if (this.LastGetAttempts > 5)
+            if (this.LastGetAttempts > Constants.REGISTER_GET_ATTEMPT_NOT_IMPLEMENTED)
+            {
                 this.NeedsRefresh = false; // give up
+                this.NotImplemented = true;
+            }
             ushort cmd = (ushort)(Jacdac.Constants.CMD_GET_REG | this.Code);
             var pkt = Packet.FromCmd(cmd);
             if (ack)

@@ -88,6 +88,7 @@
         public static int CLIENT_VALUES_TIMEOUT = 1000;
 
         public static uint ROLE_MANAGER_AUTO_BIND_INTERVAL = 1500;
+        public static uint REGISTER_GET_ATTEMPT_NOT_IMPLEMENTED = 5;
 
     }
 }

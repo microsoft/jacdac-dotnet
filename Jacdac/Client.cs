@@ -143,10 +143,12 @@ namespace Jacdac
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
+                    Debug.WriteLine($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
                         old.Device.Restarted -= this.handleDeviceRestarted;
+                        value.Device.Announced -= handleAnnounced;
                         old.EventRaised -= this.handleEventRaised;
                         if (old != null)
                         {
@@ -157,6 +159,7 @@ namespace Jacdac
                     if (value != null)
                     {
                         value.Device.Restarted += this.handleDeviceRestarted;
+                        value.Device.Announced += handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
                         this.BeginApplyRegisterValueBindings();
                         ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(value)));
@@ -328,7 +331,7 @@ namespace Jacdac
                 var rvs = this.registerValueBindings;
                 if (service == null || rvs.Length == 0) return;
 
-                Debug.WriteLine($"{this}: apply register values");
+                Debug.WriteLine($"{this}: apply {rvs.Length} register values");
                 foreach (var rv in rvs)
                     this.ApplyRegisterValueBinding(rv);
 
@@ -337,8 +340,17 @@ namespace Jacdac
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
-            Debug.WriteLine($"{this}: device restarted");
+            Debug.WriteLine($"{this}: device {sender} restarted");
             this.BeginApplyRegisterValueBindings();
+        }
+        private void handleAnnounced(JDNode sender, EventArgs e)
+        {
+            var service = this.BoundService;
+            if (service != null)
+            {
+                var newService = service.Device.GetService(service.ServiceIndex);
+                this.BoundService = newService;
+            }
         }
 
         protected void SetRegisterValue(ushort code, string packetFormat, object value)
