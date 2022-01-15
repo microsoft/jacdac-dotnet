@@ -10,6 +10,9 @@ namespace Jacdac
         {
             this.Code = code;
         }
+
+        public override JDBus Bus => this.Service?.Bus;
+
         public abstract bool ProcessPacket(Packet pkt);
     }
 

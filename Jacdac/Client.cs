@@ -95,8 +95,9 @@ namespace Jacdac
     /// <summary>
     /// A role client which gets bound to a service by the role maanger.
     /// </summary>
-    public abstract class Client
+    public abstract class Client : JDNode
     {
+        private JDBus bus;
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
@@ -105,6 +106,7 @@ namespace Jacdac
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
+            this.bus = bus;
             this.Name = name;
             this.ServiceClass = serviceClass;
 
@@ -115,6 +117,8 @@ namespace Jacdac
 
             roleMgr.AddClient(this);
         }
+
+        public override JDBus Bus => this.bus;
 
         public int CompareTo(Client other)
         {
@@ -152,7 +156,7 @@ namespace Jacdac
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
-                    Debug.WriteLine($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
+                    this.Debug($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
@@ -228,7 +232,10 @@ namespace Jacdac
 
                 s = this.BoundService;
                 if (s == null)
+                {
+                    this.Log("no service available");
                     throw new ClientDisconnectedException();
+                }
                 return s;
             }
             catch (Exception)
@@ -258,7 +265,10 @@ namespace Jacdac
                 if (defaultValues != null)
                     return defaultValues;
                 else
+                {
+                    this.Log($"register value of {code} not avaible");
                     throw new ClientDisconnectedException();
+                }
             return values;
         }
 
@@ -355,7 +365,7 @@ namespace Jacdac
                 var rvs = this.registerValueBindings;
                 if (service == null || rvs.Length == 0) return;
 
-                Debug.WriteLine($"{this}: apply {rvs.Length} register values");
+                this.Debug($"{this}: apply {rvs.Length} register values");
                 foreach (var rv in rvs)
                     this.ApplyRegisterValueBinding(rv);
 
@@ -364,7 +374,7 @@ namespace Jacdac
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
-            Debug.WriteLine($"{this}: device {sender} restarted");
+            this.Debug($"{this}: device {sender} restarted");
             this.BeginApplyRegisterValueBindings();
         }
         private void handleAnnounced(JDNode sender, EventArgs e)
@@ -498,6 +508,19 @@ namespace Jacdac
             this.readingChanged = new DebouncedClientEventHandler(this);
             this.Connected += handleConnected;
             this.Disconnected += handleDisconnected;
+        }
+
+        /// <summary>
+        /// Indicates if the client has received a reading value
+        /// </summary>
+        public bool HasReadingValue
+        {
+            get
+            {
+                var service = this.BoundService;
+                var reg = service?.GetRegister((ushort)SystemReg.Reading);
+                return reg != null && reg.HasData;
+            }
         }
 
         private void handleConnected(object sender, ServiceEventArgs e)

@@ -19,7 +19,7 @@ namespace Jacdac
         public string InstanceName;
     }
 
-    public abstract partial class JDServiceServer : JDBusNode
+    public abstract partial class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
         public JDDeviceServer Device;

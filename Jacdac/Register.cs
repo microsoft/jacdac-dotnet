@@ -19,6 +19,11 @@ namespace Jacdac
         {
         }
 
+        /// <summary>
+        /// Indicates if data is available
+        /// </summary>
+        public bool HasData => this.Data != null;
+
         public string Name
         {
             get

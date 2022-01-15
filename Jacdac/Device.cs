@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Jacdac
 {
-    public sealed partial class JDDevice : JDBusNode
+    public sealed partial class JDDevice : JDNode
     {
         static uint Fnv1(byte[] data)
         {

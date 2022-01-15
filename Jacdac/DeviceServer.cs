@@ -3,7 +3,7 @@ using System;
 
 namespace Jacdac
 {
-    public sealed partial class JDDeviceServer : JDBusNode
+    public sealed partial class JDDeviceServer : JDNode
     {
         private readonly JDBus bus;
         public readonly string DeviceId;

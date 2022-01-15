@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 
 namespace Jacdac
@@ -16,6 +15,14 @@ namespace Jacdac
         {
             this.device = device;
             this.port = port;
+            this.Debug($"open");
+        }
+
+        public override JDBus Bus => this.device?.Bus;
+
+        public override string ToString()
+        {
+            return $"pipe:${this.device}:${this.port}";
         }
 
         public static OutPipe From(JDBus bus, Packet pkt)
@@ -28,7 +35,6 @@ namespace Jacdac
             JDDevice device;
             if (!bus.TryGetDevice(id, out device))
                 return null;
-            Debug.WriteLine($"pipes: open out {device}:{port}");
             return new OutPipe(device, port);
         }
 
@@ -106,7 +112,7 @@ namespace Jacdac
                 }
                 catch (AckException)
                 {
-                    Debug.WriteLine("pipe failed");
+                    this.Debug("pipe failed");
                 }
                 finally
                 {

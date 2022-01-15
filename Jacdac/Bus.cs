@@ -29,7 +29,7 @@ namespace Jacdac
         public LoggerPriority DefaultMinLoggerPriority = LoggerPriority.Silent;
     }
 
-    public sealed partial class JDBus : JDLoggerNode
+    public sealed partial class JDBus : JDNode
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;
@@ -65,10 +65,12 @@ namespace Jacdac
             this.Start();
         }
 
+        public override JDBus Bus => this;
+
         /// <summary>
         /// Gets the logger server hosted on the self device if any
         /// </summary>
-        public override LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
+        public override LoggerServer Logger => this.SelfDeviceServer?.Logger;
 
         /// <summary>
         /// Gets the role manager server hosted on the self device, if any.
@@ -86,7 +88,7 @@ namespace Jacdac
             var transports = this.transports;
             var devices = this.devices;
 
-            build.AppendLine(this.ToString());
+            build.AppendLine($"bus ${this.Timestamp}");
             build.AppendLine("transports:");
             foreach (var transport in transports)
             {
@@ -235,11 +237,7 @@ namespace Jacdac
                 case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            System.Diagnostics.Debug.WriteLine($"transport error {name}");
-            // if (args.Data != null)
-            // {
-            //    Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
-            // }
+            this.Debug($"transport error {name}");
         }
         void ProcessPacket(Packet pkt)
         {
@@ -285,7 +283,6 @@ namespace Jacdac
                 }
                 else
                 {
-                    //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
                     if (deviceId == this.SelfDeviceServer.DeviceId)
                         this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);
