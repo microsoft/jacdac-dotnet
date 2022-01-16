@@ -372,7 +372,8 @@ namespace Jacdac
             var service = this.BoundService;
             if (service != null)
             {
-                var newService = service.Device.GetService(service.ServiceIndex);
+                var device = (JDDevice)sender;
+                var newService = device.GetService(service.ServiceIndex);
                 this.BoundService = newService;
             }
         }
