@@ -175,8 +175,7 @@ namespace Jacdac
                         value.Device.Restarted += this.handleDeviceRestarted;
                         value.Device.Announced += handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
-                        this.BeginApplyRegisterValueBindings();
-                        ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(value)));
+                        this.BeginApplyRegisterValueBindings(true);
                     }
                 }
             }
@@ -353,7 +352,7 @@ namespace Jacdac
             reg.SendSet(rv.Data);
         }
 
-        private void BeginApplyRegisterValueBindings()
+        private void BeginApplyRegisterValueBindings(bool raiseConnect)
         {
             new Thread(() =>
             {
@@ -370,13 +369,15 @@ namespace Jacdac
                 var ev = this.Configure;
                 if (ev != null)
                     ev.Invoke(this, new ServiceEventArgs(service));
+                if (raiseConnect)
+                    ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(service)));
             }).Start();
         }
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
             this.Debug($"{this}: device {sender} restarted");
-            this.BeginApplyRegisterValueBindings();
+            this.BeginApplyRegisterValueBindings(false);
         }
         private void handleAnnounced(JDNode sender, EventArgs e)
         {
