@@ -360,16 +360,16 @@ namespace Jacdac
                 var service = this.BoundService;
                 if (service == null) return;
 
-                if (this.Configure != null)
-                    this.Configure.Invoke(this, new ServiceEventArgs(service));
-
                 var rvs = this.registerValueBindings;
-                if (service == null || rvs.Length == 0) return;
-
-                this.Debug($"{this}: apply {rvs.Length} register values");
-                foreach (var rv in rvs)
-                    this.ApplyRegisterValueBinding(rv);
-
+                if (rvs.Length > 0)
+                {
+                    this.Debug($"{this}: apply {rvs.Length} register values");
+                    foreach (var rv in rvs)
+                        this.ApplyRegisterValueBinding(rv);
+                }
+                var ev = this.Configure;
+                if (ev != null)
+                    ev.Invoke(this, new ServiceEventArgs(service));
             }).Start();
         }
 
