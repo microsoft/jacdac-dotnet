@@ -171,6 +171,7 @@ namespace Jacdac
                     this._boundService = value;
                     if (value != null)
                     {
+                        System.Diagnostics.Debug.Assert(value.ServiceClass == this.ServiceClass);
                         value.Device.Restarted += this.handleDeviceRestarted;
                         value.Device.Announced += handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
@@ -379,12 +380,15 @@ namespace Jacdac
         }
         private void handleAnnounced(JDNode sender, EventArgs e)
         {
-            var device = (JDDevice)sender;
             var service = this.BoundService;
             if (service != null)
             {
+                var device = (JDDevice)sender;
                 var newService = device.GetService(service.ServiceIndex);
-                this.BoundService = newService;
+                if (newService != null && newService.ServiceClass == this.ServiceClass)
+                    this.BoundService = newService;
+                else
+                    this.BoundService = null;
             }
         }
 
