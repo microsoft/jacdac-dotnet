@@ -369,8 +369,9 @@ namespace Jacdac
                 var ev = this.Configure;
                 if (ev != null)
                     ev.Invoke(this, new ServiceEventArgs(service));
-                if (raiseConnect)
-                    ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(service)));
+                var cev = this.Connected;
+                if (raiseConnect && cev != null)
+                    cev.Invoke(this, new ServiceEventArgs(service));
             }).Start();
         }
 
