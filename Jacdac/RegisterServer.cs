@@ -17,26 +17,41 @@ namespace Jacdac
     }
 
     public delegate object[] RegisterGetHandler(JDRegisterServer server);
+    public delegate void RegisterSetHandler(JDRegisterServer server, object[] values);
 
     public sealed class JDDynamicRegisterServer : JDRegisterServer
     {
         readonly string format;
-        readonly RegisterGetHandler dataFactory;
-        public JDDynamicRegisterServer(ushort code, string format, RegisterGetHandler dataFactory)
+        readonly RegisterGetHandler dataGetter;
+        readonly RegisterSetHandler dataSetter;
+        public JDDynamicRegisterServer(ushort code, string format, RegisterGetHandler dataGetter, RegisterSetHandler dataSetter = null)
             : base(code)
         {
             this.format = format;
-            this.dataFactory = dataFactory;
+            this.dataGetter = dataGetter;
+            this.dataSetter = dataSetter;
         }
 
         public override bool ProcessPacket(Packet pkt)
         {
             if (pkt.IsRegisterGet)
             {
-                var data = PacketEncoding.Pack(this.format, this.dataFactory(this));
+                var values = this.dataGetter(this);
+                if (values == null)
+                    return false;
+
+                var data = PacketEncoding.Pack(this.format, values);
                 var server = this.Service;
                 var resp = Packet.From((ushort)(Jacdac.Constants.CMD_GET_REG | this.Code), data);
-                this.Service.SendPacket(resp);
+                server.SendPacket(resp);
+                return true;
+            }
+            else if (pkt.IsRegisterSet && this.dataSetter != null)
+            {
+                var data = pkt.Data;
+                var server = this.Service;
+                var values = PacketEncoding.UnPack(this.format, data);
+                this.dataSetter(this, values);
                 return true;
             }
 
