@@ -97,7 +97,7 @@ namespace Jacdac
             var transports = this.transports;
             var devices = this.devices;
 
-            build.AppendLine($"bus ${this.Timestamp}");
+            build.AppendLine($"bus {this.Timestamp}");
             build.AppendLine("transports:");
             foreach (var transport in transports)
             {

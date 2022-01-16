@@ -379,10 +379,11 @@ namespace Jacdac
         }
         private void handleAnnounced(JDNode sender, EventArgs e)
         {
+            var device = (JDDevice)sender;
             var service = this.BoundService;
             if (service != null)
             {
-                var newService = service.Device.GetService(service.ServiceIndex);
+                var newService = device.GetService(service.ServiceIndex);
                 this.BoundService = newService;
             }
         }
