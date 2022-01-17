@@ -177,7 +177,7 @@ namespace Jacdac
         {
             if (this.announceTimer == null)
             {
-                this.Debug($"bus: start ({this.SelfDeviceServer.ShortId})");
+                this.LogDebug($"bus: start ({this.SelfDeviceServer.ShortId})");
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
             }
             this.Connect();
@@ -258,7 +258,7 @@ namespace Jacdac
                 case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            this.Debug($"transport error {name}");
+            this.LogDebug($"transport error {name}");
         }
         void ProcessPacket(Packet pkt)
         {
@@ -408,7 +408,7 @@ namespace Jacdac
             }
             if (disconnected > 0)
             {
-                this.Debug($"cleaning out {disconnected} devices");
+                this.LogDebug($"cleaning out {disconnected} devices");
                 var disco = new JDDevice[disconnected];
                 var newDevices = new JDDevice[devices.Length - disconnected];
                 var k = 0;

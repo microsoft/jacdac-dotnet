@@ -15,7 +15,7 @@ namespace Jacdac
         {
             this.device = device;
             this.port = port;
-            this.Debug($"open");
+            this.LogDebug($"open");
         }
 
         public override JDBus Bus => this.device?.Bus;
@@ -112,7 +112,7 @@ namespace Jacdac
                 }
                 catch (AckException)
                 {
-                    this.Debug("pipe failed");
+                    this.LogDebug("pipe failed");
                 }
                 finally
                 {

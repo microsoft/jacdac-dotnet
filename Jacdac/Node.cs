@@ -45,12 +45,12 @@ namespace Jacdac
             logger?.SendReport(priority, message);
         }
 
-        protected void Debug(string msg)
+        protected void LogDebug(string msg)
         {
             this.RaiseLogEvent(LoggerPriority.Debug, msg);
         }
 
-        protected void Warn(string msg)
+        protected void LogWarning(string msg)
         {
             this.RaiseLogEvent(LoggerPriority.Warning, msg);
         }
@@ -60,7 +60,7 @@ namespace Jacdac
             this.RaiseLogEvent(LoggerPriority.Log, msg);
         }
 
-        protected void Error(string msg)
+        protected void LogError(string msg)
         {
             this.RaiseLogEvent(LoggerPriority.Error, msg);
         }
