@@ -40,7 +40,7 @@ namespace Jacdac.Servers
         /// <summary>
         /// Raised when a new log event is added locally
         /// </summary>
-        public event LoggerEventHandler LogEvent;
+        public event LoggerEventHandler MessageAdded;
 
         public void SendReport(LoggerPriority priority, string message)
         {
@@ -69,7 +69,7 @@ namespace Jacdac.Servers
                 return;
 
             System.Diagnostics.Debug.WriteLine($"{this}: {message}");
-            var ev = this.LogEvent;
+            var ev = this.MessageAdded;
             if (ev != null)
                 ev(this, new LoggerEventArgs(priority, message));
 
