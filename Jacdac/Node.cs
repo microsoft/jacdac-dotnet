@@ -5,21 +5,7 @@ namespace Jacdac
 {
     public delegate void NodeEventHandler(JDNode sender, EventArgs e);
 
-    public delegate void LoggerEventHandler(JDNode sender, LoggerEventArgs e);
 
-    [Serializable]
-    public sealed class LoggerEventArgs
-    {
-        public readonly LoggerPriority Priority;
-        public readonly string Message;
-
-        internal LoggerEventArgs(LoggerPriority priority, string message)
-        {
-            this.Priority = priority;
-            this.Message = message;
-        }
-
-    }
 
     public abstract class JDNode
     {
@@ -53,22 +39,10 @@ namespace Jacdac
         /// </summary>
         public virtual LoggerServer Logger => this.Bus?.Logger;
 
-        /// <summary>
-        /// Raised when a new log event is added locally
-        /// </summary>
-        public event LoggerEventHandler LogEvent;
-
         private void RaiseLogEvent(LoggerPriority priority, string message)
         {
             var logger = this.Logger;
-            LoggerPriority minPriority = logger != null ? logger.MinPriority : LoggerPriority.Warning;
-            if (minPriority <= priority)
-                System.Diagnostics.Debug.WriteLine($"{this}: {message}");
-            if (logger != null)
-                logger?.SendReport(priority, message);
-            var ev = this.LogEvent;
-            if (ev != null)
-                ev(this, new LoggerEventArgs(priority, message));
+            logger?.SendReport(priority, message);
         }
 
         protected void Debug(string msg)

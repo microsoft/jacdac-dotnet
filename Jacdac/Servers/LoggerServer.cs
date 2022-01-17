@@ -2,6 +2,25 @@
 
 namespace Jacdac.Servers
 {
+    [Serializable]
+    public sealed class LoggerEventArgs
+    {
+        public readonly LoggerPriority Priority;
+        public readonly string Message;
+
+        internal LoggerEventArgs(LoggerPriority priority, string message)
+        {
+            this.Priority = priority;
+            this.Message = message;
+        }
+
+    }
+
+    public delegate void LoggerEventHandler(JDNode sender, LoggerEventArgs e);
+
+    /// <summary>
+    /// A server implementation of the logger service.
+    /// </summary>
     public sealed partial class LoggerServer : JDServiceServer
     {
         public readonly JDStaticRegisterServer MinPriorityRegister;
@@ -17,6 +36,11 @@ namespace Jacdac.Servers
         {
             get { return (LoggerPriority)(uint)this.MinPriorityRegister.GetValues()[0]; }
         }
+
+        /// <summary>
+        /// Raised when a new log event is added locally
+        /// </summary>
+        public event LoggerEventHandler LogEvent;
 
         public void SendReport(LoggerPriority priority, string message)
         {
@@ -43,6 +67,11 @@ namespace Jacdac.Servers
             var minPriority = this.MinPriority;
             if (message == null || message.Length == 0 || this.lastListenerTime == TimeSpan.Zero || priority < minPriority)
                 return;
+
+            System.Diagnostics.Debug.WriteLine($"{this}: {message}");
+            var ev = this.LogEvent;
+            if (ev != null)
+                ev(this, new LoggerEventArgs(priority, message));
 
             lock (this)
             {
