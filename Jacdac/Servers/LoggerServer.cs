@@ -68,9 +68,10 @@ namespace Jacdac.Servers
             if (message == null || message.Length == 0 || this.lastListenerTime == TimeSpan.Zero || priority < minPriority)
                 return;
 
-            System.Diagnostics.Debug.WriteLine($"{this}: {message}");
             var ev = this.MessageAdded;
-            if (ev != null)
+            if (ev == null)
+                System.Diagnostics.Debug.WriteLine($"{this}: {message}");
+            else
                 ev(this, new LoggerEventArgs(priority, message));
 
             lock (this)
