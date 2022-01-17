@@ -23,6 +23,7 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
+  - `Jacdac.NET.Logging`, a logging provider that allows to send log messages over the Jacdac bus
   - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5

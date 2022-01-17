@@ -1,13 +1,13 @@
-﻿using Jacdac.Clients;
-using Jacdac.Samples;
+﻿using Jacdac.Samples;
 using Jacdac.Servers;
-using Jacdac.Transports;
 using Jacdac.Transports.Spi;
 using Jacdac.Transports.WebSockets;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
+using Jacdac.Logging;
 
 namespace Jacdac.Playground
 {
@@ -72,10 +72,20 @@ namespace Jacdac.Playground
                 Console.WriteLine(bus.Describe());
             }, null, 1000, 15000);
 
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureLogging((_, logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                    logging.AddDebug();
+                    logging.AddJacdac(bus);
+                }).Build();
+
             //  run test
             if (sample != null)
                 new Thread(state => sample.Run(bus)).Start();
-            Thread.Sleep(Timeout.Infinite);
+
+            host.Run();
         }
     }
 }
