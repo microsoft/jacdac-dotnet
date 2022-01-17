@@ -144,7 +144,7 @@ namespace Jacdac
             }
             catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine("invalid format");
+                this.Debug("invalid data format");
             }
         }
     }
