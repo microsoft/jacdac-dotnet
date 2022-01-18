@@ -64,7 +64,7 @@ namespace Jacdac
         void Clear();
     }
 
-    public sealed partial class ServiceSpecificationCatalog : JDNode
+    public sealed partial class ServiceSpecificationCatalog
     {
         public string Root = "https://microsoft.github.io/jacdac-docs/";
         public readonly ISpecificationStorage Storage;
@@ -134,9 +134,7 @@ namespace Jacdac
                     specifications.CopyTo(newSpecs, 0);
                     newSpecs[newSpecs.Length - 1] = spec;
                     this.specifications = newSpecs;
-                    this.RaiseChanged();
                 }
-
                 return spec;
             }
         }

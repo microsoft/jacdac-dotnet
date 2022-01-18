@@ -26,6 +26,7 @@ namespace Jacdac
                 var start = DateTime.Now;
                 return () => DateTime.Now - start;
             };
+            Platform.LogDebug = (msg, category) => System.Diagnostics.Debug.WriteLine(msg, category);
         }
     }
 

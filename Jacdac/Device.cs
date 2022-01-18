@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Jacdac
 {
-    public sealed partial class JDDevice : JDBusNode
+    public sealed partial class JDDevice : JDNode
     {
         static uint Fnv1(byte[] data)
         {
@@ -298,7 +298,7 @@ namespace Jacdac
                     if (ack.Packet == null) continue; // already processed
                     if (--ack.RetriesLeft < 0)
                     {
-                        this.Debug($" ack error {ack.Packet}");
+                        this.LogDebug($" ack error {ack.Packet}");
                         ack.Packet = null;
                         ack.Error = true;
                         ack.Event.Set();
@@ -308,7 +308,7 @@ namespace Jacdac
                     {
                         var bus = this.Bus;
                         if (bus == null || bus.IsPassive) continue; // disconnected
-                        this.Debug($" ack retry {ack.Packet}");
+                        this.LogDebug($" ack retry {ack.Packet}");
                         bus.SelfDeviceServer.SendPacket(ack.Packet);
                     }
                 }

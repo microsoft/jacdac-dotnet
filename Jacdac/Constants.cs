@@ -1,6 +1,6 @@
 ﻿namespace Jacdac
 {
-    public static class Constants
+    internal static class Constants
     {
         public const ushort CMD_GET_REG = 0x1000;
         public const ushort CMD_SET_REG = 0x2000;

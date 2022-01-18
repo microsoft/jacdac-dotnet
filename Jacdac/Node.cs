@@ -1,17 +1,26 @@
 ﻿using Jacdac.Servers;
 using System;
+using System.Diagnostics;
 
 namespace Jacdac
 {
     public delegate void NodeEventHandler(JDNode sender, EventArgs e);
 
-    public abstract class JDNode
+    public abstract partial class JDNode
     {
-        internal JDNode()
+        internal protected JDNode()
         {
 
         }
 
+        /// <summary>
+        /// Gets the instance of the bus, if any
+        /// </summary>
+        public abstract JDBus Bus { get; }
+
+        /// <summary>
+        /// Raised when the state of the node is changed
+        /// </summary>
         public event NodeEventHandler Changed;
 
         protected void RaiseChanged()
@@ -23,54 +32,15 @@ namespace Jacdac
         {
             return this.Changed != null;
         }
-    }
 
-    public abstract class JDLoggerNode : JDNode
-    {
-        public abstract LoggerServer Logger { get; }
-
-        protected JDLoggerNode() { }
-
-        protected void Debug(string msg)
+        [Conditional("DEBUG")]
+        protected void LogDebug(string msg)
         {
-            System.Diagnostics.Debug.WriteLine($"{this}: {msg}");
-            var logger = this.Logger;
-            logger?.SendReport(LoggerPriority.Debug, msg);
-        }
-
-        protected void Warn(string msg)
-        {
-            var logger = this.Logger;
-            logger?.SendReport(LoggerPriority.Warning, msg);
-        }
-
-        protected void Log(string msg)
-        {
-            var logger = this.Logger;
-            logger?.SendReport(LoggerPriority.Log, msg);
-        }
-
-        protected void Error(string msg)
-        {
-            var logger = this.Logger;
-            logger?.SendReport(LoggerPriority.Error, msg);
+            Platform.LogDebug($"{this}: {msg}", "jacdac");
         }
     }
 
-    public abstract class JDBusNode : JDLoggerNode
-    {
-        protected JDBusNode()
-        {
-
-        }
-
-        public abstract JDBus Bus { get; }
-
-        public override LoggerServer Logger { get => this.Bus?.Logger; }
-    }
-
-
-    public abstract class JDServiceNode : JDBusNode
+    public abstract class JDServiceNode : JDNode
     {
         public readonly JDService Service;
         public readonly ushort Code;
