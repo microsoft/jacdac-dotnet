@@ -18,12 +18,20 @@ namespace Jacdac.Playground
             Console.WriteLine("jacdac: connecting...");
 
             var prototest = args.Any(arg => arg == "prototest");
+            var sounds = args.Any(arg => arg == "sound");
+
             var sample = SampleExtensions.GetSample(args);
+            var services = new List<JDServiceServer>();
+            if (prototest)
+                services.Add(new ProtoTestServer());
+            if (sounds)
+                services.Add(new NetCoreAudioSoundPlayer("sounds"));
+
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()
             {
                 DisableRoleManager = sample == null,
-                Services = prototest ? new JDServiceServer[] { new ProtoTestServer() } : null,
+                Services = services.ToArray(),
                 SpecificationCatalog = new ServiceSpecificationCatalog()
             });
             bus.DeviceConnected += (s, e) =>

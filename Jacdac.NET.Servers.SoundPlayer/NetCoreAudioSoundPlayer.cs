@@ -14,7 +14,7 @@ namespace Jacdac.Servers.SoundPlayer
         private readonly string soundDirectory;
 
         /// <summary>
-        /// Creates a sound player instance for the given folder of mp3s.
+        /// Creates a sound player instance for the given folder of mp3s and wav.
         /// Subfolders are not supported
         /// </summary>
         /// <param name="soundDirectory"></param>
@@ -44,9 +44,13 @@ namespace Jacdac.Servers.SoundPlayer
 
         public string[] ListSounds()
         {
-            var files = Directory.GetFiles(this.soundDirectory, "*.mp3")
-                .Select(f => Path.GetFileNameWithoutExtension(f))
-                .ToArray();
+            var mp3s = Directory.GetFiles(this.soundDirectory, "*.mp3");
+            var wavs = Directory.GetFiles(this.soundDirectory, "*.wav");
+            var files = Array.Sort(
+                mp3s.Concat(wavs)
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .Distinct().ToArray()
+            );
             return files;
         }
 
@@ -56,9 +60,14 @@ namespace Jacdac.Servers.SoundPlayer
                 throw new ArgumentNullException(nameof(name));
 
             var fileName = Path.GetFileNameWithoutExtension(name); // filter out rooted paths
-            var fullName = Path.Combine(this.soundDirectory, fileName + ".mp3");
-            if (File.Exists(fullName))
-                this.player.Play(fullName);
+            var mp3 = Path.Combine(this.soundDirectory, fileName + ".mp3");
+            if (File.Exists(mp3))
+                this.player.Play(mp3);
+            else {
+                var wav = Path.Combine(this.soundDirectory, fileName + ".wav");
+                if (File.Exists(wav))
+                    this.player.Play(wav);
+            }
         }
     }
 }
