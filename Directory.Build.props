@@ -10,7 +10,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Company>Microsoft Corporation</Company>
-		<Authors>Microsoft Jacdac</Authors>
+		<Authors>Jacdac</Authors>
 		<PackageOutputPath>../bin/$(CONFIGURATION)/packages</PackageOutputPath>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
