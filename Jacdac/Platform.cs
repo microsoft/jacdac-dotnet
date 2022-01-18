@@ -4,6 +4,8 @@ using System.IO;
 
 namespace Jacdac
 {
+    public delegate void EventHandler(object sender, EventArgs args);
+
     public delegate TimeSpan Clock();
     public delegate Clock ClockFactory();
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
