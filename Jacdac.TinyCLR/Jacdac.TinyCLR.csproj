@@ -65,6 +65,9 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
+		<Reference Include="GHIElectronics.TinyCLR.Core, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Data.Json.2.1.0\lib\net452\GHIElectronics.TinyCLR.Core.dll</HintPath>
+		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Data.Json, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
 			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Data.Json.2.1.2\lib\net452\GHIElectronics.TinyCLR.Data.Json.dll</HintPath>
 		</Reference>
