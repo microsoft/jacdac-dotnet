@@ -156,12 +156,12 @@ namespace Jacdac
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
-                    this.LogDebug($"bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
+                        this.LogDebug($"unbind {this.Name} from {old}");
                         old.Device.Restarted -= this.handleDeviceRestarted;
-                        value.Device.Announced -= handleAnnounced;
+                        old.Device.Announced -= this.handleAnnounced;
                         old.EventRaised -= this.handleEventRaised;
                         if (old != null)
                         {
@@ -172,8 +172,9 @@ namespace Jacdac
                     if (value != null)
                     {
                         System.Diagnostics.Debug.Assert(value.ServiceClass == this.ServiceClass);
+                        this.LogDebug($"bind {this.Name} from {old}");
                         value.Device.Restarted += this.handleDeviceRestarted;
-                        value.Device.Announced += handleAnnounced;
+                        value.Device.Announced += this.handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
                         this.BeginApplyRegisterValueBindings(true);
                     }
@@ -266,7 +267,7 @@ namespace Jacdac
                     return defaultValues;
                 else
                 {
-                    this.LogDebug($"register value of {code} not avaible");
+                    this.LogDebug($"register value of {code} not available");
                     throw new ClientDisconnectedException();
                 }
             return values;
@@ -362,7 +363,6 @@ namespace Jacdac
                 var rvs = this.registerValueBindings;
                 if (rvs.Length > 0)
                 {
-                    this.LogDebug($"apply {rvs.Length} register values");
                     foreach (var rv in rvs)
                         this.ApplyRegisterValueBinding(rv);
                 }

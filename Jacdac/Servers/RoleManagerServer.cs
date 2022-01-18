@@ -238,6 +238,7 @@ namespace Jacdac.Servers
         /// <param name="serviceIndex"></param>
         public void BindRole(string name, string deviceId, uint serviceIndex)
         {
+            var did = JDDevice.ShortDeviceId(deviceId);
             lock (this.roles)
             {
                 Client role;
@@ -254,21 +255,21 @@ namespace Jacdac.Servers
 
                 var service = device.GetService(serviceIndex);
                 if (service == null)
-                    return; // service index out of rage
+                    return; // service index out of range
 
                 // unbind previous role if needed
                 Client existingRole;
                 if (this.TryGetBinding(service, out existingRole) && existingRole != role)
                 {
-                    this.LogDebug($"unbind {existingRole.Name}");
+                    this.LogDebug($"unbind {existingRole}");
                     existingRole.BoundService = null;
                 }
 
                 if (oldService != null)
-                    this.LogDebug($"unbind {role.Name}");
+                    this.LogDebug($"unbind {role}");
                 // bind to new role
-                role.BoundService = device.GetService(serviceIndex);
-                this.LogDebug($"bind {role} to {deviceId}[{serviceIndex}]");
+                role.BoundService = service;
+                this.LogDebug($"bind {role} to {did}[{serviceIndex}]");
             }
             this.RaiseChanged();
         }
