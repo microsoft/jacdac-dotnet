@@ -95,8 +95,9 @@ namespace Jacdac
     /// <summary>
     /// A role client which gets bound to a service by the role maanger.
     /// </summary>
-    public abstract class Client
+    public abstract class Client : JDNode
     {
+        private JDBus bus;
         public readonly string Name;
         public readonly uint ServiceClass;
         private JDService _boundService;
@@ -105,6 +106,7 @@ namespace Jacdac
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
+            this.bus = bus;
             this.Name = name;
             this.ServiceClass = serviceClass;
 
@@ -115,6 +117,8 @@ namespace Jacdac
 
             roleMgr.AddClient(this);
         }
+
+        public override JDBus Bus => this.bus;
 
         public int CompareTo(Client other)
         {
@@ -152,7 +156,7 @@ namespace Jacdac
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
-                    Debug.WriteLine($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
+                    this.LogDebug($"bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
@@ -167,11 +171,11 @@ namespace Jacdac
                     this._boundService = value;
                     if (value != null)
                     {
+                        System.Diagnostics.Debug.Assert(value.ServiceClass == this.ServiceClass);
                         value.Device.Restarted += this.handleDeviceRestarted;
                         value.Device.Announced += handleAnnounced;
                         value.EventRaised += this.handleEventRaised;
-                        this.BeginApplyRegisterValueBindings();
-                        ThreadExtensions.BeginRaiseEvent(this.Connected, () => this.Connected?.Invoke(this, new ServiceEventArgs(value)));
+                        this.BeginApplyRegisterValueBindings(true);
                     }
                 }
             }
@@ -228,7 +232,10 @@ namespace Jacdac
 
                 s = this.BoundService;
                 if (s == null)
+                {
+                    this.LogDebug("no service available");
                     throw new ClientDisconnectedException();
+                }
                 return s;
             }
             catch (Exception)
@@ -258,7 +265,10 @@ namespace Jacdac
                 if (defaultValues != null)
                     return defaultValues;
                 else
+                {
+                    this.LogDebug($"register value of {code} not avaible");
                     throw new ClientDisconnectedException();
+                }
             return values;
         }
 
@@ -342,38 +352,45 @@ namespace Jacdac
             reg.SendSet(rv.Data);
         }
 
-        private void BeginApplyRegisterValueBindings()
+        private void BeginApplyRegisterValueBindings(bool raiseConnect)
         {
             new Thread(() =>
             {
                 var service = this.BoundService;
                 if (service == null) return;
 
-                if (this.Configure != null)
-                    this.Configure.Invoke(this, new ServiceEventArgs(service));
-
                 var rvs = this.registerValueBindings;
-                if (service == null || rvs.Length == 0) return;
-
-                Debug.WriteLine($"{this}: apply {rvs.Length} register values");
-                foreach (var rv in rvs)
-                    this.ApplyRegisterValueBinding(rv);
-
+                if (rvs.Length > 0)
+                {
+                    this.LogDebug($"apply {rvs.Length} register values");
+                    foreach (var rv in rvs)
+                        this.ApplyRegisterValueBinding(rv);
+                }
+                var ev = this.Configure;
+                if (ev != null)
+                    ev.Invoke(this, new ServiceEventArgs(service));
+                var cev = this.Connected;
+                if (raiseConnect && cev != null)
+                    cev.Invoke(this, new ServiceEventArgs(service));
             }).Start();
         }
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
-            Debug.WriteLine($"{this}: device {sender} restarted");
-            this.BeginApplyRegisterValueBindings();
+            this.LogDebug($"device {sender} restarted");
+            this.BeginApplyRegisterValueBindings(false);
         }
         private void handleAnnounced(JDNode sender, EventArgs e)
         {
             var service = this.BoundService;
             if (service != null)
             {
-                var newService = service.Device.GetService(service.ServiceIndex);
-                this.BoundService = newService;
+                var device = (JDDevice)sender;
+                var newService = device.GetService(service.ServiceIndex);
+                if (newService != null && newService.ServiceClass == this.ServiceClass)
+                    this.BoundService = newService;
+                else
+                    this.BoundService = null;
             }
         }
 
@@ -498,6 +515,19 @@ namespace Jacdac
             this.readingChanged = new DebouncedClientEventHandler(this);
             this.Connected += handleConnected;
             this.Disconnected += handleDisconnected;
+        }
+
+        /// <summary>
+        /// Indicates if the client has received a reading value
+        /// </summary>
+        public bool HasReadingValue
+        {
+            get
+            {
+                var service = this.BoundService;
+                var reg = service?.GetRegister((ushort)SystemReg.Reading);
+                return reg != null && reg.HasData;
+            }
         }
 
         private void handleConnected(object sender, ServiceEventArgs e)

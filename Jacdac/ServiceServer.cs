@@ -19,7 +19,7 @@ namespace Jacdac
         public string InstanceName;
     }
 
-    public abstract partial class JDServiceServer : JDBusNode
+    public abstract partial class JDServiceServer : JDNode
     {
         public byte ServiceIndex;
         public JDDeviceServer Device;
@@ -48,7 +48,10 @@ namespace Jacdac
             {
                 JDRegisterServer register;
                 if (this.TryGetRegister(pkt.RegisterCode, out register))
-                    return register.ProcessPacket(pkt);
+                {
+                    var res = register.ProcessPacket(pkt);
+                    if (res) return true;
+                }
             }
             else if (pkt.IsCommand)
             {
@@ -63,7 +66,7 @@ namespace Jacdac
                     {
                         var logger = this.Device?.Bus?.Logger;
                         if (logger != null)
-                            logger.SendReport(LoggerPriority.Error, $"cmd failed: ${ex.Message}, ${pkt}");
+                            logger.SendReport(LoggerPriority.Error, $"cmd failed: {ex.Message}, {pkt}");
                     }
                     return true;
                 }

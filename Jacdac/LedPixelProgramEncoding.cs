@@ -103,7 +103,7 @@ namespace Jacdac
         /// </summary>
         public LedPixelProgramBuilder Range(uint startIndex, uint length)
         {
-            this.commands.AppendLine($"range ${startIndex} ${length}");
+            this.commands.AppendLine($"range {startIndex} {length}");
             return this;
         }
 

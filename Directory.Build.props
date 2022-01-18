@@ -1,7 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<Version>1.0.7</Version>
-		<Copyright>Microsoft Corporation</Copyright>
+		<Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
 		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -10,7 +10,8 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Company>Microsoft Corporation</Company>
-		<Authors>Microsoft Jacdac</Authors>
+		<Authors>Microsoft</Authors>
+		<RequireLicenseAcceptance>True</RequireLicenseAcceptance>
 		<PackageOutputPath>../bin/$(CONFIGURATION)/packages</PackageOutputPath>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

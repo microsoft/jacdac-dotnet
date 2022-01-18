@@ -29,7 +29,7 @@ namespace Jacdac
         public LoggerPriority DefaultMinLoggerPriority = LoggerPriority.Silent;
     }
 
-    public sealed partial class JDBus : JDLoggerNode
+    public sealed partial class JDBus : JDNode, IDisposable
     {
         // updated concurrently, locked by this
         private JDDevice[] devices;
@@ -47,6 +47,11 @@ namespace Jacdac
         public TimeSpan LastResetInTime;
         private Timer announceTimer;
 
+        /// <summary>
+        /// Creates a new Jacdac bus with the given transport
+        /// </summary>
+        /// <param name="transport"></param>
+        /// <param name="options"></param>
         public JDBus(Transport transport, JDBusOptions options = null)
         {
             if (options == null)
@@ -65,10 +70,12 @@ namespace Jacdac
             this.Start();
         }
 
+        public override JDBus Bus => this;
+
         /// <summary>
         /// Gets the logger server hosted on the self device if any
         /// </summary>
-        public override LoggerServer Logger { get { return this.SelfDeviceServer?.Logger; } }
+        public LoggerServer Logger => this.SelfDeviceServer?.Logger;
 
         /// <summary>
         /// Gets the role manager server hosted on the self device, if any.
@@ -80,13 +87,17 @@ namespace Jacdac
             return $"bus ({this.devices.Length} devices)";
         }
 
+        /// <summary>
+        /// Generates a text description of the state of the bus
+        /// </summary>
+        /// <returns></returns>
         public string Describe()
         {
             var build = new StringBuilder();
             var transports = this.transports;
             var devices = this.devices;
 
-            build.AppendLine(this.ToString());
+            build.AppendLine($"bus {this.Timestamp}");
             build.AppendLine("transports:");
             foreach (var transport in transports)
             {
@@ -121,6 +132,12 @@ namespace Jacdac
             }
             return build.ToString();
         }
+
+        /// <summary>
+        /// Adds a transport to the bus
+        /// </summary>
+        /// <param name="transport"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void AddTransport(Transport transport)
         {
             if (transport == null)
@@ -140,7 +157,12 @@ namespace Jacdac
                 transport.Connect();
         }
 
-        public void SendFrame(byte[] frame, Transport sender = null)
+        /// <summary>
+        /// Sends a frame to the transports in the bus
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="sender"></param>
+        internal void SendFrame(byte[] frame, Transport sender = null)
         {
             if (!Packet.CheckFrame(frame))
                 return;
@@ -155,7 +177,7 @@ namespace Jacdac
         {
             if (this.announceTimer == null)
             {
-                this.Debug($"bus: start ({this.SelfDeviceServer.ShortId})");
+                this.LogDebug($"bus: start ({this.SelfDeviceServer.ShortId})");
                 this.announceTimer = new System.Threading.Timer(this.handleSelfAnnounce, null, 100, 499);
             }
             this.Connect();
@@ -168,10 +190,11 @@ namespace Jacdac
 
         public void Stop()
         {
-            if (this.announceTimer != null)
+            var at = this.announceTimer;
+            if (at != null)
             {
-                this.announceTimer.Dispose();
                 this.announceTimer = null;
+                at.Dispose();
             }
             this.Disconnect();
         }
@@ -235,11 +258,7 @@ namespace Jacdac
                 case TransportError.Frame_F: name = "frame F"; TransportStats.FrameF++; break;
             }
 
-            System.Diagnostics.Debug.WriteLine($"transport error {name}");
-            // if (args.Data != null)
-            // {
-            //    Debug.WriteLine($"{this.Timestamp.TotalMilliseconds}\t\t{HexEncoding.ToString(args.Data)}");
-            // }
+            this.LogDebug($"transport error {name}");
         }
         void ProcessPacket(Packet pkt)
         {
@@ -285,7 +304,6 @@ namespace Jacdac
                 }
                 else
                 {
-                    //Debug.WriteLine($"pkt from {pkt.DeviceId} self {this.SelfDeviceServer.DeviceId}");
                     if (deviceId == this.SelfDeviceServer.DeviceId)
                         this.SelfDeviceServer.ProcessPacket(pkt);
                     device.ProcessPacket(pkt);
@@ -390,7 +408,7 @@ namespace Jacdac
             }
             if (disconnected > 0)
             {
-                this.Debug($"cleaning out {disconnected} devices");
+                this.LogDebug($"cleaning out {disconnected} devices");
                 var disco = new JDDevice[disconnected];
                 var newDevices = new JDDevice[devices.Length - disconnected];
                 var k = 0;
@@ -449,5 +467,14 @@ namespace Jacdac
         public event NodeEventHandler SelfAnnounced;
 
         public event FrameEventHandler FrameSent;
+
+        public void Dispose()
+        {
+            this.Stop();
+            var transports = this.transports;
+            this.transports = new Transport[0];
+            foreach (var transport in transports)
+                transport.Dispose();
+        }
     }
 }

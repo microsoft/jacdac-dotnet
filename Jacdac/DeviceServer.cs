@@ -3,7 +3,7 @@ using System;
 
 namespace Jacdac
 {
-    public sealed partial class JDDeviceServer : JDBusNode
+    public sealed partial class JDDeviceServer : JDNode
     {
         private readonly JDBus bus;
         public readonly string DeviceId;
@@ -62,7 +62,7 @@ namespace Jacdac
 
         public override JDBus Bus { get => this.bus; }
 
-        public override LoggerServer Logger => this.logger;
+        public LoggerServer Logger => this.logger;
 
         public string ShortId
         {

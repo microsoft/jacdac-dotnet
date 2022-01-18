@@ -17,22 +17,32 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>volume</c> register value.
+        /// Tries to read the <c>volume</c> register value.
         /// Global volume of the output. ``0`` means completely off. This volume is mixed with each play volumes., _: /
         /// </summary>
-        public float Volume
+        bool TryGetVolume(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, out values)) 
             {
-                return (float)this.GetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the volume value
+        /// </summary>
+        public void SetVolume(float value)
+        {
+            this.SetRegisterValue((ushort)SoundPlayerReg.Volume, SoundPlayerRegPack.Volume, value);
+        }
+
 
 
         

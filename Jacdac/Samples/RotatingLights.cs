@@ -13,7 +13,12 @@ namespace Jacdac.Samples
         {
             #region sources
             var leds = new LedPixelClient(bus, "leds");
+            // default configuration of the service
+            leds.NumPixels = 300;
+            leds.MaxPower = 2000;
+            leds.Brightness = 0.1f;
 
+            // led painting instructions
             var red = 0xff0000;
             var purple = 0xff00ff;
             var blue = 0x0000ff;
@@ -26,21 +31,22 @@ namespace Jacdac.Samples
             for (var i = 0; i < 10; ++i)
                 rotateBuilder.Rotate(10).Show(20);
             var rotate = rotateBuilder.ToBuffer();
-            rotateBuilder = null;
+
+            // run once when a device connects or restarts
+            leds.Configure += (s, e) =>
+            {
+                leds.Run(paint);
+            };
+            // runs when the device gets connected for the first time on the bus
             leds.Connected += (s, e) =>
             {
-                Console.WriteLine("leds connected...");
-                leds.NumPixels = 300;
-                leds.MaxPower = 2000;
-                leds.Brightness = 0.1f;
-                leds.Run(paint);
+                // keep rotating leds until the strip disconnects
                 while (leds.IsConnected)
                 {
                     leds.Run(rotate);
                     Thread.Sleep(200);
                 }
             };
-            leds.Disconnected += (s, e) => Console.WriteLine("leds disconnected...");
             #endregion
         }
     }

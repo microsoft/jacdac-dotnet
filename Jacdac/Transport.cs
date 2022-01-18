@@ -63,7 +63,7 @@ namespace Jacdac
         Disconnected,
     }
 
-    public abstract class Transport : JDNode, IDisposable
+    public abstract class Transport : IDisposable
     {
         public readonly string Kind;
         private ConnectionState _connectionState = ConnectionState.Disconnected;
