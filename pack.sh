@@ -3,7 +3,6 @@ msbuild.exe -t:clean Jacdac.sln
 
 # Jacdac.TinyCLR
 cd Jacdac.TinyCLR
-msbuild.exe -t:clean Jacdac.TinyCLR.csproj
 nuget.exe restore Jacdac.TinyCLR.csproj -OutputDirectory packages -Verbosity detailed
 ls -R
 msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.csproj -v:d
@@ -12,7 +11,6 @@ cd ..
 
 # Jacdac.TinyCLR.Clients
 cd Jacdac.TinyCLR.Clients
-msbuild.exe -t:clean Jacdac.TinyCLR.Clients.csproj
 nuget.exe restore Jacdac.TinyCLR.Clients.csproj -OutputDirectory packages -Verbosity detailed
 ls -R
 msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.Clients.csproj -v:d
@@ -21,7 +19,6 @@ cd ..
 
 # Jacdac.TinyCLR.Storage
 cd Jacdac.TinyCLR.Storage
-msbuild.exe -t:clean Jacdac.TinyCLR.Storage.csproj
 nuget.exe restore Jacdac.TinyCLR.Storage.csproj -OutputDirectory packages -Verbosity detailed
 ls -R
 msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.Storage.csproj -v:d

@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacdac.DevTools", "Jacdac.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR", "Jacdac.TinyCLR\Jacdac.TinyCLR.csproj", "{FEAE5AA6-08FC-449E-8CE1-6F3697211323}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Clients", "Jacdac.TinyCLR.Clients\Jacdac.TinyCLR.Clients.csproj", "{B450BA62-EF67-4ABE-8239-5343A0A72922}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jacdac.TinyCLR.Storage", "Jacdac.TinyCLR.Storage\Jacdac.TinyCLR.Storage.csproj", "{C81F0D29-5AF9-44B3-B50B-CB8126236510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEAE5AA6-08FC-449E-8CE1-6F3697211323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B450BA62-EF67-4ABE-8239-5343A0A72922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81F0D29-5AF9-44B3-B50B-CB8126236510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
