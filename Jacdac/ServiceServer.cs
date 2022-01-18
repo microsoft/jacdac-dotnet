@@ -19,7 +19,7 @@ namespace Jacdac
         public string InstanceName;
     }
 
-    public abstract partial class JDServiceServer : JDNode
+    public abstract partial class JDServiceServer : JDNode, IDisposable
     {
         public byte ServiceIndex;
         public JDDeviceServer Device;
@@ -78,7 +78,7 @@ namespace Jacdac
             return false;
         }
 
-        private void SendNotImplemented(Packet pkt)
+        protected void SendNotImplemented(Packet pkt)
         {
             System.Diagnostics.Debug.Assert(!pkt.IsMultiCommand);
             var data = new byte[4];
@@ -177,6 +177,11 @@ namespace Jacdac
             this.SendPacket(pkt);
             device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 20);
             device.DelayedSendPacket(pkt, (int)now.TotalMilliseconds + 100);
+        }
+
+        public virtual void Dispose()
+        {
+
         }
     }
 }
