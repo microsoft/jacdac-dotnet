@@ -53,7 +53,7 @@
 			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Devices.Storage.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Storage.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.IO, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.IO.2.1.0\lib\net452\GHIElectronics.IO.Json.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.IO.2.1.0\lib\net452\GHIElectronics.TinyCLR.IO.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
