@@ -22,7 +22,7 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return $"pipe:${this.device}:${this.port}";
+            return $"pipe:{this.device}:{this.port}";
         }
 
         public static OutPipe From(JDBus bus, Packet pkt)

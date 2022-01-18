@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Jacdac.Servers.SoundPlayer
+namespace Jacdac.Servers
 {
     /// <summary>
     /// A sound player for .mp3 files to run a sound player server instance
@@ -46,11 +46,10 @@ namespace Jacdac.Servers.SoundPlayer
         {
             var mp3s = Directory.GetFiles(this.soundDirectory, "*.mp3");
             var wavs = Directory.GetFiles(this.soundDirectory, "*.wav");
-            var files = Array.Sort(
-                mp3s.Concat(wavs)
+            var files = mp3s.Concat(wavs)
                     .Select(Path.GetFileNameWithoutExtension)
-                    .Distinct().ToArray()
-            );
+                    .Distinct().ToArray();
+            Array.Sort(files, StringComparer.InvariantCultureIgnoreCase);
             return files;
         }
 
@@ -63,7 +62,8 @@ namespace Jacdac.Servers.SoundPlayer
             var mp3 = Path.Combine(this.soundDirectory, fileName + ".mp3");
             if (File.Exists(mp3))
                 this.player.Play(mp3);
-            else {
+            else
+            {
                 var wav = Path.Combine(this.soundDirectory, fileName + ".wav");
                 if (File.Exists(wav))
                     this.player.Play(wav);

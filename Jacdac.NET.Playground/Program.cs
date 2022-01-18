@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using Jacdac.Logging;
+using System.Collections.Generic;
 
 namespace Jacdac.Playground
 {
@@ -25,7 +26,7 @@ namespace Jacdac.Playground
             if (prototest)
                 services.Add(new ProtoTestServer());
             if (sounds)
-                services.Add(new NetCoreAudioSoundPlayer("sounds"));
+                services.Add(new SoundPlayerServer(new NetCoreAudioSoundPlayer("sounds")));
 
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()

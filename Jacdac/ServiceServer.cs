@@ -63,7 +63,7 @@ namespace Jacdac
                     {
                         var logger = this.Device?.Bus?.Logger;
                         if (logger != null)
-                            logger.SendReport(LoggerPriority.Error, $"cmd failed: ${ex.Message}, ${pkt}");
+                            logger.SendReport(LoggerPriority.Error, $"cmd failed: {ex.Message}, {pkt}");
                     }
                     return true;
                 }
