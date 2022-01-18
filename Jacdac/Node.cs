@@ -34,7 +34,7 @@ namespace Jacdac
 
         protected void LogDebug(string msg)
         {
-            Platform.LogDebug($"{this}: {msg}", "Jacdac");
+            Platform.LogDebug($"{this}: {msg}", "jacdac");
         }
     }
 
