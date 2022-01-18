@@ -5,6 +5,7 @@
 	</PropertyGroup>
 	<Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
 	<PropertyGroup>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
