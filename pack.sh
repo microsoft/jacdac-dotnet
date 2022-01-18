@@ -2,7 +2,7 @@
 msbuild.exe -t:clean Jacdac.sln
 
 # restore
-dotnet restore Jacdac.sln --packages ./packages
+nuget restore Jacdac.sln -PackagesDirectory ./packages
 
 # Jacdac.TinyCLR
 cd Jacdac.TinyCLR
