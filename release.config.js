@@ -48,7 +48,8 @@ module.exports = {
         [
             "@semantic-release/exec",
             {
-                publishCmd: "sh ./nuget.sh",
+                prepareCmd: "pack.bat",
+                publishCmd: "publish.bat",
             },
         ],
     ],

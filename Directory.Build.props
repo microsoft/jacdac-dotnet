@@ -1,5 +1,8 @@
 <Project>
 	<PropertyGroup>
+		<DirectoryBuildProps>True</DirectoryBuildProps>
+	</PropertyGroup>
+	<PropertyGroup>
 		<Version>1.0.7</Version>
 		<Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
 		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
@@ -13,6 +16,10 @@
 		<Authors>Microsoft</Authors>
 		<RequireLicenseAcceptance>True</RequireLicenseAcceptance>
 		<PackageOutputPath>../bin/$(CONFIGURATION)/packages</PackageOutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TinyCLRPackages>..\packages</TinyCLRPackages>
+		<TinyCLRCoreProps>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Core.2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>

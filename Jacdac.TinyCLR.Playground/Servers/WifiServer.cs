@@ -6,9 +6,7 @@ using System.Text;
 using System.Threading;
 using GHIElectronics.TinyCLR.Devices.Gpio;
 using GHIElectronics.TinyCLR.Devices.Network;
-using GHIElectronics.TinyCLR.Devices.Storage;
 using GHIElectronics.TinyCLR.Drivers.Microchip.Winc15x0;
-using GHIElectronics.TinyCLR.IO;
 using GHIElectronics.TinyCLR.Pins;
 
 namespace Jacdac.Servers
