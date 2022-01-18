@@ -26,3 +26,6 @@ cd ..
 nuget.exe restore Jacdac.sln
 msbuild.exe -t:build -p:Configuration=Release Jacdac.sln
 dotnet pack Jacdac.sln -c Release -o newpackages
+
+# let's see  who got built
+ls /R ./newpackages/
