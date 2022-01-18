@@ -51,6 +51,7 @@ namespace Jacdac
                 led.SetDriveMode(GpioPinDriveMode.Output);
                 led.Write(on ? GpioPinValue.High : GpioPinValue.Low);
             };
+            Platform.LogDebug = (msg, category) => System.Diagnostics.Debug.WriteLine(msg);
         }
 
         public static int LedPin = -1;

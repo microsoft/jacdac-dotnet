@@ -233,7 +233,7 @@ namespace Jacdac
                 s = this.BoundService;
                 if (s == null)
                 {
-                    this.Log("no service available");
+                    this.LogDebug("no service available");
                     throw new ClientDisconnectedException();
                 }
                 return s;
@@ -266,7 +266,7 @@ namespace Jacdac
                     return defaultValues;
                 else
                 {
-                    this.Log($"register value of {code} not avaible");
+                    this.LogDebug($"register value of {code} not avaible");
                     throw new ClientDisconnectedException();
                 }
             return values;

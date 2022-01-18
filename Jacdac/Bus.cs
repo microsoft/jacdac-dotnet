@@ -75,7 +75,7 @@ namespace Jacdac
         /// <summary>
         /// Gets the logger server hosted on the self device if any
         /// </summary>
-        public override LoggerServer Logger => this.SelfDeviceServer?.Logger;
+        public LoggerServer Logger => this.SelfDeviceServer?.Logger;
 
         /// <summary>
         /// Gets the role manager server hosted on the self device, if any.

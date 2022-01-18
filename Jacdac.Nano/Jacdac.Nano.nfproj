@@ -28,6 +28,7 @@
     <Compile Include="..\Jacdac\Constants\*.cs">
       <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
+    <Compile Include="NanoPlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

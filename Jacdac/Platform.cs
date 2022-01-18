@@ -9,6 +9,7 @@ namespace Jacdac
     public delegate ushort Crc16Calculator(byte[] p, int start, int size);
     public delegate short McuTemperatureCalculator();
     public delegate void SetStatusLightHandler(byte red, byte green, byte blue, byte speed);
+    public delegate void TraceHandler(string msg, string category);
 
     public static partial class Platform
     {
@@ -36,5 +37,6 @@ namespace Jacdac
         public static ControlAnnounceFlags StatusLight = ControlAnnounceFlags.StatusLightNone;
         public static SetStatusLightHandler SetStatusLight = null;
         public static bool UseReflectionMetadata = true;
+        public static TraceHandler LogDebug = null;
     }
 }

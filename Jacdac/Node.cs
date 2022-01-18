@@ -5,9 +5,7 @@ namespace Jacdac
 {
     public delegate void NodeEventHandler(JDNode sender, EventArgs e);
 
-
-
-    public abstract class JDNode
+    public abstract partial class JDNode
     {
         internal protected JDNode()
         {
@@ -34,35 +32,9 @@ namespace Jacdac
             return this.Changed != null;
         }
 
-        /// <summary>
-        /// Gets the instance to the loggger server, if any
-        /// </summary>
-        public virtual LoggerServer Logger => this.Bus?.Logger;
-
-        private void RaiseLogEvent(LoggerPriority priority, string message)
-        {
-            var logger = this.Logger;
-            logger?.SendReport(priority, message);
-        }
-
         protected void LogDebug(string msg)
         {
-            this.RaiseLogEvent(LoggerPriority.Debug, msg);
-        }
-
-        protected void LogWarning(string msg)
-        {
-            this.RaiseLogEvent(LoggerPriority.Warning, msg);
-        }
-
-        protected void Log(string msg)
-        {
-            this.RaiseLogEvent(LoggerPriority.Log, msg);
-        }
-
-        protected void LogError(string msg)
-        {
-            this.RaiseLogEvent(LoggerPriority.Error, msg);
+            Platform.LogDebug($"{this}: {msg}", "Jacdac");
         }
     }
 
