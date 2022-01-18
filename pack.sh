@@ -23,7 +23,6 @@ nuget.exe pack Jacdac.TinyCLR.Storage.csproj -Prop Configuration=Release -Output
 cd ..
 
 # .NET assemblies
-nuget.exe restore Jacdac.sln
 msbuild.exe -t:build -p:Configuration=Release Jacdac.sln
 dotnet pack Jacdac.DevTools/Jacdac.DevTools.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET/Jacdac.NET.csproj -c Release -o newpackages
@@ -34,4 +33,4 @@ dotnet pack Jacdac.NET.Transports.WebSockets/Jacdac.Transports.WebSockets.csproj
 dotnet pack Jacdac.NET.Servers.SoundPlayer/Jacdac.Servers.SoundPlayer.csproj -c Release -o newpackages
 
 # let's see  who got built
-ls /R ./newpackages/
+ls newpackages
