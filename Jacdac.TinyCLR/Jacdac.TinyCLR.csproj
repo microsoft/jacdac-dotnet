@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<TinyCLRCoreProps>.\packages\GHIElectronics.TinyCLR.Core\2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
+		<TinyCLRCoreProps>.\packages\GHIElectronics.TinyCLR.Core.2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
 	</PropertyGroup>
 	<Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
