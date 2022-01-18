@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<TinyCLRCoreProps>.\packages\GHIElectronics.TinyCLR.Core.2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
-	</PropertyGroup>
+	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
 	<Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
 	<PropertyGroup>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -69,28 +66,28 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="GHIElectronics.TinyCLR.Data.Json, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Data.Json.2.1.2\lib\net452\GHIElectronics.TinyCLR.Data.Json.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Data.Json.2.1.2\lib\net452\GHIElectronics.TinyCLR.Data.Json.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Devices.Gpio, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Devices.Gpio.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Gpio.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Devices.Gpio.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Gpio.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Devices.Jacdac.Transport, Version=2.1.0.1, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.2.1.0.1\lib\net452\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.2.1.0.1\lib\net452\GHIElectronics.TinyCLR.Devices.Jacdac.Transport.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Devices.Uart, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Devices.Uart.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Uart.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Devices.Uart.2.1.0\lib\net452\GHIElectronics.TinyCLR.Devices.Uart.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.IO, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.IO.2.1.0\lib\net452\GHIElectronics.TinyCLR.IO.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.IO.2.1.0\lib\net452\GHIElectronics.TinyCLR.IO.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Native, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Native.2.1.0\lib\net452\GHIElectronics.TinyCLR.Native.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Native.2.1.0\lib\net452\GHIElectronics.TinyCLR.Native.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Networking, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Networking.2.1.0\lib\net452\GHIElectronics.TinyCLR.Networking.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Networking.2.1.0\lib\net452\GHIElectronics.TinyCLR.Networking.dll</HintPath>
 		</Reference>
 		<Reference Include="GHIElectronics.TinyCLR.Networking.Http, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>.\packages\GHIElectronics.TinyCLR.Networking.Http.2.1.0\lib\net452\GHIElectronics.TinyCLR.Networking.Http.dll</HintPath>
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Networking.Http.2.1.0\lib\net452\GHIElectronics.TinyCLR.Networking.Http.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

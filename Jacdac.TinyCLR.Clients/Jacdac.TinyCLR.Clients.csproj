@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<TinyCLRCoreProps>.\packages\GHIElectronics.TinyCLR.Core.2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
-	</PropertyGroup>
+	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
 	<Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
 	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
 	<PropertyGroup>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -58,9 +55,9 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="GHIElectronics.TinyCLR.Core">
-			<Version>2.1.0</Version>
-		</PackageReference>
+		<Reference Include="GHIElectronics.TinyCLR.Core, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Networking.Http.2.1.0\lib\net452\GHIElectronics.TinyCLR.Core.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="packages.config" />

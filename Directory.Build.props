@@ -14,6 +14,10 @@
 		<RequireLicenseAcceptance>True</RequireLicenseAcceptance>
 		<PackageOutputPath>../bin/$(CONFIGURATION)/packages</PackageOutputPath>
 	</PropertyGroup>
+	<PropertyGroup>
+		<TinyCLRPackages>..\packages</TinyCLRPackages>
+		<TinyCLRCoreProps>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Core.2.1.0\build\net452\GHIElectronics.TinyCLR.Core.props</TinyCLRCoreProps>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
