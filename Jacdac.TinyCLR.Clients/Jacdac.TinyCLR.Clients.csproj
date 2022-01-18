@@ -55,9 +55,6 @@
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<Reference Include="GHIElectronics.TinyCLR.Core, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Core.2.1.0\lib\net452\GHIElectronics.TinyCLR.Core.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="packages.config" />
