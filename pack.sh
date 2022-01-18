@@ -1,9 +1,10 @@
 # Jacdac.TinyCLR
-msbuild.exe -t:clean ./Jacdac.TinyCLR/Jacdac.TinyCLR.csproj
-nuget.exe restore ./Jacdac.TinyCLR/Jacdac.TinyCLR.csproj -OutputDirectory ./Jacdac.TinyCLR/packages -Verbosity detailed
+cd Jacdac.TinyCLR
+msbuild.exe -t:clean Jacdac.TinyCLR.csproj
+nuget.exe restore Jacdac.TinyCLR.csproj -OutputDirectory packages -Verbosity detailed
 ls -R
-msbuild.exe -t:build -p:Configuration=Release ./Jacdac.TinyCLR/Jacdac.TinyCLR.csproj
-nuget.exe pack ./Jacdac.TinyCLR/Jacdac.TinyCLR.csproj -Prop Configuration=Release -OutputDirectory ./newpackages -Verbosity detailed
+msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.csproj
+nuget.exe pack Jacdac.TinyCLR.csproj -Prop Configuration=Release -OutputDirectory ../newpackages -Verbosity detailed
 
 #msbuild.exe -t:clean Jacdac.sln
 #nuget.exe restore Jacdac.sln
