@@ -19,7 +19,7 @@ namespace Jacdac.Playground
             Console.WriteLine("jacdac: connecting...");
 
             var prototest = args.Any(arg => arg == "prototest");
-            var sounds = args.Any(arg => arg == "sound");
+            var sounds = args.Any(arg => arg == "sounds");
 
             var sample = SampleExtensions.GetSample(args);
             var services = new List<JDServiceServer>();

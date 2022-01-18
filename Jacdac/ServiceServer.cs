@@ -48,7 +48,10 @@ namespace Jacdac
             {
                 JDRegisterServer register;
                 if (this.TryGetRegister(pkt.RegisterCode, out register))
-                    return register.ProcessPacket(pkt);
+                {
+                    var res = register.ProcessPacket(pkt);
+                    if (res) return true;
+                }
             }
             else if (pkt.IsCommand)
             {

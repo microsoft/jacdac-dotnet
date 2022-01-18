@@ -17,7 +17,7 @@ namespace Jacdac
     }
 
     public delegate object[] RegisterGetHandler(JDRegisterServer server);
-    public delegate void RegisterSetHandler(JDRegisterServer server, object[] values);
+    public delegate bool RegisterSetHandler(JDRegisterServer server, object[] values);
 
     public sealed class JDDynamicRegisterServer : JDRegisterServer
     {
@@ -51,8 +51,7 @@ namespace Jacdac
                 var data = pkt.Data;
                 var server = this.Service;
                 var values = PacketEncoding.UnPack(this.format, data);
-                this.dataSetter(this, values);
-                return true;
+                return this.dataSetter(this, values);
             }
 
             return false;

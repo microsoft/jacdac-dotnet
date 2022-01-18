@@ -22,7 +22,7 @@ namespace Jacdac
 
         public override string ToString()
         {
-            return $"pipe:{this.device}:{this.port}";
+            return $"pipe:{this.device?.ToString() ?? "?"}:{this.port}";
         }
 
         public static OutPipe From(JDBus bus, Packet pkt)
@@ -34,7 +34,10 @@ namespace Jacdac
             var port = (ushort)(uint)values[1];
             JDDevice device;
             if (!bus.TryGetDevice(id, out device))
+            {
+                System.Diagnostics.Debug.WriteLine($"pipe: out device {JDDevice.ShortDeviceId(id)} ({id}) not found");
                 return null;
+            }
             return new OutPipe(device, port);
         }
 

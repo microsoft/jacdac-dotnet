@@ -202,10 +202,12 @@ namespace Jacdac.Servers
 
         private void handleListRoles(JDNode sensor, PacketEventArgs args)
         {
+            var bus = this.Bus;
             var pkt = args.Packet;
-            var pipe = OutPipe.From(this.Device.Bus, pkt);
+            var pipe = OutPipe.From(bus, pkt);
+            if (pipe == null) return;
             var roles = this.roles;
-            pipe?.RespondForEach(roles, k =>
+            pipe.RespondForEach(roles, k =>
             {
                 var binding = (Client)k;
                 var service = binding.BoundService;

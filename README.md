@@ -28,6 +28,7 @@ As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/Tin
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
   - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
   - `Jacdac.NET.Transports.Usb`, Usb transport, .NET5 **(not functional, experimental)**
+  - `Jacdac.NET.Servers.SoundPlayer`, .NET sound player server implementation
 
 ### [TinyCLR](https://www.ghielectronics.com/tinyclr/)
 

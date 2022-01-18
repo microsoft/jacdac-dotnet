@@ -38,9 +38,10 @@ namespace Jacdac.Servers
             return new object[] { volume };
         }
 
-        private void handleSetVolume(JDRegisterServer sender, object[] values)
+        private bool handleSetVolume(JDRegisterServer sender, object[] values)
         {
             this.soundPlayer.Volume = Util.UnboxFloat(values[0]);
+            return true;
         }
 
         private void handlePlay(JDNode sender, PacketEventArgs args)
@@ -57,8 +58,18 @@ namespace Jacdac.Servers
 
         private void handleListSounds(JDNode sender, PacketEventArgs args)
         {
-            var pipe = OutPipe.From(this.Bus, args.Packet);
-            pipe.RespondForEach(this.soundPlayer.ListSounds(), name => PacketEncoding.Pack("u32 s", new object[] { 0, name }));
+            var bus = this.Bus;
+            var pkt = args.Packet;
+            var pipe = OutPipe.From(bus, pkt);
+            if (pipe == null) return;
+            var names = this.soundPlayer.ListSounds();
+            pipe.RespondForEach(names, EncodeName);
+        }
+
+        private static byte[] EncodeName(object name)
+        {
+            var sname = (string)name;
+            return PacketEncoding.Pack("u32 s", new object[] { 0, sname });
         }
     }
 }

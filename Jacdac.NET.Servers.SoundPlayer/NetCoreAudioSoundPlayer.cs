@@ -47,9 +47,10 @@ namespace Jacdac.Servers
             var mp3s = Directory.GetFiles(this.soundDirectory, "*.mp3");
             var wavs = Directory.GetFiles(this.soundDirectory, "*.wav");
             var files = mp3s.Concat(wavs)
-                    .Select(Path.GetFileNameWithoutExtension)
+                    .Select(f => Path.GetFileNameWithoutExtension(f))
                     .Distinct().ToArray();
-            Array.Sort(files, StringComparer.InvariantCultureIgnoreCase);
+            Array.Sort(files);
+            System.Diagnostics.Debug.WriteLine($"sounds: {String.Join(", ", files)}");
             return files;
         }
 
@@ -60,13 +61,22 @@ namespace Jacdac.Servers
 
             var fileName = Path.GetFileNameWithoutExtension(name); // filter out rooted paths
             var mp3 = Path.Combine(this.soundDirectory, fileName + ".mp3");
-            if (File.Exists(mp3))
-                this.player.Play(mp3);
-            else
+            var wav = Path.Combine(this.soundDirectory, fileName + ".wav");
+            var file = File.Exists(mp3) ? mp3 : File.Exists(wav) ? wav : null;
+            if (file != null)
+                this.playFile(file);
+        }
+
+        private async void playFile(string fileName)
+        {
+            try
             {
-                var wav = Path.Combine(this.soundDirectory, fileName + ".wav");
-                if (File.Exists(wav))
-                    this.player.Play(wav);
+                await this.player.Stop();
+                await this.player.Play(fileName);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
     }
