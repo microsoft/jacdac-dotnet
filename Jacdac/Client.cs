@@ -156,7 +156,7 @@ namespace Jacdac
                 if (this._boundService != value)
                 {
                     var old = this._boundService;
-                    this.LogDebug($"{this}: bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
+                    this.LogDebug($"bind {(old?.ToString() ?? "--")} to {(value?.ToString() ?? "--")}");
                     if (old != null)
                     {
                         this._boundService = null;
@@ -362,7 +362,7 @@ namespace Jacdac
                 var rvs = this.registerValueBindings;
                 if (rvs.Length > 0)
                 {
-                    this.LogDebug($"{this}: apply {rvs.Length} register values");
+                    this.LogDebug($"apply {rvs.Length} register values");
                     foreach (var rv in rvs)
                         this.ApplyRegisterValueBinding(rv);
                 }
@@ -377,7 +377,7 @@ namespace Jacdac
 
         private void handleDeviceRestarted(JDNode sender, EventArgs e)
         {
-            this.LogDebug($"{this}: device {sender} restarted");
+            this.LogDebug($"device {sender} restarted");
             this.BeginApplyRegisterValueBindings(false);
         }
         private void handleAnnounced(JDNode sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using Jacdac.Servers;
 using System;
+using System.Diagnostics;
 
 namespace Jacdac
 {
@@ -32,6 +33,7 @@ namespace Jacdac
             return this.Changed != null;
         }
 
+        [Conditional("DEBUG")]
         protected void LogDebug(string msg)
         {
             Platform.LogDebug($"{this}: {msg}", "jacdac");
