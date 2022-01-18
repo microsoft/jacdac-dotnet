@@ -81,6 +81,12 @@ namespace Jacdac.Playground
                 Console.WriteLine(bus.Describe());
             }, null, 1000, 15000);
 
+            //  run test
+            if (sample != null)
+                new Thread(state => sample.Run(bus)).Start();
+
+            Thread.Sleep(Timeout.Infinite);
+            /*
             var host = Host.CreateDefaultBuilder(args)
                 .ConfigureLogging((_, logging) =>
                 {
@@ -89,12 +95,8 @@ namespace Jacdac.Playground
                     logging.AddDebug();
                     logging.AddJacdac(bus);
                 }).Build();
-
-            //  run test
-            if (sample != null)
-                new Thread(state => sample.Run(bus)).Start();
-
             host.Run();
+            */
         }
     }
 }
