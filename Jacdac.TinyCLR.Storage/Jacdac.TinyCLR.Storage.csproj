@@ -65,5 +65,5 @@
 		</PropertyGroup>
 		<Error Condition="!Exists('$(TinyCLRCoreProps)')" Text="$([System.String]::Format('$(ErrorText)', '$(TinyCLRCoreProps)'))" />
 	</Target>
-	<Import Project="../TinyCLR.Build.props"/>
+	<Import Project="../TinyCLR.Build.props" Condition="'$(TinyCLRBuildProps)' == ''"/>
 </Project>
