@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "iothub sounds devtools",
+      "commandLineArgs": "iothub settings sounds devtools",
       "hotReloadEnabled": false
     }
   }

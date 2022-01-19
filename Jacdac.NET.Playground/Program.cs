@@ -19,18 +19,18 @@ namespace Jacdac.Playground
         {
             Console.WriteLine("jacdac: connecting...");
 
-            var prototest = args.Any(arg => arg == "prototest");
-            var sounds = args.Any(arg => arg == "sounds");
-            var iothub = args.Any(arg => arg == "iothub");
-
             var settings = new FileSettingsStorage("settings.yaml");
             var sample = SampleExtensions.GetSample(args);
             var services = new List<JDServiceServer>();
-            if (prototest)
+
+
+            if (args.Contains("settings"))
+                services.Add(new SettingsServer(settings));
+            if (args.Contains("prototest"))
                 services.Add(new ProtoTestServer());
-            if (sounds)
+            if (args.Contains("sounds"))
                 services.Add(new SoundPlayerServer(new NetCoreAudioSoundPlayer("sounds")));
-            if (iothub)
+            if (args.Contains("iothub"))
             {
                 var hub = new Jacdac.Servers.AzureIoTHubClient(TransportType.Mqtt_Tcp_Only, settings);
                 services.Add(new AzureIotHubHealthServer(hub));

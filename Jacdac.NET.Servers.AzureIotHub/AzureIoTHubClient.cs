@@ -308,7 +308,7 @@ namespace Jacdac.Servers
             this.DisconnectAsync();
         }
 
-        const string SETTING_NAME = "azureiothub_connectionstring";
+        const string SETTING_NAME = "$azureiothub_connectionstring";
 
         void IAzureIoTHubHealth.SetConnectionString(string connectionString)
         {
