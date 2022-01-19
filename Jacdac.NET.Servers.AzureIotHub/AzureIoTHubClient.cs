@@ -8,11 +8,13 @@ using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
+using System.Collections.Concurrent;
 
 namespace Jacdac.Servers
 {
     public class AzureIoTHubClient
         : IAzureIoTHubHealth
+        , IJacscriptCloud
     {
         private string connectionString;
 
@@ -29,11 +31,15 @@ namespace Jacdac.Servers
         // Mark these fields as volatile so that their latest values are referenced.
         private volatile DeviceClient _deviceClient;
         private volatile ConnectionStatus _connectionStatus = ConnectionStatus.Disconnected;
+        private ConcurrentDictionary<string, double> twinProperties = new ConcurrentDictionary<string, double>();
+        private ConcurrentDictionary<string, bool> subscribedTwinProperties = new ConcurrentDictionary<string, bool>();
 
         private CancellationTokenSource _cancellationTokenSource;
 
         public event EventHandler ConnectionStatusChanged;
         public event EventHandler MessageSent;
+        public event TwinChangedEventHandler TwinChanged;
+        public event CloudCommandEventHandler CloudCommand;
 
         public AzureIoTHubClient(TransportType transportType, ISettingsStorage storage = null, ILogger logger = null)
         {
@@ -52,7 +58,7 @@ namespace Jacdac.Servers
             get { return this._connectionStatus; }
         }
 
-        private bool IsDeviceConnected => this._connectionStatus == ConnectionStatus.Connected;
+        public bool IsConnected => this._connectionStatus == ConnectionStatus.Connected;
 
         public async Task ConnectAsync()
         {
@@ -110,7 +116,7 @@ namespace Jacdac.Servers
                     }
 
                     _deviceClient = DeviceClient.CreateFromConnectionString(this.connectionString, this._transportType, this._clientOptions);
-                    _deviceClient.SetConnectionStatusChangesHandler(HandleConnectionStatusChanged);
+                    _deviceClient.SetConnectionStatusChangesHandler(handleConnectionStatusChanged);
                     _logger?.LogDebug("Initialized the client instance.");
                 }
 
@@ -129,8 +135,8 @@ namespace Jacdac.Servers
                 // You will need to subscribe to the client callbacks any time the client is initialized.
                 await RetryOperationHelper.RetryTransientExceptionsAsync(
                     operationName: "SubscribeTwinUpdates",
-                    asyncOperation: async () => await this._deviceClient.SetDesiredPropertyUpdateCallbackAsync(HandleTwinUpdateNotification, cancellationToken),
-                    shouldExecuteOperation: () => this.IsDeviceConnected,
+                    asyncOperation: async () => await this._deviceClient.SetDesiredPropertyUpdateCallbackAsync(this.handleTwinUpdateNotification, cancellationToken),
+                    shouldExecuteOperation: () => this.IsConnected,
                     logger: this._logger,
                     exceptionsToBeIgnored: this._exceptionsToBeIgnored,
                     cancellationToken: cancellationToken);
@@ -142,7 +148,7 @@ namespace Jacdac.Servers
         // As a result, any operation within this block will be executed unmonitored on another thread.
         // To prevent multi-threaded synchronization issues, the async method InitializeClientAsync being called in here first grabs a lock
         // before attempting to initialize or dispose the device client instance.
-        private async void HandleConnectionStatusChanged(ConnectionStatus status, ConnectionStatusChangeReason reason)
+        private async void handleConnectionStatusChanged(ConnectionStatus status, ConnectionStatusChangeReason reason)
         {
             _logger?.LogDebug($"Connection status changed: status={status}, reason={reason}");
             _connectionStatus = status;
@@ -201,23 +207,28 @@ namespace Jacdac.Servers
             }
         }
 
-        private async Task HandleTwinUpdateNotification(TwinCollection twinUpdateRequest, object userContext)
+        private async Task handleTwinUpdateNotification(TwinCollection twinUpdateRequest, object userContext)
         {
             CancellationToken cancellationToken = (CancellationToken)userContext;
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                /*
-                var reportedProperties = new TwinCollection();
 
-                _logger.LogInformation($"Twin property update requested: \n{twinUpdateRequest.ToJson()}");
-
-                // For the purpose of this sample, we'll blindly accept all twin property write requests.
+                _logger?.LogInformation($"Twin property update requested: \n{twinUpdateRequest.ToJson()}");
                 foreach (KeyValuePair<string, object> desiredProperty in twinUpdateRequest)
                 {
-                    _logger.LogInformation($"Setting property {desiredProperty.Key} to {desiredProperty.Value}.");
-                    reportedProperties[desiredProperty.Key] = desiredProperty.Value;
+                    var key = desiredProperty.Key;
+                    var value = (double)desiredProperty.Value;
+                    double current;
+                    if (this.twinProperties.TryGetValue(key, out current) && current != value)
+                    {
+                        this.twinProperties[desiredProperty.Key] = (double)desiredProperty.Value;
+                        if (this.subscribedTwinProperties.ContainsKey(key))
+                            ThreadExtensions.BeginRaiseEvent(this.TwinChanged, () => this.TwinChanged.Invoke(this, new TwinChangedEventsArgs(key, value)));
+                    }
                 }
+
+                /*
 
                 // For the purpose of this sample, we'll blindly accept all twin property write requests.
                 await RetryOperationHelper.RetryTransientExceptionsAsync(
@@ -231,17 +242,17 @@ namespace Jacdac.Servers
             }
         }
 
-        public async Task SendMessagesAsync(Message message)
+        protected async Task SendMessagesAsync(Message message)
         {
             var cancellationToken = this._cancellationTokenSource.Token;
             while (!cancellationToken.IsCancellationRequested)
             {
-                if (this.IsDeviceConnected)
+                if (this.IsConnected)
                 {
                     await RetryOperationHelper.RetryTransientExceptionsAsync(
                         operationName: $"send_message_{message.MessageId}",
                         asyncOperation: async () => await _deviceClient.SendEventAsync(message),
-                        shouldExecuteOperation: () => IsDeviceConnected,
+                        shouldExecuteOperation: () => IsConnected,
                         logger: _logger,
                         exceptionsToBeIgnored: _exceptionsToBeIgnored,
                         cancellationToken: cancellationToken);
@@ -321,6 +332,37 @@ namespace Jacdac.Servers
         {
             await this.DisconnectAsync();
             await this.ConnectAsync();
+        }
+
+        private uint messageId = 0;
+        void IJacscriptCloud.Upload(string label, double[] value)
+        {
+            var msg = $"{label}: {String.Join(",", value.Select(d => d.ToString()))}";
+            var payload = Encoding.UTF8.GetBytes(msg);
+            var message = new Message()
+            {
+                MessageId = messageId++.ToString(),
+                ContentEncoding = Encoding.UTF8.ToString(),
+                ContentType = "application/json",
+            };
+#pragma warning disable 4014
+            this.SendMessagesAsync(message);
+#pragma warning restore 4014
+        }
+
+        bool IJacscriptCloud.TryGetTwin(string path, out double current)
+        {
+            return this.twinProperties.TryGetValue(path, out current);
+        }
+
+        public void SubscribeTwin(string path)
+        {
+            this.subscribedTwinProperties[path] = true;
+        }
+
+        public void AckCloudCommand(uint sequenceNumber, double[] result)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -23,7 +23,6 @@ namespace Jacdac.Playground
             var sample = SampleExtensions.GetSample(args);
             var services = new List<JDServiceServer>();
 
-
             if (args.Contains("settings"))
                 services.Add(new SettingsServer(settings));
             if (args.Contains("prototest"))
@@ -32,8 +31,9 @@ namespace Jacdac.Playground
                 services.Add(new SoundPlayerServer(new NetCoreAudioSoundPlayer("sounds")));
             if (args.Contains("iothub"))
             {
-                var hub = new Jacdac.Servers.AzureIoTHubClient(TransportType.Mqtt_Tcp_Only, settings);
+                var hub = new AzureIoTHubClient(TransportType.Mqtt_Tcp_Only, settings);
                 services.Add(new AzureIotHubHealthServer(hub));
+                services.Add(new JacscriptCloudServer(hub));
             }
 
             // create and start bus

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Jacdac
 {
@@ -27,17 +26,48 @@ namespace Jacdac
         private JDRegisterServer[] registers;
         private JDCommand[] commands;
 
+        protected JDStaticRegisterServer statusCodeRegister;
+
         protected JDServiceServer(uint serviceClass, JDServiceServerOptions options)
         {
             this.ServiceClass = serviceClass;
             this.registers = new JDRegisterServer[0];
             this.commands = new JDCommand[0];
 
+            this.AddRegister(this.statusCodeRegister = new JDStaticRegisterServer((ushort)SystemReg.StatusCode, SystemRegPack.StatusCode, new object[] { 0, 0 }));
+            this.statusCodeRegister.Changed += handleStatusCodeChanged;
+
             if (!String.IsNullOrEmpty(options?.InstanceName))
                 this.AddRegister(new JDStaticRegisterServer((ushort)Jacdac.BaseReg.InstanceName, Jacdac.BaseRegPack.InstanceName, new object[] { options.InstanceName })
                 {
                     IsConst = true
                 });
+        }
+
+        public ushort ServiceStatusCode
+        {
+            get { return (ushort)this.statusCodeRegister.GetValues()[0]; }
+            set
+            {
+                var values = this.statusCodeRegister.GetValues();
+                values[0] = value;
+                this.statusCodeRegister.SetValues(values);
+            }
+        }
+        public ushort VendorStatusCode
+        {
+            get { return (ushort)this.statusCodeRegister.GetValues()[1]; }
+            set
+            {
+                var values = this.statusCodeRegister.GetValues();
+                values[1] = value;
+                this.statusCodeRegister.SetValues(values);
+            }
+        }
+
+        private void handleStatusCodeChanged(JDNode sender, EventArgs e)
+        {
+            this.SendEvent((ushort)SystemEvent.StatusCodeChanged, this.statusCodeRegister.Data);
         }
 
         public override JDBus Bus { get => this.Device?.Bus; }
