@@ -45,7 +45,6 @@
     <Compile Include="..\Jacdac\Constants\*.cs">
       <Link>Constants\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
-    <Compile Include="AssemblyVersion.g.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -90,7 +89,6 @@
     <Reference Include="GHIElectronics.TinyCLR.Networking.Http, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>$(TinyCLRPackages)\GHIElectronics.TinyCLR.Networking.Http.2.1.0\lib\net452\GHIElectronics.TinyCLR.Networking.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

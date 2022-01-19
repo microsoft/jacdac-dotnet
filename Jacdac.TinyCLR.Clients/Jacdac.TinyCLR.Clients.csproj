@@ -1,72 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' " />
-  <Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B450BA62-EF67-4ABE-8239-5343A0A72922}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jacdac.TinyCLR.Clients</RootNamespace>
-    <AssemblyName>Jacdac.TinyCLR.Clients</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A1948822-69DD-4150-919B-F3F42EFB71CC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <LangVersion>9</LangVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Copyright>Microsoft Corporation</Copyright>
-    <PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
-    <PackageIcon>jacdac.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
-    <PackageTags>jacdac;embedded;sensors;iot</PackageTags>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\Jacdac.TinyCLR\AssemblyVersion.g.cs">
-      <Link>AssemblyVersion.g.cs</Link>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Jacdac\Clients\*.cs">
-      <Link>Clients\%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jacdac.TinyCLR\Jacdac.TinyCLR.csproj">
-      <Project>{FEAE5AA6-08FC-449E-8CE1-6F3697211323}</Project>
-      <Name>Jacdac.TinyCLR</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(TinyCLRCoreProps)')" Text="$([System.String]::Format('$(ErrorText)', '$(TinyCLRCoreProps)'))" />
-  </Target>
+	<Import Project="../Directory.Build.props" Condition=" '$(PackageProjectUrl)' == '' "/>
+	<Import Project="$(TinyCLRCoreProps)" Condition="Exists('$(TinyCLRCoreProps)')" />
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{B450BA62-EF67-4ABE-8239-5343A0A72922}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Jacdac.TinyCLR.Clients</RootNamespace>
+		<AssemblyName>Jacdac.TinyCLR.Clients</AssemblyName>
+		<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<ProjectTypeGuids>{A1948822-69DD-4150-919B-F3F42EFB71CC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+		<LangVersion>9</LangVersion>
+		<NuGetPackageImportStamp>
+		</NuGetPackageImportStamp>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Copyright>Microsoft Corporation</Copyright>
+		<PackageProjectUrl>https://aka.ms/jacdac</PackageProjectUrl>
+		<PackageIcon>jacdac.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/microsoft/jacdac-dotnet</RepositoryUrl>
+		<PackageTags>jacdac;embedded;sensors;iot</PackageTags>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="Properties\AssemblyInfo.cs" />
+		<Compile Include="..\Jacdac\Clients\*.cs">
+			<Link>Clients\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Jacdac.TinyCLR\Jacdac.TinyCLR.csproj">
+			<Project>{FEAE5AA6-08FC-449E-8CE1-6F3697211323}</Project>
+			<Name>Jacdac.TinyCLR</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="packages.config" />
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+		<PropertyGroup>
+			<ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+		</PropertyGroup>
+		<Error Condition="!Exists('$(TinyCLRCoreProps)')" Text="$([System.String]::Format('$(ErrorText)', '$(TinyCLRCoreProps)'))" />
+	</Target>
+
 </Project>
