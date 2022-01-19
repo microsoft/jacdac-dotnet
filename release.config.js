@@ -52,7 +52,7 @@ module.exports = {
             },
         ],
         ["@semantic-release/git", {
-            "assets": ["newpackages/*.nupkg"],
+            "assets": ["./newpackages/*.nupkg"],
         }]
     ],
 }
