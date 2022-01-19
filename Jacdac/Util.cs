@@ -212,7 +212,6 @@ namespace Jacdac
             {
                 return (bool)value ? 1u : 0u;
             }
-            // try for enums
             return (uint)value;
         }
 

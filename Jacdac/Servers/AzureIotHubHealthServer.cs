@@ -32,7 +32,7 @@ namespace Jacdac.Servers
 
             this.AddRegister(this.hubNameRegister = new JDDynamicRegisterServer((ushort)AzureIotHubHealthReg.HubName, AzureIotHubHealthRegPack.HubName, (server) => new object[] { this.hub.HubName }));
             this.AddRegister(this.hubDeviceIdRegister = new JDDynamicRegisterServer((ushort)AzureIotHubHealthReg.HubDeviceId, AzureIotHubHealthRegPack.HubDeviceId, (server) => new object[] { this.hub.HubDeviceId }));
-            this.AddRegister(this.connectionStatusRegister = new JDDynamicRegisterServer((ushort)AzureIotHubHealthReg.ConnectionStatus, AzureIotHubHealthRegPack.ConnectionStatus, (server) => new object[] { this.hub.ConnectionStatus }));
+            this.AddRegister(this.connectionStatusRegister = new JDDynamicRegisterServer((ushort)AzureIotHubHealthReg.ConnectionStatus, AzureIotHubHealthRegPack.ConnectionStatus, (server) => new object[] { (ushort)this.hub.ConnectionStatus }));
 
             // restricted command
             this.AddCommand((ushort)AzureIotHubHealthCmd.SetConnectionString, this.handleSetConnectionString);
@@ -51,7 +51,7 @@ namespace Jacdac.Servers
             if (this.hub == null)
                 throw new ObjectDisposedException("server");
 
-            var payload = PacketEncoding.Pack(AzureIotHubHealthEventPack.ConnectionStatusChange, new object[] { this.hub.ConnectionStatus });
+            var payload = PacketEncoding.Pack(AzureIotHubHealthEventPack.ConnectionStatusChange, new object[] { (ushort)this.hub.ConnectionStatus });
             this.SendEvent((ushort)AzureIotHubHealthEvent.ConnectionStatusChange, payload);
         }
 

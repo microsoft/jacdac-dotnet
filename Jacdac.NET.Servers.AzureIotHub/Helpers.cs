@@ -175,19 +175,19 @@ namespace Jacdac.Servers
                 {
                     if (shouldExecuteOperation())
                     {
-                        logger.LogInformation(FormatRetryOperationLogMessage(operationName, attempt, "executing."));
+                        logger?.LogInformation(FormatRetryOperationLogMessage(operationName, attempt, "executing."));
 
                         await asyncOperation();
                         break;
                     }
                     else
                     {
-                        logger.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, "operation is not ready to be executed. Attempt discarded."));
+                        logger?.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, "operation is not ready to be executed. Attempt discarded."));
                     }
                 }
                 catch (Exception ex)
                 {
-                    logger.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, $"encountered an exception while processing the request: {ex}"));
+                    logger?.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, $"encountered an exception while processing the request: {ex}"));
                     lastException = ex;
                 }
 
@@ -200,7 +200,7 @@ namespace Jacdac.Servers
                 }
                 else
                 {
-                    logger.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, $"retry policy determined that the operation should no longer be retried, stopping retries."));
+                    logger?.LogWarning(FormatRetryOperationLogMessage(operationName, attempt, $"retry policy determined that the operation should no longer be retried, stopping retries."));
                 }
             }
             while (shouldRetry && !cancellationToken.IsCancellationRequested);

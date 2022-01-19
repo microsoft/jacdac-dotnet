@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using Jacdac.Logging;
 using System.Collections.Generic;
+using Microsoft.Azure.Devices.Client;
 
 namespace Jacdac.Playground
 {
@@ -20,13 +21,20 @@ namespace Jacdac.Playground
 
             var prototest = args.Any(arg => arg == "prototest");
             var sounds = args.Any(arg => arg == "sounds");
+            var iothub = args.Any(arg => arg == "iothub");
 
+            var settings = new FileSettingsStorage("settings.yaml");
             var sample = SampleExtensions.GetSample(args);
             var services = new List<JDServiceServer>();
             if (prototest)
                 services.Add(new ProtoTestServer());
             if (sounds)
                 services.Add(new SoundPlayerServer(new NetCoreAudioSoundPlayer("sounds")));
+            if (iothub)
+            {
+                var hub = new Jacdac.Servers.AzureIoTHubClient(TransportType.Mqtt_Tcp_Only, settings);
+                services.Add(new AzureIotHubHealthServer(hub));
+            }
 
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()

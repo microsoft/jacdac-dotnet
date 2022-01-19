@@ -8,6 +8,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Jacdac.NET.Clients\Jacdac.NET.Clients.csproj" />
 		<ProjectReference Include="..\Jacdac.NET.Logging\Jacdac.NET.Logging.csproj" />
+		<ProjectReference Include="..\Jacdac.NET.Servers.AzureIotHub\Jacdac.NET.Servers.AzureIotHub.csproj" />
 		<ProjectReference Include="..\Jacdac.NET.Servers.SoundPlayer\Jacdac.NET.Servers.SoundPlayer.csproj" />
 		<ProjectReference Include="..\Jacdac.NET.Transports.Spi\Jacdac.NET.Transports.Spi.csproj" />
 		<ProjectReference Include="..\Jacdac.NET.Transports.WebSockets\Jacdac.NET.Transports.WebSockets.csproj" />

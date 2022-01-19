@@ -11,12 +11,12 @@ using System.Text;
 
 namespace Jacdac.Servers
 {
-    public class DeviceClientAzureIoTHubClient
+    public class AzureIoTHubClient
         : IAzureIoTHubHealth
     {
         private string connectionString;
 
-        private readonly ISettingsStorage storage;
+        private readonly ISettingsStorage _storage;
         private readonly TransportType _transportType;
         private readonly ClientOptions _clientOptions = new ClientOptions { SdkAssignsMessageId = SdkAssignsMessageId.WhenUnset };
 
@@ -35,14 +35,14 @@ namespace Jacdac.Servers
         public event EventHandler ConnectionStatusChanged;
         public event EventHandler MessageSent;
 
-        public DeviceClientAzureIoTHubClient(ISettingsStorage storage, TransportType transportType, ILogger logger)
+        public AzureIoTHubClient(TransportType transportType, ISettingsStorage storage = null, ILogger logger = null)
         {
-            this.storage = storage;
-            _logger = logger;
-            _transportType = transportType;
-            _logger.LogInformation($"Using {_transportType} transport.");
+            this._storage = storage;
+            this._logger = logger;
+            this._transportType = transportType;
+            this._logger?.LogInformation($"Using {_transportType} transport.");
 
-            var cbytes = this.storage.Read(SETTING_NAME);
+            var cbytes = this._storage?.Read(SETTING_NAME);
             if (cbytes != null)
                 this.connectionString = UTF8Encoding.UTF8.GetString(cbytes);
         }
@@ -67,7 +67,7 @@ namespace Jacdac.Servers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unrecoverable exception caught, user action is required, so exiting: \n{ex}");
+                _logger?.LogError($"Unrecoverable exception caught, user action is required, so exiting: \n{ex}");
                 _cancellationTokenSource.Cancel();
             }
         }
@@ -99,7 +99,7 @@ namespace Jacdac.Servers
             {
                 if (ShouldClientBeInitialized(_connectionStatus))
                 {
-                    _logger.LogDebug($"Attempting to initialize the client instance, current status={_connectionStatus}");
+                    _logger?.LogDebug($"Attempting to initialize the client instance, current status={_connectionStatus}");
 
                     // If the device client instance has been previously initialized, then dispose it.
                     if (_deviceClient != null)
@@ -111,7 +111,7 @@ namespace Jacdac.Servers
 
                     _deviceClient = DeviceClient.CreateFromConnectionString(this.connectionString, this._transportType, this._clientOptions);
                     _deviceClient.SetConnectionStatusChangesHandler(HandleConnectionStatusChanged);
-                    _logger.LogDebug("Initialized the client instance.");
+                    _logger?.LogDebug("Initialized the client instance.");
                 }
 
                 // Force connection now.
@@ -134,7 +134,7 @@ namespace Jacdac.Servers
                     logger: this._logger,
                     exceptionsToBeIgnored: this._exceptionsToBeIgnored,
                     cancellationToken: cancellationToken);
-                _logger.LogDebug("The client has subscribed to desired property update notifications.");
+                _logger?.LogDebug("The client has subscribed to desired property update notifications.");
             }
         }
 
@@ -144,21 +144,21 @@ namespace Jacdac.Servers
         // before attempting to initialize or dispose the device client instance.
         private async void HandleConnectionStatusChanged(ConnectionStatus status, ConnectionStatusChangeReason reason)
         {
-            _logger.LogDebug($"Connection status changed: status={status}, reason={reason}");
+            _logger?.LogDebug($"Connection status changed: status={status}, reason={reason}");
             _connectionStatus = status;
             this.ConnectionStatusChanged?.Invoke(this, EventArgs.Empty);
             switch (status)
             {
                 case ConnectionStatus.Connected:
-                    _logger.LogDebug("### The DeviceClient is CONNECTED; all operations will be carried out as normal.");
+                    _logger?.LogDebug("### The DeviceClient is CONNECTED; all operations will be carried out as normal.");
                     break;
 
                 case ConnectionStatus.Disconnected_Retrying:
-                    _logger.LogDebug("### The DeviceClient is retrying based on the retry policy. Do NOT close or open the DeviceClient instance");
+                    _logger?.LogDebug("### The DeviceClient is retrying based on the retry policy. Do NOT close or open the DeviceClient instance");
                     break;
 
                 case ConnectionStatus.Disabled:
-                    _logger.LogDebug("### The DeviceClient has been closed gracefully." +
+                    _logger?.LogDebug("### The DeviceClient has been closed gracefully." +
                         "\nIf you want to perform more operations on the device client, you should dispose (DisposeAsync()) and then open (OpenAsync()) the client.");
                     break;
 
@@ -166,37 +166,37 @@ namespace Jacdac.Servers
                     switch (reason)
                     {
                         case ConnectionStatusChangeReason.Bad_Credential:
-                            _logger.LogWarning("### The supplied credentials are invalid. Update the parameters and run again.");
+                            _logger?.LogWarning("### The supplied credentials are invalid. Update the parameters and run again.");
                             _cancellationTokenSource.Cancel();
                             break;
 
                         case ConnectionStatusChangeReason.Device_Disabled:
-                            _logger.LogWarning("### The device has been deleted or marked as disabled (on your hub instance)." +
+                            _logger?.LogWarning("### The device has been deleted or marked as disabled (on your hub instance)." +
                                 "\nFix the device status in Azure and then create a new device client instance.");
                             _cancellationTokenSource.Cancel();
                             break;
 
                         case ConnectionStatusChangeReason.Retry_Expired:
-                            _logger.LogWarning("### The DeviceClient has been disconnected because the retry policy expired." +
+                            _logger?.LogWarning("### The DeviceClient has been disconnected because the retry policy expired." +
                                 "\nIf you want to perform more operations on the device client, you should dispose (DisposeAsync()) and then open (OpenAsync()) the client.");
                             this.Reconnect();
                             break;
 
                         case ConnectionStatusChangeReason.Communication_Error:
-                            _logger.LogWarning("### The DeviceClient has been disconnected due to a non-retry-able exception. Inspect the exception for details." +
+                            _logger?.LogWarning("### The DeviceClient has been disconnected due to a non-retry-able exception. Inspect the exception for details." +
                                 "\nIf you want to perform more operations on the device client, you should dispose (DisposeAsync()) and then open (OpenAsync()) the client.");
                             this.Reconnect();
                             break;
 
                         default:
-                            _logger.LogError("### This combination of ConnectionStatus and ConnectionStatusChangeReason is not expected, contact the client library team with logs.");
+                            _logger?.LogError("### This combination of ConnectionStatus and ConnectionStatusChangeReason is not expected, contact the client library team with logs.");
                             break;
                     }
 
                     break;
 
                 default:
-                    _logger.LogError("### This combination of ConnectionStatus and ConnectionStatusChangeReason is not expected, contact the client library team with logs.");
+                    _logger?.LogError("### This combination of ConnectionStatus and ConnectionStatusChangeReason is not expected, contact the client library team with logs.");
                     break;
             }
         }
@@ -312,7 +312,7 @@ namespace Jacdac.Servers
 
         void IAzureIoTHubHealth.SetConnectionString(string connectionString)
         {
-            this.storage?.Write(SETTING_NAME, UTF8Encoding.UTF8.GetBytes(connectionString));
+            this._storage?.Write(SETTING_NAME, UTF8Encoding.UTF8.GetBytes(connectionString));
             this.connectionString = connectionString;
             this.Reconnect();
         }
