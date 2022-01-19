@@ -19,7 +19,7 @@
 		</ItemGroup>
 		<WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)"
 						   Language="C#"
-						   OutputDirectory="$(IntermediateOutputPath)"
+						   OutputDirectory="Properties"
 						   OutputFile="AssemblyInfo.g.cs">
 			<Output TaskParameter="OutputFile" ItemName="Compile" />
 			<Output TaskParameter="OutputFile" ItemName="FileWrites" />
