@@ -49,8 +49,10 @@ module.exports = {
             "@semantic-release/exec",
             {
                 prepareCmd: "sh pack.sh",
-                publishCmd: "sh publish.sh",
             },
         ],
+        ["@semantic-release/git", {
+            "assets": ["newpackages/*.nupkg"],
+        }]
     ],
 }
