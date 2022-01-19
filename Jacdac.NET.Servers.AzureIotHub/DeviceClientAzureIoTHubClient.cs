@@ -11,7 +11,8 @@ using System.Text;
 
 namespace Jacdac.Servers
 {
-    public class DeviceClientAzureIoTHubHealth : IAzureIoTHubHealth
+    public class DeviceClientAzureIoTHubClient
+        : IAzureIoTHubHealth
     {
         private string connectionString;
 
@@ -34,7 +35,7 @@ namespace Jacdac.Servers
         public event EventHandler ConnectionStatusChanged;
         public event EventHandler MessageSent;
 
-        public DeviceClientAzureIoTHubHealth(ISettingsStorage storage, TransportType transportType, ILogger logger)
+        public DeviceClientAzureIoTHubClient(ISettingsStorage storage, TransportType transportType, ILogger logger)
         {
             this.storage = storage;
             _logger = logger;
@@ -109,7 +110,7 @@ namespace Jacdac.Servers
                     }
 
                     _deviceClient = DeviceClient.CreateFromConnectionString(this.connectionString, this._transportType, this._clientOptions);
-                    _deviceClient.SetConnectionStatusChangesHandler(handleConnectionStatusChanged);
+                    _deviceClient.SetConnectionStatusChangesHandler(HandleConnectionStatusChanged);
                     _logger.LogDebug("Initialized the client instance.");
                 }
 
@@ -128,7 +129,7 @@ namespace Jacdac.Servers
                 // You will need to subscribe to the client callbacks any time the client is initialized.
                 await RetryOperationHelper.RetryTransientExceptionsAsync(
                     operationName: "SubscribeTwinUpdates",
-                    asyncOperation: async () => await this._deviceClient.SetDesiredPropertyUpdateCallbackAsync(handleTwinUpdateNotification, cancellationToken),
+                    asyncOperation: async () => await this._deviceClient.SetDesiredPropertyUpdateCallbackAsync(HandleTwinUpdateNotification, cancellationToken),
                     shouldExecuteOperation: () => this.IsDeviceConnected,
                     logger: this._logger,
                     exceptionsToBeIgnored: this._exceptionsToBeIgnored,
@@ -141,7 +142,7 @@ namespace Jacdac.Servers
         // As a result, any operation within this block will be executed unmonitored on another thread.
         // To prevent multi-threaded synchronization issues, the async method InitializeClientAsync being called in here first grabs a lock
         // before attempting to initialize or dispose the device client instance.
-        private async void handleConnectionStatusChanged(ConnectionStatus status, ConnectionStatusChangeReason reason)
+        private async void HandleConnectionStatusChanged(ConnectionStatus status, ConnectionStatusChangeReason reason)
         {
             _logger.LogDebug($"Connection status changed: status={status}, reason={reason}");
             _connectionStatus = status;
@@ -200,7 +201,7 @@ namespace Jacdac.Servers
             }
         }
 
-        private async Task handleTwinUpdateNotification(TwinCollection twinUpdateRequest, object userContext)
+        private async Task HandleTwinUpdateNotification(TwinCollection twinUpdateRequest, object userContext)
         {
             CancellationToken cancellationToken = (CancellationToken)userContext;
 

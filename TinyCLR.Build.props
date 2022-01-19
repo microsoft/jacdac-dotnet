@@ -1,0 +1,28 @@
+<Project>
+	<PropertyGroup>
+		<TinyCLRBuildProps>true</TinyCLRBuildProps>
+	</PropertyGroup>
+	<Target Name="BeforeBuild">
+		<ItemGroup>
+			<AssemblyAttributes Include="AssemblyVersion">
+				<_Parameter1>$(Version)</_Parameter1>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="AssemblyFileVersion">
+				<_Parameter1>$(Version)</_Parameter1>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="AssemblyCopyright">
+				<_Parameter1>$(Copyright)</_Parameter1>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="AssemblyCompany">
+				<_Parameter1>$(Company)</_Parameter1>
+			</AssemblyAttributes>
+		</ItemGroup>
+		<WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)"
+						   Language="C#"
+						   OutputDirectory="$(IntermediateOutputPath)"
+						   OutputFile="AssemblyInfo.g.cs">
+			<Output TaskParameter="OutputFile" ItemName="Compile" />
+			<Output TaskParameter="OutputFile" ItemName="FileWrites" />
+		</WriteCodeFragment>
+	</Target>
+</Project>
