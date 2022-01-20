@@ -3,21 +3,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Device.Net;
 using Jacdac.Transports.Hf2;
+using LibUsbDotNet;
+using LibUsbDotNet.Main;
 
-namespace Jacdac.Transports.Usb
+namespace Jacdac.Transports.LibUsb
 {
     internal class UsbHF2Transport : IHf2Transport
     {
-        private IDevice device;
+        private USBDeviceDescription deviceDescription;
+        private UsbDevice usbDevice;
+        private UsbEndpointWriter writer;
         private HF2 hf2;
         private SemaphoreSlim sendSemaphore = new SemaphoreSlim(1);
         private HF2.HF2EventArgs onFrameReceived;
 
-        public UsbHF2Transport(IDevice device, HF2.HF2EventArgs onFrameReceived)
+        public UsbHF2Transport(USBDeviceDescription deviceDescription, HF2.HF2EventArgs onFrameReceived)
         {
-            this.device = device;
+            this.deviceDescription = deviceDescription;
             this.onFrameReceived = onFrameReceived;
         }
 
@@ -28,21 +31,33 @@ namespace Jacdac.Transports.Usb
 
         public async Task<bool> Connect()
         {
-            Debug.WriteLine("hf2: open device");
-            hf2 = new HF2(this);
 
-            var endpoints = usbDevice.Configs[0].InterfaceInfoList[0].EndpointInfoList;
+            var device = UsbDevice.AllWinUsbDevices.FirstOrDefault(d => d.Vid == deviceDescription.VID && d.Pid == deviceDescription.PID);
+            if (device == null)
+                throw new Exception("Device not found");
 
-            var inEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 1);
-            var outEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 0);
+            if (device.Open(out usbDevice))
+            {
+                Debug.WriteLine("hf2: open device");
+                hf2 = new HF2(this);
 
-            Debug.WriteLine("hf2: open reader");
-            var reader = usbDevice.OpenEndpointReader((ReadEndpointID)inEndpoint.Descriptor.EndpointID, 64, EndpointType.Bulk);
-            reader.DataReceived += Reader_DataReceived;
-            reader.DataReceivedEnabled = true;
+                var endpoints = usbDevice.Configs[0].InterfaceInfoList[0].EndpointInfoList;
 
-            Debug.WriteLine("hf2: open writer");
-            this.writer = usbDevice.OpenEndpointWriter((WriteEndpointID)outEndpoint.Descriptor.EndpointID, EndpointType.Bulk);
+                var inEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 1);
+                var outEndpoint = endpoints.First(e => e.Descriptor.EndpointID >> 7 == 0);
+
+                Debug.WriteLine("hf2: open reader");
+                var reader = usbDevice.OpenEndpointReader((ReadEndpointID)inEndpoint.Descriptor.EndpointID, 64, EndpointType.Bulk);
+                reader.DataReceived += Reader_DataReceived;
+                reader.DataReceivedEnabled = true;
+
+                Debug.WriteLine("hf2: open writer");
+                this.writer = usbDevice.OpenEndpointWriter((WriteEndpointID)outEndpoint.Descriptor.EndpointID, EndpointType.Bulk);
+            }
+            else
+            {
+                throw new Exception("Could not open device");
+            }
 
             if (await hf2.GetBootMode() == HF2.HF2BootMode.Bootloader)
             {
@@ -64,7 +79,7 @@ namespace Jacdac.Transports.Usb
         public void Close()
         {
             Debug.WriteLine("hf2: close device");
-            this.device.Close();
+            usbDevice.Close();
         }
 
         async Task IHf2Transport.SendData(byte[] buffer)

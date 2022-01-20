@@ -1,27 +1,31 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-using Device.Net;
-using Usb.Net.Windows;
+using LibUsbDotNet;
+using LibUsbDotNet.WinUsb;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
-namespace Jacdac.Transports.Usb
+namespace Jacdac.Transports.LibUsb
 {
+    public sealed class USBDeviceDescription
+    {
+        public string DeviceID;
+        public string DeviceName;
+        public int VID;
+        public int PID;
+    }
+
     [Serializable]
     public sealed class USBTransportOptions
     {
         public string DeviceId;
     }
 
-    public sealed class UsbTransport : Transport
+    public sealed class LibUsbTransport : Transport
     {
         private readonly USBTransportOptions Options;
-        IDeviceFactory deviceManager;
-        ILoggerFactory loggerFactory;
 
-        /*
         public static USBDeviceDescription[] GetDevices()
         {
             var devices = new List<USBDeviceDescription>();
@@ -48,31 +52,21 @@ namespace Jacdac.Transports.Usb
             }
             return devices.ToArray();
         }
-        */
-        public static readonly List<FilterDeviceDefinition> UsbDeviceDefinitions = new List<FilterDeviceDefinition>
-        {
-            new FilterDeviceDefinition(),
-        };
 
-        private ConnectedDeviceDefinition usbDevice;
+        private USBDeviceDescription usbDevice;
         private UsbHF2Transport transport;
 
-        public static UsbTransport Create(USBTransportOptions options = null)
+        public static LibUsbTransport Create(USBTransportOptions options = null)
         {
             if (options == null)
                 options = new USBTransportOptions();
-            return new UsbTransport(options);
+            return new LibUsbTransport(options);
         }
 
-        internal UsbTransport(USBTransportOptions options)
+        internal LibUsbTransport(USBTransportOptions options)
             : base("usb")
         {
             this.Options = options;
-            this.loggerFactory = LoggerFactory.Create((builder) => builder.AddDebug());
-            this.deviceManager = new List<IDeviceFactory>
-            {
-                UsbDeviceDefinitions.CreateWindowsUsbDeviceFactory(loggerFactory)
-            }.Aggregate(loggerFactory);
         }
 
         public override event FrameEventHandler FrameReceived;
@@ -89,36 +83,25 @@ namespace Jacdac.Transports.Usb
             this.FrameReceived?.Invoke(this, frame);
         }
 
+        public USBDeviceDescription UsbDevice
+        {
+            get => this.usbDevice;
+        }
+
+
         protected override void InternalConnect()
         {
-            var devicesTask = this.deviceManager.GetConnectedDeviceDefinitionsAsync();
-            devicesTask.Wait();
-            var usbDevices = devicesTask.Result
-                .OrderBy(d => d.Manufacturer)
-                .ThenBy(d => d.ProductName)
-                .ToArray();
-            foreach (var device in usbDevices)
-            {
-                Console.WriteLine(device);
-            }
-
-            Debug.WriteLine($"usb: found {usbDevices.Length} devices");
+            var usbDevices = LibUsbTransport.GetDevices();
+            Debug.WriteLine($"libusb: found {usbDevices.Length} devices");
             var deviceId = this.Options.DeviceId;
-            this.usbDevice = usbDevices.FirstOrDefault(d => deviceId == null || deviceId == d.DeviceId);
+            this.usbDevice = usbDevices.FirstOrDefault(d => deviceId == null || deviceId == d.DeviceID);
             if (this.usbDevice == null)
             {
                 this.SetConnectionState(ConnectionState.Disconnected);
                 return;
             }
-            Console.WriteLine($"usb: connecting {this.usbDevice.DeviceId}");
-            var deviceTask = this.deviceManager.GetDeviceAsync(this.usbDevice);
-            deviceTask.Wait();
-            var device = deviceTask.Result;
-
-            var initTask = device.InitializeAsync();
-            initTask.Wait();
-
-            var transport = new UsbHF2Transport(device, this.handleHF2FrameReceived);
+            Console.WriteLine($"usb: connecting {this.usbDevice.DeviceID}");
+            var transport = new UsbHF2Transport(usbDevice, this.handleHF2FrameReceived);
             var connectionTask = transport.Connect();
             connectionTask.ContinueWith(prev =>
             {

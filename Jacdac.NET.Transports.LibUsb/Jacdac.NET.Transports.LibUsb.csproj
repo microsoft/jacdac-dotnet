@@ -4,13 +4,11 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Device.Net" Version="4.2.1" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-	  <PackageReference Include="Usb.Net" Version="4.2.1" />
+		<PackageReference Include="LibUsbDotNet" Version="2.2.29" />
 	</ItemGroup>
 
 	<ItemGroup>

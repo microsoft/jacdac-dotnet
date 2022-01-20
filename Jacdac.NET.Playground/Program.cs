@@ -80,6 +80,10 @@ namespace Jacdac.Playground
                         Console.WriteLine($"adding websocket connection to {url}");
                         bus.AddTransport(WebSocketTransport.Create(new Uri(url)));
                         break;
+                    case "libusb":
+                        Console.WriteLine($"adding libusb transport");
+                        bus.AddTransport(Jacdac.Transports.LibUsb.LibUsbTransport.Create());
+                        break;
                 }
             }
 
