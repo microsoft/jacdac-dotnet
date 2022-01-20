@@ -1,5 +1,6 @@
 # clean
 msbuild.exe -t:clean Jacdac.sln
+rm -Rf ./newpackages
 
 # restore
 nuget restore Jacdac.sln -PackagesDirectory ./packages
