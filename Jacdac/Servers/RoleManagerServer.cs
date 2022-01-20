@@ -72,14 +72,13 @@ namespace Jacdac.Servers
                 var roles = this.roles;
                 var newRoles = new Client[roles.Length + 1];
 
-                // find insertion point
+                // insert client sorted by name
                 var i = 0;
                 for (i = 0; i < roles.Length; i++)
                 {
                     if (role.CompareTo(roles[i]) < 0)
                         break;
                 }
-                // splice newRolei in the role list
                 if (i > 0)
                     Array.Copy(roles, 0, newRoles, 0, i);
                 newRoles[i] = role;
@@ -383,6 +382,7 @@ namespace Jacdac.Servers
             // try to load bindings from storage
             if (this.Storage != null)
             {
+                // roles and devices are already pre-sorted
                 foreach (var role in roles)
                 {
                     // already bound?

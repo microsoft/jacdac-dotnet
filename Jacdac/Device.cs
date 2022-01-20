@@ -33,6 +33,15 @@ namespace Jacdac
                 (char)(0x30 + ((h / (26 * 26 * 10)) % 10))
                 });
         }
+        public static string NormalizeDeviceId(string id)
+        {
+            if (id == null)
+                throw new ArgumentNullException(nameof(id));
+            var r = HexEncoding.ToString(HexEncoding.ToBuffer(id));
+            if (r.Length != 16)
+                throw new ArgumentOutOfRangeException(nameof(id));
+            return r;
+        }
 
         private JDBus bus;
         public readonly string DeviceId;
@@ -47,7 +56,7 @@ namespace Jacdac
         public JDDevice(JDBus bus, string deviceId)
         {
             this.bus = bus;
-            this.DeviceId = deviceId;
+            this.DeviceId = NormalizeDeviceId(deviceId);
             this.ShortId = ShortDeviceId(this.DeviceId);
             this.LastSeen = bus.Timestamp;
             this._servicesData = Packet.EmptyData;
