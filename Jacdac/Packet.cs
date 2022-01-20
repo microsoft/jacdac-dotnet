@@ -22,6 +22,7 @@ namespace Jacdac
         private readonly byte[] header;
         private readonly byte[] data;
         public TimeSpan Timestamp { get; set; }
+        public bool IsRepeated { get; internal set; }
 
         public static readonly Packet[] EmptyFrame = new Packet[0];
         public static readonly byte[] EmptyData = new byte[0];

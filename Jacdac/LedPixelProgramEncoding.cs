@@ -108,7 +108,7 @@ namespace Jacdac
         }
 
         /// <summary>
-        ///  range from pixel P, Npixels long (currently unsupported: every Wpixels skip Spixels)
+        ///  Set the LED update mode, use temp if the mode should be used once only
         /// </summary>
         public LedPixelProgramBuilder SetUpdateMode(LedPixelProgramUpdateMode mode, bool temp = false)
         {
