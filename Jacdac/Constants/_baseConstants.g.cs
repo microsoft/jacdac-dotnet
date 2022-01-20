@@ -1,11 +1,8 @@
-namespace Jacdac
-{
+namespace Jacdac {
     public static partial class ServiceClasses
     {
     }
-
-    public enum BaseCmd : ushort
-    {
+    public enum BaseCmd : ushort {
         /// <summary>
         /// This report may be emitted by a server in response to a command (action or register operation)
         /// that it does not understand.
@@ -19,16 +16,14 @@ namespace Jacdac
         CommandNotImplemented = 0x3,
     }
 
-    public static class BaseCmdPack
-    {
+    public static class BaseCmdPack {
         /// <summary>
         /// Pack format for 'command_not_implemented' register data.
         /// </summary>
         public const string CommandNotImplemented = "u16 u16";
     }
 
-    public enum BaseReg : ushort
-    {
+    public enum BaseReg : ushort {
         /// <summary>
         /// Constant string (bytes). A friendly name that describes the role of this service instance in the device.
         /// It often corresponds to what's printed on the device:
@@ -55,8 +50,7 @@ namespace Jacdac
         StatusCode = 0x103,
     }
 
-    public static class BaseRegPack
-    {
+    public static class BaseRegPack {
         /// <summary>
         /// Pack format for 'instance_name' register data.
         /// </summary>
@@ -68,8 +62,7 @@ namespace Jacdac
         public const string StatusCode = "u16 u16";
     }
 
-    public enum BaseEvent : ushort
-    {
+    public enum BaseEvent : ushort {
         /// <summary>
         /// Notifies that the status code of the service changed.
         ///
@@ -80,8 +73,7 @@ namespace Jacdac
         StatusCodeChanged = 0x4,
     }
 
-    public static class BaseEventPack
-    {
+    public static class BaseEventPack {
         /// <summary>
         /// Pack format for 'status_code_changed' register data.
         /// </summary>
