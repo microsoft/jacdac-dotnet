@@ -336,9 +336,22 @@ namespace Jacdac
                 if (!this.TryGetDevice(deviceId, out device))
                 {
                     device = new JDDevice(this, deviceId);
-                    var newDevices = new JDDevice[this.devices.Length + 1];
-                    this.devices.CopyTo(newDevices, 0);
-                    newDevices[newDevices.Length - 1] = device;
+                    var devices = this.devices;
+                    var newDevices = new JDDevice[devices.Length + 1];
+
+                    // insert sorted by deviceid
+                    var i = 0;
+                    for (i = 0; i < devices.Length; i++)
+                    {
+                        if (device.DeviceId.CompareTo(devices[i].DeviceId) < 0)
+                            break;
+                    }
+                    if (i > 0)
+                        Array.Copy(devices, 0, newDevices, 0, i);
+                    newDevices[i] = device;
+                    if (i < devices.Length)
+                        Array.Copy(devices, i, newDevices, i + 1, devices.Length - i);
+
                     this.devices = newDevices;
                     changed = true;
                 }
@@ -361,11 +374,6 @@ namespace Jacdac
         {
             get { return this.clock(); }
         }
-
-        //public JDDevice SelfDevice
-        // {
-        //     get { return this.GetDevice(this.selfDeviceId); }
-        // }
 
         private void handleSelfAnnounce(Object stateInfo)
         {
