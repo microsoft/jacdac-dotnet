@@ -66,7 +66,6 @@ namespace Jacdac
 
     public sealed partial class ServiceSpecificationCatalog
     {
-        public string Root = "https://microsoft.github.io/jacdac-docs/";
         public readonly ISpecificationStorage Storage;
         public static ServiceSpecReader SpecificationReader;
         public static ServiceSpecResolver SpecificationResolver;

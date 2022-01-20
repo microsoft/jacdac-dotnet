@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jacdac.Servers
 {
@@ -78,7 +74,9 @@ namespace Jacdac.Servers
         {
             var seqno = args.SequenceNumber;
             var command = args.Command;
-            var arguments = args.Arguments.Select(v => new object[] { v });
+            var arguments = new object[args.Arguments.Length];
+            for (var i = 0; i < args.Arguments.Length; ++i)
+                arguments[i] = new object[] { args.Arguments[i] };
             var data = PacketEncoding.Pack(JacscriptCloudEventPack.CloudCommand, new object[] { seqno, command, arguments });
             this.SendEvent((ushort)JacscriptCloudEvent.TwinChanged, data);
         }
@@ -134,8 +132,10 @@ namespace Jacdac.Servers
             var data = pkt.Data;
             var values = PacketEncoding.UnPack(JacscriptCloudCmdPack.AckCloudCommand, data);
             var seqNo = (uint)values[0];
-            double[] results = ((double[][])values[1]).Select(a => a[0]).ToArray();
-
+            var res = (object[])values[1];
+            var results = new double[res.Length];
+            for (var i = 0; i < res.Length; i++)
+                results[i] = (double)(((object[])res[i])[0]);
             this.Cloud.AckCloudCommand(seqNo, results);
         }
     }
