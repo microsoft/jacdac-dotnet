@@ -35,6 +35,8 @@ namespace Jacdac
         {
             if (pkt.IsRepeated) return false;
 
+            this.data = pkt.Data;
+            this.lastGetTimestamp = pkt.Timestamp;
             this.Count++;
             this.RaiseChanged();
             // update device counter

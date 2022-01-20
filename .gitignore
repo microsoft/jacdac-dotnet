@@ -363,5 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 packages
+newpackages
 nuget.exe
 */Properties/AssemblyInfo.g.cs
