@@ -38,7 +38,11 @@ module.exports = {
             },
         ],
         "@semantic-release/release-notes-generator",
-        "@semantic-release/github",
+        [
+            "@semantic-release/github",
+            {
+                "assets": ["./newpackages/*.nupkg"],
+            }],
         [
             "semantic-release-dotnet",
             {
@@ -51,8 +55,5 @@ module.exports = {
                 prepareCmd: "sh pack.sh",
             },
         ],
-        ["@semantic-release/git", {
-            "assets": ["./newpackages/*.nupkg"],
-        }]
     ],
 }
