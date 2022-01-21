@@ -28,7 +28,7 @@ cd ..
 # Jacdac.Nano
 cd Jacdac.Nano
 msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.nfproj
-nuget.exe pack Jacdac.Nano.nuspec -Version=$version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+nuget.exe pack Jacdac.Nano.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
 # .NET assemblies
