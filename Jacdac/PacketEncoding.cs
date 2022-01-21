@@ -295,6 +295,9 @@ namespace Jacdac
             var nf = Util.NumberFormatOfType(fmt);
             if (nf != NumberFormat.Unknown)
             {
+                // special case u32 as u64
+                if (nf == NumberFormat.UInt64LE && buf.Length == 4)
+                    return new object[] { (ulong)(uint)Util.GetNumber(buf, NumberFormat.UInt32LE, 0) };
                 var sz = Util.SizeOfNumberFormat(nf);
                 if (buf.Length == sz)
                     return new object[] { Util.GetNumber(buf, nf, 0) };
