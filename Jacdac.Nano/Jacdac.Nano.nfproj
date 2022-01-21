@@ -51,4 +51,10 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Remove="..\jacdac.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\jacdac.png" Link="jacdac.png" />
+  </ItemGroup>
 </Project>
