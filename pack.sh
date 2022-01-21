@@ -31,6 +31,18 @@ msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.nfproj
 nuget.exe pack Jacdac.Nano.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
+# Jacdac.Nano.Clients
+cd Jacdac.Nano.Clients
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.Clients.nfproj
+nuget.exe pack Jacdac.Nano.Clients.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+cd ..
+
+# Jacdac.Nano.Transports.Spi
+cd Jacdac.Nano.Transports.Spi
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.Transports.Spi.nfproj
+nuget.exe pack Jacdac.Nano.Transports.Spi.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+cd ..
+
 # .NET assemblies
 msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
 dotnet pack Jacdac.DevTools/Jacdac.DevTools.csproj -c Release -o newpackages
