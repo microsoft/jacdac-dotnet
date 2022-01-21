@@ -10,7 +10,6 @@ jobs:
       - uses: actions/setup-dotnet@v1
       - uses: microsoft/setup-msbuild@v1.1
       - uses: nanoframework/nanobuild@v1.3
-      - run: msbuild.exe -t:clean Jacdac.sln
       - run: nuget restore Jacdac.sln -PackagesDirectory ./packages
       - run: msbuild.exe -t:build -p:Configuration=Debug Jacdac.sln
       - run: msbuild.exe -t:build -p:Configuration=Release Jacdac.sln
