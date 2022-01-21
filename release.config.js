@@ -52,7 +52,7 @@ module.exports = {
         [
             "@semantic-release/exec",
             {
-                prepareCmd: "sh pack.sh",
+                prepareCmd: "sh pack.sh ${nextRelease.version}",
             },
         ],
     ],
