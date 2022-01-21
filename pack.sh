@@ -32,6 +32,9 @@ dotnet pack Jacdac.NET.Transports.Hf2/Jacdac.NET.Transports.Hf2.csproj -c Releas
 dotnet pack Jacdac.NET.Transports.Spi/Jacdac.NET.Transports.Spi.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Transports.WebSockets/Jacdac.NET.Transports.WebSockets.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Servers.SoundPlayer/Jacdac.NET.Servers.SoundPlayer.csproj -c Release -o newpackages
+dotnet pack Jacdac.Nano/Jacdac.Nano.nfproj -c Release -o newpackages
+dotnet pack Jacdac.Nano.Clients/Jacdac.Nano.Clients.nfproj -c Release -o newpackages
+dotnet pack Jacdac.Nano.Transports.Spi/Jacdac.Nano.Transports.Spi.nfproj -c Release -o newpackages
 
 # let's see  who got built
 ls newpackages
