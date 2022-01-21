@@ -50,6 +50,7 @@ namespace Jacdac.Transports.Hf2
 
             var packet = new Hf2Packet(Hf2PacketType.FinalCommandPacket, commandPayload);
             var packetData = packet.ToByteArray();
+
             await transport.SendData(packetData);
 
             if (!waitForResponse)

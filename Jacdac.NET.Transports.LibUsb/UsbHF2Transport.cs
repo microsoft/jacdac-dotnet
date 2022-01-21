@@ -24,7 +24,7 @@ namespace Jacdac.Transports.LibUsb
             this.onFrameReceived = onFrameReceived;
         }
 
-        public async void SendFrame(byte[] data)
+        public async Task SendFrame(byte[] data)
         {
             await this.hf2.SendCommand(0x0021, data, false);
         }
@@ -88,7 +88,10 @@ namespace Jacdac.Transports.LibUsb
             int bytesWritten;
             var err = writer.Write(buffer, 5000, out bytesWritten);
             if (err != ErrorCode.None)
-                Console.WriteLine(err.ToString());
+            {
+                Debug.WriteLine(err.ToString());
+                throw new InvalidOperationException("transfer error");
+            }
             sendSemaphore.Release();
         }
 

@@ -296,9 +296,8 @@ namespace Jacdac
             if (nf != NumberFormat.Unknown)
             {
                 var sz = Util.SizeOfNumberFormat(nf);
-                if (buf.Length < sz)
-                    throw new ArgumentOutOfRangeException("size mistmatch");
-                return new object[] { Util.GetNumber(buf, nf, 0) };
+                if (buf.Length == sz)
+                    return new object[] { Util.GetNumber(buf, nf, 0) };
             }
             // slow path
             return jdunpackCore(buf, fmt, 0);
