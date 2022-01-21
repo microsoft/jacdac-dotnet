@@ -1,3 +1,5 @@
+version=$1
+
 # clean
 msbuild.exe -t:clean Jacdac.sln
 rm -Rf ./newpackages
@@ -23,6 +25,24 @@ msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.TinyCLR.Storage.csproj
 nuget.exe pack Jacdac.TinyCLR.Storage.csproj -Prop Configuration=Release -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
+# Jacdac.Nano
+cd Jacdac.Nano
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.nfproj
+nuget.exe pack Jacdac.Nano.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+cd ..
+
+# Jacdac.Nano.Clients
+cd Jacdac.Nano.Clients
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.Clients.nfproj
+nuget.exe pack Jacdac.Nano.Clients.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+cd ..
+
+# Jacdac.Nano.Transports.Spi
+cd Jacdac.Nano.Transports.Spi
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.Nano.Transports.Spi.nfproj
+nuget.exe pack Jacdac.Nano.Transports.Spi.nuspec -Version $version -OutputDirectory ../newpackages -PackagesDirectory ../packages
+cd ..
+
 # .NET assemblies
 msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
 dotnet pack Jacdac.DevTools/Jacdac.DevTools.csproj -c Release -o newpackages
@@ -33,9 +53,6 @@ dotnet pack Jacdac.NET.Transports.Spi/Jacdac.NET.Transports.Spi.csproj -c Releas
 dotnet pack Jacdac.NET.Transports.LibUsb/Jacdac.NET.Transports.LibUsb.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Transports.WebSockets/Jacdac.NET.Transports.WebSockets.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Servers.SoundPlayer/Jacdac.NET.Servers.SoundPlayer.csproj -c Release -o newpackages
-dotnet pack Jacdac.Nano/Jacdac.Nano.nfproj -c Release -o newpackages
-dotnet pack Jacdac.Nano.Clients/Jacdac.Nano.Clients.nfproj -c Release -o newpackages
-dotnet pack Jacdac.Nano.Transports.Spi/Jacdac.Nano.Transports.Spi.nfproj -c Release -o newpackages
 
 # let's see  who got built
 ls newpackages

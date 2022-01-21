@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>Jacdac.Nano.Clients</id>
+		<version>$version$</version>
+		<title>Jacdac.Nano.Clients</title>
+		<authors>Microsoft</authors>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<description>Jacdac clients for the .NET Nano Framework</description>
+		<copyright>© Microsoft Corporation. All rights reserved.</copyright>
+		<projectUrl>https://aka.ms/jacdac</projectUrl>
+		<repository type="git" url="https://github.com/microsoft/jacdac-dotnet" />
+		<tags>jacdac;embedded;sensors;iot</tags>
+		<dependencies>
+			<dependency id="nanoFramework.CoreLibrary" version="1.11.7" />
+			<dependency id="nanoFramework.System.Math" version="1.4.3" />
+		</dependencies>
+	</metadata>
+</package>
