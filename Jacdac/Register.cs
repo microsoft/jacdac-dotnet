@@ -61,6 +61,20 @@ namespace Jacdac
 
         public string GetHumanValue()
         {
+            try
+            {
+                return this.InternalGetHumanValue();
+            }
+            catch (ArgumentException ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"invalid data: {this.PackFormat} -> {HexEncoding.ToString(this.Data)}");
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                return "!";
+            }
+        }
+
+        private string InternalGetHumanValue()
+        {
             var data = this.Data;
             if (data == null) return "?";
             if (this.PackFormat == null)

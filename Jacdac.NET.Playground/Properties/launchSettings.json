@@ -2,7 +2,7 @@
   "profiles": {
     "Jacdac.NET.Playground": {
       "commandName": "Project",
-      "commandLineArgs": "iothub settings sounds devtools buttontracker",
+      "commandLineArgs": "iothub settings sounds devtools libusb buttontracker",
       "hotReloadEnabled": false
     }
   }

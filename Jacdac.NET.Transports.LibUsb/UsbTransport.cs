@@ -75,7 +75,16 @@ namespace Jacdac.Transports.LibUsb
         public override void SendFrame(byte[] data)
         {
             if (this.ConnectionState == ConnectionState.Connected)
-                this.transport.SendFrame(data);
+            {
+                this.transport.SendFrame(data)
+                    .ContinueWith(res =>
+                    {
+                        if (res.Exception != null)
+                            System.Diagnostics.Debug.WriteLine(res.Exception.ToString());
+                        if (res.IsFaulted)
+                            this.Disconnect();
+                    });
+            }
         }
 
         private void handleHF2FrameReceived(byte[] frame)
