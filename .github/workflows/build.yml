@@ -12,6 +12,7 @@ jobs:
         with:
             msbuild-architecture: x64
       - uses: nanoframework/nanobuild@v1
+      - run: sh pack.sh 0.0.0
       - run: nuget restore Jacdac.sln -PackagesDirectory ./packages
       - run: msbuild.exe -t:rebuild -p:Configuration=Debug Jacdac.sln
       - run: msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
