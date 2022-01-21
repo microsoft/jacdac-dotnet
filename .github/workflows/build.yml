@@ -11,8 +11,8 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.1
       - uses: nanoframework/nanobuild@v1.3
       - run: nuget restore Jacdac.sln -PackagesDirectory ./packages
-      - run: msbuild.exe -t:build -p:Configuration=Debug Jacdac.sln
-      - run: msbuild.exe -t:build -p:Configuration=Release Jacdac.sln
+      - run: msbuild.exe -t:rebuild -p:Configuration=Debug Jacdac.sln
+      - run: msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
       - name: Run tests
         run: dotnet test .\Jacdac.Tests\Jacdac.Tests.csproj
       - name: Semantic release

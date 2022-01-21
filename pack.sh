@@ -7,24 +7,24 @@ nuget restore Jacdac.sln -PackagesDirectory ./packages
 
 # Jacdac.TinyCLR
 cd Jacdac.TinyCLR
-msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.csproj
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.TinyCLR.csproj
 nuget.exe pack Jacdac.TinyCLR.csproj -Prop Configuration=Release -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
 # Jacdac.TinyCLR.Clients
 cd Jacdac.TinyCLR.Clients
-msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.Clients.csproj
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.TinyCLR.Clients.csproj
 nuget.exe pack Jacdac.TinyCLR.Clients.csproj -Prop Configuration=Release -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
 # Jacdac.TinyCLR.Storage
 cd Jacdac.TinyCLR.Storage
-msbuild.exe -t:build -p:Configuration=Release Jacdac.TinyCLR.Storage.csproj
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.TinyCLR.Storage.csproj
 nuget.exe pack Jacdac.TinyCLR.Storage.csproj -Prop Configuration=Release -OutputDirectory ../newpackages -PackagesDirectory ../packages
 cd ..
 
 # .NET assemblies
-msbuild.exe -t:build -p:Configuration=Release Jacdac.sln
+msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
 dotnet pack Jacdac.DevTools/Jacdac.DevTools.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET/Jacdac.NET.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Clients/Jacdac.NET.Clients.csproj -c Release -o newpackages
