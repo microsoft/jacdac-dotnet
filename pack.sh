@@ -30,6 +30,7 @@ dotnet pack Jacdac.NET/Jacdac.NET.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Clients/Jacdac.NET.Clients.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Transports.Hf2/Jacdac.NET.Transports.Hf2.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Transports.Spi/Jacdac.NET.Transports.Spi.csproj -c Release -o newpackages
+dotnet pack Jacdac.NET.Transports.LibUsb/Jacdac.NET.Transports.LibUsb.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Transports.WebSockets/Jacdac.NET.Transports.WebSockets.csproj -c Release -o newpackages
 dotnet pack Jacdac.NET.Servers.SoundPlayer/Jacdac.NET.Servers.SoundPlayer.csproj -c Release -o newpackages
 dotnet pack Jacdac.Nano/Jacdac.Nano.nfproj -c Release -o newpackages
