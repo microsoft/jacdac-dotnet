@@ -273,7 +273,7 @@ namespace Jacdac.Transports.Spi
                 this.Stats.FrameReceived++;
                 // consume received frame if any
                 int framep = 0;
-                while (framep < XFER_SIZE)
+                while (framep + 4 < XFER_SIZE)
                 {
                     var frame2 = rxqueue[framep + 2];
                     if (frame2 == 0)
