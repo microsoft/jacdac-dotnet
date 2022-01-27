@@ -128,7 +128,7 @@ namespace Jacdac.Transports.Spi
         public override event TransportErrorReceivedEvent ErrorReceived;
         protected override void InternalConnect()
         {
-            Console.WriteLine($"spi: connecting");
+            this.LogDebug($"connect");
 
             if (this.reconnectTimer != null)
             {
@@ -136,15 +136,20 @@ namespace Jacdac.Transports.Spi
                 this.reconnectTimer = null;
             }
 
+
             this.controller.OpenPin(txReadyPin, PinMode.Input); // pull down
             this.controller.OpenPin(rxReadyPin, PinMode.Input); // pull down
-
             this.controller.OpenPin(resetPin, PinMode.Output);
+
+
+            this.LogDebug($"reseting");
             this.controller.Write(resetPin, 0);
             Thread.Sleep(10);
             this.controller.Write(resetPin, 1);
 
             this.controller.SetPinMode(resetPin, PinMode.Input);
+
+            this.LogDebug($"reseted");
 
             this.spi = SpiDevice.Create(new SpiConnectionSettings(spiBusId)
             {
@@ -154,10 +159,12 @@ namespace Jacdac.Transports.Spi
 
             });
 
+            this.LogDebug($"spi device opened");
+
             this.controller.RegisterCallbackForPinValueChangedEvent(rxReadyPin, PinEventTypes.Rising, this.handleRxPinRising);
             this.controller.RegisterCallbackForPinValueChangedEvent(txReadyPin, PinEventTypes.Rising, this.handleTxPinRising);
 
-            Console.WriteLine($"spi: ready");
+            Console.WriteLine($"ready");
             this.SetConnectionState(ConnectionState.Connected);
 
             // initiate

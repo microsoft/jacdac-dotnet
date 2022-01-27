@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Jacdac
 {
@@ -156,5 +157,11 @@ namespace Jacdac
         /// Raised when the connection state of the transport changed
         /// </summary>
         public event ConnectionStateChangedEvent ConnectionChanged;
+
+        [Conditional("DEBUG")]
+        protected void LogDebug(string msg)
+        {
+            Platform.LogDebug($"{this}: {msg}", "jacdac");
+        }
     }
 }

@@ -408,6 +408,8 @@ namespace Jacdac.Servers
                     // find candidates
                     foreach (var device in devices)
                     {
+                        if (device.HasService(Jacdac.ServiceClasses.Infrastructure))
+                            continue;
                         var services = device.GetServices();
                         foreach (var service in services)
                         {

@@ -17,12 +17,14 @@ namespace Jacdac.Playground
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("jacdac: connecting...");
+            Console.WriteLine("jacdac samples");
 
             var settings = new FileSettingsStorage("settings.yaml");
             var sample = SampleExtensions.GetSample(args);
             var services = new List<JDServiceServer>();
 
+            if (args.Contains("dbg"))
+                Platform.LogDebug = (msg, cat) => Console.WriteLine(msg);
             if (args.Contains("settings"))
                 services.Add(new SettingsServer(settings));
             if (args.Contains("prototest"))
@@ -83,9 +85,6 @@ namespace Jacdac.Playground
                     case "libusb":
                         Console.WriteLine($"adding libusb transport");
                         bus.AddTransport(Jacdac.Transports.LibUsb.LibUsbTransport.Create());
-                        break;
-                    case "dbg":
-                        Platform.LogDebug = (msg, cat) => Console.WriteLine(msg);
                         break;
                 }
             }
