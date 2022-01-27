@@ -329,7 +329,7 @@ namespace Jacdac.Servers
         {
             var now = this.Bus.Timestamp;
             var age = (now - this.LastBindRoles).TotalMilliseconds;
-            if (age < Constants.ROLE_MANAGER_AUTO_BIND_INTERVAL && this.AutoBind)
+            if (age > Constants.ROLE_MANAGER_AUTO_BIND_INTERVAL && this.AutoBind)
                 this.BindRoles();
         }
 
@@ -376,7 +376,7 @@ namespace Jacdac.Servers
                 return;
 
 
-            this.LogDebug($"bound {bound}/{roles.Length}");
+            this.LogDebug($"bound {bound}/{roles.Length}, {devices.Length} devices");
             for (var i = 0; i < roles.Length; ++i)
                 this.LogDebug($"  {roles[i]}");
             // try to load bindings from storage
@@ -398,7 +398,7 @@ namespace Jacdac.Servers
             }
 
             // dynamic allocation
-            if (this.autoBindRegister.GetValueAsBool())
+            if (this.AutoBind)
             {
                 foreach (var role in roles)
                 {
@@ -430,7 +430,10 @@ namespace Jacdac.Servers
             }
 
             if (hash != this.ComputeHash())
+            {
+                this.LogDebug("role binding changed");
                 this.RaiseChanged();
+            }
         }
     }
 }

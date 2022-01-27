@@ -84,6 +84,9 @@ namespace Jacdac.Playground
                         Console.WriteLine($"adding libusb transport");
                         bus.AddTransport(Jacdac.Transports.LibUsb.LibUsbTransport.Create());
                         break;
+                    case "dbg":
+                        Platform.LogDebug = (msg, cat) => Console.WriteLine(msg);
+                        break;
                 }
             }
 
