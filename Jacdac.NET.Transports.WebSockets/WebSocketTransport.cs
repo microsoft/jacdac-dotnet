@@ -52,7 +52,7 @@ namespace Jacdac.Transports.WebSockets
                     try
                     {
                         if (!t.IsFaulted && this.socket != null)
-                            this.socket.SendAsync(data, WebSocketMessageType.Binary, true, CancellationToken.None);
+                            this.socket.SendAsync(new ArraySegment<byte>(data), WebSocketMessageType.Binary, true, CancellationToken.None);
                     }
                     finally
                     {
@@ -91,7 +91,7 @@ namespace Jacdac.Transports.WebSockets
                     && this.socket != null)
                 {
                     var buffer = new byte[0xff];
-                    var res = await this.socket.ReceiveAsync(buffer, CancellationToken.None);
+                    var res = await this.socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     if (res.Count > 0)
                     {
                         var frame = new byte[res.Count];
@@ -139,7 +139,7 @@ namespace Jacdac.Transports.WebSockets
                 this.socket = null;
                 if (socket.State != WebSocketState.Closed)
                     socket.CloseAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None)
-                        .ContinueWith(t => socket.Dispose());
+                        .ContinueWith(_ => socket.Dispose());
                 else socket.Dispose();
             }
         }

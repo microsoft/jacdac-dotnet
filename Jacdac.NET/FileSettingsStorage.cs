@@ -38,7 +38,7 @@ namespace Jacdac.Servers
             var lines = File.Exists(this.fileName) ? File.ReadAllLines(this.fileName) : new string[0];
             foreach (var line in lines)
             {
-                var kv = line.Split(":");
+                var kv = line.Split(':');
                 if (kv.Length != 2) continue;
                 var key = kv[0].Trim();
                 if (key.Length == 0) continue;
@@ -53,13 +53,15 @@ namespace Jacdac.Servers
             var dir = Path.GetDirectoryName(Path.GetFullPath(this.fileName));
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            using var writer = new StreamWriter(this.fileName);
-            foreach (var key in dic.Keys)
+            using (var writer = new StreamWriter(this.fileName))
             {
-                writer.Write(key.Replace(Environment.NewLine, " "));
-                writer.Write(": ");
-                writer.Write(HexEncoding.ToString(dic[key]));
-                writer.WriteLine();
+                foreach (var key in dic.Keys)
+                {
+                    writer.Write(key.Replace(Environment.NewLine, " "));
+                    writer.Write(": ");
+                    writer.Write(HexEncoding.ToString(dic[key]));
+                    writer.WriteLine();
+                }
             }
         }
 

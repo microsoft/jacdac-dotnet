@@ -4,7 +4,7 @@
 for **microcontrollers** and their peripherals (sensors/actuators), 
 with applications to rapid prototyping, making, and physical computing. 
 
-This repository contains **.NET Core (5+)**, **.NET nanoframework** and **TinyCLR** client libraries for the [Jacdac](https://aka.ms/jacdac) protocol,
+This repository contains **.NET Framework 2.0**, **.NET nanoframework** and **TinyCLR** client libraries for the [Jacdac](https://aka.ms/jacdac) protocol,
 as well as transports over USB, SPI, WebSockets.
 
 * **[Jacdac .NET Documentation](https://microsoft.github.io/jacdac-docs/clients/dotnet)**
@@ -17,18 +17,18 @@ as well as transports over USB, SPI, WebSockets.
 
 The Jacdac project contains C# sources of the Jacdac protocol for various .NET runtime, including desktop or TinyClR.
 To avoid mscorlib issues, each platform recompiles these sources into its own assembly where C# files are simply shared as links.
-As a result, the C# used in the Jacdac project is .NET 5+/.NET nanoframework/TinyCLR compatible (and also inherits limitations thereof).
+As a result, the C# used in the Jacdac project is .NET Framework 2.0/.NET nanoframework/TinyCLR compatible (and also inherits limitations thereof).
 
-### [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/introduction) and [.NET IoT Core](https://dotnet.microsoft.com/en-us/apps/iot)
+### [.NET Framework 2.0](https://dotnet.microsoft.com/en-us/) and [.NET IoT Core](https://dotnet.microsoft.com/en-us/apps/iot)
 
   - `Jacdac.NET`, core runtime
   - `Jacdac.NET.Clients`, service clients
   - `Jacdac.NET.Logging`, a logging provider that allows to send log messages over the Jacdac bus
   - `Jacdac.NET.Transports.Spi`, SPI transport layer for SPI Jacdapter using .NET IoT
   - `Jacdac.NET.Transports.WebSockets`, WebSocket transport
-  - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET5
-  - `Jacdac.NET.Transports.LibUsb`, Usb transport based on [libusb](https://libusb.info/), .NET5 **(not functional, experimental)**
-  - `Jacdac.NET.Servers.SoundPlayer`, .NET sound player server implementation
+  - `Jacdac.NET.Transports.Hf2`, HF2 protocol layer, .NET Framework 2.0
+  - `Jacdac.NET.Transports.LibUsb`, Usb transport based on [libusb](https://libusb.info/), .NET Framework 2.0
+  - `Jacdac.NET.Servers.SoundPlayer`, .NET Framework 2.0 sound player server implementation
 
 ### [TinyCLR](https://www.ghielectronics.com/tinyclr/)
 

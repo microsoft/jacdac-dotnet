@@ -57,7 +57,7 @@ namespace Jacdac.Servers
         public void Play(string name)
         {
             if (name == null)
-                throw new ArgumentNullException(nameof(name));
+                throw new ArgumentNullException("name");
 
             var fileName = Path.GetFileNameWithoutExtension(name); // filter out rooted paths
             var mp3 = Path.Combine(this.soundDirectory, fileName + ".mp3");
