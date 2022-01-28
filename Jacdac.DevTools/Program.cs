@@ -50,6 +50,23 @@ namespace Jacdac.DevTools
             AsyncMain(args).Wait();
         }
 
+        static async Task<string?> DownloadProxySources()
+        {
+            try
+            {
+                // download proxy code
+                var resp = await new HttpClient().GetAsync("https://microsoft.github.io/jacdac-docs/devtools/proxy");
+                resp.EnsureSuccessStatusCode();
+                var proxySource = await resp.Content.ReadAsStringAsync();
+                return proxySource;
+            }
+            catch (WebException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
         static async Task AsyncMain(string[] args)
         {
             var internet = args.Any(arg => arg == "--internet");
@@ -139,15 +156,23 @@ namespace Jacdac.DevTools
                 {
                     new Timer(state =>
                     {
-                        Console.Write(bus.Describe());
+                        Console.WriteLine(bus.Describe());
                     }, null, 0, 30000);
                 }
             }
 
-            // download proxy code
-            var resp = await new HttpClient().GetAsync("https://microsoft.github.io/jacdac-docs/devtools/proxy");
-            resp.EnsureSuccessStatusCode();
-            var proxySource = await resp.Content.ReadAsStringAsync();
+            // download proxy code, and refresh once an hour
+            string? proxySource = null;
+            while (proxySource == null)
+            {
+                proxySource = await DownloadProxySources();
+                if (proxySource == null)
+                {
+                    Console.WriteLine("proxy download failed, wait 5s before retrying...");
+                    Thread.Sleep(5000);
+                }
+            }
+            DateTime proxyAge = DateTime.Now;
 
             app.Lifetime.ApplicationStopping.Register(() =>
             {
@@ -220,10 +245,22 @@ namespace Jacdac.DevTools
                 }
                 else if (context.Request.Path == "/")
                 {
+                    // refresh periodically
+                    if (DateTime.Now - proxyAge > TimeSpan.FromHours(1))
+                    {
+                        var src = await DownloadProxySources();
+                        if (src != null)
+                        {
+                            proxySource = src;
+                            proxyAge = DateTime.Now;
+                        }
+                    }
+                    // serve response
                     context.Response.Headers.ContentType = "text/html";
                     context.Response.Headers.CacheControl = "no-cache";
                     await context.Response.WriteAsync(proxySource);
                     await context.Response.CompleteAsync();
+
                 }
                 else
                 {
