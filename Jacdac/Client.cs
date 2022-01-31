@@ -103,6 +103,7 @@ namespace Jacdac
         private JDService _boundService;
         private EventBinding[] events = EventBinding.Empty;
         private RegisterValueBinding[] registerValueBindings = RegisterValueBinding.Empty;
+        private TimeSpan lastApplyRegisterValueBindings;
 
         protected Client(JDBus bus, string name, uint serviceClass)
         {
@@ -116,6 +117,17 @@ namespace Jacdac
                 throw new InvalidOperationException("role manager not enabled");
 
             roleMgr.AddClient(this);
+
+            this.lastApplyRegisterValueBindings = this.bus.Timestamp;
+            this.bus.SelfAnnounced += handleBusSelfAnnounced;
+        }
+
+        private void handleBusSelfAnnounced(JDNode sender, EventArgs e)
+        {
+            // periodically 
+            var now = this.bus.Timestamp;
+            if (this.lastApplyRegisterValueBindings - now > TimeSpan.FromSeconds(5))
+                this.BeginApplyRegisterValueBindings(false);
         }
 
         public override JDBus Bus => this.bus;
@@ -355,17 +367,16 @@ namespace Jacdac
 
         private void BeginApplyRegisterValueBindings(bool raiseConnect)
         {
+            this.lastApplyRegisterValueBindings = this.bus.Timestamp;
+            var rvs = this.registerValueBindings;
+            if (rvs.Length == 0)
+                return;
             new Thread(() =>
             {
                 var service = this.BoundService;
                 if (service == null) return;
-
-                var rvs = this.registerValueBindings;
-                if (rvs.Length > 0)
-                {
-                    foreach (var rv in rvs)
-                        this.ApplyRegisterValueBinding(rv);
-                }
+                foreach (var rv in rvs)
+                    this.ApplyRegisterValueBinding(rv);
                 var ev = this.Configure;
                 if (ev != null)
                     ev.Invoke(this, new ServiceEventArgs(service));
