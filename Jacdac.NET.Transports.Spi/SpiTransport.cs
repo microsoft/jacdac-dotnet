@@ -241,7 +241,7 @@ namespace Jacdac.Transports.Spi
             // much be in a locked context
             bool txReady = this.controller.Read(this.txReadyPin) == PinValue.High;
             bool rxReady = this.controller.Read(this.rxReadyPin) == PinValue.High;
-            bool sendtx = txReady && !QueueExtensions.IsEmpty(this.sendQueue) && txReady;
+            bool sendtx = txReady && !QueueExtensions.IsEmpty(this.sendQueue);
 
             if (!sendtx && !rxReady)
                 return false;
