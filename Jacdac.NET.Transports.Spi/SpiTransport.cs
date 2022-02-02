@@ -252,7 +252,8 @@ namespace Jacdac.Transports.Spi
 
             // assemble packets into send buffer
             int txq_ptr = 0;
-            if (sendtx) {
+            if (sendtx)
+            {
                 byte[] pkt;
                 while (QueueExtensions.TryPeekAndDequeue(this.sendQueue, (int)(XFER_SIZE - txq_ptr), out pkt))
                 {
@@ -269,7 +270,7 @@ namespace Jacdac.Transports.Spi
             {
                 this.Stats.FrameTransferError++;
                 Console.WriteLine("spi: transfer failed");
-                this.raiseError(TransportError.Frame, pkt);
+                this.raiseError(TransportError.Frame, txqueue);
                 return false;
             }
 
