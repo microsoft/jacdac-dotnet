@@ -3,6 +3,13 @@ namespace Jacdac {
     {
         public const uint JacscriptCloud = 0x14606e9c;
     }
+
+    public enum JacscriptCloudCommandStatus: uint { // uint32_t
+        OK = 0xc8,
+        NotFound = 0x194,
+        Busy = 0x1ad,
+    }
+
     public enum JacscriptCloudCmd : ushort {
         /// <summary>
         /// Upload a labelled tuple of values to the cloud.
@@ -32,20 +39,10 @@ namespace Jacdac {
         /// </summary>
 
         /// <summary>
-        /// Argument: path string (bytes). Subscribe to updates to twin at specific path.
-        /// Generates `twin_changed` events.
-        ///
-        /// ```
-        /// const [path] = jdunpack<[string]>(buf, "s")
-        /// ```
-        /// </summary>
-        SubscribeTwin = 0x82,
-
-        /// <summary>
         /// Should be called by jacscript when it finishes handling a `cloud_command`.
         ///
         /// ```
-        /// const [seqNo, result] = jdunpack<[number, number[]]>(buf, "u32 f64[]")
+        /// const [seqNo, status, result] = jdunpack<[number, JacscriptCloudCommandStatus, number[]]>(buf, "u32 u32 f64[]")
         /// ```
         /// </summary>
         AckCloudCommand = 0x83,
@@ -68,14 +65,9 @@ namespace Jacdac {
         public const string GetTwinReport = "z f64";
 
         /// <summary>
-        /// Pack format for 'subscribe_twin' register data.
-        /// </summary>
-        public const string SubscribeTwin = "s";
-
-        /// <summary>
         /// Pack format for 'ack_cloud_command' register data.
         /// </summary>
-        public const string AckCloudCommand = "u32 r: f64";
+        public const string AckCloudCommand = "u32 u32 r: f64";
     }
 
     public enum JacscriptCloudReg : ushort {
@@ -99,16 +91,6 @@ namespace Jacdac {
 
     public enum JacscriptCloudEvent : ushort {
         /// <summary>
-        /// Emitted when a twin is updated at given path.
-        /// It will be also emitted once immediately after `subscribe_twin`.
-        ///
-        /// ```
-        /// const [path, value] = jdunpack<[string, number]>(buf, "z f64")
-        /// ```
-        /// </summary>
-        TwinChanged = 0x80,
-
-        /// <summary>
         /// Emitted when cloud requests jacscript to run some action.
         ///
         /// ```
@@ -116,14 +98,14 @@ namespace Jacdac {
         /// ```
         /// </summary>
         CloudCommand = 0x81,
+
+        /// <summary>
+        /// Emitted whenever any of the twin properties change.
+        /// </summary>
+        TwinChange = 0x3,
     }
 
     public static class JacscriptCloudEventPack {
-        /// <summary>
-        /// Pack format for 'twin_changed' register data.
-        /// </summary>
-        public const string TwinChanged = "z f64";
-
         /// <summary>
         /// Pack format for 'cloud_command' register data.
         /// </summary>
