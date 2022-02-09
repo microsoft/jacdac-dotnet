@@ -22,7 +22,7 @@ namespace Jacdac {
 
     public enum LedDisplayReg : ushort {
         /// <summary>
-        /// Read-write bytes. For short LED strips, less than `max_pixels_length`, a buffer of 24bit RGB color entries for each LED.
+        /// Read-write bytes. A buffer of 24bit RGB color entries for each LED, in R, G, B order.
         ///
         /// ```
         /// const [pixels] = jdunpack<[Uint8Array]>(buf, "b")
@@ -52,9 +52,7 @@ namespace Jacdac {
         ActualBrightness = 0x180,
 
         /// <summary>
-        /// Read-only LightType (uint8_t). Specifies the type of light strip connected to controller.
-        /// Controllers which are sold with lights should default to the correct type
-        /// and could not allow change.
+        /// Constant LightType (uint8_t). Specifies the type of light strip connected to controller.
         ///
         /// ```
         /// const [lightType] = jdunpack<[LedDisplayLightType]>(buf, "u8")
@@ -63,9 +61,7 @@ namespace Jacdac {
         LightType = 0x181,
 
         /// <summary>
-        /// Read-only # uint16_t. Specifies the number of pixels in the strip.
-        /// Controllers which are sold with lights should default to the correct length
-        /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot.
+        /// Constant # uint16_t. Specifies the number of pixels in the strip.
         ///
         /// ```
         /// const [numPixels] = jdunpack<[number]>(buf, "u16")
@@ -74,8 +70,7 @@ namespace Jacdac {
         NumPixels = 0x182,
 
         /// <summary>
-        /// Read-only # uint16_t. If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
-        /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot.
+        /// Constant # uint16_t. If the LED pixel strip is a matrix, specifies the number of columns.
         ///
         /// ```
         /// const [numColumns] = jdunpack<[number]>(buf, "u16")

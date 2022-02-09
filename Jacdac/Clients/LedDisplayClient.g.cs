@@ -6,6 +6,9 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// A controller for small displays of individually controlled RGB LEDs.
+     /// 
+     /// This service handles displays with 64 or less LEDs.
+     /// Use the [LED strip service](/services/ledstrip) for longer light strips.
     /// Implements a client for the LED Display service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/leddisplay/" />
@@ -18,7 +21,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>pixels</c> register value.
-        /// For short LED strips, less than `max_pixels_length`, a buffer of 24bit RGB color entries for each LED., 
+        /// A buffer of 24bit RGB color entries for each LED, in R, G, B order., 
         /// </summary>
         public byte[] Pixels
         {
@@ -69,9 +72,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>light_type</c> register value.
-        /// Specifies the type of light strip connected to controller.
-        /// Controllers which are sold with lights should default to the correct type
-        /// and could not allow change., 
+        /// Specifies the type of light strip connected to controller., 
         /// </summary>
         public LedDisplayLightType LightType
         {
@@ -83,9 +84,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>num_pixels</c> register value.
-        /// Specifies the number of pixels in the strip.
-        /// Controllers which are sold with lights should default to the correct length
-        /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot., _: #
+        /// Specifies the number of pixels in the strip., _: #
         /// </summary>
         public uint NumPixels
         {
@@ -97,8 +96,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>num_columns</c> register value.
-        /// If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
-        /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot., _: #
+        /// If the LED pixel strip is a matrix, specifies the number of columns., _: #
         /// </summary>
         bool TryGetNumColumns(out uint value)
         {
