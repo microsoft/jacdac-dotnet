@@ -6,13 +6,13 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// A controller for strips of individually controlled RGB LEDs.
-    /// Implements a client for the LED Pixel service.
+    /// Implements a client for the LED Strip service.
     /// </summary>
-    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/ledpixel/" />
-    public partial class LedPixelClient : Client
+    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/ledstrip/" />
+    public partial class LedStripClient : Client
     {
-        public LedPixelClient(JDBus bus, string name)
-            : base(bus, name, ServiceClasses.LedPixel)
+        public LedStripClient(JDBus bus, string name)
+            : base(bus, name, ServiceClasses.LedStrip)
         {
         }
 
@@ -25,12 +25,12 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness);
+                return (float)this.GetRegisterValue((ushort)LedStripReg.Brightness, LedStripRegPack.Brightness);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.Brightness, LedPixelRegPack.Brightness, value);
+                this.SetRegisterValue((ushort)LedStripReg.Brightness, LedStripRegPack.Brightness, value);
             }
 
         }
@@ -45,7 +45,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)LedPixelReg.ActualBrightness, LedPixelRegPack.ActualBrightness);
+                return (float)this.GetRegisterValue((ushort)LedStripReg.ActualBrightness, LedStripRegPack.ActualBrightness);
             }
         }
 
@@ -55,16 +55,16 @@ namespace Jacdac.Clients
         /// Controllers which are sold with lights should default to the correct type
         /// and could not allow change., 
         /// </summary>
-        public LedPixelLightType LightType
+        public LedStripLightType LightType
         {
             get
             {
-                return (LedPixelLightType)this.GetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType);
+                return (LedStripLightType)this.GetRegisterValue((ushort)LedStripReg.LightType, LedStripRegPack.LightType);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.LightType, LedPixelRegPack.LightType, value);
+                this.SetRegisterValue((ushort)LedStripReg.LightType, LedStripRegPack.LightType, value);
             }
 
         }
@@ -79,12 +79,12 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels);
+                return (uint)this.GetRegisterValue((ushort)LedStripReg.NumPixels, LedStripRegPack.NumPixels);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.NumPixels, LedPixelRegPack.NumPixels, value);
+                this.SetRegisterValue((ushort)LedStripReg.NumPixels, LedStripRegPack.NumPixels, value);
             }
 
         }
@@ -97,7 +97,7 @@ namespace Jacdac.Clients
         bool TryGetNumColumns(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, out values)) 
+            if (this.TryGetRegisterValues((ushort)LedStripReg.NumColumns, LedStripRegPack.NumColumns, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -114,7 +114,7 @@ namespace Jacdac.Clients
         /// </summary>
         public void SetNumColumns(uint value)
         {
-            this.SetRegisterValue((ushort)LedPixelReg.NumColumns, LedPixelRegPack.NumColumns, value);
+            this.SetRegisterValue((ushort)LedStripReg.NumColumns, LedStripRegPack.NumColumns, value);
         }
 
 
@@ -126,12 +126,12 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower);
+                return (uint)this.GetRegisterValue((ushort)LedStripReg.MaxPower, LedStripRegPack.MaxPower);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.MaxPower, LedPixelRegPack.MaxPower, value);
+                this.SetRegisterValue((ushort)LedStripReg.MaxPower, LedStripRegPack.MaxPower, value);
             }
 
         }
@@ -145,7 +145,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.MaxPixels, LedPixelRegPack.MaxPixels);
+                return (uint)this.GetRegisterValue((ushort)LedStripReg.MaxPixels, LedStripRegPack.MaxPixels);
             }
         }
 
@@ -159,12 +159,12 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats);
+                return (uint)this.GetRegisterValue((ushort)LedStripReg.NumRepeats, LedStripRegPack.NumRepeats);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)LedPixelReg.NumRepeats, LedPixelRegPack.NumRepeats, value);
+                this.SetRegisterValue((ushort)LedStripReg.NumRepeats, LedStripRegPack.NumRepeats, value);
             }
 
         }
@@ -173,17 +173,17 @@ namespace Jacdac.Clients
         /// Tries to read the <c>variant</c> register value.
         /// Specifies the shape of the light strip., 
         /// </summary>
-        bool TryGetVariant(out LedPixelVariant value)
+        bool TryGetVariant(out LedStripVariant value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedPixelReg.Variant, LedPixelRegPack.Variant, out values)) 
+            if (this.TryGetRegisterValues((ushort)LedStripReg.Variant, LedStripRegPack.Variant, out values)) 
             {
-                value = (LedPixelVariant)values[0];
+                value = (LedStripVariant)values[0];
                 return true;
             }
             else
             {
-                value = default(LedPixelVariant);
+                value = default(LedStripVariant);
                 return false;
             }
         }
@@ -195,7 +195,7 @@ namespace Jacdac.Clients
         /// </summary>
         public void Run(byte[] program)
         {
-            this.SendCmdPacked((ushort)LedPixelCmd.Run, LedPixelCmdPack.Run, new object[] { program });
+            this.SendCmdPacked((ushort)LedStripCmd.Run, LedStripCmdPack.Run, new object[] { program });
         }
 
     }

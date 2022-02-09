@@ -1,17 +1,18 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint LedPixel = 0x126f00e0;
+        public const uint LedDisplay = 0x1609d4f0;
+        public const uint MaxPixelsLength = 0x40;
     }
 
-    public enum LedPixelLightType: byte { // uint8_t
+    public enum LedDisplayLightType: byte { // uint8_t
         WS2812B_GRB = 0x0,
         APA102 = 0x10,
         SK9822 = 0x11,
     }
 
 
-    public enum LedPixelVariant: byte { // uint8_t
+    public enum LedDisplayVariant: byte { // uint8_t
         Strip = 0x1,
         Ring = 0x2,
         Stick = 0x3,
@@ -19,7 +20,16 @@ namespace Jacdac {
         Matrix = 0x5,
     }
 
-    public enum LedPixelReg : ushort {
+    public enum LedDisplayReg : ushort {
+        /// <summary>
+        /// Read-write bytes. For short LED strips, less than `max_pixels_length`, a buffer of 24bit RGB color entries for each LED.
+        ///
+        /// ```
+        /// const [pixels] = jdunpack<[Uint8Array]>(buf, "b")
+        /// ```
+        /// </summary>
+        Pixels = 0x2,
+
         /// <summary>
         /// Read-write ratio u0.8 (uint8_t). Set the luminosity of the strip.
         /// At `0` the power to the strip is completely shut down.
@@ -42,18 +52,18 @@ namespace Jacdac {
         ActualBrightness = 0x180,
 
         /// <summary>
-        /// Read-write LightType (uint8_t). Specifies the type of light strip connected to controller.
+        /// Read-only LightType (uint8_t). Specifies the type of light strip connected to controller.
         /// Controllers which are sold with lights should default to the correct type
         /// and could not allow change.
         ///
         /// ```
-        /// const [lightType] = jdunpack<[LedPixelLightType]>(buf, "u8")
+        /// const [lightType] = jdunpack<[LedDisplayLightType]>(buf, "u8")
         /// ```
         /// </summary>
-        LightType = 0x80,
+        LightType = 0x181,
 
         /// <summary>
-        /// Read-write # uint16_t. Specifies the number of pixels in the strip.
+        /// Read-only # uint16_t. Specifies the number of pixels in the strip.
         /// Controllers which are sold with lights should default to the correct length
         /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot.
         ///
@@ -61,17 +71,17 @@ namespace Jacdac {
         /// const [numPixels] = jdunpack<[number]>(buf, "u16")
         /// ```
         /// </summary>
-        NumPixels = 0x81,
+        NumPixels = 0x182,
 
         /// <summary>
-        /// Read-write # uint16_t. If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
+        /// Read-only # uint16_t. If the LED pixel strip is a matrix, specifies the number of columns. Otherwise, a square shape is assumed. Controllers which are sold with lights should default to the correct length
         /// and could not allow change. Increasing length at runtime leads to ineffective use of memory and may lead to controller reboot.
         ///
         /// ```
         /// const [numColumns] = jdunpack<[number]>(buf, "u16")
         /// ```
         /// </summary>
-        NumColumns = 0x83,
+        NumColumns = 0x183,
 
         /// <summary>
         /// Read-write mA uint16_t. Limit the power drawn by the light-strip (and controller).
@@ -83,37 +93,21 @@ namespace Jacdac {
         MaxPower = 0x7,
 
         /// <summary>
-        /// Constant # uint16_t. The maximum supported number of pixels.
-        /// All writes to `num_pixels` are clamped to `max_pixels`.
-        ///
-        /// ```
-        /// const [maxPixels] = jdunpack<[number]>(buf, "u16")
-        /// ```
-        /// </summary>
-        MaxPixels = 0x181,
-
-        /// <summary>
-        /// Read-write # uint16_t. How many times to repeat the program passed in `run` command.
-        /// Should be set before the `run` command.
-        /// Setting to `0` means to repeat forever.
-        ///
-        /// ```
-        /// const [numRepeats] = jdunpack<[number]>(buf, "u16")
-        /// ```
-        /// </summary>
-        NumRepeats = 0x82,
-
-        /// <summary>
         /// Constant Variant (uint8_t). Specifies the shape of the light strip.
         ///
         /// ```
-        /// const [variant] = jdunpack<[LedPixelVariant]>(buf, "u8")
+        /// const [variant] = jdunpack<[LedDisplayVariant]>(buf, "u8")
         /// ```
         /// </summary>
         Variant = 0x107,
     }
 
-    public static class LedPixelRegPack {
+    public static class LedDisplayRegPack {
+        /// <summary>
+        /// Pack format for 'pixels' register data.
+        /// </summary>
+        public const string Pixels = "b";
+
         /// <summary>
         /// Pack format for 'brightness' register data.
         /// </summary>
@@ -145,37 +139,9 @@ namespace Jacdac {
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'max_pixels' register data.
-        /// </summary>
-        public const string MaxPixels = "u16";
-
-        /// <summary>
-        /// Pack format for 'num_repeats' register data.
-        /// </summary>
-        public const string NumRepeats = "u16";
-
-        /// <summary>
         /// Pack format for 'variant' register data.
         /// </summary>
         public const string Variant = "u8";
-    }
-
-    public enum LedPixelCmd : ushort {
-        /// <summary>
-        /// Argument: program bytes. Run the given light "program". See service description for details.
-        ///
-        /// ```
-        /// const [program] = jdunpack<[Uint8Array]>(buf, "b")
-        /// ```
-        /// </summary>
-        Run = 0x81,
-    }
-
-    public static class LedPixelCmdPack {
-        /// <summary>
-        /// Pack format for 'run' register data.
-        /// </summary>
-        public const string Run = "b";
     }
 
 }
