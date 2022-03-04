@@ -5,7 +5,7 @@ using System;
 namespace Jacdac.Clients 
 {
     /// <summary>
-    /// A two axis directional joystick with optional buttons.
+    /// A two axis directional gamepad with optional buttons.
     /// Implements a client for the Gamepad service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/gamepad/" />
@@ -18,10 +18,10 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>direction</c> register value.
-        /// If the joystick is analog, the directional buttons should be "simulated", based on joystick position
+        /// If the gamepad is analog, the directional buttons should be "simulated", based on gamepad position
         /// (`Left` is `{ x = -1, y = 0 }`, `Up` is `{ x = 0, y = -1}`).
-        /// If the joystick is digital, then each direction will read as either `-1`, `0`, or `1` (in fixed representation).
-        /// The primary button on the joystick is `A`., x: /,y: /
+        /// If the gamepad is digital, then each direction will read as either `-1`, `0`, or `1` (in fixed representation).
+        /// The primary button on the gamepad is `A`., x: /,y: /
         /// </summary>
         public object[] /*(GamepadButtons, float, float)*/ Direction
         {
@@ -33,7 +33,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>variant</c> register value.
-        /// The type of physical joystick., 
+        /// The type of physical gamepad., 
         /// </summary>
         bool TryGetVariant(out GamepadVariant value)
         {
@@ -52,9 +52,9 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>buttons_available</c> register value.
-        /// Indicates a bitmask of the buttons that are mounted on the joystick.
-        /// If the `Left`/`Up`/`Right`/`Down` buttons are marked as available here, the joystick is digital.
-        /// Even when marked as not available, they will still be simulated based on the analog joystick., 
+        /// Indicates a bitmask of the buttons that are mounted on the gamepad.
+        /// If the `Left`/`Up`/`Right`/`Down` buttons are marked as available here, the gamepad is digital.
+        /// Even when marked as not available, they will still be simulated based on the analog gamepad., 
         /// </summary>
         public GamepadButtons ButtonsAvailable
         {

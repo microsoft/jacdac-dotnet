@@ -144,6 +144,15 @@ namespace Jacdac {
 
     public enum WifiReg : ushort {
         /// <summary>
+        /// Read-only dB int8_t. Current signal strength. Returns -128 when not connected.
+        ///
+        /// ```
+        /// const [rssi] = jdunpack<[number]>(buf, "i8")
+        /// ```
+        /// </summary>
+        Rssi = 0x101,
+
+        /// <summary>
         /// Read-write bool (uint8_t). Determines whether the WiFi radio is enabled. It starts enabled upon reset.
         ///
         /// ```
@@ -179,18 +188,14 @@ namespace Jacdac {
         /// ```
         /// </summary>
         Ssid = 0x183,
-
-        /// <summary>
-        /// Read-only dB int8_t. Current signal strength. Returns -128 when not connected.
-        ///
-        /// ```
-        /// const [rssi] = jdunpack<[number]>(buf, "i8")
-        /// ```
-        /// </summary>
-        Rssi = 0x184,
     }
 
     public static class WifiRegPack {
+        /// <summary>
+        /// Pack format for 'rssi' register data.
+        /// </summary>
+        public const string Rssi = "i8";
+
         /// <summary>
         /// Pack format for 'enabled' register data.
         /// </summary>
@@ -210,11 +215,6 @@ namespace Jacdac {
         /// Pack format for 'ssid' register data.
         /// </summary>
         public const string Ssid = "s[32]";
-
-        /// <summary>
-        /// Pack format for 'rssi' register data.
-        /// </summary>
-        public const string Rssi = "i8";
     }
 
     public enum WifiEvent : ushort {

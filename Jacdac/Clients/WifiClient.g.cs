@@ -9,11 +9,23 @@ namespace Jacdac.Clients
     /// Implements a client for the WIFI service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/wifi/" />
-    public partial class WifiClient : Client
+    public partial class WifiClient : SensorClient
     {
         public WifiClient(JDBus bus, string name)
             : base(bus, name, ServiceClasses.Wifi)
         {
+        }
+
+        /// <summary>
+        /// Reads the <c>rssi</c> register value.
+        /// Current signal strength. Returns -128 when not connected., _: dB
+        /// </summary>
+        public int Rssi
+        {
+            get
+            {
+                return (int)this.GetRegisterValue((ushort)WifiReg.Rssi, WifiRegPack.Rssi);
+            }
         }
 
         /// <summary>
@@ -68,18 +80,6 @@ namespace Jacdac.Clients
             get
             {
                 return (string)this.GetRegisterValue((ushort)WifiReg.Ssid, WifiRegPack.Ssid);
-            }
-        }
-
-        /// <summary>
-        /// Reads the <c>rssi</c> register value.
-        /// Current signal strength. Returns -128 when not connected., _: dB
-        /// </summary>
-        public int Rssi
-        {
-            get
-            {
-                return (int)this.GetRegisterValue((ushort)WifiReg.Rssi, WifiRegPack.Rssi);
             }
         }
 
