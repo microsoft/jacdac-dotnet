@@ -12,7 +12,7 @@ namespace Jacdac {
         Toggle = 0x5,
         Proximity = 0x6,
         Magnetic = 0x7,
-        FootPedal = 0x8,
+        FootButton = 0x8,
     }
 
     public enum SwitchReg : ushort {
@@ -33,16 +33,6 @@ namespace Jacdac {
         /// ```
         /// </summary>
         Variant = 0x107,
-
-        /// <summary>
-        /// Constant s u22.10 (uint32_t). Specifies the delay without activity to automatically turn off after turning on.
-        /// For example, some light switches in staircases have such a capability.
-        ///
-        /// ```
-        /// const [autoOffDelay] = jdunpack<[number]>(buf, "u22.10")
-        /// ```
-        /// </summary>
-        AutoOffDelay = 0x180,
     }
 
     public static class SwitchRegPack {
@@ -55,11 +45,6 @@ namespace Jacdac {
         /// Pack format for 'variant' register data.
         /// </summary>
         public const string Variant = "u8";
-
-        /// <summary>
-        /// Pack format for 'auto_off_delay' register data.
-        /// </summary>
-        public const string AutoOffDelay = "u22.10";
     }
 
     public enum SwitchEvent : ushort {

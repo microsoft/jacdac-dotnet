@@ -48,26 +48,6 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Tries to read the <c>auto_off_delay</c> register value.
-        /// Specifies the delay without activity to automatically turn off after turning on.
-        /// For example, some light switches in staircases have such a capability., _: s
-        /// </summary>
-        bool TryGetAutoOffDelay(out float value)
-        {
-            object[] values;
-            if (this.TryGetRegisterValues((ushort)SwitchReg.AutoOffDelay, SwitchRegPack.AutoOffDelay, out values)) 
-            {
-                value = (float)values[0];
-                return true;
-            }
-            else
-            {
-                value = default(float);
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Emitted when switch goes from `off` to `on`.
         /// </summary>
         public event ClientEventHandler On
