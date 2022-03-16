@@ -5,7 +5,7 @@ using System;
 namespace Jacdac.Clients 
 {
     /// <summary>
-    /// A power supply with a static or variable voltage range
+    /// A power supply with a fixed or variable voltage range
     /// Implements a client for the Power supply service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/powersupply/" />
@@ -55,7 +55,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>minimum_voltage</c> register value.
-        /// The minimum output voltage of the power supply. For static power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
+        /// The minimum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
         /// </summary>
         public float MinimumVoltage
         {
@@ -67,7 +67,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>maximum_voltage</c> register value.
-        /// The maximum output voltage of the power supply. For static power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
+        /// The maximum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
         /// </summary>
         public float MaximumVoltage
         {
