@@ -12,12 +12,12 @@ namespace Jacdac.Samples
         public void Run(JDBus bus)
         {
             #region sources
-            var leds = new LedPixelClient(bus, "leds1");
+            var leds = new LedStripClient(bus, "leds1");
             leds.NumPixels = 300;
             leds.MaxPower = 2000;
             leds.Brightness = 0.1f;
 
-            var leds2 = new LedPixelClient(bus, "leds2");
+            var leds2 = new LedStripClient(bus, "leds2");
             leds2.NumPixels = 300;
             leds2.MaxPower = 2000;
             leds2.Brightness = 0.1f;
@@ -27,15 +27,15 @@ namespace Jacdac.Samples
             var blue = 0x0000ff;
             var green = 0x00ff00;
             var off = 0x000000;
-            var paint = new LedPixelProgramBuilder()
+            var paint = new LedStripProgramBuilder()
                 .Fade(off, off, green, off, off)
                 .Show(0)
                 .ToBuffer();
-            var paint2 = new LedPixelProgramBuilder()
+            var paint2 = new LedStripProgramBuilder()
                 .Fade(off, red, purple, blue, purple, red, off)
                 .Show(0)
                 .ToBuffer();
-            var rotateBuilder = new LedPixelProgramBuilder();
+            var rotateBuilder = new LedStripProgramBuilder();
             for (var i = 0; i < 10; ++i)
                 rotateBuilder.Rotate(4).Show(20);
             var rotate = rotateBuilder.ToBuffer();

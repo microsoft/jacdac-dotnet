@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Jacdac
 {
-    public enum LedPixelProgramUpdateMode : byte
+    public enum LedStripProgramUpdateMode : byte
     {
         Replace = 0,
         AddRGB = 1,
@@ -15,17 +15,17 @@ namespace Jacdac
     /// <summary>
     /// A parametric helper class to build LED pixel animations.
     /// </summary>
-    public sealed class LedPixelProgramBuilder
+    public sealed class LedStripProgramBuilder
     {
         StringBuilder commands; // string[]
         ArrayList args; // object[]
-        public LedPixelProgramBuilder()
+        public LedStripProgramBuilder()
         {
             this.commands = new StringBuilder();
             this.args = new ArrayList();
         }
 
-        private LedPixelProgramBuilder AppendColors(string cmd, int[] colors)
+        private LedStripProgramBuilder AppendColors(string cmd, int[] colors)
         {
             this.commands.Append(cmd);
             foreach (var color in colors)
@@ -42,7 +42,7 @@ namespace Jacdac
         /// <summary>
         /// set all pixels in current range to given color pattern
         /// </summary>
-        public LedPixelProgramBuilder SetAll(params int[] colors)
+        public LedStripProgramBuilder SetAll(params int[] colors)
         {
             return this.AppendColors("setall", colors);
         }
@@ -50,7 +50,7 @@ namespace Jacdac
         /// <summary>
         /// Sets one pixel in current range to given color pattern
         /// </summary>
-        public LedPixelProgramBuilder SetOne(uint index, int color)
+        public LedStripProgramBuilder SetOne(uint index, int color)
         {
             return this.AppendColors($"setone {index}", new int[] { color });
         }
@@ -58,7 +58,7 @@ namespace Jacdac
         /// <summary>
         /// Set all pixels in current range to color between RGB colors in sequence
         /// </summary>
-        public LedPixelProgramBuilder Fade(params int[] rgbColors)
+        public LedStripProgramBuilder Fade(params int[] rgbColors)
         {
             return this.AppendColors("fade", rgbColors);
         }
@@ -66,7 +66,7 @@ namespace Jacdac
         /// <summary>
         /// Set all pixels in current range to color between HSV colors in sequence
         /// </summary>
-        public LedPixelProgramBuilder FadeHSV(params int[] hsvColors)
+        public LedStripProgramBuilder FadeHSV(params int[] hsvColors)
         {
             return this.AppendColors("fadehsv", hsvColors);
         }
@@ -74,7 +74,7 @@ namespace Jacdac
         /// <summary>
         /// rotate (shift) pixels by K positions away (positive) or towards (negative) from the connector
         /// </summary>
-        public LedPixelProgramBuilder Rotate(int steps)
+        public LedStripProgramBuilder Rotate(int steps)
         {
             if (steps > 0)
                 return this.AppendColors("rotfwd", new int[] { steps });
@@ -86,7 +86,7 @@ namespace Jacdac
         /// <summary>
         /// Send buffer to strip and wait waitMilliseconds milliseconds
         /// </summary>
-        public LedPixelProgramBuilder Show(int waitMilliseconds = -1)
+        public LedStripProgramBuilder Show(int waitMilliseconds = -1)
         {
             this.commands.Append("show");
             if (waitMilliseconds >= 0)
@@ -101,7 +101,7 @@ namespace Jacdac
         /// <summary>
         ///  range from pixel P, Npixels long (currently unsupported: every Wpixels skip Spixels)
         /// </summary>
-        public LedPixelProgramBuilder Range(uint startIndex, uint length)
+        public LedStripProgramBuilder Range(uint startIndex, uint length)
         {
             this.commands.AppendLine($"range {startIndex} {length}");
             return this;
@@ -110,10 +110,10 @@ namespace Jacdac
         /// <summary>
         ///  Set the LED update mode, use temp if the mode should be used once only
         /// </summary>
-        public LedPixelProgramBuilder SetUpdateMode(LedPixelProgramUpdateMode mode, bool temp = false)
+        public LedStripProgramBuilder SetUpdateMode(LedStripProgramUpdateMode mode, bool temp = false)
         {
             this.commands.Append(temp ? "tmpmode" : "mode");
-            if (mode != LedPixelProgramUpdateMode.Replace)
+            if (mode != LedStripProgramUpdateMode.Replace)
             {
                 this.commands.Append(" ");
                 this.commands.Append((byte)mode);
@@ -144,7 +144,7 @@ namespace Jacdac
         /// <returns></returns>
         public byte[] ToBuffer()
         {
-            return LedPixelProgramEncoding.ToBuffer(this.Source, this.Args);
+            return LedStripProgramEncoding.ToBuffer(this.Source, this.Args);
         }
 
         public override string ToString()
@@ -156,7 +156,7 @@ namespace Jacdac
     /// <summary>
     /// Encode LED light instructions
     /// </summary>
-    public sealed class LedPixelProgramEncoding
+    public sealed class LedStripProgramEncoding
     {
         const byte LIGHT_PROG_SET_ALL = 0xd0;
         const byte LIGHT_PROG_FADE = 0xd1;
@@ -223,7 +223,7 @@ namespace Jacdac
         string source;
         ArrayList args;
 
-        private LedPixelProgramEncoding(string source, object[] args)
+        private LedStripProgramEncoding(string source, object[] args)
         {
             this.outarr = new byte[256];
             this.outarrp = 0;
@@ -247,7 +247,7 @@ namespace Jacdac
          */
         public static byte[] ToBuffer(string source, object[] args = null)
         {
-            var encoder = new LedPixelProgramEncoding(source, args);
+            var encoder = new LedStripProgramEncoding(source, args);
             return encoder.run();
         }
 

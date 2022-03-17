@@ -56,17 +56,16 @@ namespace Jacdac.Servers
             this.AddRegister(this.connectedRegister = new JDDynamicRegisterServer((ushort)JacscriptCloudReg.Connected, JacscriptCloudRegPack.Connected, (args) => new object[] { this.Cloud.IsConnected }));
             this.AddCommand((ushort)JacscriptCloudCmd.Upload, this.handleUpload);
             this.AddCommand((ushort)JacscriptCloudCmd.GetTwin, this.handleGetTwin);
-            this.AddCommand((ushort)JacscriptCloudCmd.SubscribeTwin, this.handleSubscribeTwin);
             this.AddCommand((ushort)JacscriptCloudCmd.AckCloudCommand, this.handleAckCloudCommand);
 
-            this.Cloud.TwinChanged += handleTwinChanged;
+            this.Cloud.TwinChanged += handleTwinChange;
             this.Cloud.CloudCommand += handleCloudCommand;
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            this.Cloud.TwinChanged -= handleTwinChanged;
+            this.Cloud.TwinChanged -= handleTwinChange;
             this.Cloud.CloudCommand -= handleCloudCommand;
         }
 
@@ -78,15 +77,12 @@ namespace Jacdac.Servers
             for (var i = 0; i < args.Arguments.Length; ++i)
                 arguments[i] = new object[] { args.Arguments[i] };
             var data = PacketEncoding.Pack(JacscriptCloudEventPack.CloudCommand, new object[] { seqno, command, arguments });
-            this.SendEvent((ushort)JacscriptCloudEvent.TwinChanged, data);
+            this.SendEvent((ushort)JacscriptCloudEvent.TwinChange, data);
         }
 
-        private void handleTwinChanged(IJacscriptCloud sender, TwinChangedEventsArgs args)
+        private void handleTwinChange(IJacscriptCloud sender, TwinChangedEventsArgs args)
         {
-            var path = args.Path;
-            var value = args.Value;
-            var data = PacketEncoding.Pack(JacscriptCloudEventPack.TwinChanged, new object[] { path, value });
-            this.SendEvent((ushort)JacscriptCloudEvent.TwinChanged, data);
+            this.SendEvent((ushort)JacscriptCloudEvent.TwinChange);
         }
 
         private void handleUpload(JDNode sender, PacketEventArgs args)
@@ -98,16 +94,6 @@ namespace Jacdac.Servers
             var value = (double[])values[1];
 
             this.Cloud.Upload(label, value);
-        }
-
-        private void handleSubscribeTwin(JDNode sender, PacketEventArgs args)
-        {
-            var pkt = args.Packet;
-            var data = pkt.Data;
-            var values = PacketEncoding.UnPack(JacscriptCloudCmdPack.SubscribeTwin, data);
-            var path = (string)values[0];
-
-            this.Cloud.SubscribeTwin(path);
         }
 
         private void handleGetTwin(JDNode sender, PacketEventArgs args)
