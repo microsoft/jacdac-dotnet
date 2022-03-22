@@ -6,13 +6,13 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// A service that reports a current measurement.
-    /// Implements a client for the Current Measurement service.
+    /// Implements a client for the DC Current Measurement service.
     /// </summary>
-    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/currentmeasurement/" />
-    public partial class CurrentMeasurementClient : SensorClient
+    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/dccurrentmeasurement/" />
+    public partial class DCCurrentMeasurementClient : SensorClient
     {
-        public CurrentMeasurementClient(JDBus bus, string name)
-            : base(bus, name, ServiceClasses.CurrentMeasurement)
+        public DCCurrentMeasurementClient(JDBus bus, string name)
+            : base(bus, name, ServiceClasses.DCCurrentMeasurement)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)CurrentMeasurementReg.MeasurementName, CurrentMeasurementRegPack.MeasurementName);
+                return (string)this.GetRegisterValue((ushort)DCCurrentMeasurementReg.MeasurementName, DCCurrentMeasurementRegPack.MeasurementName);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)CurrentMeasurementReg.Measurement, CurrentMeasurementRegPack.Measurement);
+                return (float)this.GetRegisterValue((ushort)DCCurrentMeasurementReg.Measurement, DCCurrentMeasurementRegPack.Measurement);
             }
         }
 

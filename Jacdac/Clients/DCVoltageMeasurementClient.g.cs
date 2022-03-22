@@ -6,13 +6,13 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// A service that reports a voltage measurement.
-    /// Implements a client for the Voltage Measurement service.
+    /// Implements a client for the DC Voltage Measurement service.
     /// </summary>
-    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/voltagemeasurement/" />
-    public partial class VoltageMeasurementClient : SensorClient
+    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/dcvoltagemeasurement/" />
+    public partial class DCVoltageMeasurementClient : SensorClient
     {
-        public VoltageMeasurementClient(JDBus bus, string name)
-            : base(bus, name, ServiceClasses.VoltageMeasurement)
+        public DCVoltageMeasurementClient(JDBus bus, string name)
+            : base(bus, name, ServiceClasses.DCVoltageMeasurement)
         {
         }
 
@@ -20,11 +20,11 @@ namespace Jacdac.Clients
         /// Reads the <c>measurement_type</c> register value.
         /// The type of measurement that is taking place. Absolute results are measured with respect to ground, whereas differential results are measured against another signal that is not ground., 
         /// </summary>
-        public VoltageMeasurementVoltageMeasurementType MeasurementType
+        public DCVoltageMeasurementVoltageMeasurementType MeasurementType
         {
             get
             {
-                return (VoltageMeasurementVoltageMeasurementType)this.GetRegisterValue((ushort)VoltageMeasurementReg.MeasurementType, VoltageMeasurementRegPack.MeasurementType);
+                return (DCVoltageMeasurementVoltageMeasurementType)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.MeasurementType, DCVoltageMeasurementRegPack.MeasurementType);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)VoltageMeasurementReg.MeasurementName, VoltageMeasurementRegPack.MeasurementName);
+                return (string)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.MeasurementName, DCVoltageMeasurementRegPack.MeasurementName);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)VoltageMeasurementReg.Measurement, VoltageMeasurementRegPack.Measurement);
+                return (float)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.Measurement, DCVoltageMeasurementRegPack.Measurement);
             }
         }
 

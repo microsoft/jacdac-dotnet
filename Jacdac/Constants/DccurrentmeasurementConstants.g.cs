@@ -1,24 +1,9 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint VoltageMeasurement = 0x1633ac19;
+        public const uint DCCurrentMeasurement = 0x1912c8ae;
     }
-
-    public enum VoltageMeasurementVoltageMeasurementType: byte { // uint8_t
-        Absolute = 0x0,
-        Differential = 0x1,
-    }
-
-    public enum VoltageMeasurementReg : ushort {
-        /// <summary>
-        /// Constant VoltageMeasurementType (uint8_t). The type of measurement that is taking place. Absolute results are measured with respect to ground, whereas differential results are measured against another signal that is not ground.
-        ///
-        /// ```
-        /// const [measurementType] = jdunpack<[VoltageMeasurementVoltageMeasurementType]>(buf, "u8")
-        /// ```
-        /// </summary>
-        MeasurementType = 0x181,
-
+    public enum DCCurrentMeasurementReg : ushort {
         /// <summary>
         /// Constant string (bytes). A string containing the net name that is being measured e.g. `POWER_DUT` or a reference e.g. `DIFF_DEV1_DEV2`. These constants can be used to identify a measurement from client code.
         ///
@@ -29,7 +14,7 @@ namespace Jacdac {
         MeasurementName = 0x182,
 
         /// <summary>
-        /// Read-only V f64 (uint64_t). The voltage measurement.
+        /// Read-only A f64 (uint64_t). The current measurement.
         ///
         /// ```
         /// const [measurement] = jdunpack<[number]>(buf, "f64")
@@ -38,12 +23,7 @@ namespace Jacdac {
         Measurement = 0x101,
     }
 
-    public static class VoltageMeasurementRegPack {
-        /// <summary>
-        /// Pack format for 'measurement_type' register data.
-        /// </summary>
-        public const string MeasurementType = "u8";
-
+    public static class DCCurrentMeasurementRegPack {
         /// <summary>
         /// Pack format for 'measurement_name' register data.
         /// </summary>

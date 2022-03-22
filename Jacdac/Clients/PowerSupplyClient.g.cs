@@ -36,7 +36,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>output_voltage</c> register value.
-        /// The current output voltage of the power supply. Values provided must be in the range `minimum_voltage` to `maximum_voltage`, _: mV
+        /// The current output voltage of the power supply. Values provided must be in the range `minimum_voltage` to `maximum_voltage`, _: V
         /// </summary>
         public float OutputVoltage
         {
@@ -55,7 +55,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>minimum_voltage</c> register value.
-        /// The minimum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
+        /// The minimum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: V
         /// </summary>
         public float MinimumVoltage
         {
@@ -67,7 +67,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>maximum_voltage</c> register value.
-        /// The maximum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: mV
+        /// The maximum output voltage of the power supply. For fixed power supplies, `minimum_voltage` should be equal to `maximum_voltage`., _: V
         /// </summary>
         public float MaximumVoltage
         {
