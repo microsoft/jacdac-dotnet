@@ -1,7 +1,7 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint AnnounceInterval = 0x1f4;
+        public const uint SystemAnnounceInterval = 0x1f4;
     }
 
     public enum SystemReadingThreshold: byte { // uint8_t

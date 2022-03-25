@@ -2,7 +2,7 @@ namespace Jacdac {
     public static partial class ServiceClasses
     {
         public const uint LedDisplay = 0x1609d4f0;
-        public const uint MaxPixelsLength = 0x40;
+        public const uint LedDisplayMaxPixelsLength = 0x40;
     }
 
     public enum LedDisplayLightType: byte { // uint8_t
