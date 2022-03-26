@@ -1,9 +1,9 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint Barometer = 0x1e117cea;
+        public const uint AirPressure = 0x1e117cea;
     }
-    public enum BarometerReg : ushort {
+    public enum AirPressureReg : ushort {
         /// <summary>
         /// Read-only hPa u22.10 (uint32_t). The air pressure.
         ///
@@ -23,7 +23,7 @@ namespace Jacdac {
         PressureError = 0x106,
     }
 
-    public static class BarometerRegPack {
+    public static class AirPressureRegPack {
         /// <summary>
         /// Pack format for 'pressure' register data.
         /// </summary>

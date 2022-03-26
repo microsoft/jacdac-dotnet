@@ -6,13 +6,13 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// A sensor measuring air pressure of outside environment.
-    /// Implements a client for the Barometer service.
+    /// Implements a client for the Air Pressure service.
     /// </summary>
-    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/barometer/" />
-    public partial class BarometerClient : SensorClient
+    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/airpressure/" />
+    public partial class AirPressureClient : SensorClient
     {
-        public BarometerClient(JDBus bus, string name)
-            : base(bus, name, ServiceClasses.Barometer)
+        public AirPressureClient(JDBus bus, string name)
+            : base(bus, name, ServiceClasses.AirPressure)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)BarometerReg.Pressure, BarometerRegPack.Pressure);
+                return (float)this.GetRegisterValue((ushort)AirPressureReg.Pressure, AirPressureRegPack.Pressure);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Jacdac.Clients
         bool TryGetPressureError(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)BarometerReg.PressureError, BarometerRegPack.PressureError, out values)) 
+            if (this.TryGetRegisterValues((ushort)AirPressureReg.PressureError, AirPressureRegPack.PressureError, out values)) 
             {
                 value = (float)values[0];
                 return true;
