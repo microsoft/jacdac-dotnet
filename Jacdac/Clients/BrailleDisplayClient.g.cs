@@ -18,7 +18,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>enabled</c> register value.
-        /// Determins if the braille display is active., 
+        /// Determines if the braille display is active., 
         /// </summary>
         public bool Enabled
         {

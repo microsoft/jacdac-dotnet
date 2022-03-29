@@ -1,9 +1,9 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint DCCurrentMeasurement = 0x1912c8ae;
+        public const uint DcCurrentMeasurement = 0x1912c8ae;
     }
-    public enum DCCurrentMeasurementReg : ushort {
+    public enum DcCurrentMeasurementReg : ushort {
         /// <summary>
         /// Constant string (bytes). A string containing the net name that is being measured e.g. `POWER_DUT` or a reference e.g. `DIFF_DEV1_DEV2`. These constants can be used to identify a measurement from client code.
         ///
@@ -23,7 +23,7 @@ namespace Jacdac {
         Measurement = 0x101,
     }
 
-    public static class DCCurrentMeasurementRegPack {
+    public static class DcCurrentMeasurementRegPack {
         /// <summary>
         /// Pack format for 'measurement_name' register data.
         /// </summary>

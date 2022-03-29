@@ -1,20 +1,20 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint DCVoltageMeasurement = 0x1633ac19;
+        public const uint DcVoltageMeasurement = 0x1633ac19;
     }
 
-    public enum DCVoltageMeasurementVoltageMeasurementType: byte { // uint8_t
+    public enum DcVoltageMeasurementVoltageMeasurementType: byte { // uint8_t
         Absolute = 0x0,
         Differential = 0x1,
     }
 
-    public enum DCVoltageMeasurementReg : ushort {
+    public enum DcVoltageMeasurementReg : ushort {
         /// <summary>
         /// Constant VoltageMeasurementType (uint8_t). The type of measurement that is taking place. Absolute results are measured with respect to ground, whereas differential results are measured against another signal that is not ground.
         ///
         /// ```
-        /// const [measurementType] = jdunpack<[DCVoltageMeasurementVoltageMeasurementType]>(buf, "u8")
+        /// const [measurementType] = jdunpack<[DcVoltageMeasurementVoltageMeasurementType]>(buf, "u8")
         /// ```
         /// </summary>
         MeasurementType = 0x181,
@@ -38,7 +38,7 @@ namespace Jacdac {
         Measurement = 0x101,
     }
 
-    public static class DCVoltageMeasurementRegPack {
+    public static class DcVoltageMeasurementRegPack {
         /// <summary>
         /// Pack format for 'measurement_type' register data.
         /// </summary>

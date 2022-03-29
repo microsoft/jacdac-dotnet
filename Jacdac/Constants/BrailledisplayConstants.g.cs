@@ -5,7 +5,7 @@ namespace Jacdac {
     }
     public enum BrailleDisplayReg : ushort {
         /// <summary>
-        /// Read-write bool (uint8_t). Determins if the braille display is active.
+        /// Read-write bool (uint8_t). Determines if the braille display is active.
         ///
         /// ```
         /// const [enabled] = jdunpack<[number]>(buf, "u8")
