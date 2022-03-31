@@ -9,10 +9,10 @@ namespace Jacdac.Clients
     /// Implements a client for the DC Voltage Measurement service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/dcvoltagemeasurement/" />
-    public partial class DcVoltageMeasurementClient : SensorClient
+    public partial class DCVoltageMeasurementClient : SensorClient
     {
-        public DcVoltageMeasurementClient(JDBus bus, string name)
-            : base(bus, name, ServiceClasses.DcVoltageMeasurement)
+        public DCVoltageMeasurementClient(JDBus bus, string name)
+            : base(bus, name, ServiceClasses.DCVoltageMeasurement)
         {
         }
 
@@ -20,11 +20,11 @@ namespace Jacdac.Clients
         /// Reads the <c>measurement_type</c> register value.
         /// The type of measurement that is taking place. Absolute results are measured with respect to ground, whereas differential results are measured against another signal that is not ground., 
         /// </summary>
-        public DcVoltageMeasurementVoltageMeasurementType MeasurementType
+        public DCVoltageMeasurementVoltageMeasurementType MeasurementType
         {
             get
             {
-                return (DcVoltageMeasurementVoltageMeasurementType)this.GetRegisterValue((ushort)DcVoltageMeasurementReg.MeasurementType, DcVoltageMeasurementRegPack.MeasurementType);
+                return (DCVoltageMeasurementVoltageMeasurementType)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.MeasurementType, DCVoltageMeasurementRegPack.MeasurementType);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (string)this.GetRegisterValue((ushort)DcVoltageMeasurementReg.MeasurementName, DcVoltageMeasurementRegPack.MeasurementName);
+                return (string)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.MeasurementName, DCVoltageMeasurementRegPack.MeasurementName);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Jacdac.Clients
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)DcVoltageMeasurementReg.Measurement, DcVoltageMeasurementRegPack.Measurement);
+                return (float)this.GetRegisterValue((ushort)DCVoltageMeasurementReg.Measurement, DCVoltageMeasurementRegPack.Measurement);
             }
         }
 
