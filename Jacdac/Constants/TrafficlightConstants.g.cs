@@ -14,16 +14,16 @@ namespace Jacdac {
         Red = 0x80,
 
         /// <summary>
-        /// Read-write bool (uint8_t). The on/off state of the red light.
+        /// Read-write bool (uint8_t). The on/off state of the yellow light.
         ///
         /// ```
-        /// const [orange] = jdunpack<[number]>(buf, "u8")
+        /// const [yellow] = jdunpack<[number]>(buf, "u8")
         /// ```
         /// </summary>
-        Orange = 0x81,
+        Yellow = 0x81,
 
         /// <summary>
-        /// Read-write bool (uint8_t). The on/off state of the red light.
+        /// Read-write bool (uint8_t). The on/off state of the green light.
         ///
         /// ```
         /// const [green] = jdunpack<[number]>(buf, "u8")
@@ -39,9 +39,9 @@ namespace Jacdac {
         public const string Red = "u8";
 
         /// <summary>
-        /// Pack format for 'orange' register data.
+        /// Pack format for 'yellow' register data.
         /// </summary>
-        public const string Orange = "u8";
+        public const string Yellow = "u8";
 
         /// <summary>
         /// Pack format for 'green' register data.

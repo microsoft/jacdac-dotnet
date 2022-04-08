@@ -35,26 +35,26 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>orange</c> register value.
-        /// The on/off state of the red light., 
+        /// Reads the <c>yellow</c> register value.
+        /// The on/off state of the yellow light., 
         /// </summary>
-        public bool Orange
+        public bool Yellow
         {
             get
             {
-                return (bool)this.GetRegisterValueAsBool((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange);
+                return (bool)this.GetRegisterValueAsBool((ushort)TrafficLightReg.Yellow, TrafficLightRegPack.Yellow);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TrafficLightReg.Orange, TrafficLightRegPack.Orange, value);
+                this.SetRegisterValue((ushort)TrafficLightReg.Yellow, TrafficLightRegPack.Yellow, value);
             }
 
         }
 
         /// <summary>
         /// Reads the <c>green</c> register value.
-        /// The on/off state of the red light., 
+        /// The on/off state of the green light., 
         /// </summary>
         public bool Green
         {
