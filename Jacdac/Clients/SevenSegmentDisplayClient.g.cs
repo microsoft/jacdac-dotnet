@@ -19,17 +19,19 @@ namespace Jacdac.Clients
         /// <summary>
         /// Reads the <c>digits</c> register value.
         /// Each byte encodes the display status of a digit using,
-        /// where bit 0 encodes segment `A`, bit 1 encodes segments `B`, ..., bit 6 encodes segments `G`, and bit 7 encodes the decimal point (if present).
+        /// where lowest bit 0 encodes segment `A`, bit 1 encodes segments `B`, ..., bit 6 encodes segments `G`, and bit 7 encodes the decimal point (if present).
         /// If incoming `digits` data is smaller than `digit_count`, the remaining digits will be cleared.
         /// Thus, sending an empty `digits` payload clears the screen.
         /// 
         /// ```text
+        /// GFEDCBA DP
         ///  - A -
-        ///  G   B
+        ///  F   B
         ///  |   |
-        ///  - F -
-        ///  |   |   -
-        ///  E   C  |DP|
+        ///  - G -
+        ///  |   |
+        ///  E   C   _
+        ///  |   |  |DP|
         ///  - D -   -
         /// ```, 
         /// </summary>
