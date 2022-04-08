@@ -50,22 +50,32 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>brightness</c> register value.
+        /// Tries to read the <c>brightness</c> register value.
         /// Controls the brightness of the LEDs. `0` means off., _: /
         /// </summary>
-        public float Brightness
+        bool TryGetBrightness(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, out values)) 
             {
-                return (float)this.GetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, value);
+                value = default(float);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the brightness value
+        /// </summary>
+        public void SetBrightness(float value)
+        {
+            this.SetRegisterValue((ushort)SevenSegmentDisplayReg.Brightness, SevenSegmentDisplayRegPack.Brightness, value);
+        }
+
 
         /// <summary>
         /// Tries to read the <c>double_dots</c> register value.
@@ -109,14 +119,21 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>decimal_point</c> register value.
+        /// Tries to read the <c>decimal_point</c> register value.
         /// True if decimal points are available (on all digits)., 
         /// </summary>
-        public bool DecimalPoint
+        bool TryGetDecimalPoint(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint, out values)) 
             {
-                return (bool)this.GetRegisterValueAsBool((ushort)SevenSegmentDisplayReg.DecimalPoint, SevenSegmentDisplayRegPack.DecimalPoint);
+                value = (bool)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(bool);
+                return false;
             }
         }
 
