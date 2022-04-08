@@ -86,11 +86,6 @@ namespace Jacdac {
         /// Argument: value f64 (uint64_t). Shows the number on the screen using the decimal dot if available.
         /// </summary>
         SetNumber = 0x80,
-
-        /// <summary>
-        /// Argument: text string (bytes). Shows the text on the screen. The client may decide to scroll the text if too long.
-        /// </summary>
-        SetText = 0x81,
     }
 
     public static class SevenSegmentDisplayCmdPack {
@@ -98,11 +93,6 @@ namespace Jacdac {
         /// Pack format for 'set_number' register data.
         /// </summary>
         public const string SetNumber = "f64";
-
-        /// <summary>
-        /// Pack format for 'set_text' register data.
-        /// </summary>
-        public const string SetText = "s";
     }
 
 }

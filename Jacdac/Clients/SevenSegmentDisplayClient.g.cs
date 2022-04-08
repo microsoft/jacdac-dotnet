@@ -128,14 +128,5 @@ namespace Jacdac.Clients
             this.SendCmdPacked((ushort)SevenSegmentDisplayCmd.SetNumber, SevenSegmentDisplayCmdPack.SetNumber, new object[] { value });
         }*/
 
-        /* client command
-        /// <summary>
-        /// Shows the text on the screen. The client may decide to scroll the text if too long.
-        /// </summary>
-        public void SetText(string text)
-        {
-            this.SendCmdPacked((ushort)SevenSegmentDisplayCmd.SetText, SevenSegmentDisplayCmdPack.SetText, new object[] { text });
-        }*/
-
     }
 }
