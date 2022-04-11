@@ -47,40 +47,32 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>loud_threshold</c> register value.
+        /// Tries to read the <c>loud_threshold</c> register value.
         /// The sound level to trigger a loud event., _: /
         /// </summary>
-        public float LoudThreshold
+        bool TryGetLoudThreshold(out float value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, out values)) 
             {
-                return (float)this.GetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold);
+                value = (float)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, value);
+                value = default(float);
+                return false;
             }
-
         }
-
+        
         /// <summary>
-        /// Reads the <c>quiet_threshold</c> register value.
-        /// The sound level to trigger a quiet event., _: /
+        /// Sets the loud_threshold value
         /// </summary>
-        public float QuietThreshold
+        public void SetLoudThreshold(float value)
         {
-            get
-            {
-                return (float)this.GetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold);
-            }
-            set
-            {
-                
-                this.SetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold, value);
-            }
-
+            this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, value);
         }
+
 
         /// <summary>
         /// Raised when a loud sound is detected
@@ -94,21 +86,6 @@ namespace Jacdac.Clients
             remove
             {
                 this.RemoveEvent((ushort)SoundLevelEvent.Loud, value);
-            }
-        }
-
-        /// <summary>
-        /// Raised when a period of quietness is detected
-        /// </summary>
-        public event ClientEventHandler Quiet
-        {
-            add
-            {
-                this.AddEvent((ushort)SoundLevelEvent.Quiet, value);
-            }
-            remove
-            {
-                this.RemoveEvent((ushort)SoundLevelEvent.Quiet, value);
             }
         }
 
