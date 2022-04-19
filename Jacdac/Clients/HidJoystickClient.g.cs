@@ -17,59 +17,38 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Tries to read the <c>button_count</c> register value.
+        /// Reads the <c>button_count</c> register value.
         /// Number of button report supported, 
         /// </summary>
-        bool TryGetButtonCount(out uint value)
+        public uint ButtonCount
         {
-            object[] values;
-            if (this.TryGetRegisterValues((ushort)HidJoystickReg.ButtonCount, HidJoystickRegPack.ButtonCount, out values)) 
+            get
             {
-                value = (uint)values[0];
-                return true;
-            }
-            else
-            {
-                value = default(uint);
-                return false;
+                return (uint)this.GetRegisterValue((ushort)HidJoystickReg.ButtonCount, HidJoystickRegPack.ButtonCount);
             }
         }
 
         /// <summary>
-        /// Tries to read the <c>buttons_analog</c> register value.
+        /// Reads the <c>buttons_analog</c> register value.
         /// A bitset that indicates which button is analog., 
         /// </summary>
-        bool TryGetButtonsAnalog(out uint value)
+        public uint ButtonsAnalog
         {
-            object[] values;
-            if (this.TryGetRegisterValues((ushort)HidJoystickReg.ButtonsAnalog, HidJoystickRegPack.ButtonsAnalog, out values)) 
+            get
             {
-                value = (uint)values[0];
-                return true;
-            }
-            else
-            {
-                value = default(uint);
-                return false;
+                return (uint)this.GetRegisterValue((ushort)HidJoystickReg.ButtonsAnalog, HidJoystickRegPack.ButtonsAnalog);
             }
         }
 
         /// <summary>
-        /// Tries to read the <c>axis_count</c> register value.
+        /// Reads the <c>axis_count</c> register value.
         /// Number of analog input supported, 
         /// </summary>
-        bool TryGetAxisCount(out uint value)
+        public uint AxisCount
         {
-            object[] values;
-            if (this.TryGetRegisterValues((ushort)HidJoystickReg.AxisCount, HidJoystickRegPack.AxisCount, out values)) 
+            get
             {
-                value = (uint)values[0];
-                return true;
-            }
-            else
-            {
-                value = default(uint);
-                return false;
+                return (uint)this.GetRegisterValue((ushort)HidJoystickReg.AxisCount, HidJoystickRegPack.AxisCount);
             }
         }
 
