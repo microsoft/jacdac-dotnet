@@ -71,14 +71,21 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>light_type</c> register value.
+        /// Tries to read the <c>light_type</c> register value.
         /// Specifies the type of light strip connected to controller., 
         /// </summary>
-        public LedDisplayLightType LightType
+        bool TryGetLightType(out LedDisplayLightType value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedDisplayReg.LightType, LedDisplayRegPack.LightType, out values)) 
             {
-                return (LedDisplayLightType)this.GetRegisterValue((ushort)LedDisplayReg.LightType, LedDisplayRegPack.LightType);
+                value = (LedDisplayLightType)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(LedDisplayLightType);
+                return false;
             }
         }
 
