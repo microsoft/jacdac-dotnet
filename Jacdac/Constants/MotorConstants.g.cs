@@ -5,15 +5,15 @@ namespace Jacdac {
     }
     public enum MotorReg : ushort {
         /// <summary>
-        /// Read-write ratio i1.15 (int16_t). PWM duty cycle of the motor. Use negative/positive values to run the motor forwards and backwards.
-        /// Positive is recommended to be clockwise rotation and negative counterclockwise. A duty of ``0``
+        /// Read-write ratio i1.15 (int16_t). Relative speed of the motor. Use positive/negative values to run the motor forwards and backwards.
+        /// Positive is recommended to be clockwise rotation and negative counterclockwise. A speed of ``0``
         /// while ``enabled`` acts as brake.
         ///
         /// ```
-        /// const [duty] = jdunpack<[number]>(buf, "i1.15")
+        /// const [speed] = jdunpack<[number]>(buf, "i1.15")
         /// ```
         /// </summary>
-        Duty = 0x2,
+        Speed = 0x2,
 
         /// <summary>
         /// Read-write bool (uint8_t). Turn the power to the motor on/off.
@@ -37,10 +37,10 @@ namespace Jacdac {
         /// Constant rpm u16.16 (uint32_t). Revolutions per minute of the motor under full load.
         ///
         /// ```
-        /// const [loadSpeed] = jdunpack<[number]>(buf, "u16.16")
+        /// const [loadRotationSpeed] = jdunpack<[number]>(buf, "u16.16")
         /// ```
         /// </summary>
-        LoadSpeed = 0x181,
+        LoadRotationSpeed = 0x181,
 
         /// <summary>
         /// Constant bool (uint8_t). Indicates if the motor can run backwards.
@@ -54,9 +54,9 @@ namespace Jacdac {
 
     public static class MotorRegPack {
         /// <summary>
-        /// Pack format for 'duty' register data.
+        /// Pack format for 'speed' register data.
         /// </summary>
-        public const string Duty = "i1.15";
+        public const string Speed = "i1.15";
 
         /// <summary>
         /// Pack format for 'enabled' register data.
@@ -69,9 +69,9 @@ namespace Jacdac {
         public const string LoadTorque = "u16.16";
 
         /// <summary>
-        /// Pack format for 'load_speed' register data.
+        /// Pack format for 'load_rotation_speed' register data.
         /// </summary>
-        public const string LoadSpeed = "u16.16";
+        public const string LoadRotationSpeed = "u16.16";
 
         /// <summary>
         /// Pack format for 'reversible' register data.

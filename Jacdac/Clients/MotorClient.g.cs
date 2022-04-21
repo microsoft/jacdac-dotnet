@@ -17,22 +17,22 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>duty</c> register value.
-        /// PWM duty cycle of the motor. Use negative/positive values to run the motor forwards and backwards.
-        /// Positive is recommended to be clockwise rotation and negative counterclockwise. A duty of ``0`` 
+        /// Reads the <c>speed</c> register value.
+        /// Relative speed of the motor. Use positive/negative values to run the motor forwards and backwards.
+        /// Positive is recommended to be clockwise rotation and negative counterclockwise. A speed of ``0`` 
         /// while ``enabled`` acts as brake., _: /
         /// </summary>
-        public float Duty
+        public float Speed
         {
             get
             {
-                return (float)this.GetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty);
+                return (float)this.GetRegisterValue((ushort)MotorReg.Speed, MotorRegPack.Speed);
             }
             set
             {
                 
                 this.Enabled = true;
-                this.SetRegisterValue((ushort)MotorReg.Duty, MotorRegPack.Duty, value);
+                this.SetRegisterValue((ushort)MotorReg.Speed, MotorRegPack.Speed, value);
             }
 
         }
@@ -75,13 +75,13 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Tries to read the <c>load_speed</c> register value.
+        /// Tries to read the <c>load_rotation_speed</c> register value.
         /// Revolutions per minute of the motor under full load., _: rpm
         /// </summary>
-        bool TryGetLoadSpeed(out float value)
+        bool TryGetLoadRotationSpeed(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)MotorReg.LoadSpeed, MotorRegPack.LoadSpeed, out values)) 
+            if (this.TryGetRegisterValues((ushort)MotorReg.LoadRotationSpeed, MotorRegPack.LoadRotationSpeed, out values)) 
             {
                 value = (float)values[0];
                 return true;
