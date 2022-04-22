@@ -5,7 +5,10 @@ using System;
 namespace Jacdac.Clients 
 {
     /// <summary>
-    /// A controller for 1 or more monochrome or RGB LEDs connected in parallel.
+    /// A controller for small displays of individually controlled RGB LEDs.
+     /// 
+     /// This service handles displays with 64 or less LEDs.
+     /// Use the [LED strip service](/services/ledstrip) for longer light strips.
     /// Implements a client for the LED service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/led/" />
@@ -17,14 +20,86 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>color</c> register value.
-        /// The current color of the LED., 
+        /// Reads the <c>pixels</c> register value.
+        /// A buffer of 24bit RGB color entries for each LED, in R, G, B order.
+        /// When writing, if the buffer is too short, the remaining pixels are set to `#000000`;
+        /// if the buffer is too long, the write may be ignored, or the additional pixels may be ignored., 
         /// </summary>
-        public object[] /*(uint, uint, uint)*/ Color
+        public byte[] Pixels
         {
             get
             {
-                return (object[] /*(uint, uint, uint)*/)this.GetRegisterValues((ushort)LedReg.Color, LedRegPack.Color);
+                return (byte[])this.GetRegisterValue((ushort)LedReg.Pixels, LedRegPack.Pixels);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)LedReg.Pixels, LedRegPack.Pixels, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>brightness</c> register value.
+        /// Set the luminosity of the strip.
+        /// At `0` the power to the strip is completely shut down., _: /
+        /// </summary>
+        public float Brightness
+        {
+            get
+            {
+                return (float)this.GetRegisterValue((ushort)LedReg.Brightness, LedRegPack.Brightness);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)LedReg.Brightness, LedRegPack.Brightness, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>actual_brightness</c> register value.
+        /// This is the luminosity actually applied to the strip.
+        /// May be lower than `brightness` if power-limited by the `max_power` register.
+        /// It will rise slowly (few seconds) back to `brightness` is limits are no longer required., _: /
+        /// </summary>
+        public float ActualBrightness
+        {
+            get
+            {
+                return (float)this.GetRegisterValue((ushort)LedReg.ActualBrightness, LedRegPack.ActualBrightness);
+            }
+        }
+
+        /// <summary>
+        /// Reads the <c>num_pixels</c> register value.
+        /// Specifies the number of pixels in the strip., _: #
+        /// </summary>
+        public uint NumPixels
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)LedReg.NumPixels, LedRegPack.NumPixels);
+            }
+        }
+
+        /// <summary>
+        /// Tries to read the <c>num_columns</c> register value.
+        /// If the LED pixel strip is a matrix, specifies the number of columns., _: #
+        /// </summary>
+        bool TryGetNumColumns(out uint value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)LedReg.NumColumns, LedRegPack.NumColumns, out values)) 
+            {
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
             }
         }
 
@@ -57,13 +132,14 @@ namespace Jacdac.Clients
 
 
         /// <summary>
-        /// Tries to read the <c>led_count</c> register value.
-        /// If known, specifies the number of LEDs in parallel on this device., 
+        /// Tries to read the <c>leds_per_pixel</c> register value.
+        /// If known, specifies the number of LEDs in parallel on this device.
+        /// The actual number of LEDs is `num_pixels * leds_per_pixel`., _: #
         /// </summary>
-        bool TryGetLedCount(out uint value)
+        bool TryGetLedsPerPixel(out uint value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)LedReg.LedCount, LedRegPack.LedCount, out values)) 
+            if (this.TryGetRegisterValues((ushort)LedReg.LedsPerPixel, LedRegPack.LedsPerPixel, out values)) 
             {
                 value = (uint)values[0];
                 return true;
@@ -77,7 +153,8 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>wave_length</c> register value.
-        /// If monochrome LED, specifies the wave length of the LED., _: nm
+        /// If monochrome LED, specifies the wave length of the LED.
+        /// Register is missing for RGB LEDs., _: nm
         /// </summary>
         bool TryGetWaveLength(out uint value)
         {
@@ -96,7 +173,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>luminous_intensity</c> register value.
-        /// The luminous intensity of the LED, at full value, in micro candella., _: mcd
+        /// The luminous intensity of all the LEDs, at full brightness, in micro candella., _: mcd
         /// </summary>
         bool TryGetLuminousIntensity(out uint value)
         {
@@ -115,7 +192,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>variant</c> register value.
-        /// The physical type of LED., 
+        /// Specifies the shape of the light strip., 
         /// </summary>
         bool TryGetVariant(out LedVariant value)
         {
@@ -132,15 +209,6 @@ namespace Jacdac.Clients
             }
         }
 
-
-        
-        /// <summary>
-        /// This has the same semantics as `set_status_light` in the control service.
-        /// </summary>
-        public void Animate(uint to_red, uint to_green, uint to_blue, uint speed)
-        {
-            this.SendCmdPacked((ushort)LedCmd.Animate, LedCmdPack.Animate, new object[] { to_red, to_green, to_blue, speed });
-        }
 
     }
 }
