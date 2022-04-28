@@ -7,7 +7,7 @@ namespace Jacdac.Clients
     /// <summary>
     /// Servo is a small motor with arm that can be pointing at a specific direction.
      /// 
-     /// The `min/max_angle/pulse` may be read-only if the servo is permanently affixed to its Jacdac controller.
+     /// The `min_pulse/max_pulse` may be read-only if the servo is permanently affixed to its Jacdac controller.
     /// Implements a client for the Servo service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/servo/" />
@@ -75,7 +75,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>min_angle</c> register value.
-        /// Lowest angle that can be set., _: °
+        /// Lowest angle that can be set, typiclly 0 °., _: °
         /// </summary>
         public float MinAngle
         {
@@ -86,26 +86,36 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>min_pulse</c> register value.
+        /// Tries to read the <c>min_pulse</c> register value.
         /// The length of pulse corresponding to lowest angle., _: us
         /// </summary>
-        public uint MinPulse
+        bool TryGetMinPulse(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, out values)) 
             {
-                return (uint)this.GetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, value);
+                value = default(uint);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the min_pulse value
+        /// </summary>
+        public void SetMinPulse(uint value)
+        {
+            this.SetRegisterValue((ushort)ServoReg.MinPulse, ServoRegPack.MinPulse, value);
+        }
+
 
         /// <summary>
         /// Reads the <c>max_angle</c> register value.
-        /// Highest angle that can be set., _: °
+        /// Highest angle that can be set, typically 180°., _: °
         /// </summary>
         public float MaxAngle
         {
@@ -116,22 +126,32 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>max_pulse</c> register value.
+        /// Tries to read the <c>max_pulse</c> register value.
         /// The length of pulse corresponding to highest angle., _: us
         /// </summary>
-        public uint MaxPulse
+        bool TryGetMaxPulse(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, out values)) 
             {
-                return (uint)this.GetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, value);
+                value = default(uint);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the max_pulse value
+        /// </summary>
+        public void SetMaxPulse(uint value)
+        {
+            this.SetRegisterValue((ushort)ServoReg.MaxPulse, ServoRegPack.MaxPulse, value);
+        }
+
 
         /// <summary>
         /// Tries to read the <c>stall_torque</c> register value.
@@ -172,13 +192,13 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Tries to read the <c>current_angle</c> register value.
-        /// The current physical position of the arm., _: °
+        /// Tries to read the <c>actual_angle</c> register value.
+        /// The current physical position of the arm, if the device has a way to sense the position., _: °
         /// </summary>
-        bool TryGetCurrentAngle(out float value)
+        bool TryGetActualAngle(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)ServoReg.CurrentAngle, ServoRegPack.CurrentAngle, out values)) 
+            if (this.TryGetRegisterValues((ushort)ServoReg.ActualAngle, ServoRegPack.ActualAngle, out values)) 
             {
                 value = (float)values[0];
                 return true;

@@ -32,7 +32,7 @@ namespace Jacdac {
         Offset = 0x81,
 
         /// <summary>
-        /// Constant ° i16.16 (int32_t). Lowest angle that can be set.
+        /// Constant ° i16.16 (int32_t). Lowest angle that can be set, typiclly 0 °.
         ///
         /// ```
         /// const [minAngle] = jdunpack<[number]>(buf, "i16.16")
@@ -50,7 +50,7 @@ namespace Jacdac {
         MinPulse = 0x83,
 
         /// <summary>
-        /// Constant ° i16.16 (int32_t). Highest angle that can be set.
+        /// Constant ° i16.16 (int32_t). Highest angle that can be set, typically 180°.
         ///
         /// ```
         /// const [maxAngle] = jdunpack<[number]>(buf, "i16.16")
@@ -86,13 +86,13 @@ namespace Jacdac {
         ResponseSpeed = 0x181,
 
         /// <summary>
-        /// Read-only ° i16.16 (int32_t). The current physical position of the arm.
+        /// Read-only ° i16.16 (int32_t). The current physical position of the arm, if the device has a way to sense the position.
         ///
         /// ```
-        /// const [currentAngle] = jdunpack<[number]>(buf, "i16.16")
+        /// const [actualAngle] = jdunpack<[number]>(buf, "i16.16")
         /// ```
         /// </summary>
-        CurrentAngle = 0x101,
+        ActualAngle = 0x101,
     }
 
     public static class ServoRegPack {
@@ -142,9 +142,9 @@ namespace Jacdac {
         public const string ResponseSpeed = "u16.16";
 
         /// <summary>
-        /// Pack format for 'current_angle' register data.
+        /// Pack format for 'actual_angle' register data.
         /// </summary>
-        public const string CurrentAngle = "i16.16";
+        public const string ActualAngle = "i16.16";
     }
 
 }
