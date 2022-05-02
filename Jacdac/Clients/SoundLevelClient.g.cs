@@ -46,49 +46,6 @@ namespace Jacdac.Clients
 
         }
 
-        /// <summary>
-        /// Tries to read the <c>loud_threshold</c> register value.
-        /// The sound level to trigger a loud event., _: /
-        /// </summary>
-        bool TryGetLoudThreshold(out float value)
-        {
-            object[] values;
-            if (this.TryGetRegisterValues((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, out values)) 
-            {
-                value = (float)values[0];
-                return true;
-            }
-            else
-            {
-                value = default(float);
-                return false;
-            }
-        }
-        
-        /// <summary>
-        /// Sets the loud_threshold value
-        /// </summary>
-        public void SetLoudThreshold(float value)
-        {
-            this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, value);
-        }
-
-
-        /// <summary>
-        /// Raised when a loud sound is detected
-        /// </summary>
-        public event ClientEventHandler Loud
-        {
-            add
-            {
-                this.AddEvent((ushort)SoundLevelEvent.Loud, value);
-            }
-            remove
-            {
-                this.RemoveEvent((ushort)SoundLevelEvent.Loud, value);
-            }
-        }
-
 
     }
 }

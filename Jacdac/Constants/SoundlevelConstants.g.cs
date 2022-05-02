@@ -21,15 +21,6 @@ namespace Jacdac {
         /// ```
         /// </summary>
         Enabled = 0x1,
-
-        /// <summary>
-        /// Read-write ratio u0.16 (uint16_t). The sound level to trigger a loud event.
-        ///
-        /// ```
-        /// const [loudThreshold] = jdunpack<[number]>(buf, "u0.16")
-        /// ```
-        /// </summary>
-        LoudThreshold = 0x6,
     }
 
     public static class SoundLevelRegPack {
@@ -42,18 +33,6 @@ namespace Jacdac {
         /// Pack format for 'enabled' register data.
         /// </summary>
         public const string Enabled = "u8";
-
-        /// <summary>
-        /// Pack format for 'loud_threshold' register data.
-        /// </summary>
-        public const string LoudThreshold = "u0.16";
-    }
-
-    public enum SoundLevelEvent : ushort {
-        /// <summary>
-        /// Raised when a loud sound is detected
-        /// </summary>
-        Loud = 0x1,
     }
 
 }

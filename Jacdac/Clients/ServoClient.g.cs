@@ -6,6 +6,7 @@ namespace Jacdac.Clients
 {
     /// <summary>
     /// Servo is a small motor with arm that can be pointing at a specific direction.
+     /// Typically a servo angle is between 0° and 180° where 90° is the middle resting position.
      /// 
      /// The `min_pulse/max_pulse` may be read-only if the servo is permanently affixed to its Jacdac controller.
     /// Implements a client for the Servo service.
