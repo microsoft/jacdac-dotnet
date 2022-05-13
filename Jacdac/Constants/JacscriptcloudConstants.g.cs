@@ -53,6 +53,16 @@ namespace Jacdac {
         /// ```
         /// </summary>
         Connected = 0x180,
+
+        /// <summary>
+        /// Read-only string (bytes). User-friendly name of the connection, typically includes name of the server
+        /// and/or type of cloud service (`"something.cloud.net (Provider IoT)"`).
+        ///
+        /// ```
+        /// const [connectionName] = jdunpack<[string]>(buf, "s")
+        /// ```
+        /// </summary>
+        ConnectionName = 0x181,
     }
 
     public static class JacscriptCloudRegPack {
@@ -60,6 +70,11 @@ namespace Jacdac {
         /// Pack format for 'connected' register data.
         /// </summary>
         public const string Connected = "u8";
+
+        /// <summary>
+        /// Pack format for 'connection_name' register data.
+        /// </summary>
+        public const string ConnectionName = "s";
     }
 
     public enum JacscriptCloudEvent : ushort {
@@ -71,6 +86,11 @@ namespace Jacdac {
         /// ```
         /// </summary>
         CloudCommand = 0x81,
+
+        /// <summary>
+        /// Emitted when we connect or disconnect from the cloud.
+        /// </summary>
+        Change = 0x3,
     }
 
     public static class JacscriptCloudEventPack {
