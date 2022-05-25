@@ -97,23 +97,5 @@ namespace Jacdac.Clients
         }
 
 
-        
-        /// <summary>
-        /// Starts a connection to the IoT hub service
-        /// </summary>
-        public void Connect()
-        {
-            this.SendCmd((ushort)AzureIotHubHealthCmd.Connect);
-        }
-
-        
-        /// <summary>
-        /// Starts disconnecting from the IoT hub service
-        /// </summary>
-        public void Disconnect()
-        {
-            this.SendCmd((ushort)AzureIotHubHealthCmd.Disconnect);
-        }
-
     }
 }
