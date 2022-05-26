@@ -17,17 +17,13 @@ namespace Jacdac {
 
         /// <summary>
         /// Starts a new timeseries.
-        /// `service_number` is the number of services with the same `service_class`
-        /// and lower service index on `sensor_id`.
-        /// If `sensor_id` or `service_class` are unknown they can be `0`.
-        /// If label is missing, it can be empty string.
         /// As for `mode`,
         /// `Continuous` has default aggregation window of 60s,
         /// and `Discrete` only stores the data if it has changed since last store,
         /// and has default window of 1s.
         ///
         /// ```
-        /// const [id, serviceClass, sensorId, serviceNumber, mode, label] = jdunpack<[number, number, Uint8Array, number, TimeseriesAggregatorDataMode, string]>(buf, "u32 u32 b[8] u8 u8 s")
+        /// const [id, mode, label] = jdunpack<[number, TimeseriesAggregatorDataMode, string]>(buf, "u32 u8 s")
         /// ```
         /// </summary>
         StartTimeseries = 0x81,
@@ -68,7 +64,7 @@ namespace Jacdac {
         /// <summary>
         /// Pack format for 'start_timeseries' register data.
         /// </summary>
-        public const string StartTimeseries = "u32 u32 b[8] u8 u8 s";
+        public const string StartTimeseries = "u32 u8 s";
 
         /// <summary>
         /// Pack format for 'update' register data.
@@ -88,13 +84,42 @@ namespace Jacdac {
 
     public enum TimeseriesAggregatorReg : ushort {
         /// <summary>
-        /// Read-only ms uint32_t. This register is automatically broadcast and can be also queried to establish local time on the device.
+        /// Read-only μs uint32_t. This register is automatically broadcast and can be also queried to establish local time on the device.
         ///
         /// ```
         /// const [now] = jdunpack<[number]>(buf, "u32")
         /// ```
         /// </summary>
         Now = 0x180,
+
+        /// <summary>
+        /// Read-write bool (uint8_t). When `true`, the windows will be shorter after service reset and gradually extend to requested length.
+        /// This makes the sensor look more responsive.
+        ///
+        /// ```
+        /// const [fastStart] = jdunpack<[number]>(buf, "u8")
+        /// ```
+        /// </summary>
+        FastStart = 0x80,
+
+        /// <summary>
+        /// Read-write ms uint32_t. Window applied to automatically created continuous timeseries.
+        /// Note that windows returned initially may be shorter.
+        ///
+        /// ```
+        /// const [continuousWindow] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        ContinuousWindow = 0x81,
+
+        /// <summary>
+        /// Read-write ms uint32_t. Window applied to automatically created discrete timeseries.
+        ///
+        /// ```
+        /// const [discreteWindow] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        DiscreteWindow = 0x82,
     }
 
     public static class TimeseriesAggregatorRegPack {
@@ -102,6 +127,21 @@ namespace Jacdac {
         /// Pack format for 'now' register data.
         /// </summary>
         public const string Now = "u32";
+
+        /// <summary>
+        /// Pack format for 'fast_start' register data.
+        /// </summary>
+        public const string FastStart = "u8";
+
+        /// <summary>
+        /// Pack format for 'continuous_window' register data.
+        /// </summary>
+        public const string ContinuousWindow = "u32";
+
+        /// <summary>
+        /// Pack format for 'discrete_window' register data.
+        /// </summary>
+        public const string DiscreteWindow = "u32";
     }
 
 }

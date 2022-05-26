@@ -22,7 +22,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>now</c> register value.
-        /// This register is automatically broadcast and can be also queried to establish local time on the device., _: ms
+        /// This register is automatically broadcast and can be also queried to establish local time on the device., _: us
         /// </summary>
         public uint Now
         {
@@ -30,6 +30,62 @@ namespace Jacdac.Clients
             {
                 return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.Now, TimeseriesAggregatorRegPack.Now);
             }
+        }
+
+        /// <summary>
+        /// Reads the <c>fast_start</c> register value.
+        /// When `true`, the windows will be shorter after service reset and gradually extend to requested length.
+        /// This makes the sensor look more responsive., 
+        /// </summary>
+        public bool FastStart
+        {
+            get
+            {
+                return (bool)this.GetRegisterValueAsBool((ushort)TimeseriesAggregatorReg.FastStart, TimeseriesAggregatorRegPack.FastStart);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.FastStart, TimeseriesAggregatorRegPack.FastStart, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>continuous_window</c> register value.
+        /// Window applied to automatically created continuous timeseries.
+        /// Note that windows returned initially may be shorter., _: ms
+        /// </summary>
+        public uint ContinuousWindow
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.ContinuousWindow, TimeseriesAggregatorRegPack.ContinuousWindow);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.ContinuousWindow, TimeseriesAggregatorRegPack.ContinuousWindow, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>discrete_window</c> register value.
+        /// Window applied to automatically created discrete timeseries., _: ms
+        /// </summary>
+        public uint DiscreteWindow
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.DiscreteWindow, TimeseriesAggregatorRegPack.DiscreteWindow);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.DiscreteWindow, TimeseriesAggregatorRegPack.DiscreteWindow, value);
+            }
+
         }
 
 
@@ -45,18 +101,14 @@ namespace Jacdac.Clients
         
         /// <summary>
         /// Starts a new timeseries.
-        /// `service_number` is the number of services with the same `service_class`
-        /// and lower service index on `sensor_id`.
-        /// If `sensor_id` or `service_class` are unknown they can be `0`.
-        /// If label is missing, it can be empty string.
         /// As for `mode`,
         /// `Continuous` has default aggregation window of 60s,
         /// and `Discrete` only stores the data if it has changed since last store,
         /// and has default window of 1s.
         /// </summary>
-        public void StartTimeseries(uint id, uint service_class, byte[] sensor_id, uint service_number, TimeseriesAggregatorDataMode mode, string label)
+        public void StartTimeseries(uint id, TimeseriesAggregatorDataMode mode, string label)
         {
-            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.StartTimeseries, TimeseriesAggregatorCmdPack.StartTimeseries, new object[] { id, service_class, sensor_id, service_number, mode, label });
+            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.StartTimeseries, TimeseriesAggregatorCmdPack.StartTimeseries, new object[] { id, mode, label });
         }
 
         
