@@ -9,7 +9,7 @@ namespace Jacdac.Clients
      /// and sending them to a cloud/storage service.
      /// Used in Jacscript.
      /// 
-     /// Note that `f64` values following a label are not necessarily aligned.
+     /// Note that `f64` values are not necessarily aligned.
     /// Implements a client for the Timeseries Aggregator service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/timeseriesaggregator/" />
@@ -22,7 +22,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>now</c> register value.
-        /// This register is automatically broadcast and can be also queried to establish local time on the device., _: us
+        /// This can queried to establish local time on the device., _: us
         /// </summary>
         public uint Now
         {
@@ -35,7 +35,7 @@ namespace Jacdac.Clients
         /// <summary>
         /// Reads the <c>fast_start</c> register value.
         /// When `true`, the windows will be shorter after service reset and gradually extend to requested length.
-        /// This makes the sensor look more responsive., 
+        /// This is ensure valid data is being streamed in program development., 
         /// </summary>
         public bool FastStart
         {
@@ -52,38 +52,76 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>continuous_window</c> register value.
-        /// Window applied to automatically created continuous timeseries.
-        /// Note that windows returned initially may be shorter., _: ms
+        /// Reads the <c>default_window</c> register value.
+        /// Window for timeseries for which `set_window` was never called.
+        /// Note that windows returned initially may be shorter if `fast_start` is enabled., _: ms
         /// </summary>
-        public uint ContinuousWindow
+        public uint DefaultWindow
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.ContinuousWindow, TimeseriesAggregatorRegPack.ContinuousWindow);
+                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.DefaultWindow, TimeseriesAggregatorRegPack.DefaultWindow);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.ContinuousWindow, TimeseriesAggregatorRegPack.ContinuousWindow, value);
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.DefaultWindow, TimeseriesAggregatorRegPack.DefaultWindow, value);
             }
 
         }
 
         /// <summary>
-        /// Reads the <c>discrete_window</c> register value.
-        /// Window applied to automatically created discrete timeseries., _: ms
+        /// Reads the <c>default_upload</c> register value.
+        /// Whether labelled timeseries for which `set_upload` was never called should be automatically uploaded., 
         /// </summary>
-        public uint DiscreteWindow
+        public bool DefaultUpload
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.DiscreteWindow, TimeseriesAggregatorRegPack.DiscreteWindow);
+                return (bool)this.GetRegisterValueAsBool((ushort)TimeseriesAggregatorReg.DefaultUpload, TimeseriesAggregatorRegPack.DefaultUpload);
             }
             set
             {
                 
-                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.DiscreteWindow, TimeseriesAggregatorRegPack.DiscreteWindow, value);
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.DefaultUpload, TimeseriesAggregatorRegPack.DefaultUpload, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>upload_unlabelled</c> register value.
+        /// Whether automatically created timeseries not bound in role manager should be uploaded., 
+        /// </summary>
+        public bool UploadUnlabelled
+        {
+            get
+            {
+                return (bool)this.GetRegisterValueAsBool((ushort)TimeseriesAggregatorReg.UploadUnlabelled, TimeseriesAggregatorRegPack.UploadUnlabelled);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.UploadUnlabelled, TimeseriesAggregatorRegPack.UploadUnlabelled, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>sensor_watchdog_period</c> register value.
+        /// If no data is received from any sensor within given period, the device is rebooted.
+        /// Set to `0` to disable (default).
+        /// Updating user-provided timeseries does not reset the watchdog., _: ms
+        /// </summary>
+        public uint SensorWatchdogPeriod
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)TimeseriesAggregatorReg.SensorWatchdogPeriod, TimeseriesAggregatorRegPack.SensorWatchdogPeriod);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)TimeseriesAggregatorReg.SensorWatchdogPeriod, TimeseriesAggregatorRegPack.SensorWatchdogPeriod, value);
             }
 
         }
@@ -100,33 +138,31 @@ namespace Jacdac.Clients
 
         
         /// <summary>
-        /// Starts a new timeseries.
-        /// As for `mode`,
-        /// `Continuous` has default aggregation window of 60s,
-        /// and `Discrete` only stores the data if it has changed since last store,
-        /// and has default window of 1s.
-        /// </summary>
-        public void StartTimeseries(uint id, TimeseriesAggregatorDataMode mode, string label)
-        {
-            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.StartTimeseries, TimeseriesAggregatorCmdPack.StartTimeseries, new object[] { id, mode, label });
-        }
-
-        
-        /// <summary>
         /// Add a data point to a timeseries.
         /// </summary>
-        public void Update(float value, uint id)
+        public void Update(float value, string label)
         {
-            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.Update, TimeseriesAggregatorCmdPack.Update, new object[] { value, id });
+            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.Update, TimeseriesAggregatorCmdPack.Update, new object[] { value, label });
         }
 
         
         /// <summary>
         /// Set aggregation window.
+        /// Setting to `0` will restore default.
         /// </summary>
-        public void SetWindow(uint id, uint duration)
+        public void SetWindow(uint duration, string label)
         {
-            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.SetWindow, TimeseriesAggregatorCmdPack.SetWindow, new object[] { id, duration });
+            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.SetWindow, TimeseriesAggregatorCmdPack.SetWindow, new object[] { duration, label });
+        }
+
+        
+        /// <summary>
+        /// Set whether or not the timeseries will be uploaded to the cloud.
+        /// The `stored` reports are generated regardless.
+        /// </summary>
+        public void SetUpload(bool upload, string label)
+        {
+            this.SendCmdPacked((ushort)TimeseriesAggregatorCmd.SetUpload, TimeseriesAggregatorCmdPack.SetUpload, new object[] { upload, label });
         }
 
     }

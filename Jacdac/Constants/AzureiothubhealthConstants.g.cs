@@ -38,6 +38,27 @@ namespace Jacdac {
         /// ```
         /// </summary>
         ConnectionStatus = 0x182,
+
+        /// <summary>
+        /// Read-write ms uint32_t. How often to push data to the cloud.
+        ///
+        /// ```
+        /// const [pushPeriod] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        PushPeriod = 0x80,
+
+        /// <summary>
+        /// Read-write ms uint32_t. If no message is published within given period, the device resets.
+        /// This can be due to connectivity problems or due to the device having nothing to publish.
+        /// Forced to be at least `2 * flush_period`.
+        /// Set to `0` to disable (default).
+        ///
+        /// ```
+        /// const [pushWatchdogPeriod] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        PushWatchdogPeriod = 0x81,
     }
 
     public static class AzureIotHubHealthRegPack {
@@ -55,6 +76,16 @@ namespace Jacdac {
         /// Pack format for 'connection_status' register data.
         /// </summary>
         public const string ConnectionStatus = "u16";
+
+        /// <summary>
+        /// Pack format for 'push_period' register data.
+        /// </summary>
+        public const string PushPeriod = "u32";
+
+        /// <summary>
+        /// Pack format for 'push_watchdog_period' register data.
+        /// </summary>
+        public const string PushWatchdogPeriod = "u32";
     }
 
     public enum AzureIotHubHealthCmd : ushort {

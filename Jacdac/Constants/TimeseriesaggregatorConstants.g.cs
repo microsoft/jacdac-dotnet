@@ -3,12 +3,6 @@ namespace Jacdac {
     {
         public const uint TimeseriesAggregator = 0x1192bdcc;
     }
-
-    public enum TimeseriesAggregatorDataMode: byte { // uint8_t
-        Continuous = 0x1,
-        Discrete = 0x2,
-    }
-
     public enum TimeseriesAggregatorCmd : ushort {
         /// <summary>
         /// No args. Remove all pending timeseries.
@@ -16,35 +10,33 @@ namespace Jacdac {
         Clear = 0x80,
 
         /// <summary>
-        /// Starts a new timeseries.
-        /// As for `mode`,
-        /// `Continuous` has default aggregation window of 60s,
-        /// and `Discrete` only stores the data if it has changed since last store,
-        /// and has default window of 1s.
-        ///
-        /// ```
-        /// const [id, mode, label] = jdunpack<[number, TimeseriesAggregatorDataMode, string]>(buf, "u32 u8 s")
-        /// ```
-        /// </summary>
-        StartTimeseries = 0x81,
-
-        /// <summary>
         /// Add a data point to a timeseries.
         ///
         /// ```
-        /// const [value, id] = jdunpack<[number, number]>(buf, "f64 u32")
+        /// const [value, label] = jdunpack<[number, string]>(buf, "f64 s")
         /// ```
         /// </summary>
         Update = 0x83,
 
         /// <summary>
         /// Set aggregation window.
+        /// Setting to `0` will restore default.
         ///
         /// ```
-        /// const [id, duration] = jdunpack<[number, number]>(buf, "u32 u32")
+        /// const [duration, label] = jdunpack<[number, string]>(buf, "u32 s")
         /// ```
         /// </summary>
         SetWindow = 0x84,
+
+        /// <summary>
+        /// Set whether or not the timeseries will be uploaded to the cloud.
+        /// The `stored` reports are generated regardless.
+        ///
+        /// ```
+        /// const [upload, label] = jdunpack<[number, string]>(buf, "u8 s")
+        /// ```
+        /// </summary>
+        SetUpload = 0x85,
 
         /// <summary>
         /// Indicates that the average, minimum and maximum value of a given
@@ -52,39 +44,40 @@ namespace Jacdac {
         /// It also says how many samples were collected, and the collection period.
         /// Timestamps are given using device's internal clock, which will wrap around.
         /// Typically, `end_time` can be assumed to be "now".
+        /// `end_time - start_time == window`
         ///
         /// ```
-        /// const [id, numSamples, avg, min, max, startTime, endTime] = jdunpack<[number, number, number, number, number, number, number]>(buf, "u32 u32 f64 f64 f64 u32 u32")
+        /// const [numSamples, avg, min, max, startTime, endTime, label] = jdunpack<[number, number, number, number, number, number, string]>(buf, "u32 f64 f64 f64 u32 u32 s")
         /// ```
         /// </summary>
-        Stored = 0x85,
+        Stored = 0x90,
     }
 
     public static class TimeseriesAggregatorCmdPack {
         /// <summary>
-        /// Pack format for 'start_timeseries' register data.
-        /// </summary>
-        public const string StartTimeseries = "u32 u8 s";
-
-        /// <summary>
         /// Pack format for 'update' register data.
         /// </summary>
-        public const string Update = "f64 u32";
+        public const string Update = "f64 s";
 
         /// <summary>
         /// Pack format for 'set_window' register data.
         /// </summary>
-        public const string SetWindow = "u32 u32";
+        public const string SetWindow = "u32 s";
+
+        /// <summary>
+        /// Pack format for 'set_upload' register data.
+        /// </summary>
+        public const string SetUpload = "u8 s";
 
         /// <summary>
         /// Pack format for 'stored' register data.
         /// </summary>
-        public const string Stored = "u32 u32 f64 f64 f64 u32 u32";
+        public const string Stored = "u32 f64 f64 f64 u32 u32 s";
     }
 
     public enum TimeseriesAggregatorReg : ushort {
         /// <summary>
-        /// Read-only μs uint32_t. This register is automatically broadcast and can be also queried to establish local time on the device.
+        /// Read-only μs uint32_t. This can queried to establish local time on the device.
         ///
         /// ```
         /// const [now] = jdunpack<[number]>(buf, "u32")
@@ -94,7 +87,7 @@ namespace Jacdac {
 
         /// <summary>
         /// Read-write bool (uint8_t). When `true`, the windows will be shorter after service reset and gradually extend to requested length.
-        /// This makes the sensor look more responsive.
+        /// This is ensure valid data is being streamed in program development.
         ///
         /// ```
         /// const [fastStart] = jdunpack<[number]>(buf, "u8")
@@ -103,23 +96,43 @@ namespace Jacdac {
         FastStart = 0x80,
 
         /// <summary>
-        /// Read-write ms uint32_t. Window applied to automatically created continuous timeseries.
-        /// Note that windows returned initially may be shorter.
+        /// Read-write ms uint32_t. Window for timeseries for which `set_window` was never called.
+        /// Note that windows returned initially may be shorter if `fast_start` is enabled.
         ///
         /// ```
-        /// const [continuousWindow] = jdunpack<[number]>(buf, "u32")
+        /// const [defaultWindow] = jdunpack<[number]>(buf, "u32")
         /// ```
         /// </summary>
-        ContinuousWindow = 0x81,
+        DefaultWindow = 0x81,
 
         /// <summary>
-        /// Read-write ms uint32_t. Window applied to automatically created discrete timeseries.
+        /// Read-write bool (uint8_t). Whether labelled timeseries for which `set_upload` was never called should be automatically uploaded.
         ///
         /// ```
-        /// const [discreteWindow] = jdunpack<[number]>(buf, "u32")
+        /// const [defaultUpload] = jdunpack<[number]>(buf, "u8")
         /// ```
         /// </summary>
-        DiscreteWindow = 0x82,
+        DefaultUpload = 0x82,
+
+        /// <summary>
+        /// Read-write bool (uint8_t). Whether automatically created timeseries not bound in role manager should be uploaded.
+        ///
+        /// ```
+        /// const [uploadUnlabelled] = jdunpack<[number]>(buf, "u8")
+        /// ```
+        /// </summary>
+        UploadUnlabelled = 0x83,
+
+        /// <summary>
+        /// Read-write ms uint32_t. If no data is received from any sensor within given period, the device is rebooted.
+        /// Set to `0` to disable (default).
+        /// Updating user-provided timeseries does not reset the watchdog.
+        ///
+        /// ```
+        /// const [sensorWatchdogPeriod] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        SensorWatchdogPeriod = 0x84,
     }
 
     public static class TimeseriesAggregatorRegPack {
@@ -134,14 +147,24 @@ namespace Jacdac {
         public const string FastStart = "u8";
 
         /// <summary>
-        /// Pack format for 'continuous_window' register data.
+        /// Pack format for 'default_window' register data.
         /// </summary>
-        public const string ContinuousWindow = "u32";
+        public const string DefaultWindow = "u32";
 
         /// <summary>
-        /// Pack format for 'discrete_window' register data.
+        /// Pack format for 'default_upload' register data.
         /// </summary>
-        public const string DiscreteWindow = "u32";
+        public const string DefaultUpload = "u8";
+
+        /// <summary>
+        /// Pack format for 'upload_unlabelled' register data.
+        /// </summary>
+        public const string UploadUnlabelled = "u8";
+
+        /// <summary>
+        /// Pack format for 'sensor_watchdog_period' register data.
+        /// </summary>
+        public const string SensorWatchdogPeriod = "u32";
     }
 
 }

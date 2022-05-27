@@ -67,6 +67,45 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
+        /// Reads the <c>push_period</c> register value.
+        /// How often to push data to the cloud., _: ms
+        /// </summary>
+        public uint PushPeriod
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)AzureIotHubHealthReg.PushPeriod, AzureIotHubHealthRegPack.PushPeriod);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)AzureIotHubHealthReg.PushPeriod, AzureIotHubHealthRegPack.PushPeriod, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>push_watchdog_period</c> register value.
+        /// If no message is published within given period, the device resets.
+        /// This can be due to connectivity problems or due to the device having nothing to publish.
+        /// Forced to be at least `2 * flush_period`.
+        /// Set to `0` to disable (default)., _: ms
+        /// </summary>
+        public uint PushWatchdogPeriod
+        {
+            get
+            {
+                return (uint)this.GetRegisterValue((ushort)AzureIotHubHealthReg.PushWatchdogPeriod, AzureIotHubHealthRegPack.PushWatchdogPeriod);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)AzureIotHubHealthReg.PushWatchdogPeriod, AzureIotHubHealthRegPack.PushWatchdogPeriod, value);
+            }
+
+        }
+
+        /// <summary>
         /// Raised when the connection status changes
         /// </summary>
         public event ClientEventHandler ConnectionStatusChange

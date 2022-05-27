@@ -22,6 +22,15 @@ namespace Jacdac {
         Upload = 0x80,
 
         /// <summary>
+        /// Argument: payload bytes. Upload a binary message to the cloud.
+        ///
+        /// ```
+        /// const [payload] = jdunpack<[Uint8Array]>(buf, "b")
+        /// ```
+        /// </summary>
+        UploadBin = 0x81,
+
+        /// <summary>
         /// Should be called by jacscript when it finishes handling a `cloud_command`.
         ///
         /// ```
@@ -36,6 +45,11 @@ namespace Jacdac {
         /// Pack format for 'upload' register data.
         /// </summary>
         public const string Upload = "z r: f64";
+
+        /// <summary>
+        /// Pack format for 'upload_bin' register data.
+        /// </summary>
+        public const string UploadBin = "b";
 
         /// <summary>
         /// Pack format for 'ack_cloud_command' register data.
