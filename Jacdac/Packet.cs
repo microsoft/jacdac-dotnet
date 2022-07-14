@@ -247,7 +247,8 @@ namespace Jacdac
         {
             this.header[3] |= (byte)Jacdac.Constants.JD_FRAME_FLAG_IDENTIFIER_IS_SERVICE_CLASS | (byte)Jacdac.Constants.JD_FRAME_FLAG_COMMAND;
             Util.Write32(this.header, 4, serviceClass);
-            Util.Write32(this.header, 8, 0);
+            Util.Write32(this.header, 8, 0xAAAAAAAA);
+            this.ServiceIndex = 0x3D
         }
 
         public uint MulticommandClass
