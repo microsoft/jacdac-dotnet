@@ -12,6 +12,8 @@ jobs:
         with:
             msbuild-architecture: x64
       - uses: nanoframework/nanobuild@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - run: nuget restore Jacdac.sln -PackagesDirectory ./packages
       - run: msbuild.exe -t:rebuild -p:Configuration=Debug Jacdac.sln
       - run: msbuild.exe -t:rebuild -p:Configuration=Release Jacdac.sln
