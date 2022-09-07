@@ -36,6 +36,33 @@ namespace Jacdac {
         /// ```
         /// </summary>
         Measurement = 0x101,
+
+        /// <summary>
+        /// Read-only V f64 (uint64_t). Absolute error on the reading value.
+        ///
+        /// ```
+        /// const [measurementError] = jdunpack<[number]>(buf, "f64")
+        /// ```
+        /// </summary>
+        MeasurementError = 0x106,
+
+        /// <summary>
+        /// Constant V f64 (uint64_t). Minimum measurable current
+        ///
+        /// ```
+        /// const [minMeasurement] = jdunpack<[number]>(buf, "f64")
+        /// ```
+        /// </summary>
+        MinMeasurement = 0x104,
+
+        /// <summary>
+        /// Constant V f64 (uint64_t). Maximum measurable current
+        ///
+        /// ```
+        /// const [maxMeasurement] = jdunpack<[number]>(buf, "f64")
+        /// ```
+        /// </summary>
+        MaxMeasurement = 0x105,
     }
 
     public static class DcVoltageMeasurementRegPack {
@@ -53,6 +80,21 @@ namespace Jacdac {
         /// Pack format for 'measurement' register data.
         /// </summary>
         public const string Measurement = "f64";
+
+        /// <summary>
+        /// Pack format for 'measurement_error' register data.
+        /// </summary>
+        public const string MeasurementError = "f64";
+
+        /// <summary>
+        /// Pack format for 'min_measurement' register data.
+        /// </summary>
+        public const string MinMeasurement = "f64";
+
+        /// <summary>
+        /// Pack format for 'max_measurement' register data.
+        /// </summary>
+        public const string MaxMeasurement = "f64";
     }
 
 }

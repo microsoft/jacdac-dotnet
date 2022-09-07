@@ -40,6 +40,63 @@ namespace Jacdac.Clients
             }
         }
 
+        /// <summary>
+        /// Tries to read the <c>measurement_error</c> register value.
+        /// Absolute error on the reading value., _: A
+        /// </summary>
+        bool TryGetMeasurementError(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DcCurrentMeasurementReg.MeasurementError, DcCurrentMeasurementRegPack.MeasurementError, out values)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to read the <c>min_measurement</c> register value.
+        /// Minimum measurable current, _: A
+        /// </summary>
+        bool TryGetMinMeasurement(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DcCurrentMeasurementReg.MinMeasurement, DcCurrentMeasurementRegPack.MinMeasurement, out values)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to read the <c>max_measurement</c> register value.
+        /// Maximum measurable current, _: A
+        /// </summary>
+        bool TryGetMaxMeasurement(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DcCurrentMeasurementReg.MaxMeasurement, DcCurrentMeasurementRegPack.MaxMeasurement, out values)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+
 
     }
 }
