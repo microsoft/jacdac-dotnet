@@ -46,6 +46,72 @@ namespace Jacdac.Clients
 
         }
 
+        /// <summary>
+        /// Reads the <c>loud_threshold</c> register value.
+        /// Set level at which the `loud` event is generated., _: /
+        /// </summary>
+        public float LoudThreshold
+        {
+            get
+            {
+                return (float)this.GetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)SoundLevelReg.LoudThreshold, SoundLevelRegPack.LoudThreshold, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Reads the <c>quiet_threshold</c> register value.
+        /// Set level at which the `quiet` event is generated., _: /
+        /// </summary>
+        public float QuietThreshold
+        {
+            get
+            {
+                return (float)this.GetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)SoundLevelReg.QuietThreshold, SoundLevelRegPack.QuietThreshold, value);
+            }
+
+        }
+
+        /// <summary>
+        /// Generated when a loud sound is detected.
+        /// </summary>
+        public event ClientEventHandler Loud
+        {
+            add
+            {
+                this.AddEvent((ushort)SoundLevelEvent.Loud, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SoundLevelEvent.Loud, value);
+            }
+        }
+
+        /// <summary>
+        /// Generated low level of sound is detected.
+        /// </summary>
+        public event ClientEventHandler Quiet
+        {
+            add
+            {
+                this.AddEvent((ushort)SoundLevelEvent.Quiet, value);
+            }
+            remove
+            {
+                this.RemoveEvent((ushort)SoundLevelEvent.Quiet, value);
+            }
+        }
+
 
     }
 }
