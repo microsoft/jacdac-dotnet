@@ -1,16 +1,16 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint JacscriptCloud = 0x14606e9c;
+        public const uint CloudAdapter = 0x14606e9c;
     }
 
-    public enum JacscriptCloudCommandStatus: uint { // uint32_t
+    public enum CloudAdapterCommandStatus: uint { // uint32_t
         OK = 0xc8,
         NotFound = 0x194,
         Busy = 0x1ad,
     }
 
-    public enum JacscriptCloudCmd : ushort {
+    public enum CloudAdapterCmd : ushort {
         /// <summary>
         /// Upload a labelled tuple of values to the cloud.
         /// The tuple will be automatically tagged with timestamp and originating device.
@@ -31,16 +31,16 @@ namespace Jacdac {
         UploadBin = 0x81,
 
         /// <summary>
-        /// Should be called by jacscript when it finishes handling a `cloud_command`.
+        /// Should be called when it finishes handling a `cloud_command`.
         ///
         /// ```
-        /// const [seqNo, status, result] = jdunpack<[number, JacscriptCloudCommandStatus, number[]]>(buf, "u32 u32 f64[]")
+        /// const [seqNo, status, result] = jdunpack<[number, CloudAdapterCommandStatus, number[]]>(buf, "u32 u32 f64[]")
         /// ```
         /// </summary>
         AckCloudCommand = 0x83,
     }
 
-    public static class JacscriptCloudCmdPack {
+    public static class CloudAdapterCmdPack {
         /// <summary>
         /// Pack format for 'upload' register data.
         /// </summary>
@@ -57,7 +57,7 @@ namespace Jacdac {
         public const string AckCloudCommand = "u32 u32 r: f64";
     }
 
-    public enum JacscriptCloudReg : ushort {
+    public enum CloudAdapterReg : ushort {
         /// <summary>
         /// Read-only bool (uint8_t). Indicate whether we're currently connected to the cloud server.
         /// When offline, `upload` commands are queued, and `get_twin` respond with cached values.
@@ -79,7 +79,7 @@ namespace Jacdac {
         ConnectionName = 0x181,
     }
 
-    public static class JacscriptCloudRegPack {
+    public static class CloudAdapterRegPack {
         /// <summary>
         /// Pack format for 'connected' register data.
         /// </summary>
@@ -91,9 +91,9 @@ namespace Jacdac {
         public const string ConnectionName = "s";
     }
 
-    public enum JacscriptCloudEvent : ushort {
+    public enum CloudAdapterEvent : ushort {
         /// <summary>
-        /// Emitted when cloud requests jacscript to run some action.
+        /// Emitted when cloud requests to run some action.
         ///
         /// ```
         /// const [seqNo, command, argument] = jdunpack<[number, string, number[]]>(buf, "u32 z f64[]")
@@ -107,7 +107,7 @@ namespace Jacdac {
         Change = 0x3,
     }
 
-    public static class JacscriptCloudEventPack {
+    public static class CloudAdapterEventPack {
         /// <summary>
         /// Pack format for 'cloud_command' register data.
         /// </summary>
