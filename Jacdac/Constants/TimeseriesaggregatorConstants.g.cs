@@ -47,7 +47,7 @@ namespace Jacdac {
         /// `end_time - start_time == window`
         ///
         /// ```
-        /// const [numSamples, avg, min, max, startTime, endTime, label] = jdunpack<[number, number, number, number, number, number, string]>(buf, "u32 f64 f64 f64 u32 u32 s")
+        /// const [numSamples, avg, min, max, startTime, endTime, label] = jdunpack<[number, number, number, number, number, number, string]>(buf, "u32 x[4] f64 f64 f64 u32 u32 s")
         /// ```
         /// </summary>
         Stored = 0x90,
@@ -72,7 +72,7 @@ namespace Jacdac {
         /// <summary>
         /// Pack format for 'stored' register data.
         /// </summary>
-        public const string Stored = "u32 f64 f64 f64 u32 u32 s";
+        public const string Stored = "u32 b[4] f64 f64 f64 u32 u32 s";
     }
 
     public enum TimeseriesAggregatorReg : ushort {
