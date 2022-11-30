@@ -16,6 +16,25 @@ namespace Jacdac.Clients
         {
         }
 
+        /// <summary>
+        /// Tries to read the <c>max_vibrations</c> register value.
+        /// The maximum number of vibration sequences supported in a single packet., 
+        /// </summary>
+        bool TryGetMaxVibrations(out uint value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)VibrationMotorReg.MaxVibrations, VibrationMotorRegPack.MaxVibrations, out values)) 
+            {
+                value = (uint)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(uint);
+                return false;
+            }
+        }
+
 
     }
 }

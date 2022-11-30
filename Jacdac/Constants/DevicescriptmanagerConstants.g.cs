@@ -1,14 +1,14 @@
 namespace Jacdac {
     public static partial class ServiceClasses
     {
-        public const uint JacscriptManager = 0x1134ea2b;
+        public const uint DeviceScriptManager = 0x1134ea2b;
     }
 
-    public enum JacscriptManagerMessageFlags: byte { // uint8_t
+    public enum DeviceScriptManagerMessageFlags: byte { // uint8_t
         ToBeContinued = 0x1,
     }
 
-    public enum JacscriptManagerCmd : ushort {
+    public enum DeviceScriptManagerCmd : ushort {
         /// <summary>
         /// Argument: bytecode_size B uint32_t. Open pipe for streaming in the bytecode of the program. The size of the bytecode has to be declared upfront.
         /// To clear the program, use `bytecode_size == 0`.
@@ -50,13 +50,13 @@ namespace Jacdac {
         /// `log_message` reports are only sent when `logging == true`.
         ///
         /// ```
-        /// const [counter, flags, message] = jdunpack<[number, JacscriptManagerMessageFlags, string]>(buf, "u8 u8 s")
+        /// const [counter, flags, message] = jdunpack<[number, DeviceScriptManagerMessageFlags, string]>(buf, "u8 u8 s")
         /// ```
         /// </summary>
         LogMessage = 0x82,
     }
 
-    public static class JacscriptManagerCmdPack {
+    public static class DeviceScriptManagerCmdPack {
         /// <summary>
         /// Pack format for 'deploy_bytecode' register data.
         /// </summary>
@@ -87,14 +87,14 @@ namespace Jacdac {
     /// </summary>
 
 
-    public static class JacscriptManagerinfoPack {
+    public static class DeviceScriptManagerinfoPack {
         /// <summary>
         /// Pack format for 'bytecode' register data.
         /// </summary>
         public const string Bytecode = "b";
     }
 
-    public enum JacscriptManagerReg : ushort {
+    public enum DeviceScriptManagerReg : ushort {
         /// <summary>
         /// Read-write bool (uint8_t). Indicates if the program is currently running.
         /// To restart the program, stop it (write `0`), read back the register to make sure it's stopped,
@@ -143,9 +143,18 @@ namespace Jacdac {
         /// ```
         /// </summary>
         ProgramHash = 0x181,
+
+        /// <summary>
+        /// Read-only bytes. Return 32-byte long SHA-256 hash of the current bytecode.
+        ///
+        /// ```
+        /// const [programSha256] = jdunpack<[Uint8Array]>(buf, "b[32]")
+        /// ```
+        /// </summary>
+        ProgramSha256 = 0x182,
     }
 
-    public static class JacscriptManagerRegPack {
+    public static class DeviceScriptManagerRegPack {
         /// <summary>
         /// Pack format for 'running' register data.
         /// </summary>
@@ -170,9 +179,14 @@ namespace Jacdac {
         /// Pack format for 'program_hash' register data.
         /// </summary>
         public const string ProgramHash = "u32";
+
+        /// <summary>
+        /// Pack format for 'program_sha256' register data.
+        /// </summary>
+        public const string ProgramSha256 = "b[32]";
     }
 
-    public enum JacscriptManagerEvent : ushort {
+    public enum DeviceScriptManagerEvent : ushort {
         /// <summary>
         /// Emitted when the program calls `panic(panic_code)` or `reboot()` (`panic_code == 0` in that case).
         /// The byte offset in byte code of the call is given in `program_counter`.
@@ -190,7 +204,7 @@ namespace Jacdac {
         ProgramChange = 0x3,
     }
 
-    public static class JacscriptManagerEventPack {
+    public static class DeviceScriptManagerEventPack {
         /// <summary>
         /// Pack format for 'program_panic' register data.
         /// </summary>

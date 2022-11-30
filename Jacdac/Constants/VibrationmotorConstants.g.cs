@@ -22,4 +22,22 @@ namespace Jacdac {
         public const string Vibrate = "r: u8 u0.8";
     }
 
+    public enum VibrationMotorReg : ushort {
+        /// <summary>
+        /// Constant uint8_t. The maximum number of vibration sequences supported in a single packet.
+        ///
+        /// ```
+        /// const [maxVibrations] = jdunpack<[number]>(buf, "u8")
+        /// ```
+        /// </summary>
+        MaxVibrations = 0x180,
+    }
+
+    public static class VibrationMotorRegPack {
+        /// <summary>
+        /// Pack format for 'max_vibrations' register data.
+        /// </summary>
+        public const string MaxVibrations = "u8";
+    }
+
 }
