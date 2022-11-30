@@ -7,7 +7,7 @@ namespace Jacdac.Clients
     /// <summary>
     /// Supports aggregating timeseries data (especially sensor readings)
      /// and sending them to a cloud/storage service.
-     /// Used in Jacscript.
+     /// Used in DeviceScript.
      /// 
      /// Note that `f64` values are not necessarily aligned.
     /// Implements a client for the Timeseries Aggregator service.
