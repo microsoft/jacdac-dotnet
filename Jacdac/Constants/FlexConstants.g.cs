@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class FlexRegPack {
         /// <summary>
-        /// Pack format for 'bending' register data.
+        /// Pack format for 'bending' data.
         /// </summary>
         public const string Bending = "i1.15";
 
         /// <summary>
-        /// Pack format for 'length' register data.
+        /// Pack format for 'length' data.
         /// </summary>
         public const string Length = "u16";
     }

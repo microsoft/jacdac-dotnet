@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class BitRadioRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'group' register data.
+        /// Pack format for 'group' data.
         /// </summary>
         public const string Group = "u8";
 
         /// <summary>
-        /// Pack format for 'transmission_power' register data.
+        /// Pack format for 'transmission_power' data.
         /// </summary>
         public const string TransmissionPower = "u8";
 
         /// <summary>
-        /// Pack format for 'frequency_band' register data.
+        /// Pack format for 'frequency_band' data.
         /// </summary>
         public const string FrequencyBand = "u8";
     }
@@ -130,37 +130,37 @@ namespace Jacdac {
 
     public static class BitRadioCmdPack {
         /// <summary>
-        /// Pack format for 'send_string' register data.
+        /// Pack format for 'send_string' data.
         /// </summary>
         public const string SendString = "s";
 
         /// <summary>
-        /// Pack format for 'send_number' register data.
+        /// Pack format for 'send_number' data.
         /// </summary>
         public const string SendNumber = "f64";
 
         /// <summary>
-        /// Pack format for 'send_value' register data.
+        /// Pack format for 'send_value' data.
         /// </summary>
         public const string SendValue = "f64 s";
 
         /// <summary>
-        /// Pack format for 'send_buffer' register data.
+        /// Pack format for 'send_buffer' data.
         /// </summary>
         public const string SendBuffer = "b";
 
         /// <summary>
-        /// Pack format for 'string_received' register data.
+        /// Pack format for 'string_received' data.
         /// </summary>
         public const string StringReceived = "u32 u32 i8 b[1] s";
 
         /// <summary>
-        /// Pack format for 'number_received' register data.
+        /// Pack format for 'number_received' data.
         /// </summary>
         public const string NumberReceived = "u32 u32 i8 b[3] f64 s";
 
         /// <summary>
-        /// Pack format for 'buffer_received' register data.
+        /// Pack format for 'buffer_received' data.
         /// </summary>
         public const string BufferReceived = "u32 u32 i8 b[1] b";
     }

@@ -123,48 +123,48 @@ namespace Jacdac {
 
     public static class ControlCmdPack {
         /// <summary>
-        /// Pack format for 'services' register data.
+        /// Pack format for 'services' data.
         /// </summary>
         public const string ServicesReport = "u16 u8 u8 r: u32";
 
         /// <summary>
-        /// Pack format for 'flood_ping' register data.
+        /// Pack format for 'flood_ping' data.
         /// </summary>
         public const string FloodPing = "u32 u32 u8";
 
         /// <summary>
-        /// Pack format for 'flood_ping' register data.
+        /// Pack format for 'flood_ping' data.
         /// </summary>
         public const string FloodPingReport = "u32 b";
 
         /// <summary>
-        /// Pack format for 'set_status_light' register data.
+        /// Pack format for 'set_status_light' data.
         /// </summary>
         public const string SetStatusLight = "u8 u8 u8 u8";
 
         /// <summary>
-        /// Pack format for 'reliable_commands' register data.
+        /// Pack format for 'reliable_commands' data.
         /// </summary>
         public const string ReliableCommands = "u32";
 
         /// <summary>
-        /// Pack format for 'reliable_commands' register data.
+        /// Pack format for 'reliable_commands' data.
         /// </summary>
         public const string ReliableCommandsReport = "b[12]";
     }
 
-
-    /// <summary>
-    /// pipe_command WrappedCommand
-    /// ```
-    /// const [serviceSize, serviceIndex, serviceCommand, payload] = jdunpack<[number, number, number, Uint8Array]>(buf, "u8 u8 u16 b")
-    /// ```
-    /// </summary>
-
-
-    public static class ControlinfoPack {
+    public enum ControlPipe : ushort {
         /// <summary>
-        /// Pack format for 'wrapped_command' register data.
+        /// pipe_command WrappedCommand
+        /// ```
+        /// const [serviceSize, serviceIndex, serviceCommand, payload] = jdunpack<[number, number, number, Uint8Array]>(buf, "u8 u8 u16 b")
+        /// ```
+        /// </summary>
+    }
+
+    public static class ControlPipePack {
+        /// <summary>
+        /// Pack format for 'wrapped_command' data.
         /// </summary>
         public const string WrappedCommand = "u8 u8 u16 b";
     }
@@ -238,37 +238,37 @@ namespace Jacdac {
 
     public static class ControlRegPack {
         /// <summary>
-        /// Pack format for 'reset_in' register data.
+        /// Pack format for 'reset_in' data.
         /// </summary>
         public const string ResetIn = "u32";
 
         /// <summary>
-        /// Pack format for 'device_description' register data.
+        /// Pack format for 'device_description' data.
         /// </summary>
         public const string DeviceDescription = "s";
 
         /// <summary>
-        /// Pack format for 'product_identifier' register data.
+        /// Pack format for 'product_identifier' data.
         /// </summary>
         public const string ProductIdentifier = "u32";
 
         /// <summary>
-        /// Pack format for 'bootloader_product_identifier' register data.
+        /// Pack format for 'bootloader_product_identifier' data.
         /// </summary>
         public const string BootloaderProductIdentifier = "u32";
 
         /// <summary>
-        /// Pack format for 'firmware_version' register data.
+        /// Pack format for 'firmware_version' data.
         /// </summary>
         public const string FirmwareVersion = "s";
 
         /// <summary>
-        /// Pack format for 'mcu_temperature' register data.
+        /// Pack format for 'mcu_temperature' data.
         /// </summary>
         public const string McuTemperature = "i16";
 
         /// <summary>
-        /// Pack format for 'uptime' register data.
+        /// Pack format for 'uptime' data.
         /// </summary>
         public const string Uptime = "u64";
     }

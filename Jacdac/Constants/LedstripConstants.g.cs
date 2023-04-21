@@ -115,47 +115,47 @@ namespace Jacdac {
 
     public static class LedStripRegPack {
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'actual_brightness' register data.
+        /// Pack format for 'actual_brightness' data.
         /// </summary>
         public const string ActualBrightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'light_type' register data.
+        /// Pack format for 'light_type' data.
         /// </summary>
         public const string LightType = "u8";
 
         /// <summary>
-        /// Pack format for 'num_pixels' register data.
+        /// Pack format for 'num_pixels' data.
         /// </summary>
         public const string NumPixels = "u16";
 
         /// <summary>
-        /// Pack format for 'num_columns' register data.
+        /// Pack format for 'num_columns' data.
         /// </summary>
         public const string NumColumns = "u16";
 
         /// <summary>
-        /// Pack format for 'max_power' register data.
+        /// Pack format for 'max_power' data.
         /// </summary>
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'max_pixels' register data.
+        /// Pack format for 'max_pixels' data.
         /// </summary>
         public const string MaxPixels = "u16";
 
         /// <summary>
-        /// Pack format for 'num_repeats' register data.
+        /// Pack format for 'num_repeats' data.
         /// </summary>
         public const string NumRepeats = "u16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }
@@ -173,7 +173,7 @@ namespace Jacdac {
 
     public static class LedStripCmdPack {
         /// <summary>
-        /// Pack format for 'run' register data.
+        /// Pack format for 'run' data.
         /// </summary>
         public const string Run = "b";
     }

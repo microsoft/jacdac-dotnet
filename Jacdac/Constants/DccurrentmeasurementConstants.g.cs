@@ -52,27 +52,27 @@ namespace Jacdac {
 
     public static class DcCurrentMeasurementRegPack {
         /// <summary>
-        /// Pack format for 'measurement_name' register data.
+        /// Pack format for 'measurement_name' data.
         /// </summary>
         public const string MeasurementName = "s";
 
         /// <summary>
-        /// Pack format for 'measurement' register data.
+        /// Pack format for 'measurement' data.
         /// </summary>
         public const string Measurement = "f64";
 
         /// <summary>
-        /// Pack format for 'measurement_error' register data.
+        /// Pack format for 'measurement_error' data.
         /// </summary>
         public const string MeasurementError = "f64";
 
         /// <summary>
-        /// Pack format for 'min_measurement' register data.
+        /// Pack format for 'min_measurement' data.
         /// </summary>
         public const string MinMeasurement = "f64";
 
         /// <summary>
-        /// Pack format for 'max_measurement' register data.
+        /// Pack format for 'max_measurement' data.
         /// </summary>
         public const string MaxMeasurement = "f64";
     }

@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class BuzzerRegPack {
         /// <summary>
-        /// Pack format for 'volume' register data.
+        /// Pack format for 'volume' data.
         /// </summary>
         public const string Volume = "u0.8";
     }
@@ -42,12 +42,12 @@ namespace Jacdac {
 
     public static class BuzzerCmdPack {
         /// <summary>
-        /// Pack format for 'play_tone' register data.
+        /// Pack format for 'play_tone' data.
         /// </summary>
         public const string PlayTone = "u16 u16 u16";
 
         /// <summary>
-        /// Pack format for 'play_note' register data.
+        /// Pack format for 'play_note' data.
         /// </summary>
         public const string PlayNote = "u16 u0.16 u16";
     }

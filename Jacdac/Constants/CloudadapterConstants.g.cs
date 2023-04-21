@@ -3,64 +3,42 @@ namespace Jacdac {
     {
         public const uint CloudAdapter = 0x14606e9c;
     }
-
-    public enum CloudAdapterCommandStatus: uint { // uint32_t
-        OK = 0xc8,
-        NotFound = 0x194,
-        Busy = 0x1ad,
-    }
-
     public enum CloudAdapterCmd : ushort {
         /// <summary>
-        /// Upload a labelled tuple of values to the cloud.
-        /// The tuple will be automatically tagged with timestamp and originating device.
+        /// Upload a JSON-encoded message to the cloud.
         ///
         /// ```
-        /// const [label, value] = jdunpack<[string, number[]]>(buf, "z f64[]")
+        /// const [topic, json] = jdunpack<[string, string]>(buf, "z s")
         /// ```
         /// </summary>
-        Upload = 0x80,
+        UploadJson = 0x80,
 
         /// <summary>
-        /// Argument: payload bytes. Upload a binary message to the cloud.
+        /// Upload a binary message to the cloud.
         ///
         /// ```
-        /// const [payload] = jdunpack<[Uint8Array]>(buf, "b")
+        /// const [topic, payload] = jdunpack<[string, Uint8Array]>(buf, "z b")
         /// ```
         /// </summary>
-        UploadBin = 0x81,
-
-        /// <summary>
-        /// Should be called when it finishes handling a `cloud_command`.
-        ///
-        /// ```
-        /// const [seqNo, status, result] = jdunpack<[number, CloudAdapterCommandStatus, number[]]>(buf, "u32 u32 f64[]")
-        /// ```
-        /// </summary>
-        AckCloudCommand = 0x83,
+        UploadBinary = 0x81,
     }
 
     public static class CloudAdapterCmdPack {
         /// <summary>
-        /// Pack format for 'upload' register data.
+        /// Pack format for 'upload_json' data.
         /// </summary>
-        public const string Upload = "z r: f64";
+        public const string UploadJson = "z s";
 
         /// <summary>
-        /// Pack format for 'upload_bin' register data.
+        /// Pack format for 'upload_binary' data.
         /// </summary>
-        public const string UploadBin = "b";
-
-        /// <summary>
-        /// Pack format for 'ack_cloud_command' register data.
-        /// </summary>
-        public const string AckCloudCommand = "u32 u32 r: f64";
+        public const string UploadBinary = "z b";
     }
 
     public enum CloudAdapterReg : ushort {
         /// <summary>
         /// Read-only bool (uint8_t). Indicate whether we're currently connected to the cloud server.
-        /// When offline, `upload` commands are queued, and `get_twin` respond with cached values.
+        /// When offline, `upload` commands are queued.
         ///
         /// ```
         /// const [connected] = jdunpack<[number]>(buf, "u8")
@@ -81,25 +59,34 @@ namespace Jacdac {
 
     public static class CloudAdapterRegPack {
         /// <summary>
-        /// Pack format for 'connected' register data.
+        /// Pack format for 'connected' data.
         /// </summary>
         public const string Connected = "u8";
 
         /// <summary>
-        /// Pack format for 'connection_name' register data.
+        /// Pack format for 'connection_name' data.
         /// </summary>
         public const string ConnectionName = "s";
     }
 
     public enum CloudAdapterEvent : ushort {
         /// <summary>
-        /// Emitted when cloud requests to run some action.
+        /// Emitted when cloud send us a JSON message.
         ///
         /// ```
-        /// const [seqNo, command, argument] = jdunpack<[number, string, number[]]>(buf, "u32 z f64[]")
+        /// const [topic, json] = jdunpack<[string, string]>(buf, "z s")
         /// ```
         /// </summary>
-        CloudCommand = 0x81,
+        OnJson = 0x80,
+
+        /// <summary>
+        /// Emitted when cloud send us a binary message.
+        ///
+        /// ```
+        /// const [topic, payload] = jdunpack<[string, Uint8Array]>(buf, "z b")
+        /// ```
+        /// </summary>
+        OnBinary = 0x81,
 
         /// <summary>
         /// Emitted when we connect or disconnect from the cloud.
@@ -109,9 +96,14 @@ namespace Jacdac {
 
     public static class CloudAdapterEventPack {
         /// <summary>
-        /// Pack format for 'cloud_command' register data.
+        /// Pack format for 'on_json' data.
         /// </summary>
-        public const string CloudCommand = "u32 z r: f64";
+        public const string OnJson = "z s";
+
+        /// <summary>
+        /// Pack format for 'on_binary' data.
+        /// </summary>
+        public const string OnBinary = "z b";
     }
 
 }

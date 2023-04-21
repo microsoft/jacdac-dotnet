@@ -18,7 +18,7 @@ namespace Jacdac {
 
     public static class BaseCmdPack {
         /// <summary>
-        /// Pack format for 'command_not_implemented' register data.
+        /// Pack format for 'command_not_implemented' data.
         /// </summary>
         public const string CommandNotImplemented = "u16 u16";
     }
@@ -52,12 +52,12 @@ namespace Jacdac {
 
     public static class BaseRegPack {
         /// <summary>
-        /// Pack format for 'instance_name' register data.
+        /// Pack format for 'instance_name' data.
         /// </summary>
         public const string InstanceName = "s";
 
         /// <summary>
-        /// Pack format for 'status_code' register data.
+        /// Pack format for 'status_code' data.
         /// </summary>
         public const string StatusCode = "u16 u16";
     }
@@ -75,7 +75,7 @@ namespace Jacdac {
 
     public static class BaseEventPack {
         /// <summary>
-        /// Pack format for 'status_code_changed' register data.
+        /// Pack format for 'status_code_changed' data.
         /// </summary>
         public const string StatusCodeChanged = "u16 u16";
     }

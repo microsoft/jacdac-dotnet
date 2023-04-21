@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class TvocRegPack {
         /// <summary>
-        /// Pack format for 'TVOC' register data.
+        /// Pack format for 'TVOC' data.
         /// </summary>
         public const string TVOC = "u22.10";
 
         /// <summary>
-        /// Pack format for 'TVOC_error' register data.
+        /// Pack format for 'TVOC_error' data.
         /// </summary>
         public const string TVOCError = "u22.10";
 
         /// <summary>
-        /// Pack format for 'min_TVOC' register data.
+        /// Pack format for 'min_TVOC' data.
         /// </summary>
         public const string MinTVOC = "u22.10";
 
         /// <summary>
-        /// Pack format for 'max_TVOC' register data.
+        /// Pack format for 'max_TVOC' data.
         /// </summary>
         public const string MaxTVOC = "u22.10";
     }

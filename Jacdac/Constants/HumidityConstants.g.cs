@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class HumidityRegPack {
         /// <summary>
-        /// Pack format for 'humidity' register data.
+        /// Pack format for 'humidity' data.
         /// </summary>
         public const string Humidity = "u22.10";
 
         /// <summary>
-        /// Pack format for 'humidity_error' register data.
+        /// Pack format for 'humidity_error' data.
         /// </summary>
         public const string HumidityError = "u22.10";
 
         /// <summary>
-        /// Pack format for 'min_humidity' register data.
+        /// Pack format for 'min_humidity' data.
         /// </summary>
         public const string MinHumidity = "u22.10";
 
         /// <summary>
-        /// Pack format for 'max_humidity' register data.
+        /// Pack format for 'max_humidity' data.
         /// </summary>
         public const string MaxHumidity = "u22.10";
     }

@@ -44,22 +44,22 @@ namespace Jacdac {
 
     public static class GyroscopeRegPack {
         /// <summary>
-        /// Pack format for 'rotation_rates' register data.
+        /// Pack format for 'rotation_rates' data.
         /// </summary>
         public const string RotationRates = "i12.20 i12.20 i12.20";
 
         /// <summary>
-        /// Pack format for 'rotation_rates_error' register data.
+        /// Pack format for 'rotation_rates_error' data.
         /// </summary>
         public const string RotationRatesError = "u12.20";
 
         /// <summary>
-        /// Pack format for 'max_rate' register data.
+        /// Pack format for 'max_rate' data.
         /// </summary>
         public const string MaxRate = "u12.20";
 
         /// <summary>
-        /// Pack format for 'max_rates_supported' register data.
+        /// Pack format for 'max_rates_supported' data.
         /// </summary>
         public const string MaxRatesSupported = "r: u12.20";
     }

@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class PulseOximeterRegPack {
         /// <summary>
-        /// Pack format for 'oxygen' register data.
+        /// Pack format for 'oxygen' data.
         /// </summary>
         public const string Oxygen = "u8.8";
 
         /// <summary>
-        /// Pack format for 'oxygen_error' register data.
+        /// Pack format for 'oxygen_error' data.
         /// </summary>
         public const string OxygenError = "u8.8";
     }

@@ -32,12 +32,12 @@ namespace Jacdac {
 
     public static class SolenoidRegPack {
         /// <summary>
-        /// Pack format for 'pulled' register data.
+        /// Pack format for 'pulled' data.
         /// </summary>
         public const string Pulled = "u8";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

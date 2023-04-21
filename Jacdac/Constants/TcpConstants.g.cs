@@ -29,12 +29,12 @@ namespace Jacdac {
 
     public static class TcpCmdPack {
         /// <summary>
-        /// Pack format for 'open' register data.
+        /// Pack format for 'open' data.
         /// </summary>
         public const string Open = "b[12]";
 
         /// <summary>
-        /// Pack format for 'open' register data.
+        /// Pack format for 'open' data.
         /// </summary>
         public const string OpenReport = "u16";
     }
@@ -63,40 +63,40 @@ namespace Jacdac {
 
     public static class TcpPipeCmdPack {
         /// <summary>
-        /// Pack format for 'open_ssl' register data.
+        /// Pack format for 'open_ssl' data.
         /// </summary>
         public const string OpenSsl = "u16 s";
 
         /// <summary>
-        /// Pack format for 'error' register data.
+        /// Pack format for 'error' data.
         /// </summary>
         public const string Error = "i32";
     }
 
-
-    /// <summary>
-    /// pipe_command Outdata
-    /// ```
-    /// const [data] = jdunpack<[Uint8Array]>(buf, "b")
-    /// ```
-    /// </summary>
-
-    /// <summary>
-    /// pipe_report Indata
-    /// ```
-    /// const [data] = jdunpack<[Uint8Array]>(buf, "b")
-    /// ```
-    /// </summary>
-
-
-    public static class TcpinfoPack {
+    public enum TcpPipe : ushort {
         /// <summary>
-        /// Pack format for 'outdata' register data.
+        /// pipe_command Outdata
+        /// ```
+        /// const [data] = jdunpack<[Uint8Array]>(buf, "b")
+        /// ```
+        /// </summary>
+
+        /// <summary>
+        /// pipe_report Indata
+        /// ```
+        /// const [data] = jdunpack<[Uint8Array]>(buf, "b")
+        /// ```
+        /// </summary>
+    }
+
+    public static class TcpPipePack {
+        /// <summary>
+        /// Pack format for 'outdata' data.
         /// </summary>
         public const string Outdata = "b";
 
         /// <summary>
-        /// Pack format for 'indata' register data.
+        /// Pack format for 'indata' data.
         /// </summary>
         public const string Indata = "b";
     }

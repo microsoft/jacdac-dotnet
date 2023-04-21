@@ -30,17 +30,17 @@ namespace Jacdac {
 
     public static class ButtonRegPack {
         /// <summary>
-        /// Pack format for 'pressure' register data.
+        /// Pack format for 'pressure' data.
         /// </summary>
         public const string Pressure = "u0.16";
 
         /// <summary>
-        /// Pack format for 'analog' register data.
+        /// Pack format for 'analog' data.
         /// </summary>
         public const string Analog = "u8";
 
         /// <summary>
-        /// Pack format for 'pressed' register data.
+        /// Pack format for 'pressed' data.
         /// </summary>
         public const string Pressed = "u8";
     }
@@ -75,12 +75,12 @@ namespace Jacdac {
 
     public static class ButtonEventPack {
         /// <summary>
-        /// Pack format for 'up' register data.
+        /// Pack format for 'up' data.
         /// </summary>
         public const string Up = "u32";
 
         /// <summary>
-        /// Pack format for 'hold' register data.
+        /// Pack format for 'hold' data.
         /// </summary>
         public const string Hold = "u32";
     }

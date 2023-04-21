@@ -36,17 +36,17 @@ namespace Jacdac {
 
     public static class RotaryEncoderRegPack {
         /// <summary>
-        /// Pack format for 'position' register data.
+        /// Pack format for 'position' data.
         /// </summary>
         public const string Position = "i32";
 
         /// <summary>
-        /// Pack format for 'clicks_per_turn' register data.
+        /// Pack format for 'clicks_per_turn' data.
         /// </summary>
         public const string ClicksPerTurn = "u16";
 
         /// <summary>
-        /// Pack format for 'clicker' register data.
+        /// Pack format for 'clicker' data.
         /// </summary>
         public const string Clicker = "u8";
     }

@@ -9,12 +9,6 @@ namespace Jacdac.Clients
      /// 
      /// Programs start automatically after device restart or uploading of new program.
      /// You can stop programs until next reset by setting the `running` register to `0`.
-     /// 
-     /// TODO - debug interface:
-     /// * read-globals command/register
-     /// * globals-changed pipe
-     /// * breakpoint command
-     /// * some performance monitoring?
     /// Implements a client for the DeviceScript Manager service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/devicescriptmanager/" />
@@ -65,25 +59,6 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>logging</c> register value.
-        /// `log_message` reports are only sent when this is `true`.
-        /// It defaults to `false`., 
-        /// </summary>
-        public bool Logging
-        {
-            get
-            {
-                return (bool)this.GetRegisterValueAsBool((ushort)DeviceScriptManagerReg.Logging, DeviceScriptManagerRegPack.Logging);
-            }
-            set
-            {
-                
-                this.SetRegisterValue((ushort)DeviceScriptManagerReg.Logging, DeviceScriptManagerRegPack.Logging, value);
-            }
-
-        }
-
-        /// <summary>
         /// Reads the <c>program_size</c> register value.
         /// The size of current program., 
         /// </summary>
@@ -116,6 +91,51 @@ namespace Jacdac.Clients
             get
             {
                 return (byte[])this.GetRegisterValue((ushort)DeviceScriptManagerReg.ProgramSha256, DeviceScriptManagerRegPack.ProgramSha256);
+            }
+        }
+
+        /// <summary>
+        /// Tries to read the <c>runtime_version</c> register value.
+        /// Returns the runtime version number compatible with [Semver](https://semver.org/).
+        /// When read as 32-bit little endian integer a version `7.15.500` would be `0x07_0F_01F4`., 
+        /// </summary>
+        bool TryGetRuntimeVersion(out object[] /*(uint, uint, uint)*/ value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)DeviceScriptManagerReg.RuntimeVersion, DeviceScriptManagerRegPack.RuntimeVersion, out values)) 
+            {
+                value = (object[] /*(uint, uint, uint)*/)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(object[] /*(uint, uint, uint)*/);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Reads the <c>program_name</c> register value.
+        /// The name of currently running program. The compiler takes is from `package.json`., 
+        /// </summary>
+        public string ProgramName
+        {
+            get
+            {
+                return (string)this.GetRegisterValue((ushort)DeviceScriptManagerReg.ProgramName, DeviceScriptManagerRegPack.ProgramName);
+            }
+        }
+
+        /// <summary>
+        /// Reads the <c>program_version</c> register value.
+        /// The version number of currently running program. The compiler takes is from `package.json`
+        /// and `git`., 
+        /// </summary>
+        public string ProgramVersion
+        {
+            get
+            {
+                return (string)this.GetRegisterValue((ushort)DeviceScriptManagerReg.ProgramVersion, DeviceScriptManagerRegPack.ProgramVersion);
             }
         }
 

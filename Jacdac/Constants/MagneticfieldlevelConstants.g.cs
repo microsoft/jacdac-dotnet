@@ -48,17 +48,17 @@ namespace Jacdac {
 
     public static class MagneticFieldLevelRegPack {
         /// <summary>
-        /// Pack format for 'strength' register data.
+        /// Pack format for 'strength' data.
         /// </summary>
         public const string Strength = "i1.15";
 
         /// <summary>
-        /// Pack format for 'detected' register data.
+        /// Pack format for 'detected' data.
         /// </summary>
         public const string Detected = "u8";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

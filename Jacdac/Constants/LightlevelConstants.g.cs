@@ -40,17 +40,17 @@ namespace Jacdac {
 
     public static class LightLevelRegPack {
         /// <summary>
-        /// Pack format for 'light_level' register data.
+        /// Pack format for 'light_level' data.
         /// </summary>
         public const string LightLevel = "u0.16";
 
         /// <summary>
-        /// Pack format for 'light_level_error' register data.
+        /// Pack format for 'light_level_error' data.
         /// </summary>
         public const string LightLevelError = "u0.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

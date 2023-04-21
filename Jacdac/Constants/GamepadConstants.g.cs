@@ -64,17 +64,17 @@ namespace Jacdac {
 
     public static class GamepadRegPack {
         /// <summary>
-        /// Pack format for 'direction' register data.
+        /// Pack format for 'direction' data.
         /// </summary>
         public const string Direction = "u32 i1.15 i1.15";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
 
         /// <summary>
-        /// Pack format for 'buttons_available' register data.
+        /// Pack format for 'buttons_available' data.
         /// </summary>
         public const string ButtonsAvailable = "u32";
     }
@@ -92,7 +92,7 @@ namespace Jacdac {
 
     public static class GamepadEventPack {
         /// <summary>
-        /// Pack format for 'buttons_changed' register data.
+        /// Pack format for 'buttons_changed' data.
         /// </summary>
         public const string ButtonsChanged = "u32";
     }

@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class SoundLevelRegPack {
         /// <summary>
-        /// Pack format for 'sound_level' register data.
+        /// Pack format for 'sound_level' data.
         /// </summary>
         public const string SoundLevel = "u0.16";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'loud_threshold' register data.
+        /// Pack format for 'loud_threshold' data.
         /// </summary>
         public const string LoudThreshold = "u0.16";
 
         /// <summary>
-        /// Pack format for 'quiet_threshold' register data.
+        /// Pack format for 'quiet_threshold' data.
         /// </summary>
         public const string QuietThreshold = "u0.16";
     }

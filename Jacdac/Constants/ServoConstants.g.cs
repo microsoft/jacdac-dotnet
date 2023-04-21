@@ -97,52 +97,52 @@ namespace Jacdac {
 
     public static class ServoRegPack {
         /// <summary>
-        /// Pack format for 'angle' register data.
+        /// Pack format for 'angle' data.
         /// </summary>
         public const string Angle = "i16.16";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'offset' register data.
+        /// Pack format for 'offset' data.
         /// </summary>
         public const string Offset = "i16.16";
 
         /// <summary>
-        /// Pack format for 'min_angle' register data.
+        /// Pack format for 'min_angle' data.
         /// </summary>
         public const string MinAngle = "i16.16";
 
         /// <summary>
-        /// Pack format for 'min_pulse' register data.
+        /// Pack format for 'min_pulse' data.
         /// </summary>
         public const string MinPulse = "u16";
 
         /// <summary>
-        /// Pack format for 'max_angle' register data.
+        /// Pack format for 'max_angle' data.
         /// </summary>
         public const string MaxAngle = "i16.16";
 
         /// <summary>
-        /// Pack format for 'max_pulse' register data.
+        /// Pack format for 'max_pulse' data.
         /// </summary>
         public const string MaxPulse = "u16";
 
         /// <summary>
-        /// Pack format for 'stall_torque' register data.
+        /// Pack format for 'stall_torque' data.
         /// </summary>
         public const string StallTorque = "u16.16";
 
         /// <summary>
-        /// Pack format for 'response_speed' register data.
+        /// Pack format for 'response_speed' data.
         /// </summary>
         public const string ResponseSpeed = "u16.16";
 
         /// <summary>
-        /// Pack format for 'actual_angle' register data.
+        /// Pack format for 'actual_angle' data.
         /// </summary>
         public const string ActualAngle = "i16.16";
     }

@@ -47,6 +47,44 @@ namespace Jacdac.Clients
             }
         }
 
+        /// <summary>
+        /// Tries to read the <c>min_pressure</c> register value.
+        /// Lowest air pressure that can be reported., _: hPa
+        /// </summary>
+        bool TryGetMinPressure(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AirPressureReg.MinPressure, AirPressureRegPack.MinPressure, out values)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to read the <c>max_pressure</c> register value.
+        /// Highest air pressure that can be reported., _: hPa
+        /// </summary>
+        bool TryGetMaxPressure(out float value)
+        {
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)AirPressureReg.MaxPressure, AirPressureRegPack.MaxPressure, out values)) 
+            {
+                value = (float)values[0];
+                return true;
+            }
+            else
+            {
+                value = default(float);
+                return false;
+            }
+        }
+
 
     }
 }

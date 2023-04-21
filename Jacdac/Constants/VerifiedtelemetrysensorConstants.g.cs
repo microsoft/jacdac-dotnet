@@ -57,22 +57,22 @@ namespace Jacdac {
 
     public static class VerifiedTelemetryRegPack {
         /// <summary>
-        /// Pack format for 'telemetry_status' register data.
+        /// Pack format for 'telemetry_status' data.
         /// </summary>
         public const string TelemetryStatus = "u8";
 
         /// <summary>
-        /// Pack format for 'telemetry_status_interval' register data.
+        /// Pack format for 'telemetry_status_interval' data.
         /// </summary>
         public const string TelemetryStatusInterval = "u32";
 
         /// <summary>
-        /// Pack format for 'fingerprint_type' register data.
+        /// Pack format for 'fingerprint_type' data.
         /// </summary>
         public const string FingerprintType = "u8";
 
         /// <summary>
-        /// Pack format for 'fingerprint_template' register data.
+        /// Pack format for 'fingerprint_template' data.
         /// </summary>
         public const string FingerprintTemplate = "u16 b";
     }
@@ -107,7 +107,7 @@ namespace Jacdac {
 
     public static class VerifiedTelemetryEventPack {
         /// <summary>
-        /// Pack format for 'telemetry_status_change' register data.
+        /// Pack format for 'telemetry_status_change' data.
         /// </summary>
         public const string TelemetryStatusChange = "u8";
     }

@@ -17,7 +17,7 @@ namespace Jacdac {
 
     public static class VibrationMotorCmdPack {
         /// <summary>
-        /// Pack format for 'vibrate' register data.
+        /// Pack format for 'vibrate' data.
         /// </summary>
         public const string Vibrate = "r: u8 u0.8";
     }
@@ -35,7 +35,7 @@ namespace Jacdac {
 
     public static class VibrationMotorRegPack {
         /// <summary>
-        /// Pack format for 'max_vibrations' register data.
+        /// Pack format for 'max_vibrations' data.
         /// </summary>
         public const string MaxVibrations = "u8";
     }

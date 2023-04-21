@@ -177,7 +177,7 @@ namespace Jacdac {
 
     public static class HidKeyboardCmdPack {
         /// <summary>
-        /// Pack format for 'key' register data.
+        /// Pack format for 'key' data.
         /// </summary>
         public const string Key = "r: u16 u8 u8";
     }

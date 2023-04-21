@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class SatNavRegPack {
         /// <summary>
-        /// Pack format for 'position' register data.
+        /// Pack format for 'position' data.
         /// </summary>
         public const string Position = "u64 i9.23 i9.23 u16.16 i26.6 u16.16";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
     }

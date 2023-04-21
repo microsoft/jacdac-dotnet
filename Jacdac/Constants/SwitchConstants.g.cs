@@ -37,12 +37,12 @@ namespace Jacdac {
 
     public static class SwitchRegPack {
         /// <summary>
-        /// Pack format for 'active' register data.
+        /// Pack format for 'active' data.
         /// </summary>
         public const string Active = "u8";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

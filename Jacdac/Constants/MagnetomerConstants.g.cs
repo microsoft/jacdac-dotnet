@@ -26,12 +26,12 @@ namespace Jacdac {
 
     public static class MagnetometerRegPack {
         /// <summary>
-        /// Pack format for 'forces' register data.
+        /// Pack format for 'forces' data.
         /// </summary>
         public const string Forces = "i32 i32 i32";
 
         /// <summary>
-        /// Pack format for 'forces_error' register data.
+        /// Pack format for 'forces_error' data.
         /// </summary>
         public const string ForcesError = "i32";
     }

@@ -63,27 +63,27 @@ namespace Jacdac {
 
     public static class MatrixKeypadRegPack {
         /// <summary>
-        /// Pack format for 'pressed' register data.
+        /// Pack format for 'pressed' data.
         /// </summary>
         public const string Pressed = "r: u8";
 
         /// <summary>
-        /// Pack format for 'rows' register data.
+        /// Pack format for 'rows' data.
         /// </summary>
         public const string Rows = "u8";
 
         /// <summary>
-        /// Pack format for 'columns' register data.
+        /// Pack format for 'columns' data.
         /// </summary>
         public const string Columns = "u8";
 
         /// <summary>
-        /// Pack format for 'labels' register data.
+        /// Pack format for 'labels' data.
         /// </summary>
         public const string Labels = "r: z";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }
@@ -128,22 +128,22 @@ namespace Jacdac {
 
     public static class MatrixKeypadEventPack {
         /// <summary>
-        /// Pack format for 'down' register data.
+        /// Pack format for 'down' data.
         /// </summary>
         public const string Down = "u8";
 
         /// <summary>
-        /// Pack format for 'up' register data.
+        /// Pack format for 'up' data.
         /// </summary>
         public const string Up = "u8";
 
         /// <summary>
-        /// Pack format for 'click' register data.
+        /// Pack format for 'click' data.
         /// </summary>
         public const string Click = "u8";
 
         /// <summary>
-        /// Pack format for 'long_click' register data.
+        /// Pack format for 'long_click' data.
         /// </summary>
         public const string LongClick = "u8";
     }

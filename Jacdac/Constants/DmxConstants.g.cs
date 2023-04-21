@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class DmxRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
     }
@@ -34,7 +34,7 @@ namespace Jacdac {
 
     public static class DmxCmdPack {
         /// <summary>
-        /// Pack format for 'send' register data.
+        /// Pack format for 'send' data.
         /// </summary>
         public const string Send = "b";
     }

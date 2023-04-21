@@ -55,22 +55,22 @@ namespace Jacdac {
 
     public static class TimeseriesAggregatorCmdPack {
         /// <summary>
-        /// Pack format for 'update' register data.
+        /// Pack format for 'update' data.
         /// </summary>
         public const string Update = "f64 s";
 
         /// <summary>
-        /// Pack format for 'set_window' register data.
+        /// Pack format for 'set_window' data.
         /// </summary>
         public const string SetWindow = "u32 s";
 
         /// <summary>
-        /// Pack format for 'set_upload' register data.
+        /// Pack format for 'set_upload' data.
         /// </summary>
         public const string SetUpload = "u8 s";
 
         /// <summary>
-        /// Pack format for 'stored' register data.
+        /// Pack format for 'stored' data.
         /// </summary>
         public const string Stored = "u32 b[4] f64 f64 f64 u32 u32 s";
     }
@@ -137,32 +137,32 @@ namespace Jacdac {
 
     public static class TimeseriesAggregatorRegPack {
         /// <summary>
-        /// Pack format for 'now' register data.
+        /// Pack format for 'now' data.
         /// </summary>
         public const string Now = "u32";
 
         /// <summary>
-        /// Pack format for 'fast_start' register data.
+        /// Pack format for 'fast_start' data.
         /// </summary>
         public const string FastStart = "u8";
 
         /// <summary>
-        /// Pack format for 'default_window' register data.
+        /// Pack format for 'default_window' data.
         /// </summary>
         public const string DefaultWindow = "u32";
 
         /// <summary>
-        /// Pack format for 'default_upload' register data.
+        /// Pack format for 'default_upload' data.
         /// </summary>
         public const string DefaultUpload = "u8";
 
         /// <summary>
-        /// Pack format for 'upload_unlabelled' register data.
+        /// Pack format for 'upload_unlabelled' data.
         /// </summary>
         public const string UploadUnlabelled = "u8";
 
         /// <summary>
-        /// Pack format for 'sensor_watchdog_period' register data.
+        /// Pack format for 'sensor_watchdog_period' data.
         /// </summary>
         public const string SensorWatchdogPeriod = "u32";
     }

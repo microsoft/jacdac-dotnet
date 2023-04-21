@@ -40,17 +40,17 @@ namespace Jacdac {
 
     public static class UvIndexRegPack {
         /// <summary>
-        /// Pack format for 'uv_index' register data.
+        /// Pack format for 'uv_index' data.
         /// </summary>
         public const string UvIndex = "u16.16";
 
         /// <summary>
-        /// Pack format for 'uv_index_error' register data.
+        /// Pack format for 'uv_index_error' data.
         /// </summary>
         public const string UvIndexError = "u16.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

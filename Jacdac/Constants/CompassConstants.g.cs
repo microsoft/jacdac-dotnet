@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class CompassRegPack {
         /// <summary>
-        /// Pack format for 'heading' register data.
+        /// Pack format for 'heading' data.
         /// </summary>
         public const string Heading = "u16.16";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'heading_error' register data.
+        /// Pack format for 'heading_error' data.
         /// </summary>
         public const string HeadingError = "u16.16";
     }

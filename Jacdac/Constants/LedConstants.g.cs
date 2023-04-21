@@ -114,52 +114,52 @@ namespace Jacdac {
 
     public static class LedRegPack {
         /// <summary>
-        /// Pack format for 'pixels' register data.
+        /// Pack format for 'pixels' data.
         /// </summary>
         public const string Pixels = "b";
 
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'actual_brightness' register data.
+        /// Pack format for 'actual_brightness' data.
         /// </summary>
         public const string ActualBrightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'num_pixels' register data.
+        /// Pack format for 'num_pixels' data.
         /// </summary>
         public const string NumPixels = "u16";
 
         /// <summary>
-        /// Pack format for 'num_columns' register data.
+        /// Pack format for 'num_columns' data.
         /// </summary>
         public const string NumColumns = "u16";
 
         /// <summary>
-        /// Pack format for 'max_power' register data.
+        /// Pack format for 'max_power' data.
         /// </summary>
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'leds_per_pixel' register data.
+        /// Pack format for 'leds_per_pixel' data.
         /// </summary>
         public const string LedsPerPixel = "u16";
 
         /// <summary>
-        /// Pack format for 'wave_length' register data.
+        /// Pack format for 'wave_length' data.
         /// </summary>
         public const string WaveLength = "u16";
 
         /// <summary>
-        /// Pack format for 'luminous_intensity' register data.
+        /// Pack format for 'luminous_intensity' data.
         /// </summary>
         public const string LuminousIntensity = "u16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

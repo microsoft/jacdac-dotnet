@@ -48,22 +48,22 @@ namespace Jacdac {
 
     public static class MotionRegPack {
         /// <summary>
-        /// Pack format for 'moving' register data.
+        /// Pack format for 'moving' data.
         /// </summary>
         public const string Moving = "u8";
 
         /// <summary>
-        /// Pack format for 'max_distance' register data.
+        /// Pack format for 'max_distance' data.
         /// </summary>
         public const string MaxDistance = "u16.16";
 
         /// <summary>
-        /// Pack format for 'angle' register data.
+        /// Pack format for 'angle' data.
         /// </summary>
         public const string Angle = "u16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

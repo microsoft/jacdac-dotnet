@@ -50,22 +50,22 @@ namespace Jacdac {
 
     public static class ModelRunnerCmdPack {
         /// <summary>
-        /// Pack format for 'set_model' register data.
+        /// Pack format for 'set_model' data.
         /// </summary>
         public const string SetModel = "u32";
 
         /// <summary>
-        /// Pack format for 'set_model' register data.
+        /// Pack format for 'set_model' data.
         /// </summary>
         public const string SetModelReport = "u16";
 
         /// <summary>
-        /// Pack format for 'predict' register data.
+        /// Pack format for 'predict' data.
         /// </summary>
         public const string Predict = "b[12]";
 
         /// <summary>
-        /// Pack format for 'predict' register data.
+        /// Pack format for 'predict' data.
         /// </summary>
         public const string PredictReport = "u16";
     }
@@ -180,57 +180,57 @@ namespace Jacdac {
 
     public static class ModelRunnerRegPack {
         /// <summary>
-        /// Pack format for 'auto_invoke_every' register data.
+        /// Pack format for 'auto_invoke_every' data.
         /// </summary>
         public const string AutoInvokeEvery = "u16";
 
         /// <summary>
-        /// Pack format for 'outputs' register data.
+        /// Pack format for 'outputs' data.
         /// </summary>
         public const string Outputs = "r: f32";
 
         /// <summary>
-        /// Pack format for 'input_shape' register data.
+        /// Pack format for 'input_shape' data.
         /// </summary>
         public const string InputShape = "r: u16";
 
         /// <summary>
-        /// Pack format for 'output_shape' register data.
+        /// Pack format for 'output_shape' data.
         /// </summary>
         public const string OutputShape = "r: u16";
 
         /// <summary>
-        /// Pack format for 'last_run_time' register data.
+        /// Pack format for 'last_run_time' data.
         /// </summary>
         public const string LastRunTime = "u32";
 
         /// <summary>
-        /// Pack format for 'allocated_arena_size' register data.
+        /// Pack format for 'allocated_arena_size' data.
         /// </summary>
         public const string AllocatedArenaSize = "u32";
 
         /// <summary>
-        /// Pack format for 'model_size' register data.
+        /// Pack format for 'model_size' data.
         /// </summary>
         public const string ModelSize = "u32";
 
         /// <summary>
-        /// Pack format for 'last_error' register data.
+        /// Pack format for 'last_error' data.
         /// </summary>
         public const string LastError = "s";
 
         /// <summary>
-        /// Pack format for 'format' register data.
+        /// Pack format for 'format' data.
         /// </summary>
         public const string Format = "u32";
 
         /// <summary>
-        /// Pack format for 'format_version' register data.
+        /// Pack format for 'format_version' data.
         /// </summary>
         public const string FormatVersion = "u32";
 
         /// <summary>
-        /// Pack format for 'parallel' register data.
+        /// Pack format for 'parallel' data.
         /// </summary>
         public const string Parallel = "u8";
     }

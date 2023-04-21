@@ -36,12 +36,12 @@ namespace Jacdac {
 
     public static class RngRegPack {
         /// <summary>
-        /// Pack format for 'random' register data.
+        /// Pack format for 'random' data.
         /// </summary>
         public const string Random = "b";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

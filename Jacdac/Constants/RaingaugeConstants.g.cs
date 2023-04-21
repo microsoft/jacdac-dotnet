@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class RainGaugeRegPack {
         /// <summary>
-        /// Pack format for 'precipitation' register data.
+        /// Pack format for 'precipitation' data.
         /// </summary>
         public const string Precipitation = "u16.16";
 
         /// <summary>
-        /// Pack format for 'precipitation_precision' register data.
+        /// Pack format for 'precipitation_precision' data.
         /// </summary>
         public const string PrecipitationPrecision = "u16.16";
     }

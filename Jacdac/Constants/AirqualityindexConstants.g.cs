@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class AirQualityIndexRegPack {
         /// <summary>
-        /// Pack format for 'aqi_index' register data.
+        /// Pack format for 'aqi_index' data.
         /// </summary>
         public const string AqiIndex = "u16.16";
 
         /// <summary>
-        /// Pack format for 'aqi_index_error' register data.
+        /// Pack format for 'aqi_index_error' data.
         /// </summary>
         public const string AqiIndexError = "u16.16";
 
         /// <summary>
-        /// Pack format for 'min_aqi_index' register data.
+        /// Pack format for 'min_aqi_index' data.
         /// </summary>
         public const string MinAqiIndex = "u16.16";
 
         /// <summary>
-        /// Pack format for 'max_aqi_index' register data.
+        /// Pack format for 'max_aqi_index' data.
         /// </summary>
         public const string MaxAqiIndex = "u16.16";
     }

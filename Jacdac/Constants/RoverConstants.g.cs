@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class RoverRegPack {
         /// <summary>
-        /// Pack format for 'kinematics' register data.
+        /// Pack format for 'kinematics' data.
         /// </summary>
         public const string Kinematics = "i16.16 i16.16 i16.16 i16.16 i16.16";
     }

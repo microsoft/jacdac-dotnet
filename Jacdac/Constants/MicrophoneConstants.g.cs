@@ -19,7 +19,7 @@ namespace Jacdac {
 
     public static class MicrophoneCmdPack {
         /// <summary>
-        /// Pack format for 'sample' register data.
+        /// Pack format for 'sample' data.
         /// </summary>
         public const string Sample = "b[12] u32";
     }
@@ -38,7 +38,7 @@ namespace Jacdac {
 
     public static class MicrophoneRegPack {
         /// <summary>
-        /// Pack format for 'sampling_period' register data.
+        /// Pack format for 'sampling_period' data.
         /// </summary>
         public const string SamplingPeriod = "u32";
     }

@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class WindDirectionRegPack {
         /// <summary>
-        /// Pack format for 'wind_direction' register data.
+        /// Pack format for 'wind_direction' data.
         /// </summary>
         public const string WindDirection = "u16";
 
         /// <summary>
-        /// Pack format for 'wind_direction_error' register data.
+        /// Pack format for 'wind_direction_error' data.
         /// </summary>
         public const string WindDirectionError = "u16";
     }

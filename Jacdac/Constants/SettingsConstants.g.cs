@@ -64,60 +64,60 @@ namespace Jacdac {
 
     public static class SettingsCmdPack {
         /// <summary>
-        /// Pack format for 'get' register data.
+        /// Pack format for 'get' data.
         /// </summary>
         public const string Get = "s";
 
         /// <summary>
-        /// Pack format for 'get' register data.
+        /// Pack format for 'get' data.
         /// </summary>
         public const string GetReport = "z b";
 
         /// <summary>
-        /// Pack format for 'set' register data.
+        /// Pack format for 'set' data.
         /// </summary>
         public const string Set = "z b";
 
         /// <summary>
-        /// Pack format for 'delete' register data.
+        /// Pack format for 'delete' data.
         /// </summary>
         public const string Delete = "s";
 
         /// <summary>
-        /// Pack format for 'list_keys' register data.
+        /// Pack format for 'list_keys' data.
         /// </summary>
         public const string ListKeys = "b[12]";
 
         /// <summary>
-        /// Pack format for 'list' register data.
+        /// Pack format for 'list' data.
         /// </summary>
         public const string List = "b[12]";
     }
 
-
-    /// <summary>
-    /// pipe_report ListedKey
-    /// ```
-    /// const [key] = jdunpack<[string]>(buf, "s")
-    /// ```
-    /// </summary>
-
-    /// <summary>
-    /// pipe_report ListedEntry
-    /// ```
-    /// const [key, value] = jdunpack<[string, Uint8Array]>(buf, "z b")
-    /// ```
-    /// </summary>
-
-
-    public static class SettingsinfoPack {
+    public enum SettingsPipe : ushort {
         /// <summary>
-        /// Pack format for 'listed_key' register data.
+        /// pipe_report ListedKey
+        /// ```
+        /// const [key] = jdunpack<[string]>(buf, "s")
+        /// ```
+        /// </summary>
+
+        /// <summary>
+        /// pipe_report ListedEntry
+        /// ```
+        /// const [key, value] = jdunpack<[string, Uint8Array]>(buf, "z b")
+        /// ```
+        /// </summary>
+    }
+
+    public static class SettingsPipePack {
+        /// <summary>
+        /// Pack format for 'listed_key' data.
         /// </summary>
         public const string ListedKey = "s";
 
         /// <summary>
-        /// Pack format for 'listed_entry' register data.
+        /// Pack format for 'listed_entry' data.
         /// </summary>
         public const string ListedEntry = "z b";
     }

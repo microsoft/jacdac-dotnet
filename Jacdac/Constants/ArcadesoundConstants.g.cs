@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class ArcadeSoundCmdPack {
         /// <summary>
-        /// Pack format for 'play' register data.
+        /// Pack format for 'play' data.
         /// </summary>
         public const string Play = "b";
     }
@@ -56,17 +56,17 @@ namespace Jacdac {
 
     public static class ArcadeSoundRegPack {
         /// <summary>
-        /// Pack format for 'sample_rate' register data.
+        /// Pack format for 'sample_rate' data.
         /// </summary>
         public const string SampleRate = "u22.10";
 
         /// <summary>
-        /// Pack format for 'buffer_size' register data.
+        /// Pack format for 'buffer_size' data.
         /// </summary>
         public const string BufferSize = "u32";
 
         /// <summary>
-        /// Pack format for 'buffer_pending' register data.
+        /// Pack format for 'buffer_pending' data.
         /// </summary>
         public const string BufferPending = "u32";
     }

@@ -87,42 +87,42 @@ namespace Jacdac {
 
     public static class WeightScaleRegPack {
         /// <summary>
-        /// Pack format for 'weight' register data.
+        /// Pack format for 'weight' data.
         /// </summary>
         public const string Weight = "u16.16";
 
         /// <summary>
-        /// Pack format for 'weight_error' register data.
+        /// Pack format for 'weight_error' data.
         /// </summary>
         public const string WeightError = "u16.16";
 
         /// <summary>
-        /// Pack format for 'zero_offset' register data.
+        /// Pack format for 'zero_offset' data.
         /// </summary>
         public const string ZeroOffset = "u16.16";
 
         /// <summary>
-        /// Pack format for 'gain' register data.
+        /// Pack format for 'gain' data.
         /// </summary>
         public const string Gain = "u16.16";
 
         /// <summary>
-        /// Pack format for 'max_weight' register data.
+        /// Pack format for 'max_weight' data.
         /// </summary>
         public const string MaxWeight = "u16.16";
 
         /// <summary>
-        /// Pack format for 'min_weight' register data.
+        /// Pack format for 'min_weight' data.
         /// </summary>
         public const string MinWeight = "u16.16";
 
         /// <summary>
-        /// Pack format for 'weight_resolution' register data.
+        /// Pack format for 'weight_resolution' data.
         /// </summary>
         public const string WeightResolution = "u16.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }
@@ -145,7 +145,7 @@ namespace Jacdac {
 
     public static class WeightScaleCmdPack {
         /// <summary>
-        /// Pack format for 'calibrate_gain' register data.
+        /// Pack format for 'calibrate_gain' data.
         /// </summary>
         public const string CalibrateGain = "u22.10";
     }

@@ -33,7 +33,7 @@ namespace Jacdac {
 
     public static class SoundRecorderWithPlaybackCmdPack {
         /// <summary>
-        /// Pack format for 'record' register data.
+        /// Pack format for 'record' data.
         /// </summary>
         public const string Record = "u16";
     }
@@ -69,17 +69,17 @@ namespace Jacdac {
 
     public static class SoundRecorderWithPlaybackRegPack {
         /// <summary>
-        /// Pack format for 'status' register data.
+        /// Pack format for 'status' data.
         /// </summary>
         public const string Status = "u8";
 
         /// <summary>
-        /// Pack format for 'time' register data.
+        /// Pack format for 'time' data.
         /// </summary>
         public const string Time = "u16";
 
         /// <summary>
-        /// Pack format for 'volume' register data.
+        /// Pack format for 'volume' data.
         /// </summary>
         public const string Volume = "u0.8";
     }

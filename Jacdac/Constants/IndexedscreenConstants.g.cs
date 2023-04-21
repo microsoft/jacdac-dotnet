@@ -26,12 +26,12 @@ namespace Jacdac {
 
     public static class IndexedScreenCmdPack {
         /// <summary>
-        /// Pack format for 'start_update' register data.
+        /// Pack format for 'start_update' data.
         /// </summary>
         public const string StartUpdate = "u16 u16 u16 u16";
 
         /// <summary>
-        /// Pack format for 'set_pixels' register data.
+        /// Pack format for 'set_pixels' data.
         /// </summary>
         public const string SetPixels = "b";
     }
@@ -126,42 +126,42 @@ namespace Jacdac {
 
     public static class IndexedScreenRegPack {
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'palette' register data.
+        /// Pack format for 'palette' data.
         /// </summary>
         public const string Palette = "r: u8 u8 u8 u8";
 
         /// <summary>
-        /// Pack format for 'bits_per_pixel' register data.
+        /// Pack format for 'bits_per_pixel' data.
         /// </summary>
         public const string BitsPerPixel = "u8";
 
         /// <summary>
-        /// Pack format for 'width' register data.
+        /// Pack format for 'width' data.
         /// </summary>
         public const string Width = "u16";
 
         /// <summary>
-        /// Pack format for 'height' register data.
+        /// Pack format for 'height' data.
         /// </summary>
         public const string Height = "u16";
 
         /// <summary>
-        /// Pack format for 'width_major' register data.
+        /// Pack format for 'width_major' data.
         /// </summary>
         public const string WidthMajor = "u8";
 
         /// <summary>
-        /// Pack format for 'up_sampling' register data.
+        /// Pack format for 'up_sampling' data.
         /// </summary>
         public const string UpSampling = "u8";
 
         /// <summary>
-        /// Pack format for 'rotation' register data.
+        /// Pack format for 'rotation' data.
         /// </summary>
         public const string Rotation = "u16";
     }

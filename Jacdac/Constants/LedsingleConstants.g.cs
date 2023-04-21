@@ -24,7 +24,7 @@ namespace Jacdac {
 
     public static class LedSingleCmdPack {
         /// <summary>
-        /// Pack format for 'animate' register data.
+        /// Pack format for 'animate' data.
         /// </summary>
         public const string Animate = "u8 u8 u8 u8";
     }
@@ -87,32 +87,32 @@ namespace Jacdac {
 
     public static class LedSingleRegPack {
         /// <summary>
-        /// Pack format for 'color' register data.
+        /// Pack format for 'color' data.
         /// </summary>
         public const string Color = "u8 u8 u8";
 
         /// <summary>
-        /// Pack format for 'max_power' register data.
+        /// Pack format for 'max_power' data.
         /// </summary>
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'led_count' register data.
+        /// Pack format for 'led_count' data.
         /// </summary>
         public const string LedCount = "u16";
 
         /// <summary>
-        /// Pack format for 'wave_length' register data.
+        /// Pack format for 'wave_length' data.
         /// </summary>
         public const string WaveLength = "u16";
 
         /// <summary>
-        /// Pack format for 'luminous_intensity' register data.
+        /// Pack format for 'luminous_intensity' data.
         /// </summary>
         public const string LuminousIntensity = "u16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

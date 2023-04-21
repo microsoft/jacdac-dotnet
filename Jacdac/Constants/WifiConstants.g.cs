@@ -89,55 +89,55 @@ namespace Jacdac {
 
     public static class WifiCmdPack {
         /// <summary>
-        /// Pack format for 'last_scan_results' register data.
+        /// Pack format for 'last_scan_results' data.
         /// </summary>
         public const string LastScanResults = "b[12]";
 
         /// <summary>
-        /// Pack format for 'add_network' register data.
+        /// Pack format for 'add_network' data.
         /// </summary>
         public const string AddNetwork = "z z";
 
         /// <summary>
-        /// Pack format for 'forget_network' register data.
+        /// Pack format for 'forget_network' data.
         /// </summary>
         public const string ForgetNetwork = "s";
 
         /// <summary>
-        /// Pack format for 'set_network_priority' register data.
+        /// Pack format for 'set_network_priority' data.
         /// </summary>
         public const string SetNetworkPriority = "i16 s";
 
         /// <summary>
-        /// Pack format for 'list_known_networks' register data.
+        /// Pack format for 'list_known_networks' data.
         /// </summary>
         public const string ListKnownNetworks = "b[12]";
     }
 
-
-    /// <summary>
-    /// pipe_report Results
-    /// ```
-    /// const [flags, rssi, channel, bssid, ssid] = jdunpack<[WifiAPFlags, number, number, Uint8Array, string]>(buf, "u32 x[4] i8 u8 b[6] s[33]")
-    /// ```
-    /// </summary>
-
-    /// <summary>
-    /// pipe_report NetworkResults
-    /// ```
-    /// const [priority, flags, ssid] = jdunpack<[number, number, string]>(buf, "i16 i16 s")
-    /// ```
-    /// </summary>
-
-
-    public static class WifiinfoPack {
+    public enum WifiPipe : ushort {
         /// <summary>
-        /// Pack format for 'results' register data.
+        /// pipe_report Results
+        /// ```
+        /// const [flags, rssi, channel, bssid, ssid] = jdunpack<[WifiAPFlags, number, number, Uint8Array, string]>(buf, "u32 x[4] i8 u8 b[6] s[33]")
+        /// ```
+        /// </summary>
+
+        /// <summary>
+        /// pipe_report NetworkResults
+        /// ```
+        /// const [priority, flags, ssid] = jdunpack<[number, number, string]>(buf, "i16 i16 s")
+        /// ```
+        /// </summary>
+    }
+
+    public static class WifiPipePack {
+        /// <summary>
+        /// Pack format for 'results' data.
         /// </summary>
         public const string Results = "u32 u32 i8 u8 b[6] s[33]";
 
         /// <summary>
-        /// Pack format for 'network_results' register data.
+        /// Pack format for 'network_results' data.
         /// </summary>
         public const string NetworkResults = "i16 i16 s";
     }
@@ -192,27 +192,27 @@ namespace Jacdac {
 
     public static class WifiRegPack {
         /// <summary>
-        /// Pack format for 'rssi' register data.
+        /// Pack format for 'rssi' data.
         /// </summary>
         public const string Rssi = "i8";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'ip_address' register data.
+        /// Pack format for 'ip_address' data.
         /// </summary>
         public const string IpAddress = "b[16]";
 
         /// <summary>
-        /// Pack format for 'eui_48' register data.
+        /// Pack format for 'eui_48' data.
         /// </summary>
         public const string Eui48 = "b[6]";
 
         /// <summary>
-        /// Pack format for 'ssid' register data.
+        /// Pack format for 'ssid' data.
         /// </summary>
         public const string Ssid = "s[32]";
     }
@@ -258,12 +258,12 @@ namespace Jacdac {
 
     public static class WifiEventPack {
         /// <summary>
-        /// Pack format for 'scan_complete' register data.
+        /// Pack format for 'scan_complete' data.
         /// </summary>
         public const string ScanComplete = "u16 u16";
 
         /// <summary>
-        /// Pack format for 'connection_failed' register data.
+        /// Pack format for 'connection_failed' data.
         /// </summary>
         public const string ConnectionFailed = "s";
     }

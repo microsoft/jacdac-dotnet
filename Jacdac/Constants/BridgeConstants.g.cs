@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class BridgeRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
     }

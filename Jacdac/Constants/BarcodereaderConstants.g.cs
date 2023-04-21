@@ -42,12 +42,12 @@ namespace Jacdac {
 
     public static class BarcodeReaderRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'formats' register data.
+        /// Pack format for 'formats' data.
         /// </summary>
         public const string Formats = "r: u8";
     }
@@ -66,7 +66,7 @@ namespace Jacdac {
 
     public static class BarcodeReaderEventPack {
         /// <summary>
-        /// Pack format for 'detect' register data.
+        /// Pack format for 'detect' data.
         /// </summary>
         public const string Detect = "u8 s";
     }

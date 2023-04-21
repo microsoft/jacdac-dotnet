@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class SensorRegPack {
         /// <summary>
-        /// Pack format for 'streaming_samples' register data.
+        /// Pack format for 'streaming_samples' data.
         /// </summary>
         public const string StreamingSamples = "u8";
 
         /// <summary>
-        /// Pack format for 'streaming_interval' register data.
+        /// Pack format for 'streaming_interval' data.
         /// </summary>
         public const string StreamingInterval = "u32";
 
         /// <summary>
-        /// Pack format for 'streaming_preferred_interval' register data.
+        /// Pack format for 'streaming_preferred_interval' data.
         /// </summary>
         public const string StreamingPreferredInterval = "u32";
     }

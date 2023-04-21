@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class HidJoystickRegPack {
         /// <summary>
-        /// Pack format for 'button_count' register data.
+        /// Pack format for 'button_count' data.
         /// </summary>
         public const string ButtonCount = "u8";
 
         /// <summary>
-        /// Pack format for 'buttons_analog' register data.
+        /// Pack format for 'buttons_analog' data.
         /// </summary>
         public const string ButtonsAnalog = "u32";
 
         /// <summary>
-        /// Pack format for 'axis_count' register data.
+        /// Pack format for 'axis_count' data.
         /// </summary>
         public const string AxisCount = "u8";
     }
@@ -71,12 +71,12 @@ namespace Jacdac {
 
     public static class HidJoystickCmdPack {
         /// <summary>
-        /// Pack format for 'set_buttons' register data.
+        /// Pack format for 'set_buttons' data.
         /// </summary>
         public const string SetButtons = "r: u0.8";
 
         /// <summary>
-        /// Pack format for 'set_axis' register data.
+        /// Pack format for 'set_axis' data.
         /// </summary>
         public const string SetAxis = "r: i1.15";
     }

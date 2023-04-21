@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class CodalMessageBusCmdPack {
         /// <summary>
-        /// Pack format for 'send' register data.
+        /// Pack format for 'send' data.
         /// </summary>
         public const string Send = "u16 u16";
     }
@@ -34,7 +34,7 @@ namespace Jacdac {
 
     public static class CodalMessageBusEventPack {
         /// <summary>
-        /// Pack format for 'message' register data.
+        /// Pack format for 'message' data.
         /// </summary>
         public const string Message = "u16 u16";
     }

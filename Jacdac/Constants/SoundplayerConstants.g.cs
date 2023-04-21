@@ -16,7 +16,7 @@ namespace Jacdac {
 
     public static class SoundPlayerRegPack {
         /// <summary>
-        /// Pack format for 'volume' register data.
+        /// Pack format for 'volume' data.
         /// </summary>
         public const string Volume = "u0.16";
     }
@@ -48,28 +48,28 @@ namespace Jacdac {
 
     public static class SoundPlayerCmdPack {
         /// <summary>
-        /// Pack format for 'play' register data.
+        /// Pack format for 'play' data.
         /// </summary>
         public const string Play = "s";
 
         /// <summary>
-        /// Pack format for 'list_sounds' register data.
+        /// Pack format for 'list_sounds' data.
         /// </summary>
         public const string ListSounds = "b[12]";
     }
 
-
-    /// <summary>
-    /// pipe_report ListSoundsPipe
-    /// ```
-    /// const [duration, name] = jdunpack<[number, string]>(buf, "u32 s")
-    /// ```
-    /// </summary>
-
-
-    public static class SoundPlayerinfoPack {
+    public enum SoundPlayerPipe : ushort {
         /// <summary>
-        /// Pack format for 'list_sounds_pipe' register data.
+        /// pipe_report ListSoundsPipe
+        /// ```
+        /// const [duration, name] = jdunpack<[number, string]>(buf, "u32 s")
+        /// ```
+        /// </summary>
+    }
+
+    public static class SoundPlayerPipePack {
+        /// <summary>
+        /// Pack format for 'list_sounds_pipe' data.
         /// </summary>
         public const string ListSoundsPipe = "u32 s";
     }

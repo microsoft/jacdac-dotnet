@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class PowerSupplyRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'output_voltage' register data.
+        /// Pack format for 'output_voltage' data.
         /// </summary>
         public const string OutputVoltage = "f64";
 
         /// <summary>
-        /// Pack format for 'minimum_voltage' register data.
+        /// Pack format for 'minimum_voltage' data.
         /// </summary>
         public const string MinimumVoltage = "f64";
 
         /// <summary>
-        /// Pack format for 'maximum_voltage' register data.
+        /// Pack format for 'maximum_voltage' data.
         /// </summary>
         public const string MaximumVoltage = "f64";
     }

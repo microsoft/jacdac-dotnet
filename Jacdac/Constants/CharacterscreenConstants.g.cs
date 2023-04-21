@@ -74,32 +74,32 @@ namespace Jacdac {
 
     public static class CharacterScreenRegPack {
         /// <summary>
-        /// Pack format for 'message' register data.
+        /// Pack format for 'message' data.
         /// </summary>
         public const string Message = "s";
 
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
 
         /// <summary>
-        /// Pack format for 'text_direction' register data.
+        /// Pack format for 'text_direction' data.
         /// </summary>
         public const string TextDirection = "u8";
 
         /// <summary>
-        /// Pack format for 'rows' register data.
+        /// Pack format for 'rows' data.
         /// </summary>
         public const string Rows = "u8";
 
         /// <summary>
-        /// Pack format for 'columns' register data.
+        /// Pack format for 'columns' data.
         /// </summary>
         public const string Columns = "u8";
     }

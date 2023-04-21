@@ -52,27 +52,27 @@ namespace Jacdac {
 
     public static class SpeechSynthesisRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'lang' register data.
+        /// Pack format for 'lang' data.
         /// </summary>
         public const string Lang = "s";
 
         /// <summary>
-        /// Pack format for 'volume' register data.
+        /// Pack format for 'volume' data.
         /// </summary>
         public const string Volume = "u0.8";
 
         /// <summary>
-        /// Pack format for 'pitch' register data.
+        /// Pack format for 'pitch' data.
         /// </summary>
         public const string Pitch = "u16.16";
 
         /// <summary>
-        /// Pack format for 'rate' register data.
+        /// Pack format for 'rate' data.
         /// </summary>
         public const string Rate = "u16.16";
     }
@@ -95,7 +95,7 @@ namespace Jacdac {
 
     public static class SpeechSynthesisCmdPack {
         /// <summary>
-        /// Pack format for 'speak' register data.
+        /// Pack format for 'speak' data.
         /// </summary>
         public const string Speak = "s";
     }

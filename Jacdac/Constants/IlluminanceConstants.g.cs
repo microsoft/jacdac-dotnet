@@ -25,12 +25,12 @@ namespace Jacdac {
 
     public static class IlluminanceRegPack {
         /// <summary>
-        /// Pack format for 'illuminance' register data.
+        /// Pack format for 'illuminance' data.
         /// </summary>
         public const string Illuminance = "u22.10";
 
         /// <summary>
-        /// Pack format for 'illuminance_error' register data.
+        /// Pack format for 'illuminance_error' data.
         /// </summary>
         public const string IlluminanceError = "u22.10";
     }

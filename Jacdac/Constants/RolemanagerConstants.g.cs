@@ -30,12 +30,12 @@ namespace Jacdac {
 
     public static class RoleManagerRegPack {
         /// <summary>
-        /// Pack format for 'auto_bind' register data.
+        /// Pack format for 'auto_bind' data.
         /// </summary>
         public const string AutoBind = "u8";
 
         /// <summary>
-        /// Pack format for 'all_roles_allocated' register data.
+        /// Pack format for 'all_roles_allocated' data.
         /// </summary>
         public const string AllRolesAllocated = "u8";
     }
@@ -67,28 +67,28 @@ namespace Jacdac {
 
     public static class RoleManagerCmdPack {
         /// <summary>
-        /// Pack format for 'set_role' register data.
+        /// Pack format for 'set_role' data.
         /// </summary>
         public const string SetRole = "b[8] u8 s";
 
         /// <summary>
-        /// Pack format for 'list_roles' register data.
+        /// Pack format for 'list_roles' data.
         /// </summary>
         public const string ListRoles = "b[12]";
     }
 
-
-    /// <summary>
-    /// pipe_report Roles
-    /// ```
-    /// const [deviceId, serviceClass, serviceIdx, role] = jdunpack<[Uint8Array, number, number, string]>(buf, "b[8] u32 u8 s")
-    /// ```
-    /// </summary>
-
-
-    public static class RoleManagerinfoPack {
+    public enum RoleManagerPipe : ushort {
         /// <summary>
-        /// Pack format for 'roles' register data.
+        /// pipe_report Roles
+        /// ```
+        /// const [deviceId, serviceClass, serviceIdx, role] = jdunpack<[Uint8Array, number, number, string]>(buf, "b[8] u32 u8 s")
+        /// ```
+        /// </summary>
+    }
+
+    public static class RoleManagerPipePack {
+        /// <summary>
+        /// Pack format for 'roles' data.
         /// </summary>
         public const string Roles = "b[8] u32 u8 s";
     }

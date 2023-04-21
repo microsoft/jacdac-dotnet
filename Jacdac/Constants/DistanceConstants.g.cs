@@ -60,27 +60,27 @@ namespace Jacdac {
 
     public static class DistanceRegPack {
         /// <summary>
-        /// Pack format for 'distance' register data.
+        /// Pack format for 'distance' data.
         /// </summary>
         public const string Distance = "u16.16";
 
         /// <summary>
-        /// Pack format for 'distance_error' register data.
+        /// Pack format for 'distance_error' data.
         /// </summary>
         public const string DistanceError = "u16.16";
 
         /// <summary>
-        /// Pack format for 'min_range' register data.
+        /// Pack format for 'min_range' data.
         /// </summary>
         public const string MinRange = "u16.16";
 
         /// <summary>
-        /// Pack format for 'max_range' register data.
+        /// Pack format for 'max_range' data.
         /// </summary>
         public const string MaxRange = "u16.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

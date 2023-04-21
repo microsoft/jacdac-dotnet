@@ -105,47 +105,47 @@ namespace Jacdac {
 
     public static class PowerRegPack {
         /// <summary>
-        /// Pack format for 'allowed' register data.
+        /// Pack format for 'allowed' data.
         /// </summary>
         public const string Allowed = "u8";
 
         /// <summary>
-        /// Pack format for 'max_power' register data.
+        /// Pack format for 'max_power' data.
         /// </summary>
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'power_status' register data.
+        /// Pack format for 'power_status' data.
         /// </summary>
         public const string PowerStatus = "u8";
 
         /// <summary>
-        /// Pack format for 'current_draw' register data.
+        /// Pack format for 'current_draw' data.
         /// </summary>
         public const string CurrentDraw = "u16";
 
         /// <summary>
-        /// Pack format for 'battery_voltage' register data.
+        /// Pack format for 'battery_voltage' data.
         /// </summary>
         public const string BatteryVoltage = "u16";
 
         /// <summary>
-        /// Pack format for 'battery_charge' register data.
+        /// Pack format for 'battery_charge' data.
         /// </summary>
         public const string BatteryCharge = "u0.16";
 
         /// <summary>
-        /// Pack format for 'battery_capacity' register data.
+        /// Pack format for 'battery_capacity' data.
         /// </summary>
         public const string BatteryCapacity = "u32";
 
         /// <summary>
-        /// Pack format for 'keep_on_pulse_duration' register data.
+        /// Pack format for 'keep_on_pulse_duration' data.
         /// </summary>
         public const string KeepOnPulseDuration = "u16";
 
         /// <summary>
-        /// Pack format for 'keep_on_pulse_period' register data.
+        /// Pack format for 'keep_on_pulse_period' data.
         /// </summary>
         public const string KeepOnPulsePeriod = "u16";
     }
@@ -170,7 +170,7 @@ namespace Jacdac {
 
     public static class PowerEventPack {
         /// <summary>
-        /// Pack format for 'power_status_changed' register data.
+        /// Pack format for 'power_status_changed' data.
         /// </summary>
         public const string PowerStatusChanged = "u8";
     }

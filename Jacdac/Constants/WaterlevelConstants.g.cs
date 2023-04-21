@@ -41,17 +41,17 @@ namespace Jacdac {
 
     public static class WaterLevelRegPack {
         /// <summary>
-        /// Pack format for 'level' register data.
+        /// Pack format for 'level' data.
         /// </summary>
         public const string Level = "u0.16";
 
         /// <summary>
-        /// Pack format for 'level_error' register data.
+        /// Pack format for 'level_error' data.
         /// </summary>
         public const string LevelError = "u0.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

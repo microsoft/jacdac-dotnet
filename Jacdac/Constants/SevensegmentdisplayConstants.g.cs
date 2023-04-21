@@ -56,27 +56,27 @@ namespace Jacdac {
 
     public static class SevenSegmentDisplayRegPack {
         /// <summary>
-        /// Pack format for 'digits' register data.
+        /// Pack format for 'digits' data.
         /// </summary>
         public const string Digits = "b";
 
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.16";
 
         /// <summary>
-        /// Pack format for 'double_dots' register data.
+        /// Pack format for 'double_dots' data.
         /// </summary>
         public const string DoubleDots = "u8";
 
         /// <summary>
-        /// Pack format for 'digit_count' register data.
+        /// Pack format for 'digit_count' data.
         /// </summary>
         public const string DigitCount = "u8";
 
         /// <summary>
-        /// Pack format for 'decimal_point' register data.
+        /// Pack format for 'decimal_point' data.
         /// </summary>
         public const string DecimalPoint = "u8";
     }
@@ -90,7 +90,7 @@ namespace Jacdac {
 
     public static class SevenSegmentDisplayCmdPack {
         /// <summary>
-        /// Pack format for 'set_number' register data.
+        /// Pack format for 'set_number' data.
         /// </summary>
         public const string SetNumber = "f64";
     }

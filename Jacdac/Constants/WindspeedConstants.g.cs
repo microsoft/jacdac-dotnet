@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class WindSpeedRegPack {
         /// <summary>
-        /// Pack format for 'wind_speed' register data.
+        /// Pack format for 'wind_speed' data.
         /// </summary>
         public const string WindSpeed = "u16.16";
 
         /// <summary>
-        /// Pack format for 'wind_speed_error' register data.
+        /// Pack format for 'wind_speed_error' data.
         /// </summary>
         public const string WindSpeedError = "u16.16";
 
         /// <summary>
-        /// Pack format for 'max_wind_speed' register data.
+        /// Pack format for 'max_wind_speed' data.
         /// </summary>
         public const string MaxWindSpeed = "u16.16";
     }

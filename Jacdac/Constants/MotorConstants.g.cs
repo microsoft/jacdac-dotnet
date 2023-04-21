@@ -54,27 +54,27 @@ namespace Jacdac {
 
     public static class MotorRegPack {
         /// <summary>
-        /// Pack format for 'speed' register data.
+        /// Pack format for 'speed' data.
         /// </summary>
         public const string Speed = "i1.15";
 
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'load_torque' register data.
+        /// Pack format for 'load_torque' data.
         /// </summary>
         public const string LoadTorque = "u16.16";
 
         /// <summary>
-        /// Pack format for 'load_rotation_speed' register data.
+        /// Pack format for 'load_rotation_speed' data.
         /// </summary>
         public const string LoadRotationSpeed = "u16.16";
 
         /// <summary>
-        /// Pack format for 'reversible' register data.
+        /// Pack format for 'reversible' data.
         /// </summary>
         public const string Reversible = "u8";
     }

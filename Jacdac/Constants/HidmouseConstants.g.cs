@@ -54,17 +54,17 @@ namespace Jacdac {
 
     public static class HidMouseCmdPack {
         /// <summary>
-        /// Pack format for 'set_button' register data.
+        /// Pack format for 'set_button' data.
         /// </summary>
         public const string SetButton = "u16 u8";
 
         /// <summary>
-        /// Pack format for 'move' register data.
+        /// Pack format for 'move' data.
         /// </summary>
         public const string Move = "i16 i16 u16";
 
         /// <summary>
-        /// Pack format for 'wheel' register data.
+        /// Pack format for 'wheel' data.
         /// </summary>
         public const string Wheel = "i16 u16";
     }

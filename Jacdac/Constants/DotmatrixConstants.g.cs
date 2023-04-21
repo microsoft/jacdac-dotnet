@@ -59,27 +59,27 @@ namespace Jacdac {
 
     public static class DotMatrixRegPack {
         /// <summary>
-        /// Pack format for 'dots' register data.
+        /// Pack format for 'dots' data.
         /// </summary>
         public const string Dots = "b";
 
         /// <summary>
-        /// Pack format for 'brightness' register data.
+        /// Pack format for 'brightness' data.
         /// </summary>
         public const string Brightness = "u0.8";
 
         /// <summary>
-        /// Pack format for 'rows' register data.
+        /// Pack format for 'rows' data.
         /// </summary>
         public const string Rows = "u16";
 
         /// <summary>
-        /// Pack format for 'columns' register data.
+        /// Pack format for 'columns' data.
         /// </summary>
         public const string Columns = "u16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

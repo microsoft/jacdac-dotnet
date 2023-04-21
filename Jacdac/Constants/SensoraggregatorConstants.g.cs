@@ -64,27 +64,27 @@ namespace Jacdac {
 
     public static class SensorAggregatorRegPack {
         /// <summary>
-        /// Pack format for 'inputs' register data.
+        /// Pack format for 'inputs' data.
         /// </summary>
         public const string Inputs = "u16 u16 u32 r: b[8] u32 u8 u8 u8 i8";
 
         /// <summary>
-        /// Pack format for 'num_samples' register data.
+        /// Pack format for 'num_samples' data.
         /// </summary>
         public const string NumSamples = "u32";
 
         /// <summary>
-        /// Pack format for 'sample_size' register data.
+        /// Pack format for 'sample_size' data.
         /// </summary>
         public const string SampleSize = "u8";
 
         /// <summary>
-        /// Pack format for 'streaming_samples' register data.
+        /// Pack format for 'streaming_samples' data.
         /// </summary>
         public const string StreamingSamples = "u32";
 
         /// <summary>
-        /// Pack format for 'current_sample' register data.
+        /// Pack format for 'current_sample' data.
         /// </summary>
         public const string CurrentSample = "b";
     }

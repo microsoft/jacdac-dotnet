@@ -59,7 +59,7 @@ namespace Jacdac {
 
     public static class SystemCmdPack {
         /// <summary>
-        /// Pack format for 'command_not_implemented' register data.
+        /// Pack format for 'command_not_implemented' data.
         /// </summary>
         public const string CommandNotImplemented = "u16 u16";
     }
@@ -257,102 +257,102 @@ namespace Jacdac {
 
     public static class SystemRegPack {
         /// <summary>
-        /// Pack format for 'intensity' register data.
+        /// Pack format for 'intensity' data.
         /// </summary>
         public const string Intensity = "u32";
 
         /// <summary>
-        /// Pack format for 'value' register data.
+        /// Pack format for 'value' data.
         /// </summary>
         public const string Value = "i32";
 
         /// <summary>
-        /// Pack format for 'min_value' register data.
+        /// Pack format for 'min_value' data.
         /// </summary>
         public const string MinValue = "i32";
 
         /// <summary>
-        /// Pack format for 'max_value' register data.
+        /// Pack format for 'max_value' data.
         /// </summary>
         public const string MaxValue = "i32";
 
         /// <summary>
-        /// Pack format for 'max_power' register data.
+        /// Pack format for 'max_power' data.
         /// </summary>
         public const string MaxPower = "u16";
 
         /// <summary>
-        /// Pack format for 'streaming_samples' register data.
+        /// Pack format for 'streaming_samples' data.
         /// </summary>
         public const string StreamingSamples = "u8";
 
         /// <summary>
-        /// Pack format for 'streaming_interval' register data.
+        /// Pack format for 'streaming_interval' data.
         /// </summary>
         public const string StreamingInterval = "u32";
 
         /// <summary>
-        /// Pack format for 'reading' register data.
+        /// Pack format for 'reading' data.
         /// </summary>
         public const string Reading = "i32";
 
         /// <summary>
-        /// Pack format for 'reading_range' register data.
+        /// Pack format for 'reading_range' data.
         /// </summary>
         public const string ReadingRange = "u32";
 
         /// <summary>
-        /// Pack format for 'supported_ranges' register data.
+        /// Pack format for 'supported_ranges' data.
         /// </summary>
         public const string SupportedRanges = "r: u32";
 
         /// <summary>
-        /// Pack format for 'min_reading' register data.
+        /// Pack format for 'min_reading' data.
         /// </summary>
         public const string MinReading = "i32";
 
         /// <summary>
-        /// Pack format for 'max_reading' register data.
+        /// Pack format for 'max_reading' data.
         /// </summary>
         public const string MaxReading = "i32";
 
         /// <summary>
-        /// Pack format for 'reading_error' register data.
+        /// Pack format for 'reading_error' data.
         /// </summary>
         public const string ReadingError = "u32";
 
         /// <summary>
-        /// Pack format for 'reading_resolution' register data.
+        /// Pack format for 'reading_resolution' data.
         /// </summary>
         public const string ReadingResolution = "u32";
 
         /// <summary>
-        /// Pack format for 'inactive_threshold' register data.
+        /// Pack format for 'inactive_threshold' data.
         /// </summary>
         public const string InactiveThreshold = "i32";
 
         /// <summary>
-        /// Pack format for 'active_threshold' register data.
+        /// Pack format for 'active_threshold' data.
         /// </summary>
         public const string ActiveThreshold = "i32";
 
         /// <summary>
-        /// Pack format for 'streaming_preferred_interval' register data.
+        /// Pack format for 'streaming_preferred_interval' data.
         /// </summary>
         public const string StreamingPreferredInterval = "u32";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u32";
 
         /// <summary>
-        /// Pack format for 'status_code' register data.
+        /// Pack format for 'status_code' data.
         /// </summary>
         public const string StatusCode = "u16 u16";
 
         /// <summary>
-        /// Pack format for 'instance_name' register data.
+        /// Pack format for 'instance_name' data.
         /// </summary>
         public const string InstanceName = "s";
     }
@@ -390,7 +390,7 @@ namespace Jacdac {
 
     public static class SystemEventPack {
         /// <summary>
-        /// Pack format for 'status_code_changed' register data.
+        /// Pack format for 'status_code_changed' data.
         /// </summary>
         public const string StatusCodeChanged = "u16 u16";
     }

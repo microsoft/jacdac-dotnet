@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class TrafficLightRegPack {
         /// <summary>
-        /// Pack format for 'red' register data.
+        /// Pack format for 'red' data.
         /// </summary>
         public const string Red = "u8";
 
         /// <summary>
-        /// Pack format for 'yellow' register data.
+        /// Pack format for 'yellow' data.
         /// </summary>
         public const string Yellow = "u8";
 
         /// <summary>
-        /// Pack format for 'green' register data.
+        /// Pack format for 'green' data.
         /// </summary>
         public const string Green = "u8";
     }

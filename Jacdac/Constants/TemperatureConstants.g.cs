@@ -59,27 +59,27 @@ namespace Jacdac {
 
     public static class TemperatureRegPack {
         /// <summary>
-        /// Pack format for 'temperature' register data.
+        /// Pack format for 'temperature' data.
         /// </summary>
         public const string Temperature = "i22.10";
 
         /// <summary>
-        /// Pack format for 'min_temperature' register data.
+        /// Pack format for 'min_temperature' data.
         /// </summary>
         public const string MinTemperature = "i22.10";
 
         /// <summary>
-        /// Pack format for 'max_temperature' register data.
+        /// Pack format for 'max_temperature' data.
         /// </summary>
         public const string MaxTemperature = "i22.10";
 
         /// <summary>
-        /// Pack format for 'temperature_error' register data.
+        /// Pack format for 'temperature_error' data.
         /// </summary>
         public const string TemperatureError = "u22.10";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

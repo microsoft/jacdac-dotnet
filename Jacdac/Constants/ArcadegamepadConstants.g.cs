@@ -41,12 +41,12 @@ namespace Jacdac {
 
     public static class ArcadeGamepadRegPack {
         /// <summary>
-        /// Pack format for 'buttons' register data.
+        /// Pack format for 'buttons' data.
         /// </summary>
         public const string Buttons = "r: u8 u0.8";
 
         /// <summary>
-        /// Pack format for 'available_buttons' register data.
+        /// Pack format for 'available_buttons' data.
         /// </summary>
         public const string AvailableButtons = "r: u8";
     }
@@ -73,12 +73,12 @@ namespace Jacdac {
 
     public static class ArcadeGamepadEventPack {
         /// <summary>
-        /// Pack format for 'down' register data.
+        /// Pack format for 'down' data.
         /// </summary>
         public const string Down = "u8";
 
         /// <summary>
-        /// Pack format for 'up' register data.
+        /// Pack format for 'up' data.
         /// </summary>
         public const string Up = "u8";
     }

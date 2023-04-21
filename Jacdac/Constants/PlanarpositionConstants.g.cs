@@ -30,12 +30,12 @@ namespace Jacdac {
 
     public static class PlanarPositionRegPack {
         /// <summary>
-        /// Pack format for 'position' register data.
+        /// Pack format for 'position' data.
         /// </summary>
         public const string Position = "i22.10 i22.10";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }

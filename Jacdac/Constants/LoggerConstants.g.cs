@@ -29,7 +29,7 @@ namespace Jacdac {
 
     public static class LoggerRegPack {
         /// <summary>
-        /// Pack format for 'min_priority' register data.
+        /// Pack format for 'min_priority' data.
         /// </summary>
         public const string MinPriority = "u8";
     }
@@ -74,22 +74,22 @@ namespace Jacdac {
 
     public static class LoggerCmdPack {
         /// <summary>
-        /// Pack format for 'debug' register data.
+        /// Pack format for 'debug' data.
         /// </summary>
         public const string Debug = "s";
 
         /// <summary>
-        /// Pack format for 'log' register data.
+        /// Pack format for 'log' data.
         /// </summary>
         public const string Log = "s";
 
         /// <summary>
-        /// Pack format for 'warn' register data.
+        /// Pack format for 'warn' data.
         /// </summary>
         public const string Warn = "s";
 
         /// <summary>
-        /// Pack format for 'error' register data.
+        /// Pack format for 'error' data.
         /// </summary>
         public const string Error = "s";
     }

@@ -43,22 +43,22 @@ namespace Jacdac {
 
     public static class AcidityRegPack {
         /// <summary>
-        /// Pack format for 'acidity' register data.
+        /// Pack format for 'acidity' data.
         /// </summary>
         public const string Acidity = "u4.12";
 
         /// <summary>
-        /// Pack format for 'acidity_error' register data.
+        /// Pack format for 'acidity_error' data.
         /// </summary>
         public const string AcidityError = "u4.12";
 
         /// <summary>
-        /// Pack format for 'min_acidity' register data.
+        /// Pack format for 'min_acidity' data.
         /// </summary>
         public const string MinAcidity = "u4.12";
 
         /// <summary>
-        /// Pack format for 'max_humidity' register data.
+        /// Pack format for 'max_humidity' data.
         /// </summary>
         public const string MaxHumidity = "u4.12";
     }

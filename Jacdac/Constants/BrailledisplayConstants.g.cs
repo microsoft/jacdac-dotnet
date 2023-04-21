@@ -34,17 +34,17 @@ namespace Jacdac {
 
     public static class BrailleDisplayRegPack {
         /// <summary>
-        /// Pack format for 'enabled' register data.
+        /// Pack format for 'enabled' data.
         /// </summary>
         public const string Enabled = "u8";
 
         /// <summary>
-        /// Pack format for 'patterns' register data.
+        /// Pack format for 'patterns' data.
         /// </summary>
         public const string Patterns = "s";
 
         /// <summary>
-        /// Pack format for 'length' register data.
+        /// Pack format for 'length' data.
         /// </summary>
         public const string Length = "u8";
     }

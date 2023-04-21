@@ -50,22 +50,22 @@ namespace Jacdac {
 
     public static class RealTimeClockRegPack {
         /// <summary>
-        /// Pack format for 'local_time' register data.
+        /// Pack format for 'local_time' data.
         /// </summary>
         public const string LocalTime = "u16 u8 u8 u8 u8 u8 u8";
 
         /// <summary>
-        /// Pack format for 'drift' register data.
+        /// Pack format for 'drift' data.
         /// </summary>
         public const string Drift = "u16.16";
 
         /// <summary>
-        /// Pack format for 'precision' register data.
+        /// Pack format for 'precision' data.
         /// </summary>
         public const string Precision = "u16.16";
 
         /// <summary>
-        /// Pack format for 'variant' register data.
+        /// Pack format for 'variant' data.
         /// </summary>
         public const string Variant = "u8";
     }
@@ -83,7 +83,7 @@ namespace Jacdac {
 
     public static class RealTimeClockCmdPack {
         /// <summary>
-        /// Pack format for 'set_time' register data.
+        /// Pack format for 'set_time' data.
         /// </summary>
         public const string SetTime = "u16 u8 u8 u8 u8 u8 u8";
     }
