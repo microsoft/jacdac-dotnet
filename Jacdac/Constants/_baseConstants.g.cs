@@ -48,6 +48,16 @@ namespace Jacdac {
         /// ```
         /// </summary>
         StatusCode = 0x103,
+
+        /// <summary>
+        /// Read-write string (bytes). An optional register in the format of a URL query string where the client can provide hints how
+        /// the device twin should be rendered. If the register is not implemented, the client library can simulate the register client side.
+        ///
+        /// ```
+        /// const [clientVariant] = jdunpack<[string]>(buf, "s")
+        /// ```
+        /// </summary>
+        ClientVariant = 0x9,
     }
 
     public static class BaseRegPack {
@@ -60,6 +70,11 @@ namespace Jacdac {
         /// Pack format for 'status_code' data.
         /// </summary>
         public const string StatusCode = "u16 u16";
+
+        /// <summary>
+        /// Pack format for 'client_variant' data.
+        /// </summary>
+        public const string ClientVariant = "s";
     }
 
     public enum BaseEvent : ushort {

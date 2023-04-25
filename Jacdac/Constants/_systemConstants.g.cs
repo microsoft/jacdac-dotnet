@@ -23,7 +23,7 @@ namespace Jacdac {
     public enum SystemCmd : ushort {
         /// <summary>
         /// No args. Enumeration data for control service; service-specific advertisement data otherwise.
-        /// Control broadcasts it automatically every ``announce_interval``ms, but other service have to be queried to provide it.
+        /// Control broadcasts it automatically every `announce_interval`ms, but other service have to be queried to provide it.
         /// </summary>
         Announce = 0x0,
 
@@ -179,7 +179,7 @@ namespace Jacdac {
 
         /// <summary>
         /// Read-only uint32_t. The real value of whatever is measured is between `reading - reading_error` and `reading + reading_error`. It should be computed from the internal state of the sensor. This register is often, but not always `const`. If the register value is modified,
-        /// send a report in the same frame of the ``reading`` report.
+        /// send a report in the same frame of the `reading` report.
         ///
         /// ```
         /// const [readingError] = jdunpack<[number]>(buf, "u32")
@@ -197,7 +197,7 @@ namespace Jacdac {
         ReadingResolution = 0x108,
 
         /// <summary>
-        /// Read-write int32_t. Threshold when reading data gets inactive and triggers a ``inactive``.
+        /// Read-write int32_t. Threshold when reading data gets inactive and triggers a `inactive`.
         ///
         /// ```
         /// const [inactiveThreshold] = jdunpack<[number]>(buf, "i32")
@@ -206,7 +206,7 @@ namespace Jacdac {
         InactiveThreshold = 0x5,
 
         /// <summary>
-        /// Read-write int32_t. Thresholds when reading data gets active and triggers a ``active`` event.
+        /// Read-write int32_t. Thresholds when reading data gets active and triggers a `active` event.
         ///
         /// ```
         /// const [activeThreshold] = jdunpack<[number]>(buf, "i32")
@@ -234,8 +234,18 @@ namespace Jacdac {
         Variant = 0x107,
 
         /// <summary>
-        /// Reports the current state or error status of the device. ``code`` is a standardized value from
-        /// the Jacdac status/error codes. ``vendor_code`` is any vendor specific error code describing the device
+        /// Read-write string (bytes). An optional register in the format of a URL query string where the client can provide hints how
+        /// the device twin should be rendered. If the register is not implemented, the client library can simulate the register client side.
+        ///
+        /// ```
+        /// const [clientVariant] = jdunpack<[string]>(buf, "s")
+        /// ```
+        /// </summary>
+        ClientVariant = 0x9,
+
+        /// <summary>
+        /// Reports the current state or error status of the device. `code` is a standardized value from
+        /// the Jacdac status/error codes. `vendor_code` is any vendor specific error code describing the device
         /// state. This report is typically not queried, when a device has an error, it will typically
         /// add this report in frame along with the announce packet.
         ///
@@ -347,6 +357,11 @@ namespace Jacdac {
         public const string Variant = "u32";
 
         /// <summary>
+        /// Pack format for 'client_variant' data.
+        /// </summary>
+        public const string ClientVariant = "s";
+
+        /// <summary>
         /// Pack format for 'status_code' data.
         /// </summary>
         public const string StatusCode = "u16 u16";
@@ -383,7 +398,7 @@ namespace Jacdac {
         StatusCodeChanged = 0x4,
 
         /// <summary>
-        /// Notifies that the threshold is back between ``low`` and ``high``.
+        /// Notifies that the threshold is back between `low` and `high`.
         /// </summary>
         Neutral = 0x7,
     }
