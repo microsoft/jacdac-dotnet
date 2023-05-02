@@ -119,6 +119,15 @@ namespace Jacdac {
         /// const [commands] = jdunpack<[Uint8Array]>(buf, "b[12]")
         /// ```
         /// </summary>
+
+        /// <summary>
+        /// Argument: duration ms uint32_t. Attempt to put devices into lowest power sleep mode for a specified time - most likely involving a full reset on wake-up.
+        ///
+        /// ```
+        /// const [duration] = jdunpack<[number]>(buf, "u32")
+        /// ```
+        /// </summary>
+        Standby = 0x87,
     }
 
     public static class ControlCmdPack {
@@ -151,6 +160,11 @@ namespace Jacdac {
         /// Pack format for 'reliable_commands' data.
         /// </summary>
         public const string ReliableCommandsReport = "b[12]";
+
+        /// <summary>
+        /// Pack format for 'standby' data.
+        /// </summary>
+        public const string Standby = "u32";
     }
 
     public enum ControlPipe : ushort {
