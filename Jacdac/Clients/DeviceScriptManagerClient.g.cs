@@ -8,7 +8,7 @@ namespace Jacdac.Clients
     /// Allows for deployment and control over DeviceScript virtual machine.
      /// 
      /// Programs start automatically after device restart or uploading of new program.
-     /// You can stop programs until next reset by setting the `running` register to `0`.
+     /// You can stop programs until next reset by setting the `running` and `autostart` registers to `false`.
     /// Implements a client for the DeviceScript Manager service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/devicescriptmanager/" />
