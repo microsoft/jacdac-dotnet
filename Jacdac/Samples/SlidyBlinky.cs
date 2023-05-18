@@ -13,7 +13,7 @@ namespace Jacdac.Samples
             #region sources
             var led = new LedClient(bus, "led");
             var slider = new PotentiometerClient(bus, "slider");
-            var speed = 64u;
+            //var speed = 64u;
             led.Connected += (s, e) =>
             {
                 while (led.IsConnected)

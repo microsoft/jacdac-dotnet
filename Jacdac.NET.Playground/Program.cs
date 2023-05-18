@@ -95,8 +95,8 @@ namespace Jacdac.Playground
                     case "libusb":
                         Console.WriteLine($"adding libusb transport");
                         bus.AddTransport(Jacdac.Transports.LibUsb.LibUsbTransport.Create());
-#endif
                         break;
+#endif
                 }
             }
 
