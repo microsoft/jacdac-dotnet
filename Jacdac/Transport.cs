@@ -23,6 +23,10 @@ namespace Jacdac
         Frame_F = 2147483776u
     }
 
+    /// <summary>
+    /// Single wire serial stats
+    /// https://microsoft.github.io/jacdac-docs/reference/single-wire-serial/
+    /// </summary>
     public static class TransportStats
     {
         public static uint FrameReceived;
@@ -64,6 +68,9 @@ namespace Jacdac
         Disconnected,
     }
 
+    /// <summary>
+    /// Implements a Jacdac frame transport layer, which could be web sockets or single wire serial (https://microsoft.github.io/jacdac-docs/reference/single-wire-serial/).
+    /// </summary>
     public abstract class Transport : IDisposable
     {
         public readonly string Kind;
@@ -79,6 +86,10 @@ namespace Jacdac
             return this.Kind;
         }
 
+        /// <summary>
+        /// Sets the connection state.
+        /// </summary>
+        /// <param name="connectionState"></param>
         protected void SetConnectionState(ConnectionState connectionState)
         {
             if (this._connectionState != connectionState)
@@ -89,6 +100,9 @@ namespace Jacdac
             }
         }
 
+        /// <summary>
+        /// Gets the current connection state
+        /// </summary>
         public ConnectionState ConnectionState
         {
             get { return this._connectionState; }
@@ -119,6 +133,9 @@ namespace Jacdac
             }
         }
 
+        /// <summary>
+        /// Starts the connection process with the Jacdac Bus
+        /// </summary>
         protected abstract void InternalConnect();
 
         /// <summary>
@@ -141,11 +158,20 @@ namespace Jacdac
                 throw;
             }
         }
-
+        
+        /// <summary>
+        /// Starts the disconnection process
+        /// </summary>
         protected abstract void InternalDisconnect();
 
+        /// <summary>
+        /// Release any native resources locked by this object
+        /// </summary>
         public virtual void Dispose() { }
 
+        /// <summary>
+        /// Raised when a frame is received
+        /// </summary>
         public abstract event FrameEventHandler FrameReceived;
 
         /// <summary>
