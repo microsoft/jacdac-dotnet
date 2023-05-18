@@ -17,8 +17,8 @@ namespace Jacdac.Clients
         /// <param name="rgb"></param>
         public void SetColor(uint rgb, uint transitionMilliseconds = 0)
         {
-            var speed = (uint)(transitionMilliseconds <= 0 ? 0 : Math.Max(4, 512 / transitionMilliseconds));
-            this.Animate((rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff, speed);
+            //var speed = (uint)(transitionMilliseconds <= 0 ? 0 : Math.Max(4, 512 / transitionMilliseconds));
+            //this.Animate((rgb >> 16) & 0xff, (rgb >> 8) & 0xff, rgb & 0xff, speed);
         }
     }
 }

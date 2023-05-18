@@ -7,9 +7,14 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
+#if LOGGING
 using Jacdac.Logging;
+#endif
+
 using System.Collections.Generic;
+#if IOTHUB
 using Microsoft.Azure.Devices.Client;
+#endif
 
 namespace Jacdac.Playground
 {
@@ -29,14 +34,18 @@ namespace Jacdac.Playground
                 services.Add(new SettingsServer(settings));
             if (args.Contains("prototest"))
                 services.Add(new ProtoTestServer());
+#if SOUNDS
             if (args.Contains("sounds"))
                 services.Add(new SoundPlayerServer(new NetCoreAudioSoundPlayer("sounds")));
+#endif
+#if IOTHUB
             if (args.Contains("iothub"))
             {
                 var hub = new AzureIoTHubClient(TransportType.Mqtt_Tcp_Only, settings);
                 services.Add(new AzureIotHubHealthServer(hub));
                 services.Add(new JacscriptCloudServer(hub));
             }
+#endif
 
             // create and start bus
             var bus = new JDBus(null, new JDBusOptions()
@@ -82,9 +91,11 @@ namespace Jacdac.Playground
                         Console.WriteLine($"adding websocket connection to {url}");
                         bus.AddTransport(WebSocketTransport.Create(new Uri(url)));
                         break;
+#if LIBUSB
                     case "libusb":
                         Console.WriteLine($"adding libusb transport");
                         bus.AddTransport(Jacdac.Transports.LibUsb.LibUsbTransport.Create());
+#endif
                         break;
                 }
             }

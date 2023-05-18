@@ -21,10 +21,10 @@ namespace Jacdac.Samples
                     // grab brightness
                     var brightness = (uint)(slider.Position * 100);
                     // blue
-                    led.Animate(0, 0, brightness, speed);
+                    //led.Animate(0, 0, brightness, speed);
                     Thread.Sleep(500);
                     // red
-                    led.Animate(brightness, 0, 0, speed);
+                    //led.Animate(brightness, 0, 0, speed);
                     Thread.Sleep(500);
                 }
             };

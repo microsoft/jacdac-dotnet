@@ -44,21 +44,6 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Emitted when cloud requests to run some action.
-        /// </summary>
-        public event ClientEventHandler CloudCommand
-        {
-            add
-            {
-                this.AddEvent((ushort)CloudAdapterEvent.CloudCommand, value);
-            }
-            remove
-            {
-                this.RemoveEvent((ushort)CloudAdapterEvent.CloudCommand, value);
-            }
-        }
-
-        /// <summary>
         /// Emitted when we connect or disconnect from the cloud.
         /// </summary>
         public event ClientEventHandler Change
