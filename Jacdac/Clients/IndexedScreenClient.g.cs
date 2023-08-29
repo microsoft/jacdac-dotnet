@@ -5,9 +5,9 @@ using System;
 namespace Jacdac.Clients 
 {
     /// <summary>
-    /// A screen with indexed colors.
+    /// A screen with indexed colors from a palette.
      /// 
-     /// This is often run over an SPI connection, not regular single-wire Jacdac.
+     /// This is often run over an SPI connection or directly on the MCU, not regular single-wire Jacdac.
     /// Implements a client for the Indexed screen service.
     /// </summary>
     /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/indexedscreen/" />
@@ -38,9 +38,29 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
+        /// Reads the <c>palette</c> register value.
+        /// The current palette. The colors are `[r,g,b, padding]` 32bit color entries.
+        /// The color entry repeats `1 << bits_per_pixel` times.
+        /// This register may be write-only., 
+        /// </summary>
+        public byte[] Palette
+        {
+            get
+            {
+                return (byte[])this.GetRegisterValue((ushort)IndexedScreenReg.Palette, IndexedScreenRegPack.Palette);
+            }
+            set
+            {
+                
+                this.SetRegisterValue((ushort)IndexedScreenReg.Palette, IndexedScreenRegPack.Palette, value);
+            }
+
+        }
+
+        /// <summary>
         /// Reads the <c>bits_per_pixel</c> register value.
         /// Determines the number of palette entries.
-        /// Typical values are 1, 2, 4, or 8., _: bit
+        /// Typical values are 1 or 4., _: bit
         /// </summary>
         public uint BitsPerPixel
         {
@@ -75,7 +95,7 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>width_major</c> register value.
+        /// Tries to read the <c>width_major</c> register value.
         /// If true, consecutive pixels in the "width" direction are sent next to each other (this is typical for graphics cards).
         /// If false, consecutive pixels in the "height" direction are sent next to each other.
         /// For embedded screen controllers, this is typically true iff `width < height`
@@ -83,59 +103,89 @@ namespace Jacdac.Clients
         /// Some controllers may allow the user to change this (though the refresh order may not be optimal then).
         /// This is independent of the `rotation` register., 
         /// </summary>
-        public bool WidthMajor
+        bool TryGetWidthMajor(out bool value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, out values)) 
             {
-                return (bool)this.GetRegisterValueAsBool((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor);
+                value = (bool)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, value);
+                value = default(bool);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the width_major value
+        /// </summary>
+        public void SetWidthMajor(bool value)
+        {
+            this.SetRegisterValue((ushort)IndexedScreenReg.WidthMajor, IndexedScreenRegPack.WidthMajor, value);
         }
 
+
         /// <summary>
-        /// Reads the <c>up_sampling</c> register value.
+        /// Tries to read the <c>up_sampling</c> register value.
         /// Every pixel sent over wire is represented by `up_sampling x up_sampling` square of physical pixels.
         /// Some displays may allow changing this (which will also result in changes to `width` and `height`).
         /// Typical values are 1 and 2., _: px
         /// </summary>
-        public uint UpSampling
+        bool TryGetUpSampling(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, out values)) 
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, value);
+                value = default(uint);
+                return false;
             }
-
+        }
+        
+        /// <summary>
+        /// Sets the up_sampling value
+        /// </summary>
+        public void SetUpSampling(uint value)
+        {
+            this.SetRegisterValue((ushort)IndexedScreenReg.UpSampling, IndexedScreenRegPack.UpSampling, value);
         }
 
+
         /// <summary>
-        /// Reads the <c>rotation</c> register value.
+        /// Tries to read the <c>rotation</c> register value.
         /// Possible values are 0, 90, 180 and 270 only.
         /// Write to this register do not affect `width` and `height` registers,
         /// and may be ignored by some screens., _: °
         /// </summary>
-        public uint Rotation
+        bool TryGetRotation(out uint value)
         {
-            get
+            object[] values;
+            if (this.TryGetRegisterValues((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, out values)) 
             {
-                return (uint)this.GetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation);
+                value = (uint)values[0];
+                return true;
             }
-            set
+            else
             {
-                
-                this.SetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, value);
+                value = default(uint);
+                return false;
             }
-
         }
+        
+        /// <summary>
+        /// Sets the rotation value
+        /// </summary>
+        public void SetRotation(uint value)
+        {
+            this.SetRegisterValue((ushort)IndexedScreenReg.Rotation, IndexedScreenRegPack.Rotation, value);
+        }
+
 
 
         

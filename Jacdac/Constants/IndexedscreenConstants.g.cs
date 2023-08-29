@@ -48,20 +48,19 @@ namespace Jacdac {
         Brightness = 0x1,
 
         /// <summary>
-        /// The current palette.
+        /// Read-write bytes. The current palette. The colors are `[r,g,b, padding]` 32bit color entries.
         /// The color entry repeats `1 << bits_per_pixel` times.
         /// This register may be write-only.
         ///
         /// ```
-        /// const [rest] = jdunpack<[([number, number, number])[]]>(buf, "r: u8 u8 u8 x[1]")
-        /// const [blue, green, red] = rest[0]
+        /// const [palette] = jdunpack<[Uint8Array]>(buf, "b")
         /// ```
         /// </summary>
         Palette = 0x80,
 
         /// <summary>
         /// Constant bit uint8_t. Determines the number of palette entries.
-        /// Typical values are 1, 2, 4, or 8.
+        /// Typical values are 1 or 4.
         ///
         /// ```
         /// const [bitsPerPixel] = jdunpack<[number]>(buf, "u8")
@@ -133,7 +132,7 @@ namespace Jacdac {
         /// <summary>
         /// Pack format for 'palette' data.
         /// </summary>
-        public const string Palette = "r: u8 u8 u8 u8";
+        public const string Palette = "b";
 
         /// <summary>
         /// Pack format for 'bits_per_pixel' data.
