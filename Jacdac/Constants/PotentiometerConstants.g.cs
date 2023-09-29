@@ -7,6 +7,7 @@ namespace Jacdac {
     public enum PotentiometerVariant: byte { // uint8_t
         Slider = 0x1,
         Rotary = 0x2,
+        Hall = 0x3,
     }
 
     public enum PotentiometerReg : ushort {
