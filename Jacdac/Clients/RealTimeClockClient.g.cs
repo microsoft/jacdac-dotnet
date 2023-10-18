@@ -18,10 +18,10 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>local_time</c> register value.
-        /// Current time in 24h representation.
+        /// Current time in 24h representation. Default streaming period is 1 second.
         /// 
         /// -   `day_of_month` is day of the month, starting at `1`
-        /// -   `day_of_week` is day of the week, starting at `1` as monday. Default streaming period is 1 second., 
+        /// -   `day_of_week` is day of the week, starting at `1` as monday. Leave at 0 if unsupported., 
         /// </summary>
         public object[] /*(uint, uint, uint, uint, uint, uint, uint)*/ LocalTime
         {

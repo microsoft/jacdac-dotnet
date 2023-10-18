@@ -76,7 +76,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Reads the <c>min_angle</c> register value.
-        /// Lowest angle that can be set, typiclly 0 °., _: °
+        /// Lowest angle that can be set, typically 0 °., _: °
         /// </summary>
         public float MinAngle
         {
@@ -156,7 +156,7 @@ namespace Jacdac.Clients
 
         /// <summary>
         /// Tries to read the <c>stall_torque</c> register value.
-        /// The servo motor will stop rotating when it is trying to move a ``stall_torque`` weight at a radial distance of ``1.0`` cm., _: kg/cm
+        /// The servo motor will stop rotating when it is trying to move a `stall_torque` weight at a radial distance of `1.0` cm., _: kg/cm
         /// </summary>
         bool TryGetStallTorque(out float value)
         {

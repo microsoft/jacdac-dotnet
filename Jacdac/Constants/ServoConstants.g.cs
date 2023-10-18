@@ -32,7 +32,7 @@ namespace Jacdac {
         Offset = 0x81,
 
         /// <summary>
-        /// Constant ° i16.16 (int32_t). Lowest angle that can be set, typiclly 0 °.
+        /// Constant ° i16.16 (int32_t). Lowest angle that can be set, typically 0 °.
         ///
         /// ```
         /// const [minAngle] = jdunpack<[number]>(buf, "i16.16")
@@ -68,7 +68,7 @@ namespace Jacdac {
         MaxPulse = 0x85,
 
         /// <summary>
-        /// Constant kg/cm u16.16 (uint32_t). The servo motor will stop rotating when it is trying to move a ``stall_torque`` weight at a radial distance of ``1.0`` cm.
+        /// Constant kg/cm u16.16 (uint32_t). The servo motor will stop rotating when it is trying to move a `stall_torque` weight at a radial distance of `1.0` cm.
         ///
         /// ```
         /// const [stallTorque] = jdunpack<[number]>(buf, "u16.16")
