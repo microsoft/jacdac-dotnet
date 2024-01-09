@@ -29,14 +29,14 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>cpu_temp</c> register value.
+        /// Reads the <c>cpu_temperature</c> register value.
         /// CPU temperature in Celsius., _: °C
         /// </summary>
-        public uint CpuTemp
+        public uint CpuTemperature
         {
             get
             {
-                return (uint)this.GetRegisterValue((ushort)PCMonitorReg.CpuTemp, PCMonitorRegPack.CpuTemp);
+                return (uint)this.GetRegisterValue((ushort)PCMonitorReg.CpuTemperature, PCMonitorRegPack.CpuTemperature);
             }
         }
 
@@ -53,28 +53,28 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Reads the <c>gpu_info</c> register value.
-        /// GPU info., usage: %,temp: °C
+        /// Reads the <c>gpu_information</c> register value.
+        /// GPU info., usage: %,temperature: °C
         /// </summary>
-        public object[] /*(uint, uint)*/ GpuInfo
+        public object[] /*(uint, uint)*/ GpuInformation
         {
             get
             {
-                return (object[] /*(uint, uint)*/)this.GetRegisterValues((ushort)PCMonitorReg.GpuInfo, PCMonitorRegPack.GpuInfo);
+                return (object[] /*(uint, uint)*/)this.GetRegisterValues((ushort)PCMonitorReg.GpuInformation, PCMonitorRegPack.GpuInformation);
             }
         }
 
         /// <summary>
-        /// Reads the <c>net_info</c> register value.
+        /// Reads the <c>network_information</c> register value.
         /// Network transmit/receive speed in Kbytes per second.
         /// 
         /// A measure of PC monitor., tx: KB,rx: KB
         /// </summary>
-        public object[] /*(uint, uint)*/ NetInfo
+        public object[] /*(uint, uint)*/ NetworkInformation
         {
             get
             {
-                return (object[] /*(uint, uint)*/)this.GetRegisterValues((ushort)PCMonitorReg.NetInfo, PCMonitorRegPack.NetInfo);
+                return (object[] /*(uint, uint)*/)this.GetRegisterValues((ushort)PCMonitorReg.NetworkInformation, PCMonitorRegPack.NetworkInformation);
             }
         }
 

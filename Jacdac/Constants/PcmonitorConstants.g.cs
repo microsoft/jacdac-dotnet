@@ -17,10 +17,10 @@ namespace Jacdac {
         /// Read-only °C uint8_t. CPU temperature in Celsius.
         ///
         /// ```
-        /// const [cpuTemp] = jdunpack<[number]>(buf, "u8")
+        /// const [cpuTemperature] = jdunpack<[number]>(buf, "u8")
         /// ```
         /// </summary>
-        CpuTemp = 0x191,
+        CpuTemperature = 0x191,
 
         /// <summary>
         /// Read-only % uint8_t. RAM usage in percent.
@@ -35,10 +35,10 @@ namespace Jacdac {
         /// GPU info.
         ///
         /// ```
-        /// const [usage, temp] = jdunpack<[number, number]>(buf, "u8 u8")
+        /// const [usage, temperature] = jdunpack<[number, number]>(buf, "u8 u8")
         /// ```
         /// </summary>
-        GpuInfo = 0x193,
+        GpuInformation = 0x193,
 
         /// <summary>
         /// Network transmit/receive speed in Kbytes per second.
@@ -47,7 +47,7 @@ namespace Jacdac {
         /// const [tx, rx] = jdunpack<[number, number]>(buf, "u16 u16")
         /// ```
         /// </summary>
-        NetInfo = 0x195,
+        NetworkInformation = 0x195,
     }
 
     public static class PCMonitorRegPack {
@@ -57,9 +57,9 @@ namespace Jacdac {
         public const string CpuUsage = "u8";
 
         /// <summary>
-        /// Pack format for 'cpu_temp' data.
+        /// Pack format for 'cpu_temperature' data.
         /// </summary>
-        public const string CpuTemp = "u8";
+        public const string CpuTemperature = "u8";
 
         /// <summary>
         /// Pack format for 'ram_usage' data.
@@ -67,14 +67,14 @@ namespace Jacdac {
         public const string RamUsage = "u8";
 
         /// <summary>
-        /// Pack format for 'gpu_info' data.
+        /// Pack format for 'gpu_information' data.
         /// </summary>
-        public const string GpuInfo = "u8 u8";
+        public const string GpuInformation = "u8 u8";
 
         /// <summary>
-        /// Pack format for 'net_info' data.
+        /// Pack format for 'network_information' data.
         /// </summary>
-        public const string NetInfo = "u16 u16";
+        public const string NetworkInformation = "u16 u16";
     }
 
 }

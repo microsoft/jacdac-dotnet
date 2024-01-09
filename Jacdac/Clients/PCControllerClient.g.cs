@@ -8,7 +8,7 @@ namespace Jacdac.Clients
     /// Send various events to PC, including opening a URL, start an app, sending text, etc.
     /// Implements a client for the PC controller service.
     /// </summary>
-    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/pconctroller/" />
+    /// <seealso cref="https://microsoft.github.io/jacdac-docs/services/pccontroller/" />
     public partial class PCControllerClient : Client
     {
         public PCControllerClient(JDBus bus, string name)
