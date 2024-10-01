@@ -1,4 +1,4 @@
-> IMPORTANT: Jacdac has moved to the organization https://github.com/jacdac
+> NOTE: **Jacdac has moved to the organization https://github.com/jacdac**
 
 # Jacdac for .NET
 
