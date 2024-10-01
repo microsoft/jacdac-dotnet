@@ -1,3 +1,5 @@
+> Jacdac has moved to the organization https://github.com/jacdac
+
 # Jacdac for .NET
 
 **Jacdac** is a plug-and-play hardware/software stack 
