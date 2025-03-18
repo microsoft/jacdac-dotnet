@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -21,7 +21,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="DeviceId.Windows" Version="6.0.0" />
-		<PackageReference Include="System.Text.Json" Version="6.0.1" />
+		<PackageReference Include="System.Text.Json" Version="6.0.10" />
 	</ItemGroup>
 
 </Project>
