@@ -35,10 +35,10 @@ namespace Jacdac {
         /// Constant pH u4.12 (uint16_t). Highest acidity that can be reported.
         ///
         /// ```
-        /// const [maxHumidity] = jdunpack<[number]>(buf, "u4.12")
+        /// const [maxAcidity] = jdunpack<[number]>(buf, "u4.12")
         /// ```
         /// </summary>
-        MaxHumidity = 0x105,
+        MaxAcidity = 0x105,
     }
 
     public static class AcidityRegPack {
@@ -58,9 +58,9 @@ namespace Jacdac {
         public const string MinAcidity = "u4.12";
 
         /// <summary>
-        /// Pack format for 'max_humidity' data.
+        /// Pack format for 'max_acidity' data.
         /// </summary>
-        public const string MaxHumidity = "u4.12";
+        public const string MaxAcidity = "u4.12";
     }
 
 }

@@ -67,13 +67,13 @@ namespace Jacdac.Clients
         }
 
         /// <summary>
-        /// Tries to read the <c>max_humidity</c> register value.
+        /// Tries to read the <c>max_acidity</c> register value.
         /// Highest acidity that can be reported., _: pH
         /// </summary>
-        bool TryGetMaxHumidity(out float value)
+        bool TryGetMaxAcidity(out float value)
         {
             object[] values;
-            if (this.TryGetRegisterValues((ushort)AcidityReg.MaxHumidity, AcidityRegPack.MaxHumidity, out values)) 
+            if (this.TryGetRegisterValues((ushort)AcidityReg.MaxAcidity, AcidityRegPack.MaxAcidity, out values)) 
             {
                 value = (float)values[0];
                 return true;
