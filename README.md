@@ -1,4 +1,6 @@
-> NOTE: **Jacdac has moved to the organization https://github.com/jacdac**
+> [!IMPORTANT]
+> The Jacdac project has moved to https://github.com/jacdac. 
+> Support for .NET is deprecated. Contact us if you have questions. 
 
 # Jacdac for .NET
 
